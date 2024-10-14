@@ -18,7 +18,7 @@
                <button class="text-body-2 font-weight-regular">重新產生驗證碼</button>
             </div><br>
 
-            <v-btn @click="changeConfirm(userid, password, npassword, verifycode)" color="#FF8585" block class="mt-2"><h3>確認</h3></v-btn>
+            <v-btn @click="changeConfirm(userid, password, npassword, verifycode)" block class="mt-2 login-btn"><h3>確認</h3></v-btn>
          </v-form>
       </v-sheet>
    </div>

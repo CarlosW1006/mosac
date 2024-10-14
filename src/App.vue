@@ -12,7 +12,7 @@
                   <v-btn class="logoutBtn">登出</v-btn>
                </v-app-bar>
             </div>
-            <v-app-bar style="background: linear-gradient(to right, #FF8585, #FA7474);" elevation="0">
+            <v-app-bar style="background: linear-gradient(to right, #7bd7b7, #69c9a7);" elevation="0">
             <template v-slot:prepend>
                <div v-if="winwidth == true" style="margin-left: 30px;">
                   <button :class="{'bar-btn': hashUrl !== '#/index', 
@@ -25,10 +25,10 @@
                </div>
                <div v-else>
                   <div v-if="drawer == false">
-                     <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+                     <v-app-bar-nav-icon @click.stop="drawer = !drawer" style="color: white;"></v-app-bar-nav-icon>
                   </div>
                   <div v-else>
-                     <v-btn icon="mdi-dots-vertical" @click.stop="drawer = !drawer"></v-btn>
+                     <v-btn icon="mdi-dots-vertical" @click.stop="drawer = !drawer" style="color: white;"></v-btn>
                   </div>
                </div>
             </template>
@@ -42,14 +42,43 @@
             </v-app-bar>
 
             <div v-if="winwidth == false">
-            <v-navigation-drawer v-model="drawer" app class="indigo">
-               <v-list-item link title="首頁" style="margin-top: 10px;"></v-list-item>
-               <v-list-item link title="健康知能"></v-list-item>
-               <v-list-item link title="健康手札"></v-list-item>
-               <v-list-item link title="照護園地"></v-list-item>
-               <v-list-item link title="專家諮詢"></v-list-item>
-               <v-list-item link title="影音收藏"></v-list-item>
-            </v-navigation-drawer>
+               <v-navigation-drawer v-model="drawer" app class="indigo">
+                  <v-list-item link class="sm-bar-btn">
+                     <v-list-item-content>
+                        <v-list-item-title class="custom-title">首頁</v-list-item-title>
+                     </v-list-item-content>
+                  </v-list-item>
+
+                  <v-list-item link class="sm-bar-btn">
+                     <v-list-item-content>
+                        <v-list-item-title class="custom-title">健康知能</v-list-item-title>
+                     </v-list-item-content>
+                  </v-list-item>
+
+                  <v-list-item link class="sm-bar-btn">
+                     <v-list-item-content>
+                        <v-list-item-title class="custom-title">健康手札</v-list-item-title>
+                     </v-list-item-content>
+                  </v-list-item>
+
+                  <v-list-item link class="sm-bar-btn">
+                     <v-list-item-content>
+                        <v-list-item-title class="custom-title">照護園地</v-list-item-title>
+                     </v-list-item-content>
+                  </v-list-item>
+
+                  <v-list-item link class="sm-bar-btn">
+                     <v-list-item-content>
+                        <v-list-item-title class="custom-title">專家諮詢</v-list-item-title>
+                     </v-list-item-content>
+                  </v-list-item>
+
+                  <v-list-item link class="sm-bar-btn">
+                     <v-list-item-content>
+                        <v-list-item-title class="custom-title">影音收藏</v-list-item-title>
+                     </v-list-item-content>
+                  </v-list-item>
+               </v-navigation-drawer>
             </div>
 
             <!-- 主要內容 -->

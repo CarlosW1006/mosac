@@ -1,5 +1,5 @@
 .v-sheet {
-   width: 500px;
+   width: 450px;
 }
 
 .center-container {
@@ -12,12 +12,12 @@
 
 .sys-title {
    width: 100%;
-   height: 5em;
-   font-size: 3em;
+   height: 4em;
+   font-size: 2.5em;
    font-weight: 800;
 
    color: #FFFFFF;
-   background-color: #FF8585;
+   background-color: #69c9a7;
 
    display: flex;
    text-align: center;
@@ -28,6 +28,7 @@
 .frame-title {
    font-size: 2em;
    margin-bottom: 1em;
+   color: #69c9a7;
 }
 
 .login-frame {
@@ -49,7 +50,18 @@
    border: 0.5px solid #b6b6b6;
 }
 
+.login-btn {
+   font-size: 1.25em;
+   height: 3em !important;
+   color: #FFFFFF;
+   background-color: #69c9a7;
+}
+
 @media screen and (max-width: 1000px) {
+   .v-sheet {
+      width: 90%;
+   }
+
    .sys-title {
       font-size: 2em;
    }

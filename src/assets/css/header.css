@@ -7,23 +7,31 @@
 .pageTitle {
    font-size: 2.5em;
    font-weight: bold;
-   margin-left: 1em;
-   color: #FF8585;
+   margin-left: 1.2em;
+   color: #69c9a7;
 }
 
 .userName {
    font-size: 1.8em;
    font-weight: bold;
    margin-right: 1em;
-   color: #FF8585;
+   color: #5fb396;
+   text-decoration: none;
+}
+
+.userName2 {
+   font-size: 1.8em;
+   font-weight: bold;
+   margin-right: 1em;
+   color: #FFFFFF;
    text-decoration: none;
 }
 
 .logoutBtn {
    font-size: 1.8em;
    font-weight: bold;
-   margin-right: 2.5em;
-   color: #FF8585 !important;
+   margin-right: 2.6em;
+   color: #69c9a7 !important;
 }
 
 .router {
@@ -41,7 +49,7 @@
 
 .bar-btn:hover {
    color: #ffffff;
-   background-color: #e85656;
+   background-color: #61bc9c;
 }
 
 .bar-btn-clicked {
@@ -50,7 +58,7 @@
    font-size: 2em;
    font-weight: bold;
    color: #ffffff;
-   background-color: #e85656;
+   background-color: #61bc9c;
 }
 
 .bar-btn-info {
@@ -61,4 +69,27 @@
    margin-right: 30px;
 }
 
+.sm-bar-btn .v-list-item__title {
+   font-size: 50px;
+   color: white;
+   font-weight: bold;
+ }
 
+ /* 修改 v-navigation-drawer 背景色及寬度 */
+.v-navigation-drawer.indigo {
+   width: 250px; /* 調整寬度 */
+ }
+ 
+ /* 修改 v-list-item 樣式 */
+ .v-list-item.sm-bar-btn {
+   font-size: 30px;
+   color: #69c9a7; /* 改變文字顏色 */
+   padding: 26px 26px; /* 調整內距 */
+   border: 1px solid #c6c6c6;
+   border-top: none;
+ }
+ 
+ /* 當 hover 時修改顏色 */
+ .v-list-item.sm-bar-btn:hover {
+   background-color: #69c9a7, 0.5; /* 增加 hover 效果 */
+ }

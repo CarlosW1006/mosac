@@ -12,6 +12,8 @@
 .list-title { 
    height: 7em;
    background-color: #e2e2e2;
+   display: flex;
+   align-items: center;
 }
 
 /* 標題文字 */
@@ -51,7 +53,7 @@
    font-size: 2em;
    margin-bottom: 10px !important;
    color: #FFFFFF;
-   background-color: #FF8585;
+   background-color: #69c9a7;
 }
 
 /* 搜尋功能列 */
@@ -72,12 +74,12 @@
    text-align: center;
    font-size: 2em;
    border-radius: 5px;
-   background-color: #e24141;
+   background-color: #7edcbb;
 }
 
 .search-btn:hover {
    color: #FFFFFF;
-   background-color: #b02b2b;
+   background-color: #69c9a7;
 }
 
 /* 下拉式選單 */
@@ -156,12 +158,12 @@ select option {
 
    .list-title {
       height: 4em;
-      font-size: 1.5em;
+      font-size: 1.3em;
    }
    
    .list-item {
-      height: 3.5em;
-      font-size: 1.8em;
+      height: 7em;
+      font-size: 0.8em;
    }
 
    .pageBtn {

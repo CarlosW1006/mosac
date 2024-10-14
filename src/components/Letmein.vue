@@ -33,7 +33,7 @@
             </div><br>
 
             <!-- 按鈕點擊也會觸發 login -->
-            <v-btn @click="login(userid, password, verifycode)" color="#FF8585" block class="mt-2">
+            <v-btn @click="login(userid, password, verifycode)" block class="mt-2 login-btn">
               <h3>登入</h3>
             </v-btn>
          </v-form>

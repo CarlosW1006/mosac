@@ -282,7 +282,7 @@
    .toGroupPage {
       margin-left: auto;
       color: #FFFFFF;
-      background-color: #e85656;
+      background-color: #69c9a7;
 
       /* font-size: 1em;
       width: 4em; */
