@@ -1,0 +1,64 @@
+.v-application {
+   background-color: #FFFAF2;
+   /* padding-bottom: 30px; */
+   font-size: 10px; /* 茅點 */
+}
+
+.pageTitle {
+   font-size: 2.5em;
+   font-weight: bold;
+   margin-left: 1em;
+   color: #FF8585;
+}
+
+.userName {
+   font-size: 1.8em;
+   font-weight: bold;
+   margin-right: 1em;
+   color: #FF8585;
+   text-decoration: none;
+}
+
+.logoutBtn {
+   font-size: 1.8em;
+   font-weight: bold;
+   margin-right: 2.5em;
+   color: #FF8585 !important;
+}
+
+.router {
+   margin-top: 0.5em;
+   color: '#FF9898';
+}
+
+.bar-btn {
+   height: 6.5em;
+   padding: 0 1em;
+   font-size: 2em;
+   font-weight: bold;
+   color: #ffffff;
+}
+
+.bar-btn:hover {
+   color: #ffffff;
+   background-color: #e85656;
+}
+
+.bar-btn-clicked {
+   height: 6.5em;
+   padding: 0 1em;
+   font-size: 2em;
+   font-weight: bold;
+   color: #ffffff;
+   background-color: #e85656;
+}
+
+.bar-btn-info {
+   height: 6em;
+   font-size: 1.5em;
+   font-weight: bold;
+   color: #ffffff;
+   margin-right: 30px;
+}
+
+

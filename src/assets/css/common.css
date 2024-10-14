@@ -1,0 +1,170 @@
+.v-container {
+   font-size: 10px; /* 茅點 */
+}
+
+/* 水平並排 */
+.flex-container { 
+   display: flex;
+   align-items: center;
+}
+
+/* 標題底色 */
+.list-title { 
+   height: 7em;
+   background-color: #e2e2e2;
+}
+
+/* 標題文字 */
+.page-title { 
+   font-size: 2.5em;
+   margin-left: 0.5em;
+}
+
+.list-item {
+   font-size: 10px; /* 茅點 */
+   border: 0.5px solid #e0e0e0;
+}
+
+.list-item h2 {
+   font-size: 2.3em;
+}
+
+.list-item h4 {
+   font-size: 2.3em;
+}
+
+.list-item p {
+   font-size: 2.3em;
+}
+
+.userImg {
+   width: 2.3em;
+   height: 2.3em;
+   margin-top: 5px;
+   margin-left: 15px;
+}
+
+/* 跳轉頁面按鈕 */
+.pageBtn { 
+   width: 60%;
+   height: 3em !important;
+   font-size: 2em;
+   margin-bottom: 10px !important;
+   color: #FFFFFF;
+   background-color: #FF8585;
+}
+
+/* 搜尋功能列 */
+.search-title {
+   font-size: 2em;
+}
+
+.search-item {
+   margin: 2em 1em;
+   font-size: 2em;
+   font-weight: 600;
+}
+
+.search-btn {
+   padding: 10px;
+   margin-left: 30px;
+   color: #FFFFFF;
+   text-align: center;
+   font-size: 2em;
+   border-radius: 5px;
+   background-color: #e24141;
+}
+
+.search-btn:hover {
+   color: #FFFFFF;
+   background-color: #b02b2b;
+}
+
+/* 下拉式選單 */
+.dropdown {
+   position: relative;
+   display: inline-block;
+   margin-right: 20px;
+}
+
+.dropdown label {
+   font-size: 1.6em;
+   margin-bottom: 8px;
+   display: block;
+}
+
+.dropdown select {
+   width: 20em;
+   padding: 10px;
+   font-size: 1.8em;
+   border-radius: 5px;
+   border: 1px solid #ccc;
+   /* 隱藏預設箭頭 */
+   appearance: none;
+   -webkit-appearance: none;
+   -moz-appearance: none;
+   /* 加上箭頭符號 */
+   background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="gray" d="M7 10l5 5 5-5z"/></svg>') no-repeat right 10px center;
+   padding-right: 2.5em;
+}
+
+select:focus {
+   outline: none;
+   border-color: #555;
+}
+
+select option {
+   font-size: 1.6em;
+}
+
+/* 資料顯示數量 */
+.pageTotal {
+   font-size: 2em;
+   margin: 1.5% 1.5%;
+}
+
+.pageTotal select {
+   width: 3em;
+   padding: 10px;
+   font-size: 0.8em;
+   border-radius: 5px;
+   border: 1px solid #ccc;
+   background-color: #fff;
+}
+
+/* 頁碼功能列 */
+.pageNum {
+   font-size: 20px;
+   margin: 1.5% 1.5%;
+}
+
+.pageNum p {
+   font-size: 23px;
+}
+
+.pageNum select {
+   width: 60px;
+   margin: 0 10px;
+   text-align: center;
+   border: 1px solid #ccc;
+}
+
+@media screen and (max-width: 1000px) {
+   .page-title {
+      font-size: 1.5em;
+   }
+
+   .list-title {
+      height: 4em;
+      font-size: 1.5em;
+   }
+   
+   .list-item {
+      height: 3.5em;
+      font-size: 1.8em;
+   }
+
+   .pageBtn {
+      width: 100%;
+   }
+}

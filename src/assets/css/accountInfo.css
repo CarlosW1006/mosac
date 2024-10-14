@@ -1,0 +1,48 @@
+/* 表格樣式 */
+.groupInfoFrame {
+   width: 100%;
+   font-size: 10px; /* 茅點 */
+
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+.groupInfoFrame .table-title {
+   height: 4em;
+   background-color: #e2e2e2;
+}
+
+.groupInfoFrame tr, th, td {
+   border: 1px solid #ccc;
+   padding: 0.5em 1em;
+   font-size: 1.5em;
+}
+
+.col1 {
+   width: 8%;
+}
+
+.col2 {
+   width: 20%;
+}
+
+.expandBtn {
+   padding: 0.35em;
+   font-size: 20px;
+   color: #fe7676;
+   text-align: center;
+   border-radius: 5px;
+   border: 1px solid #fe7676; /* 表格邊框 */
+}
+
+.expandBtn:hover {
+   color: #FFFFFF;
+   background-color: #de3e3e;
+   border: 1px solid #FFFFFF; /* 表格邊框 */
+}
+
+.feedback {
+   background-color: #d3e1f1;
+   height: 10em;
+}

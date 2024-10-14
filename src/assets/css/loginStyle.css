@@ -1,0 +1,56 @@
+.v-sheet {
+   width: 500px;
+}
+
+.center-container {
+   height: 100vh;
+   display: flex;
+   font-size: 13px; /* 茅點 */
+   align-items: center;
+   justify-content: center;
+}
+
+.sys-title {
+   width: 100%;
+   height: 5em;
+   font-size: 3em;
+   font-weight: 800;
+
+   color: #FFFFFF;
+   background-color: #FF8585;
+
+   display: flex;
+   text-align: center;
+   align-items: center;
+   justify-content: center;
+}
+
+.frame-title {
+   font-size: 2em;
+   margin-bottom: 1em;
+}
+
+.login-frame {
+   padding: 3em 3.5em 4.5em;
+   background-color: #FFFFFF;
+}
+
+.flex-container {
+   width: 100%;
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+}
+
+.verify-str {
+   width: 50%;
+   height: 4.5em;
+   margin-bottom: 1.8em;
+   border: 0.5px solid #b6b6b6;
+}
+
+@media screen and (max-width: 1000px) {
+   .sys-title {
+      font-size: 2em;
+   }
+}
