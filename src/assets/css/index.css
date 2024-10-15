@@ -24,7 +24,7 @@
    background-color: #FFFFFF;
 }
 
-.v-card {
+.v-card-L {
    font-size: 10px; /* 茅點 */
    height: 38em;
 }
@@ -45,9 +45,18 @@
    font-size: 2.3em;
 }
 
+.col-time {
+   margin-left: 30px;
+}
+
 .v-chip {
-   font-size: 2.3em;
-   height: 4em;
+   font-size: 2.3em !important;
+   height: 4em !important;
+}
+
+/* 填寫狀態樣式 */
+.completed-chip {
+   font-weight: 600;
 }
 
 /* 首頁-右側功能區 */
@@ -60,7 +69,7 @@
 }
 
 .target {
-   color: #7edcbb;
+   color: #e85656;
 
    font-size: 2.25em;
    margin-top: 0.5em;
@@ -75,7 +84,7 @@
 .toGroupPage {
    margin-left: auto;
    color: #FFFFFF;
-   background-color: #7edcbb;
+   background-color: #69c9a7;
 
    /* font-size: 1em;
    width: 4em; */
@@ -85,11 +94,6 @@
    width: 100%;
    display: flex;
    align-items: center;
-}
-
-/* 填寫狀態樣式 */
-.completed-chip {
-   font-weight: 600;
 }
 
 /* 個人諮詢樣式 */
@@ -136,13 +140,13 @@
 }
 
 .flex-container-chart {
-   height: 92%;
+   height: 90%;
 }
 
 :deep(.v-progress-circular) {
    width: 90% !important;
    height: 90% !important;
-   font-size: 2em;
+   font-size: 2em !important;
 }
 
 /* 適應視窗比例 */
@@ -154,7 +158,7 @@
    }
 
    /* 首頁-左側功能區 */
-   .v-card {
+   .v-card-L {
       height: 57em;
    }
 
@@ -176,8 +180,8 @@
    }
 
    .v-chip {
-      height: 50px;
-      font-size: 25px;
+      height: 50px !important;
+      font-size: 25px !important;
    }
 
    /* 首頁-右側功能區 */      
@@ -204,7 +208,7 @@
    }
 
    :deep(.v-progress-circular) {
-      font-size: 2em;
+      font-size: 2em !important;
    }
 }
 
@@ -216,7 +220,7 @@
    }
 
    /* 首頁-左側功能區 */
-   .v-card {
+   .v-card-L {
       height: 38em;
    }
 
@@ -237,8 +241,8 @@
    }
 
    .v-chip {
-      font-size: 20px;
-      height: 45px;
+      font-size: 20px !important;
+      height: 45px !important;
    }
 
    /* 首頁-右側功能區 */      
@@ -265,7 +269,7 @@
    }
 
    :deep(.v-progress-circular) {
-      font-size: 2em;
+      font-size: 2em !important;
    }
 }
 
@@ -277,7 +281,7 @@
    }
 
    /* 首頁-左側功能區 */
-   .v-card {
+   .v-card-L {
       height: 32.5em;
    }
 
@@ -298,8 +302,8 @@
    }
 
    .v-chip {
-      font-size: 20px;
-      height: 35px;
+      font-size: 20px !important;
+      height: 35px !important;
    }
 
    /* 首頁-右側功能區 */      
@@ -326,7 +330,7 @@
    }
 
    :deep(.v-progress-circular) {
-      font-size: 1.75em;
+      font-size: 1.75em !important;
    }
 }
 
@@ -338,7 +342,7 @@
    }
 
    /* 首頁-左側功能區 */
-   .v-card {
+   .v-card-L {
       height: 30em;
    }
 
@@ -359,8 +363,8 @@
    }
 
    .v-chip {
-      font-size: 19px;
-      height: 35px;
+      font-size: 19px !important;
+      height: 35px !important;
    }
 
    /* 首頁-右側功能區 */      
@@ -387,13 +391,13 @@
    }
 
    :deep(.v-progress-circular) {
-      font-size: 1.75em;
+      font-size: 1.75em !important;
    }
 }
 
 @media screen and (max-width: 1500px) {  /* 筆電螢幕90%：完成 */
    :deep(.v-progress-circular) {
-      font-size: 1.75em;
+      font-size: 1.75em !important;
    }
 }
 
@@ -408,11 +412,11 @@
    }
    
    :deep(.v-progress-circular) {
-      font-size: 1.75em;
+      font-size: 1.75em !important;
    }
 }
 
-@media screen and (max-width: 1200px) {  /* 小螢幕裝置：完成 */
+@media screen and (max-width: 1200px) {  /* 手機螢幕比例：完成 */
    /* 首頁-全局型態 */
    .v-card-title {
       height: auto;
@@ -435,8 +439,8 @@
    }
 
    .v-chip {
-      font-size: 15px;
-      height: 30px;
+      font-size: 15px !important;
+      height: 30px !important;
    }
 
    /* 小螢幕-諮詢會議 */
@@ -450,16 +454,21 @@
       max-height: 13em;
       width: 95%;
       height: auto;
+      padding: 0 3px;
       margin: 10px auto;
       border-bottom: 1px solid #e0e0e0;
    }
 
    .meetName {
-      font-size: 18px;
       margin: 20px 0;
       padding: 15px 0;
+      font-size: 18px;
       border-top: 1px solid #e0e0e0;
       border-bottom: 1px solid #e0e0e0;
+
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
    }
 
    .meetInfo {
@@ -505,7 +514,7 @@
    }
 
    :deep(.v-progress-circular) {
-      font-size: 1.75em;
+      font-size: 1.75em !important;
    }
 }
 
@@ -528,7 +537,7 @@
    }
 
    :deep(.v-progress-circular) {
-      font-size: 1.75em;
+      font-size: 1.75em !important;
    }
 }
 
@@ -547,7 +556,13 @@
    }
 
    :deep(.v-progress-circular) {
-      font-size: 1.75em;
+      font-size: 1.75em !important;
+   }
+}
+
+@media screen and (max-width: 959px) {  /* 手機螢幕比例：sm */
+   .v-card-R {
+      margin-top: -2em;
    }
 }
 
@@ -562,7 +577,7 @@
    }
 
    :deep(.v-progress-circular) {
-      font-size: 1.75em;
+      font-size: 1.75em !important;
    }
 }
 
@@ -577,7 +592,7 @@
    }
 
    :deep(.v-progress-circular) {
-      font-size: 1.75em;
+      font-size: 1.75em !important;
    }
 }
 
@@ -592,6 +607,6 @@
    }
 
    :deep(.v-progress-circular) {
-      font-size: 1.5em;
+      font-size: 1.5em !important;
    }
 }

@@ -28,20 +28,20 @@
 }
 
 .list-item h2 {
-   font-size: 2.3em;
+   font-size: 2em;
 }
 
 .list-item h4 {
-   font-size: 2.3em;
+   font-size: 2em;
 }
 
 .list-item p {
-   font-size: 2.3em;
+   font-size: 2em;
 }
 
 .userImg {
-   width: 2.3em;
-   height: 2.3em;
+   width: 2em;
+   height: 2em;
    margin-top: 5px;
    margin-left: 15px;
 }
