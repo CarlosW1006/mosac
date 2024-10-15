@@ -1,11 +1,9 @@
 /* 表格樣式 */
 .groupInfoFrame {
-   width: 100%;
-   font-size: 10px; /* 茅點 */
-
+   font-size: 10px;
    display: flex;
-   align-items: center;
-   justify-content: center;
+   flex-direction: column; /* 垂直排列子元素 */
+   align-items: center; /* 水平置中子元素 */
 }
 
 .groupInfoFrame .table-title {
@@ -21,6 +19,7 @@
 
 table {
    border-collapse:collapse;
+   width: 97% !important;
 }
 
 .col1 {
@@ -49,4 +48,27 @@ table {
 .feedback {
    background-color: #d3e1f1;
    height: 10em;
+}
+
+@media screen and (max-width: 800px) {
+   .pageTotal {
+      font-size: 2em;
+      margin: 3% 3%;
+   }
+   
+   .groupInfoFrame tr, th, td {
+      border: 1px solid #c6c6c6;
+      padding: 0.5em 1em;
+      font-size: 1.3em;
+   }
+
+   .expandBtn {
+      padding: 0.35em;
+      font-size: 18px;
+   }
+
+   table {
+      border-collapse:collapse;
+      width: 93%;
+   }
 }

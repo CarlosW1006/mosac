@@ -7,23 +7,23 @@
             
             <!-- 用 @keydown.enter 監聽 Enter 鍵 -->
             <v-text-field 
-              v-model="userid" 
-              label="請輸入您的帳號" 
-              @keydown.enter="login(userid, password, verifycode)"
+               v-model="userid" 
+               label="請輸入您的帳號" 
+               @keydown.enter="login(userid, password, verifycode)"
             ></v-text-field>
             
             <v-text-field 
-              v-model="password" 
-              label="請輸入您的密碼" 
-              @keydown.enter="login(userid, password, verifycode)"
+               v-model="password" 
+               label="請輸入您的密碼" 
+               @keydown.enter="login(userid, password, verifycode)"
             ></v-text-field>
 
             <div class="flex-container">
                <label class="verify-str">2+4=?</label> &nbsp;&nbsp;
                <v-text-field 
-                 v-model="verifycode" 
-                 label="請輸入驗證碼" 
-                 @keydown.enter="login(userid, password, verifycode)"
+                  v-model="verifycode" 
+                  label="請輸入驗證碼" 
+                  @keydown.enter="login(userid, password, verifycode)"
                ></v-text-field>
             </div>
 

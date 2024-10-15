@@ -4,7 +4,7 @@
          <v-col cols="12" md="6" lg="6">
             <v-card>
                <v-list-item class="list-title">
-                  <h3 class="page-title">帳號資料檢視</h3>
+                  <h3 class="page-title">個人累積點數</h3>
                </v-list-item>
 
                <v-list-item class="list-item">

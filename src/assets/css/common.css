@@ -19,7 +19,7 @@
 /* 標題文字 */
 .page-title { 
    font-size: 2.5em;
-   margin-left: 0.5em;
+   margin-left: 0.1em;
 }
 
 .list-item {
@@ -48,32 +48,37 @@
 
 /* 跳轉頁面按鈕 */
 .pageBtn { 
-   width: 60%;
+   width: 60% !important;
    height: 3em !important;
-   font-size: 2em;
+   font-size: 2em !important;
    margin-bottom: 10px !important;
    color: #FFFFFF;
    background-color: #69c9a7;
 }
 
 /* 搜尋功能列 */
+.search-frame {
+   padding: 3em 1.5em;
+}
+
 .search-title {
    font-size: 2em;
 }
 
 .search-item {
-   margin: 2em 1em;
    font-size: 2em;
    font-weight: 600;
+   margin-right: 0.5em;
 }
 
 .search-btn {
-   padding: 10px;
-   margin-left: 30px;
-   color: #FFFFFF;
-   text-align: center;
+   height: 50px;
    font-size: 2em;
    border-radius: 5px;
+   width: 150px !important;
+
+   color: #FFFFFF;
+   text-align: center;
    background-color: #7edcbb;
 }
 
@@ -84,30 +89,32 @@
 
 /* 下拉式選單 */
 .dropdown {
-   position: relative;
-   display: inline-block;
-   margin-right: 20px;
+   display: flex;
+   align-items: center;
+   justify-items: center;
 }
 
 .dropdown label {
+   display: block;
    font-size: 1.6em;
    margin-bottom: 8px;
-   display: block;
 }
 
 .dropdown select {
-   width: 20em;
+   width: 25%;
    padding: 10px;
+   margin-right: 20px;
    font-size: 1.8em;
    border-radius: 5px;
    border: 1px solid #ccc;
-   /* 隱藏預設箭頭 */
-   appearance: none;
-   -webkit-appearance: none;
-   -moz-appearance: none;
-   /* 加上箭頭符號 */
-   background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="gray" d="M7 10l5 5 5-5z"/></svg>') no-repeat right 10px center;
-   padding-right: 2.5em;
+
+   -webkit-appearance: none; /* 移除 Webkit 瀏覽器的預設箭頭 */
+   -moz-appearance: none; /* 移除 Firefox 的預設箭頭 */
+   appearance: none; /* 移除所有瀏覽器的預設箭頭 */
+   background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="gray"><path d="M7 10l5 5 5-5z"/></svg>') no-repeat right 10px center;
+   background-color: white;
+   background-size: 20px;
+   padding-right: 40px; /* 給自定義箭頭留空間 */
 }
 
 select:focus {
@@ -116,7 +123,7 @@ select:focus {
 }
 
 select option {
-   font-size: 1.6em;
+   font-size: 1em;
 }
 
 /* 資料顯示數量 */
@@ -135,25 +142,32 @@ select option {
 }
 
 /* 頁碼功能列 */
+.page-container {
+   margin: 2.3em;
+}
+
 .pageNum {
    font-size: 20px;
-   margin: 1.5% 1.5%;
 }
 
-.pageNum p {
-   font-size: 23px;
-}
-
-.pageNum select {
-   width: 60px;
-   margin: 0 10px;
-   text-align: center;
-   border: 1px solid #ccc;
-}
 
 @media screen and (max-width: 1000px) {
    .page-title {
       font-size: 1.5em;
+      margin-left: 0.05em;
+   }
+
+   .search-frame {
+      padding: 1.5em 1.5em;
+   }
+
+   .dropdown {
+      display: block;
+   }
+
+   .dropdown select {
+      width: 100% !important;
+      margin: 1em 0 1em;
    }
 
    .list-title {
@@ -167,6 +181,6 @@ select option {
    }
 
    .pageBtn {
-      width: 100%;
+      width: 100% !important;
    }
 }

@@ -132,7 +132,6 @@
                   </v-card-text></v-card>
                </v-card>
             </div>
-
          </v-col>
 
          <!-- 個人及團體目標達成率 -->
@@ -150,7 +149,7 @@
                      </div>
                   </v-col>
                   <v-col cols="6" sm="6" md="7" lg="7" class="flex-container-chart">
-                     <v-progress-circular :value="60" color="red" size="120" width="10">
+                     <v-progress-circular :value="60" color="red" :rotate="60" size="120" width="15">
                         60%
                      </v-progress-circular>
                   </v-col>
@@ -174,9 +173,10 @@
                      </div>
                   </v-col>
                   <v-col cols="6" sm="6" md="7" lg="7" class="flex-container-chart">
-                     <v-progress-circular :value="60" color="red" size="120" width="10">
+                     <v-progress-circular :value="timer.progress" color="red" size="120" width="15">
                         60%
                      </v-progress-circular>
+                     
                   </v-col>
                   </v-row>
                </v-card-text>
@@ -188,17 +188,26 @@
 
 <script>
    import { useWindowWidth } from './winwidth.js';
-   import { ref } from 'vue';
+   import { ref, reactive } from 'vue';
 
    export default {
       name: 'IndexPage',
       setup() {
          const showDetails = ref(false);
          const { winwidth } = useWindowWidth();
+         let timer = reactive({ interval: null, progress: 0 });
+
+         timer.interval = setInterval(() => {
+            if(timer.progress < 60){
+               timer.progress += 10; // Update progress reactively
+               console.log('Progress:', timer.progress);
+            }
+         }, 50);
 
          return {
             winwidth,
             showDetails,
+            timer,
          };
       },
    };
