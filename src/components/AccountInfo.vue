@@ -53,7 +53,7 @@
                <v-list-item class="list-item">
                   <div class="flex-container">
                      <h4 style="margin: 10px;">慢跑時間：</h4>
-                     <p style="margin-left: 30px;">30分鐘</p>
+                     <p style="margin-left: 40px;">30分鐘</p>
                   </div>
                </v-list-item>
             </v-card>
