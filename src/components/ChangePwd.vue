@@ -8,12 +8,12 @@
             <v-text-field v-model="password" label="請輸入新的密碼"></v-text-field>
             <v-text-field v-model="npassword" label="請再輸入新密碼"></v-text-field>
 
-            <div class="flex-container">
+            <div class="flex-container-login">
                <label class="verify-str">2+4=?</label> &nbsp;&nbsp;
                <v-text-field v-model="verifycode" label="請輸入驗證碼"></v-text-field>
             </div>
 
-            <div class="flex-container">
+            <div class="flex-container-login">
                <a href="#/letmein" class="text-body-2 font-weight-regular">返回登入頁</a>
                <button class="text-body-2 font-weight-regular">重新產生驗證碼</button>
             </div><br>
