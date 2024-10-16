@@ -8,7 +8,7 @@
                      <p class="pageTitle">互動式自我健康管理雲端平台</p>
                   </template>
                   <img :src="userImage" style="width: 18px; margin-right: 10px;">
-                  <a href="#/accountInfo" class="userName">UserName</a>
+                  <a href="#/accountInfo" class="userName">Top001</a>
                   <v-btn class="logoutBtn">登出</v-btn>
                </v-app-bar>
             </div>
@@ -37,7 +37,7 @@
                <button class="bar-btn-info">系統訊息通知</button>
             </div>
             <div v-else>
-               <a href="#/accountInfo" class="userName2">UserName</a>
+               <a href="#/accountInfo" class="userName2">Top001</a>
             </div>
             </v-app-bar>
 

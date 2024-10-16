@@ -1,7 +1,7 @@
 <template>
    <v-container fluid>
       <v-row :class="{ 'pa-4': winwidth }">
-         <v-col cols="12" md="6" lg="6">
+         <v-col cols="12" sm="7" md="6" lg="5">
             <v-card>
                <v-list-item class="list-title">
                   <h3 class="page-title">帳號資料檢視</h3>
@@ -9,53 +9,59 @@
                   
                <v-list-item class="list-item">
                   <div class="flex-container">
-                     <v-col cols="5" sm="5" md="4"><h4>帳號名稱：</h4></v-col>
-                     <v-col cols="7" sm="7" md="8"><p>Top001</p></v-col></div>
+                     <h4 style="margin: 10px;">帳號名稱：</h4>
+                     <p style="margin-left: 40px;">Top001</p>
+                  </div>
                </v-list-item>
 
                <v-list-item class="list-item">
                   <div class="flex-container">
-                     <v-col cols="5" sm="5" md="4"><h4>帳號類別：</h4></v-col>
-                     <v-col cols="7" sm="7" md="8" style="display: flex;"><p>一般使用者</p>
+                     <h4 style="margin: 10px;">帳號類別：</h4>
+                     <p style="margin-left: 40px;">一般使用者</p>
                      <img :src="require('../assets/images/user.png')" class="userImg">
-                     </v-col></div>
+                  </div>
                </v-list-item>
 
                <v-list-item class="list-item">
                   <div class="flex-container">
-                     <v-col cols="5" sm="5" md="4"><h4>用戶姓名：</h4></v-col>
-                     <v-col cols="7" sm="7" md="8"><p>李ＯＯ</p></v-col></div>
+                     <h4 style="margin: 10px;">用戶姓名：</h4>
+                     <p style="margin-left: 40px;">李ＯＯ</p>
+                  </div>
                </v-list-item>
 
                <v-list-item class="list-item">
                   <div class="flex-container">
-                     <v-col cols="5" sm="5" md="4"><h4>目前階段：</h4></v-col>
-                     <v-col cols="7" sm="7" md="8"><p>準備期</p></v-col></div>
+                     <h4 style="margin: 10px;">目前階段：</h4>
+                     <p style="margin-left: 40px;">準備期</p>
+                  </div>
                </v-list-item>
 
                <v-list-item class="list-item">
                   <div class="flex-container">
-                     <v-col cols="5" sm="5" md="4"><h4>目標體重：</h4></v-col>
-                     <v-col cols="7" sm="7" md="8" class="item-content"><p>65公斤</p></v-col></div>
+                     <h4 style="margin: 10px;">目標體重：</h4>
+                     <p style="margin-left: 40px;">65公斤</p>
+                  </div>
                </v-list-item>
 
                <v-list-item class="list-item">
                   <div class="flex-container">
-                     <v-col cols="5" sm="5" md="4"><h4>每日步數：</h4></v-col>
-                     <v-col cols="7" sm="7" md="8" class="item-content"><p>4500步</p></v-col></div>
+                     <h4 style="margin: 10px;">每日步數：</h4>
+                     <p style="margin-left: 40px;">4500步</p>
+                  </div>
                </v-list-item>
 
                <v-list-item class="list-item">
                   <div class="flex-container">
-                     <v-col cols="5" sm="5" md="4"><h4>慢跑時間：</h4></v-col>
-                     <v-col cols="7" sm="7" md="8" class="item-content"><p>30分鐘</p></v-col></div>
+                     <h4 style="margin: 10px;">慢跑時間：</h4>
+                     <p style="margin-left: 30px;">30分鐘</p>
+                  </div>
                </v-list-item>
             </v-card>
          </v-col>
 
-         <v-col cols="12" md="6" lg="6" v-if="winwidth == true" />
+         <!-- <v-col cols="12" md="6" lg="6" v-if="winwidth == true" /> -->
 
-         <v-col cols="12" md="6" lg="6">
+         <v-col cols="12" sm="5" md="5" lg="5">
             <v-btn href="#/userPoints" class="pageBtn"><h3>個人累積點數</h3></v-btn>
             <v-btn href="#/groupRank" class="pageBtn"><h3>群組排名紀錄</h3></v-btn>
             <v-btn href="#/changepwd" class="pageBtn"><h3>變更帳號密碼</h3></v-btn>

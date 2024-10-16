@@ -1,7 +1,7 @@
 <template>
    <v-container fluid>
       <v-row :class="{ 'pa-4': winwidth }">
-         <v-col cols="12" md="6" lg="6">
+         <v-col cols="12" sm="7" md="6" lg="5">
             <v-card>
                <v-list-item class="list-title">
                   <h3 class="page-title">個人累積點數</h3>

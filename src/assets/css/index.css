@@ -403,12 +403,12 @@
 
 @media screen and (max-width: 1300px) {  /* 筆電螢幕100%：完成 */
    .target {
-      font-size: 1.6em;
+      font-size: 1.65em;
       margin-top: 0.6em;
    }
 
    .recent {
-      font-size: 1.6em;
+      font-size: 1.65em;
    }
    
    :deep(.v-progress-circular) {
@@ -541,14 +541,14 @@
    }
 }
 
-@media screen and (max-width: 1000px) { 
+@media screen and (max-width: 999px) { 
    .target {
-      font-size: 1.6em;
+      font-size: 1.35em;
       margin-top: 0.6em;
    }
 
    .recent {
-      font-size: 1.6em;
+      font-size: 1.35em;
    }
 
    .flex-container-chart {
@@ -563,50 +563,5 @@
 @media screen and (max-width: 959px) {  /* 手機螢幕比例：sm */
    .v-card-R {
       margin-top: -2em;
-   }
-}
-
-@media screen and (max-width: 500px) {
-   .target {
-      font-size: 1.6em;
-      margin-top: 0.6em;
-   }
-
-   .recent {
-      font-size: 1.6em;
-   }
-
-   :deep(.v-progress-circular) {
-      font-size: 1.75em !important;
-   }
-}
-
-@media screen and (max-width: 450px) {
-   .target {
-      font-size: 1.5em;
-      margin-top: 0.6em;
-   }
-
-   .recent {
-      font-size: 1.5em;
-   }
-
-   :deep(.v-progress-circular) {
-      font-size: 1.75em !important;
-   }
-}
-
-@media screen and (max-width: 400px) {
-   .target {
-      font-size: 1.3em;
-      margin-top: 0.6em;
-   }
-
-   .recent {
-      font-size: 1.3em;
-   }
-
-   :deep(.v-progress-circular) {
-      font-size: 1.5em !important;
    }
 }

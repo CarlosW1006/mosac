@@ -1,7 +1,7 @@
 <template>
    <v-container fluid>
       <v-row :class="{ 'pa-4': winwidth }">
-         <v-col cols="12" md="6" lg="6">
+         <v-col cols="12" sm="7" md="6" lg="5">
             <v-card>
                <v-list-item class="list-title">
                   <h3 class="page-title">帳號資料編輯</h3> 
@@ -32,9 +32,9 @@
             </v-card>
          </v-col>
 
-         <v-col cols="12" md="6" lg="6" v-if="winwidth == true" />
+         <!-- <v-col cols="12" md="6" lg="6" v-if="winwidth == true" /> -->
 
-         <v-col cols="12" md="6" lg="6">
+         <v-col cols="12" sm="5" md="5" lg="5">
             <v-btn href="#/accInfoEdit" class="pageBtn" @click="handleSave(accname)" :disabled="buttonStatus"><h3>{{ editStatus }}</h3></v-btn>
          </v-col>
       </v-row>

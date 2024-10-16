@@ -3,7 +3,7 @@
 }
 
 .center-container {
-   height: 100vh;
+   min-height: 100vh;
    display: flex;
    font-size: 13px; /* 茅點 */
    align-items: center;
