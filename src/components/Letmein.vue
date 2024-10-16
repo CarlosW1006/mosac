@@ -18,7 +18,7 @@
                @keydown.enter="login(userid, password, verifycode)"
             ></v-text-field>
 
-            <div class="flex-container">
+            <div class="flex-container-login">
                <label class="verify-str">2+4=?</label> &nbsp;&nbsp;
                <v-text-field 
                   v-model="verifycode" 
@@ -27,7 +27,7 @@
                ></v-text-field>
             </div>
 
-            <div class="flex-container">
+            <div class="flex-container-login">
                <a href="#/changePwd" class="text-body-2 font-weight-regular">忘記密碼?</a>
                <button class="text-body-2 font-weight-regular">重新產生驗證碼</button>
             </div><br>
