@@ -116,14 +116,14 @@
             <div v-else>
                <v-card class="meetCard mt-4">
                   <v-card-title>今日諮詢行程</v-card-title>
-                  <v-card outlined class="meet-box mt-4" style="border: 3px solid #e9b347;"><v-card-text>
+                  <v-card outlined class="meet-box" style="border: 3px solid #e9b347;"><v-card-text>
                      <div class="meetInfo">
                         <strong class="personMeet">個人諮詢</strong><img :src="require('../assets/images/user.png')" class="meetImg">
                         <p class="meetTime">14:00~15:00</p>
                      </div>
                      <div class="meetName">下午2點 個人諮詢會議 下午2點 個人諮詢會議 下午2點 個人諮詢會議</div>
                   </v-card-text></v-card>
-                  <v-card outlined class="meet-box mt-4" style="border: 3px solid #436ead;"><v-card-text>
+                  <v-card outlined class="meet-box" style="border: 3px solid #436ead;"><v-card-text>
                      <div class="meetInfo">
                         <strong class="groupMeet">團體諮詢</strong><img :src="require('../assets/images/users.png')" class="meetImg">
                         <p class="meetTime">15:00~16:00</p>

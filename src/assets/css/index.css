@@ -47,8 +47,8 @@
 }
 
 .v-chip {
-   font-size: 2.3em !important;
-   height: 4em !important;
+   font-size: 20px !important;
+   height: 2em !important;
 }
 
 /* 填寫狀態樣式 */
@@ -228,21 +228,21 @@
    /* 欄位標題 */
    .col-1 {
       flex: 0 0 13%;
-      font-size: 2em;
+      font-size: 2.3em;
    }
 
    .col-2 {
       flex: 0 0 23%;
-      font-size: 2em;
+      font-size: 2.3em;
    }
 
    .col-3 {
       flex: 0 0 35%;
-      font-size: 2em;
+      font-size: 2.3em;
    }
 
    .v-chip {
-      font-size: 20px !important;
+      font-size: 23px !important;
       height: 45px !important;
    }
 
