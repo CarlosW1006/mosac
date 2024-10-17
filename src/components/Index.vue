@@ -187,7 +187,7 @@
 </template>
 
 <script>
-   import { useWindowWidth } from './winwidth.js';
+   import { useWindowWidth } from './JS/winwidth.js';
    import { ref, reactive } from 'vue';
 
    export default {

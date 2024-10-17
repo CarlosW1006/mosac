@@ -42,9 +42,9 @@
 </template>
 
 <script>
-   import userImage from '../assets/images/user.png';
-   import { useWindowWidth } from './winwidth.js';
-   import { callback } from './callback.js';
+   import userImage from '../../assets/images/user.png';
+   import { useWindowWidth } from '../../components/JS/winwidth';
+   import { callback } from '../JS/callback.js';
    import { ref } from 'vue';
 
    export default {
@@ -87,6 +87,6 @@
 </script>
 
 <style lang="css" scoped>
-   @import "../assets/css/common.css";
-   @import "../assets/css/accountInfo.css";
+   @import "../../assets/css/common.css";
+   @import "../../assets/css/accountInfo.css";
 </style>

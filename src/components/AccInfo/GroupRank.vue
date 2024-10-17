@@ -100,7 +100,7 @@
 </template>
 
 <script>
-   import { useWindowWidth } from './winwidth.js';
+   import { useWindowWidth } from '../JS/winwidth.js';
    import { ref } from 'vue';
 
    export default {
@@ -145,6 +145,6 @@
 </script>
 
 <style lang="css" scoped>
-   @import "../assets/css/common.css";
-   @import "../assets/css/accountInfo.css";
+   @import "../../assets/css/common.css";
+   @import "../../assets/css/accountInfo.css";
 </style>

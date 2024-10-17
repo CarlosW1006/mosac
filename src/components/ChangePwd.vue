@@ -26,7 +26,7 @@
 
 <script>
    import { ref, computed } from 'vue';
-   import { useWindowWidth } from './winwidth.js';
+   import { useWindowWidth } from './JS/winwidth.js';
 
    export default {
       name: 'changepwdPage',

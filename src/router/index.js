@@ -36,7 +36,7 @@ const routes = [
    {
       path: '/accountInfo',
       name: 'accInfoPage',
-      component: () => import('../components/AccountInfo.vue'),
+      component: () => import('../components/AccInfo/AccountInfo.vue'),
       meta: {
          requiresAuth: true // 需要 session 認證
       }
@@ -44,7 +44,7 @@ const routes = [
    {
       path: '/accInfoEdit',
       name: 'accInfoEditPage',
-      component: () => import('../components/AccInfoEdit.vue'),
+      component: () => import('../components/AccInfo/AccInfoEdit.vue'),
       meta: {
          requiresAuth: true // 需要 session 認證
       }
@@ -52,7 +52,7 @@ const routes = [
    {
       path: '/userPoints',
       name: 'userPointsPage',
-      component: () => import('../components/UserPoints.vue'),
+      component: () => import('../components/AccInfo/UserPoints.vue'),
       meta: {
          requiresAuth: true // 需要 session 認證
       }
@@ -60,7 +60,7 @@ const routes = [
    {
       path: '/groupRank',
       name: 'groupRankPage',
-      component: () => import('../components/GroupRank.vue'),
+      component: () => import('../components/AccInfo/GroupRank.vue'),
       meta: {
          requiresAuth: true // 需要 session 認證
       }

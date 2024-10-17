@@ -100,7 +100,7 @@
 </template>
 
 <script>
-   import { useWindowWidth } from './components/winwidth.js';
+   import { useWindowWidth } from './components/JS/winwidth.js';
    import userImage from './assets/images/user.png';
    import { ref, onMounted } from 'vue';
 

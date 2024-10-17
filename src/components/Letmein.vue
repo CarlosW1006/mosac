@@ -44,7 +44,7 @@
 <script>
    import { ref, computed } from 'vue';
    import { useRouter } from 'vue-router';
-   import { useWindowWidth } from './winwidth.js';
+   import { useWindowWidth } from './JS/winwidth.js';
 
    export default {
       name: 'LetmeinPage',

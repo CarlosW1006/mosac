@@ -18,7 +18,7 @@
                   <div class="flex-container">
                      <h4 style="margin: 10px;">帳號類別：</h4>
                      <p style="margin-left: 40px;">一般使用者</p>
-                     <img :src="require('../assets/images/user.png')" class="userImg">
+                     <img :src="userImage" class="userImg">
                   </div>
                </v-list-item>
 
@@ -71,8 +71,8 @@
 </template>
 
 <script>
-   import userImage from '../assets/images/user.png';
-   import { useWindowWidth } from './winwidth.js';
+   import userImage from '../../assets/images/user.png';
+   import { useWindowWidth } from '../JS/winwidth';
    import { ref } from 'vue';
 
    export default {
@@ -94,6 +94,6 @@
 </script>
 
 <style lang="css" scoped>
-   @import "../assets/css/common.css";
-   @import "../assets/css/accountInfo.css";
+   @import "../../assets/css/common.css";
+   @import "../../assets/css/accountInfo.css";
 </style>
