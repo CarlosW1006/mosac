@@ -30,7 +30,7 @@
 .logoutBtn {
    font-size: 1.8em;
    font-weight: bold;
-   margin-right: 2.6em;
+   margin-right: 1.2em !important;
    color: #69c9a7 !important;
 }
 

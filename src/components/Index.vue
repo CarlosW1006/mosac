@@ -139,20 +139,23 @@
             <v-card outlined class="v-card-R">
                <v-card-title>個人目標達成率</v-card-title>
                <v-card-text style="height: 100%;">
-                  <v-row style="height: 100%;">
-                  <v-col cols="6" sm="6" md="5" lg="5">
-                     <div class="flex-container target">
-                        <h5>目標體重</h5>&nbsp;&nbsp;<h5>65公斤</h5>
-                     </div>
-                     <div class="flex-container recent">
-                        <h5>目前體重</h5>&nbsp;&nbsp;<h5>70公斤</h5>
-                     </div>
-                  </v-col>
-                  <v-col cols="6" sm="6" md="7" lg="7" class="flex-container-chart">
-                     <v-progress-circular :model-value="timer.progress" color="#f5bc4a" size="120" width="15">
-                        60%
-                     </v-progress-circular>
-                  </v-col>
+                  <v-row style="height: 95%;">
+                     <!-- <div class="flex-container"> -->
+                        <v-col cols="6" sm="6" md="5" lg="5">
+                           <div class="flex-container target">
+                              <h5>目標體重</h5>&nbsp;&nbsp;<h5>65公斤</h5>
+                           </div>
+                           <div class="flex-container recent">
+                              <h5>目前體重</h5>&nbsp;&nbsp;<h5>70公斤</h5>
+                           </div>
+                        </v-col>
+
+                        <v-col cols="6" sm="6" md="7" lg="7" class="flex-container">
+                        <v-progress-circular :model-value="timer.progress" color="#FFB74D" size="120" width="15">
+                           <span style="font-size: 1.2em;">60%</span>
+                        </v-progress-circular>
+                     </v-col>
+                     <!-- </div> -->
                   </v-row>
                </v-card-text>
             </v-card>
@@ -163,21 +166,23 @@
                   <v-btn class="toGroupPage">更多</v-btn>
                </v-card-title>
                <v-card-text style="height: 100%;">
-                  <v-row style="height: 100%;">
-                  <v-col cols="6" sm="6" md="5" lg="5">
-                     <div class="flex-container target">
-                        <h5>群組總人數</h5>&nbsp;&nbsp;<h5>30人</h5>
-                     </div>
-                     <div class="flex-container recent">
-                        <h5>達成總人數</h5>&nbsp;&nbsp;<h5>18人</h5>
-                     </div>
-                  </v-col>
-                  <v-col cols="6" sm="6" md="7" lg="7" class="flex-container-chart">
-                     <v-progress-circular :model-value="timer.progress" color="#CE0000	" size="120" width="15">
-                        60%
-                     </v-progress-circular>
-                     
-                  </v-col>
+                  <v-row style="height: 95%;">
+                     <!-- <div class="flex-container"> -->
+                     <v-col cols="6" sm="6" md="5" lg="5">
+                        <div class="flex-container target">
+                           <h5>群組總人數</h5>&nbsp;&nbsp;<h5>30人</h5>
+                        </div>
+                        <div class="flex-container recent">
+                           <h5>達成總人數</h5>&nbsp;&nbsp;<h5>18人</h5>
+                        </div>
+                     </v-col>
+
+                     <v-col cols="6" sm="6" md="7" lg="7" class="flex-container">
+                        <v-progress-circular :model-value="timer.progress" color="#CE0000" size="120" width="15">
+                           <span style="font-size: 1.2em;">60%</span>
+                        </v-progress-circular>
+                     </v-col>
+                     <!-- </div> -->
                   </v-row>
                </v-card-text>
             </v-card>
