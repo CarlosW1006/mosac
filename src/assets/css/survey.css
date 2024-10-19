@@ -1,0 +1,123 @@
+.survey-container {
+   font-size: 10px; /* 茅點 */
+   margin: 1% 20% 10px;
+}
+
+.survey-title {
+   background-color: #71ccc7;
+   color: #FFFFFF;
+   height: 3em;
+   font-size: 2em;
+}
+
+.intro-container {
+   height: auto;
+   font-size: 2em;
+   padding: 1.5em 1em 1.5em;
+
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   background-color: #FFFFFF;
+}
+
+.intro-title {
+   color: #71ccc7;
+   font-weight: 600;
+   margin-bottom: 1em;
+}
+
+.intro-content {
+   color: #636d6d;
+   font-weight: 600;
+}
+
+.question-container {
+   height: auto;
+   font-size: 2em;
+   padding: 1em;
+   margin-top: 1em;
+
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   background-color: #FFFFFF;
+}
+
+.question-inner {
+   padding: 1em;
+   margin: 0.5em 0 0.5em;
+   border: 0.5px solid #71ccc7;
+}
+
+.question-title {
+   color: #71ccc7;
+   font-weight: 600;
+}
+
+.question-content {
+   margin-top: 0.5em;
+}
+
+.form-check-input {
+   margin-right: 1em;
+   margin-left: 1.5em;
+
+   width: 20px;
+   height: 20px;
+   margin-right: 10px;
+   border: 2px solid #71ccc7 !important;
+   border-radius: 4px;
+   vertical-align: middle;
+}
+
+.form-check-label {
+   color: #636d6d;
+}
+
+.button-container {
+   display: flex;
+}
+
+.submitBtn {
+   height: 3em !important;
+   width: 30%;
+   font-size: 1em;
+   font-weight: 600;
+   margin-top: 10px;
+   color: #FFFFFF;
+   background-color: #71ccc7;
+}
+
+.cancelBtn {
+   height: 3em !important;
+   width: 30%;
+   font-size: 1em;
+   font-weight: 600;
+   margin: 10px 30px 0;
+   color: #FFFFFF;
+   background-color: #db6666;
+}
+
+@media screen and (max-width: 800px) {
+   .survey-container {
+      font-size: 10px; /* 茅點 */
+      margin: 1% 1% 10px;
+   }
+
+   .button-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+   }
+
+   .submitBtn { 
+      width: 100%;
+      margin-top: 10px;
+   }
+
+   .cancelBtn {
+      width: 100%;
+      margin: 15px 0 0;
+   }
+}

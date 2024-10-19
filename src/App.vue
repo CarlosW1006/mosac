@@ -43,7 +43,7 @@
 
             <div v-if="winwidth == false">
                <v-navigation-drawer v-model="drawer" app class="indigo">
-                  <v-list-item link class="sm-bar-btn">
+                  <v-list-item link class="sm-bar-btn" :to="{ path: '/index' }">
                      <v-list-item-content>
                         <v-list-item-title class="custom-title">首頁</v-list-item-title>
                      </v-list-item-content>
@@ -78,6 +78,12 @@
                         <v-list-item-title class="custom-title">影音收藏</v-list-item-title>
                      </v-list-item-content>
                   </v-list-item>
+
+                  <template v-slot:append>
+                     <div class="pa-2">
+                        <v-btn block class="logoutBtn2">登出</v-btn>
+                     </div>
+                  </template>
                </v-navigation-drawer>
             </div>
 

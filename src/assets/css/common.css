@@ -8,12 +8,26 @@
    align-items: center;
 }
 
+/* 頁籤樣式 */
+.page-tab {
+   height: 60px;
+   font-size: 20px;
+   padding: 0 35px 0;
+   background-color: #ececec;
+   justify-content: space-between;
+}
+
+.tab-L {
+   color: #6cb39a;
+   font-weight: 600;
+   text-decoration: none;
+}
+
 /* 標題底色 */
 .list-title { 
-   height: 7em;
+   height: auto;
+   padding: 1em;
    background-color: #e2e2e2;
-   display: flex;
-   align-items: center;
 }
 
 /* 標題文字 */
@@ -23,37 +37,74 @@
 }
 
 .list-item {
+   height: auto;
    font-size: 10px; /* 茅點 */
    border: 0.5px solid #e0e0e0;
 }
 
 .list-item h2 {
-   font-size: 2em;
+   font-size: 2.3em;
 }
 
 .list-item h4 {
-   font-size: 2em;
+   font-size: 2.3em;
 }
 
 .list-item p {
-   font-size: 2em;
+   font-size: 2.3em;
+}
+
+.list-name {
+   margin: 1em 0em 1em;
+}
+
+.item-input {
+   width: 30%;
+   height: 2.5em;
+   font-size: 23px;
+   margin-left: 40px;
+   padding-left: 10px;
+   border-radius: 5px;
+   border: 1.5px solid #76caad;
+}
+
+.list-info50 {
+   margin-left: 1.8em;
+   margin-top: 1em;
+   margin-bottom: 1em;
 }
 
 .userImg {
    width: 2em;
    height: 2em;
-   margin-top: 5px;
    margin-left: 15px;
 }
 
-/* 跳轉頁面按鈕 */
-.pageBtn { 
-   width: 60% !important;
-   height: 3em !important;
-   font-size: 2em !important;
-   margin-bottom: 10px !important;
+.save-btn {
+   width: 5em;
+   height: 1.8em !important;
+   font-size: 2.5em;
    color: #FFFFFF;
-   background-color: #69c9a7;
+   background-color: #76caad;
+}
+
+/* 跳轉頁面按鈕 */
+.page-btn-container {
+   margin: 10px;
+}
+
+.page-btn-icon {
+   width: 30px;
+   height: 30px;
+   margin: 15px 15px;
+}
+
+.page-btn { 
+   width: 100% !important;
+   height: 3em !important;
+   font-size: 1.8em !important;
+   color: #69c9a7;
+   text-decoration: none;
 }
 
 /* 搜尋功能列 */
@@ -152,6 +203,13 @@ select option {
 
 
 @media screen and (max-width: 1000px) {
+   .page-tab {
+      height: 50px;
+      font-size: 15px;
+      padding: 0 20px 0;
+      margin-bottom: 10px;
+   }
+
    .page-title {
       font-size: 1.5em;
       margin-left: 0.05em;
@@ -171,16 +229,42 @@ select option {
    }
 
    .list-title {
-      height: 4em;
+      height: auto;
       font-size: 1.3em;
    }
    
    .list-item {
-      height: 7em;
       font-size: 0.8em;
    }
 
-   .pageBtn {
+   .item-input {
+      width: 60%;
+      height: 2.3em;
+      font-size: 18px;
+      margin-left: 33px;
+      padding-left: 10px;
+      border-radius: 5px;
+      /* border: 0.5px solid gray; */
+   }
+
+   .save-btn {
+      width: 3em;
+      font-size: 1.2em;
+      color: #FFFFFF;
+      background-color: #76caad;
+   }
+
+   .page-btn-icon {
+      width: 18px;
+      height: 18px;
+      margin: 15px 15px;
+   }
+   
+   .page-btn { 
       width: 100% !important;
+      height: 3em !important;
+      font-size: 1.3em !important;
+      color: #69c9a7;
+      text-decoration: none;
    }
 }

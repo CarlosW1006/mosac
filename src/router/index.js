@@ -41,14 +41,14 @@ const routes = [
          requiresAuth: true // 需要 session 認證
       }
    },
-   {
-      path: '/accInfoEdit',
-      name: 'accInfoEditPage',
-      component: () => import('../components/AccInfo/AccInfoEdit.vue'),
-      meta: {
-         requiresAuth: true // 需要 session 認證
-      }
-   },
+   // {
+   //    path: '/accInfoEdit',
+   //    name: 'accInfoEditPage',
+   //    component: () => import('../components/AccInfo/AccInfoEdit.vue'),
+   //    meta: {
+   //       requiresAuth: true // 需要 session 認證
+   //    }
+   // },
    {
       path: '/userPoints',
       name: 'userPointsPage',
@@ -69,6 +69,14 @@ const routes = [
       path: '/health-detail-form',
       name: 'health-detail-form', 
       component:  () => import('../components/HealthDetailForm.vue'),// 詳細頁面路由
+      meta: {
+         requiresAuth: true // 需要 session 認證
+      }
+   },
+   {
+      path: '/survey',
+      name: 'surveyPage', 
+      component:  () => import('../components/Survey.vue'),// 詳細頁面路由
       meta: {
          requiresAuth: true // 需要 session 認證
       }

@@ -34,8 +34,14 @@
    color: #69c9a7 !important;
 }
 
+.logoutBtn2 {
+   font-size: 1.6em;
+   color: #FFFFFF !important;
+   background-color: #69c9a7 !important;
+}
+
 .router {
-   margin-top: 0.5em;
+   /* margin-top: 0.5em; */
    color: '#FF9898';
 }
 
@@ -66,7 +72,7 @@
    font-size: 1.5em;
    font-weight: bold;
    color: #ffffff;
-   margin-right: 30px;
+   margin-right: 35px;
 }
 
 .sm-bar-btn .v-list-item__title {

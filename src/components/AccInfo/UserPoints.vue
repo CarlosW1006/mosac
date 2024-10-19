@@ -1,4 +1,8 @@
 <template>
+   <div class="page-tab flex-container">
+      <a href="#/accountinfo" class="tab-L">回到帳號資料</a> <p class="tab-R">帳號資料＞個人累積點數</p>
+   </div>
+
    <v-container fluid>
       <v-row :class="{ 'pa-4': winwidth }">
          <v-col cols="12" sm="7" md="6" lg="5">
@@ -6,24 +10,18 @@
                <v-list-item class="list-title">
                   <h3 class="page-title">個人累積點數</h3>
                </v-list-item>
-
-               <v-list-item class="list-item">
-                  <div class="flex-container">
-                     <v-col cols="5" sm="5" md="4"><h4 class="item-title">點數類型</h4></v-col>
-                     <v-col cols="7" sm="7" md="8"><h4>累積數量</h4></v-col></div>
-               </v-list-item>
                   
                <v-list-item class="list-item">
                   <div class="flex-container">
-                     <v-col cols="5" sm="5" md="4"><p class="item-title">個人點數：</p></v-col>
-                     <v-col cols="7" sm="7" md="8"><p>45</p></v-col></div>
+                     <p class="item-name">個人點數：</p>
+                     <p class="list-info50">45</p>
+                  </div>
                </v-list-item>
 
                <v-list-item class="list-item">
                   <div class="flex-container">
-                     <v-col cols="5" sm="5" md="4"><p class="item-title">團體徽章：</p></v-col>
-                     <v-col cols="7" sm="7" md="8" style="display: flex;"><p>2</p>
-                     </v-col>
+                     <p class="item-name">團體徽章：</p>
+                     <p class="list-info50">2</p>
                   </div>
                </v-list-item>
             </v-card>
