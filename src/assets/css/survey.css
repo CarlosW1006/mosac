@@ -99,10 +99,10 @@
    background-color: #db6666;
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1200px) {
    .survey-container {
       font-size: 10px; /* 茅點 */
-      margin: 1% 1% 10px;
+      margin: 1% 10% 10px;
    }
 
    .button-container {
@@ -119,5 +119,12 @@
    .cancelBtn {
       width: 100%;
       margin: 15px 0 0;
+   }
+}
+
+@media screen and (max-width: 900px) {
+   .survey-container {
+      font-size: 10px; /* 茅點 */
+      margin: 1% 1% 10px;
    }
 }

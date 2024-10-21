@@ -163,7 +163,7 @@
             <v-card outlined class="v-card-R mt-4">
                <v-card-title style="display: flex;">
                   群組目標達成率
-                  <v-btn class="toGroupPage">更多</v-btn>
+                  <!-- <v-btn class="toGroupPage">更多</v-btn> -->
                </v-card-title>
                <v-card-text style="height: 100%;">
                   <v-row style="height: 95%;">
@@ -222,8 +222,8 @@
    @import "../assets/css/index.css";
 
    :deep(.v-progress-circular) {
-      width: 90% !important;
-      height: 90% !important;
+      width: 80% !important;
+      height: 80% !important;
       font-size: 2em !important;
    }
 

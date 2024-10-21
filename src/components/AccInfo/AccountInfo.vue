@@ -90,7 +90,7 @@
          </v-col>
 
          <!-- Sidebar Navigation in Card -->
-         <v-col cols="12" sm="12" xl="12" md="4" lg="4">
+         <v-col cols="12" sm="12" xl="12" md="5" lg="5">
             <v-card style="padding-top: 6px;">
                <v-list>
                   <v-list-item-group>
