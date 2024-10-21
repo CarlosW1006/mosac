@@ -143,10 +143,10 @@
                      <!-- <div class="flex-container"> -->
                         <v-col cols="6" sm="6" md="5" lg="5">
                            <div class="flex-container target">
-                              <h5>目標體重</h5>&nbsp;&nbsp;<h5>65公斤</h5>
+                              <h5>目標體重</h5>&nbsp;<div v-if="winwidth == true">&nbsp;</div><h5>65公斤</h5>
                            </div>
                            <div class="flex-container recent">
-                              <h5>目前體重</h5>&nbsp;&nbsp;<h5>70公斤</h5>
+                              <h5>目前體重</h5>&nbsp;<div v-if="winwidth == true">&nbsp;</div><h5>70公斤</h5>
                            </div>
                         </v-col>
 
@@ -170,10 +170,10 @@
                      <!-- <div class="flex-container"> -->
                      <v-col cols="6" sm="6" md="5" lg="5">
                         <div class="flex-container target">
-                           <h5>群組總人數</h5>&nbsp;&nbsp;<h5>30人</h5>
+                           <h5>群組人數</h5>&nbsp;<div v-if="winwidth == true">&nbsp;</div><h5>30人</h5>
                         </div>
                         <div class="flex-container recent">
-                           <h5>達成總人數</h5>&nbsp;&nbsp;<h5>18人</h5>
+                           <h5>達成人數</h5>&nbsp;<div v-if="winwidth == true">&nbsp;</div><h5>18人</h5>
                         </div>
                      </v-col>
 

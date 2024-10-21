@@ -87,8 +87,8 @@
 }
 
 .save-btn {
-   width: 4.5em;
-   height: 2em !important;
+   /* width: 4.5em; */
+   /* height: 2em !important; */
    font-size: 2em;
    color: #FFFFFF;
    background-color: #76caad;
