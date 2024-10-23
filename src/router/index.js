@@ -41,14 +41,14 @@ const routes = [
          requiresAuth: true // 需要 session 認證
       }
    },
-   // {
-   //    path: '/accInfoEdit',
-   //    name: 'accInfoEditPage',
-   //    component: () => import('../components/AccInfo/AccInfoEdit.vue'),
-   //    meta: {
-   //       requiresAuth: true // 需要 session 認證
-   //    }
-   // },
+   {
+      path: '/accInfoEdit',
+      name: 'accInfoEditPage',
+      component: () => import('../components/AccInfo/AccInfoEdit.vue'),
+      meta: {
+         requiresAuth: true // 需要 session 認證
+      }
+   },
    {
       path: '/userPoints',
       name: 'userPointsPage',
@@ -66,17 +66,49 @@ const routes = [
       }
    },
    {
-      path: '/health-detail-form',
-      name: 'health-detail-form', 
-      component:  () => import('../components/HealthDetailForm.vue'),// 詳細頁面路由
+      path: '/healthNotes',
+      name: 'healthNotesPage', 
+      component:  () => import('../components/HealthNotes/HealthNotesMain.vue'),//健康手札(主頁)
       meta: {
          requiresAuth: true // 需要 session 認證
       }
    },
    {
-      path: '/survey',
-      name: 'surveyPage', 
-      component:  () => import('../components/Survey.vue'),// 詳細頁面路由
+      path: '/healthDetailForm',
+      name: 'healthDetailFormPage', 
+      component:  () => import('../components/HealthNotes/HealthDetailForm.vue'),//健康手札(資料填寫)
+      meta: {
+         requiresAuth: true // 需要 session 認證
+      }
+   },
+   {
+      path: '/healthDetailView',
+      name: 'healthDetailViewPage', 
+      component:  () => import('../components/HealthNotes/HealthDetailView.vue'),//健康手札(資料展示)
+      meta: {
+         requiresAuth: true // 需要 session 認證
+      }
+   },
+   {
+      path: '/healthKnowledge',
+      name: 'healthKnowledgePage', 
+      component:  () => import('../components/HealthKnow/HealthKnowledge.vue'),//健康知能(主頁)
+      meta: {
+         requiresAuth: true // 需要 session 認證
+      }
+   },
+   {
+      path: '/healthKnowledgeView',
+      name: 'healthKnowledgeViewPage', 
+      component:  () => import('../components/HealthKnow/HealthKnowledgeView.vue'),//健康知能(文章頁面)
+      meta: {
+         requiresAuth: true // 需要 session 認證
+      }
+   },
+   {
+      path: '/game',
+      name: 'gamePage', 
+      component:  () => import('../components/HealthKnow/Game.vue'),//健康知能(遊戲)
       meta: {
          requiresAuth: true // 需要 session 認證
       }
