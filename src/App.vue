@@ -17,8 +17,10 @@
                <div v-if="winwidth == true" style="margin-left: 30px;">
                   <button :class="{'bar-btn': hashUrl !== '#/index', 
                   'bar-btn-clicked': hashUrl === '#/index'}" @click="navigateToHome">首頁</button>
-                  <button class="bar-btn">健康知能</button>
-                  <button class="bar-btn">健康手札</button>
+                  <button :class="{'bar-btn': hashUrl !== '#/healthKnowledge', 
+                  'bar-btn-clicked': hashUrl === '#/healthKnowledge'}" @click="navigateToHealthKnow">健康知能</button>
+                  <button :class="{'bar-btn': hashUrl !== '#/healthNotes', 
+                  'bar-btn-clicked': hashUrl === '#/healthNotes'}" @click="navigateToHealthNotes">健康手札</button>
                   <button class="bar-btn">照護園地</button>
                   <button class="bar-btn">專家諮詢</button>
                   <button class="bar-btn">影音收藏</button>
@@ -134,13 +136,23 @@
             window.location.href = '#/index';  // 確保 window.location 存在
          }
 
+         function navigateToHealthKnow() {
+            window.location.href = '#/healthKnowledge';
+         }
+
+         function navigateToHealthNotes() {
+            window.location.href = '#/healthNotes';
+         }
+
          return {
             winwidth,
             drawer,
             session,
             userImage,
             hashUrl,
-            navigateToHome
+            navigateToHome,
+            navigateToHealthKnow,
+            navigateToHealthNotes,
          };
       },
    };
