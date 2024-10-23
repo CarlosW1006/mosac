@@ -163,7 +163,7 @@
             <v-card outlined class="v-card-R mt-4">
                <v-card-title style="display: flex;">
                   群組目標達成率
-                  <!-- <v-btn class="toGroupPage">更多</v-btn> -->
+                  <v-btn class="toGroupPage">更多</v-btn>
                </v-card-title>
                <v-card-text style="height: 100%;">
                   <v-row style="height: 95%;">

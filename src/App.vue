@@ -8,39 +8,39 @@
                      <p class="pageTitle">互動式自我健康管理雲端平台</p>
                   </template>
                   <img :src="userImage" style="width: 18px; margin-right: 10px;">
-                  <a href="#/accountInfo" class="userName">Top001</a>
+                  <a :href="toAccInfo" class="userName" v-on:click="navigateToAccInfo">Top001</a>
                   <v-btn class="logoutBtn">登出</v-btn>
                </v-app-bar>
             </div>
             <v-app-bar style="background: linear-gradient(to right, #7bd7b7, #69c9a7);" elevation="0">
-            <template v-slot:prepend>
-               <div v-if="winwidth == true" style="margin-left: 30px;">
-                  <button :class="{'bar-btn': hashUrl !== '#/index', 
-                  'bar-btn-clicked': hashUrl === '#/index'}" @click="navigateToHome">首頁</button>
-                  <button :class="{'bar-btn': hashUrl !== '#/healthKnowledge', 
-                  'bar-btn-clicked': hashUrl === '#/healthKnowledge'}" @click="navigateToHealthKnow">健康知能</button>
-                  <button :class="{'bar-btn': hashUrl !== '#/healthNotes', 
-                  'bar-btn-clicked': hashUrl === '#/healthNotes'}" @click="navigateToHealthNotes">健康手札</button>
-                  <button class="bar-btn">照護園地</button>
-                  <button class="bar-btn">專家諮詢</button>
-                  <button class="bar-btn">影音收藏</button>
-               </div>
-               <div v-else>
-                  <div v-if="drawer == false">
-                     <v-app-bar-nav-icon @click.stop="drawer = !drawer" style="color: white;"></v-app-bar-nav-icon>
+               <template v-slot:prepend>
+                  <div v-if="winwidth == true" style="margin-left: 30px;">
+                     <button :class="{'bar-btn': hashUrl !== '#/index', 
+                     'bar-btn-clicked': hashUrl === '#/index'}" @click="navigateToPath('index')">首頁</button>
+                     <button :class="{'bar-btn': hashUrl !== '#/healthKnowledge', 
+                     'bar-btn-clicked': hashUrl === '#/healthKnowledge'}" @click="navigateToPath('healthKnowledge')">健康知能</button>
+                     <button :class="{'bar-btn': hashUrl !== '#/healthNotes', 
+                     'bar-btn-clicked': hashUrl === '#/healthNotes'}" @click="navigateToPath('healthNotes')">健康手札</button>
+                     <button class="bar-btn">照護園地</button>
+                     <button class="bar-btn">專家諮詢</button>
+                     <button class="bar-btn">影音收藏</button>
                   </div>
                   <div v-else>
-                     <v-btn icon="mdi-dots-vertical" @click.stop="drawer = !drawer" style="color: white;"></v-btn>
+                     <div v-if="drawer == false">
+                        <v-app-bar-nav-icon @click.stop="drawer = !drawer" style="color: white;"></v-app-bar-nav-icon>
+                     </div>
+                     <div v-else>
+                        <v-btn icon="mdi-dots-vertical" @click.stop="drawer = !drawer" style="color: white;"></v-btn>
+                     </div>
                   </div>
-               </div>
-            </template>
+               </template>
 
-            <div v-if="winwidth == true">
-               <button class="bar-btn-info">系統訊息通知</button>
-            </div>
-            <div v-else>
-               <a href="#/accountInfo" class="userName2">Top001</a>
-            </div>
+               <div v-if="winwidth == true">
+                  <button class="bar-btn-info">系統訊息通知</button>
+               </div>
+               <div v-else>
+                  <a href="#/accountInfo" class="userName2">Top001</a>
+               </div>
             </v-app-bar>
 
             <div v-if="winwidth == false">
@@ -51,13 +51,13 @@
                      </v-list-item-content>
                   </v-list-item>
 
-                  <v-list-item link class="sm-bar-btn">
+                  <v-list-item link class="sm-bar-btn" :to="{ path: '/healthKnowledge' }">
                      <v-list-item-content>
                         <v-list-item-title class="custom-title">健康知能</v-list-item-title>
                      </v-list-item-content>
                   </v-list-item>
 
-                  <v-list-item link class="sm-bar-btn">
+                  <v-list-item link class="sm-bar-btn" :to="{ path: '/healthNotes' }">
                      <v-list-item-content>
                         <v-list-item-title class="custom-title">健康手札</v-list-item-title>
                      </v-list-item-content>
@@ -115,11 +115,12 @@
    export default {
       name: 'App',
       setup() {
+         let session = sessionStorage.getItem('session');
          const { winwidth } = useWindowWidth();
          const drawer = ref(false);
-         let session = sessionStorage.getItem('session');
-
+         const toAccInfo = ref('#/accountinfo');
          const hashUrl = ref(window.location.hash);
+         let issurvey = sessionStorage.getItem('isSurvey');
 
          // 當頁面載入後檢查當前的 hash 值
          onMounted(() => {
@@ -131,17 +132,22 @@
          hashUrl.value = window.location.hash;
          });
 
-         // 定義導航到首頁的方法
-         function navigateToHome() {
-            window.location.href = '#/index';  // 確保 window.location 存在
+         // 功能列頁面轉址
+         function navigateToPath(path) {
+            if(issurvey == 'true') {
+               window.location.href = '#/' + path;
+            }
+            else {
+               alert("本月問卷尚未填寫")
+               window.location.href = '#/survey';
+            }
          }
 
-         function navigateToHealthKnow() {
-            window.location.href = '#/healthKnowledge';
-         }
-
-         function navigateToHealthNotes() {
-            window.location.href = '#/healthNotes';
+         function navigateToAccInfo() {
+            if(issurvey == 'false') {
+               alert("本月問卷尚未填寫")
+               this.toAccInfo = '#/survey';
+            }
          }
 
          return {
@@ -150,9 +156,9 @@
             session,
             userImage,
             hashUrl,
-            navigateToHome,
-            navigateToHealthKnow,
-            navigateToHealthNotes,
+            toAccInfo,
+            navigateToPath,
+            navigateToAccInfo,
          };
       },
    };

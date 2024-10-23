@@ -1,5 +1,9 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 
+sessionStorage.setItem('isSurvey', true); // 判斷本月問卷有沒有填寫
+
+console.log(sessionStorage.getItem('isSurvey'))
+
 const routes = [
    {
       path: '/:pathMatch(.*)*',
@@ -23,6 +27,14 @@ const routes = [
       component: () => import('../components/ChangePwd.vue'),
       meta: {
          requiresAuth: false // 需要 session 認證
+      }
+   },
+   {
+      path: '/survey',
+      name: 'surveyPage',
+      component: () => import('../components/Survey.vue'),
+      meta: {
+         requiresAuth: false // 不需要 session 認證
       }
    },
    {
@@ -123,22 +135,25 @@ const router = createRouter({
    },
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, from, next) => { 
    const session = sessionStorage.getItem('session');
-
-   // letmein 且有 session，則重定向到 /index
-   if (to.path === '/letmein' && session) {
+   const isSurvey = sessionStorage.getItem('isSurvey');
+   
+   if (to.path === '/letmein' && session) { 
       next({ path: '/index' });
    } 
    else if (to.meta.requiresAuth) {
       if (!session) {
          next({ path: '/letmein' });
+      } else if (!session || isSurvey !== 'true') { 
+         alert('本月問卷上未填寫');
+         next({ path: '/survey' });
       } else {
-         next(); // 放行
+         next();
       }
    } else {
-      next(); // 不需要 session 認證，直接放行
+      next();
    }
-})
+});
 
 export default router;
