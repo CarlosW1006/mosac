@@ -54,15 +54,13 @@
    font-size: 2.3em;
 }
 
-.list-name {
-   /* margin: 0.5em 0em 0.5em; */
-}
-
 .item-input {
    width: 50%;
    height: 2.5em;
    font-size: 23px;
    margin-left: 45px;
+   margin-top: 0.7em;
+   margin-bottom: 0.7em;
    padding-left: 10px;
    border-radius: 5px;
    outline: none; /* 移除點擊後的外框 */
