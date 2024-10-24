@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 
-sessionStorage.setItem('isSurvey', true); // 判斷本月問卷有沒有填寫
+sessionStorage.setItem('isSurvey', false); // 判斷本月問卷有沒有填寫
 
 console.log(sessionStorage.getItem('isSurvey'))
 
@@ -138,20 +138,18 @@ const router = createRouter({
 router.beforeEach((to, from, next) => { 
    const session = sessionStorage.getItem('session');
    const isSurvey = sessionStorage.getItem('isSurvey');
-   
+
    if (to.path === '/letmein' && session) { 
       next({ path: '/index' });
-   } 
-   else if (to.meta.requiresAuth) {
-      if (!session) {
+   } else if (to.meta.requiresAuth) { 
+      if (!session) { 
          next({ path: '/letmein' });
-      } else if (!session || isSurvey !== 'true') { 
-         alert('本月問卷尚未填寫');
+      } else if (isSurvey !== 'true' && to.path !== '/survey') { 
          next({ path: '/survey' });
       } else {
          next();
       }
-   } else {
+   } else { 
       next();
    }
 });
