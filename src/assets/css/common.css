@@ -55,7 +55,7 @@
 }
 
 .list-name {
-   margin: 1em 0em 1em;
+   /* margin: 0.5em 0em 0.5em; */
 }
 
 .item-input {
@@ -76,8 +76,8 @@
 
 .list-info50 {
    margin-left: 1.8em;
-   margin-top: 1em;
-   margin-bottom: 1em;
+   margin-top: 0.7em;
+   margin-bottom: 0.7em;
 }
 
 .userImg {
@@ -87,30 +87,9 @@
 }
 
 .save-btn {
-   /* width: 4.5em; */
-   /* height: 2em !important; */
    font-size: 2em;
    color: #FFFFFF;
    background-color: #76caad;
-}
-
-/* 跳轉頁面按鈕 */
-.page-btn-container {
-   margin: 10px;
-}
-
-.page-btn-icon {
-   width: 30px;
-   height: 30px;
-   margin: 15px 15px;
-}
-
-.page-btn { 
-   width: 100% !important;
-   height: 3em !important;
-   font-size: 1.8em !important;
-   color: #69c9a7;
-   text-decoration: none;
 }
 
 /* 搜尋功能列 */
@@ -244,19 +223,20 @@ select option {
    }
 
    .item-input {
-      width: 58%;
+      width: 65%;
       height: 2.3em;
       font-size: 18px;
       margin-left: 20px;
+      margin-top: 0.7em;
+      margin-bottom: 0.7em;
       padding-left: 10px;
       border-radius: 5px;
-      /* border: 0.5px solid gray; */
    }
    
    .list-info50 {
       margin-left: 1em;
-      margin-top: 1em;
-      margin-bottom: 1em;
+      margin-top: 0.7em;
+      margin-bottom: 0.7em;
    }
 
    .save-btn {
@@ -264,19 +244,5 @@ select option {
       font-size: 1.2em;
       color: #FFFFFF;
       background-color: #76caad;
-   }
-
-   .page-btn-icon {
-      width: 18px;
-      height: 18px;
-      margin: 15px 15px;
-   }
-   
-   .page-btn { 
-      width: 100% !important;
-      height: 3em !important;
-      font-size: 1.3em !important;
-      color: #69c9a7;
-      text-decoration: none;
    }
 }

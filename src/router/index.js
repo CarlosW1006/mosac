@@ -26,7 +26,7 @@ const routes = [
       name: 'changepwdPage',
       component: () => import('../components/ChangePwd.vue'),
       meta: {
-         requiresAuth: false // 需要 session 認證
+         requiresAuth: false // 不需要 session 認證
       }
    },
    {
@@ -34,7 +34,7 @@ const routes = [
       name: 'surveyPage',
       component: () => import('../components/Survey.vue'),
       meta: {
-         requiresAuth: false // 不需要 session 認證
+         requiresAuth: true // 需要 session 認證
       }
    },
    {
@@ -146,7 +146,7 @@ router.beforeEach((to, from, next) => {
       if (!session) {
          next({ path: '/letmein' });
       } else if (!session || isSurvey !== 'true') { 
-         alert('本月問卷上未填寫');
+         alert('本月問卷尚未填寫');
          next({ path: '/survey' });
       } else {
          next();

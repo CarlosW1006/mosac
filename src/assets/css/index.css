@@ -2,13 +2,11 @@
 .v-card-title {
    display: flex;
    font-weight: 600;
-   color: #3a2b2b;
    align-items: center;
-   background: #dfdbdb;
+   background: #e2e2e2;
 }
 
 .flex-container {
-   width: 100%;
    display: flex;
    align-items: center;
 }
@@ -78,11 +76,11 @@
 
 .toGroupPage {
    margin-left: auto;
-   margin-right: -0.45em;
+   margin-right: -0.5em;
    color: #FFFFFF;
    background-color: #e85656;
 
-   font-size: 1em;
+   font-size: 0.85em;
    width: 4em;
 }
 
@@ -210,7 +208,12 @@
 }
 
 @media screen and (max-width: 2000px) {  /* 筆電螢幕67%：完成 */
-   /* 首頁-左側功能區 */
+   .v-card-title {
+      height: 2.5em;
+      font-size: 2.3em;
+   }
+
+   /* 首頁-左側功能區 */   
    .v-card-L {
       height: 37.75em;
    }
@@ -249,9 +252,19 @@
       font-size: 2.25em;
    }
 
+   .toGroupPage {
+      margin-right: -0.35em;
+      font-size: 0.75em;
+   }
+
 }
 
 @media screen and (max-width: 1800px) {  /* 筆電螢幕75%：完成 */
+   .v-card-title {
+      height: auto;
+      font-size: 2em;
+   }
+
    /* 首頁-左側功能區 */
    .v-card-L {
       height: 32.5em;
@@ -291,6 +304,10 @@
       font-size: 2em;
    }
 
+   .toGroupPage {
+      margin-right: -0.5em;
+      font-size: 0.85em;
+   }
 }
 
 @media screen and (max-width: 1600px){   /* 筆電螢幕80%：完成 */

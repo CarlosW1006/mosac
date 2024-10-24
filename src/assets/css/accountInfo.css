@@ -50,7 +50,21 @@ table {
    height: 10em;
 }
 
-@media screen and (max-width: 800px) {
+/* 跳轉頁面按鈕 */
+.page-btn-icon {
+   width: 2.3em;
+   height: 2.3em;
+   margin: 1.8em;
+}
+
+.page-btn { 
+   padding: 0.5em;
+   font-size: 2.5em;
+   color: #69c9a7;
+   text-decoration: none;
+}
+
+@media screen and (max-width: 960px) {
    .pageTotal {
       font-size: 2em;
       margin: 3% 3%;
@@ -70,5 +84,17 @@ table {
    table {
       border-collapse: collapse;
       width: 93%;
+   }
+
+   /* 跳轉頁面按鈕 */
+   .page-btn-icon {
+      width: 2em;
+      height: 2em;
+      margin: 1.6em;
+   }
+   
+   .page-btn { 
+      padding: 0.6em;
+      font-size: 2em;
    }
 }

@@ -46,39 +46,27 @@
             <div v-if="winwidth == false">
                <v-navigation-drawer v-model="drawer" app class="indigo">
                   <v-list-item link class="sm-bar-btn" :to="{ path: '/index' }">
-                     <v-list-item-content>
-                        <v-list-item-title class="custom-title">首頁</v-list-item-title>
-                     </v-list-item-content>
+                     <v-list-item-title class="custom-title">首頁</v-list-item-title>
                   </v-list-item>
 
                   <v-list-item link class="sm-bar-btn" :to="{ path: '/healthKnowledge' }">
-                     <v-list-item-content>
-                        <v-list-item-title class="custom-title">健康知能</v-list-item-title>
-                     </v-list-item-content>
+                     <v-list-item-title class="custom-title">健康知能</v-list-item-title>
                   </v-list-item>
 
                   <v-list-item link class="sm-bar-btn" :to="{ path: '/healthNotes' }">
-                     <v-list-item-content>
-                        <v-list-item-title class="custom-title">健康手札</v-list-item-title>
-                     </v-list-item-content>
+                     <v-list-item-title class="custom-title">健康手札</v-list-item-title>
                   </v-list-item>
 
                   <v-list-item link class="sm-bar-btn">
-                     <v-list-item-content>
-                        <v-list-item-title class="custom-title">照護園地</v-list-item-title>
-                     </v-list-item-content>
+                     <v-list-item-title class="custom-title">照護園地</v-list-item-title>
                   </v-list-item>
 
                   <v-list-item link class="sm-bar-btn">
-                     <v-list-item-content>
-                        <v-list-item-title class="custom-title">專家諮詢</v-list-item-title>
-                     </v-list-item-content>
+                     <v-list-item-title class="custom-title">專家諮詢</v-list-item-title>
                   </v-list-item>
 
                   <v-list-item link class="sm-bar-btn">
-                     <v-list-item-content>
-                        <v-list-item-title class="custom-title">影音收藏</v-list-item-title>
-                     </v-list-item-content>
+                     <v-list-item-title class="custom-title">影音收藏</v-list-item-title>
                   </v-list-item>
 
                   <template v-slot:append>
@@ -93,7 +81,9 @@
             <v-main class="router">
                <router-view />
             </v-main>
-            
+
+            <v-overlay></v-overlay>
+
          </div>
       </div>
       
@@ -166,5 +156,5 @@
 </script>
 
 <style lang="css" scoped>
-    @import "./assets/css/header.css";
+   @import "./assets/css/header.css";
 </style>
