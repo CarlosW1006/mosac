@@ -1,17 +1,17 @@
 /* 表格樣式 */
-.groupInfoFrame {
+.tableInfoFrame {
    font-size: 10px;
    display: flex;
    flex-direction: column; /* 垂直排列子元素 */
    align-items: center; /* 水平置中子元素 */
 }
 
-.groupInfoFrame .table-title {
+.tableInfoFrame .table-title {
    height: 4em;
    background-color: #e2e2e2;
 }
 
-.groupInfoFrame tr, th, td {
+.tableInfoFrame tr, th, td {
    border: 1px solid #c6c6c6;
    padding: 0.5em 1em;
    font-size: 1.5em;
@@ -64,13 +64,18 @@ table {
    text-decoration: none;
 }
 
-@media screen and (max-width: 960px) {
-   .pageTotal {
-      font-size: 2em;
-      margin: 3% 3%;
-   }
-   
-   .groupInfoFrame tr, th, td {
+.exchange-btn {
+   color: #FFFFFF;
+   background-color: #69c9a7;
+   font-size: 2.5em;
+   font-weight: 600;
+   width: 100%;
+   height: 2em !important;
+   margin-top: 1em;
+}
+
+@media screen and (max-width: 960px) {   
+   .talbeInfoFrame tr, th, td {
       border: 1px solid #c6c6c6;
       padding: 0.5em 1em;
       font-size: 1.3em;
@@ -96,5 +101,12 @@ table {
    .page-btn { 
       padding: 0.6em;
       font-size: 2em;
+   }
+
+   .exchange-btn {
+      font-size: 2em;
+      font-weight: 600;
+      width: 100%;
+      height: 2.5em !important;
    }
 }

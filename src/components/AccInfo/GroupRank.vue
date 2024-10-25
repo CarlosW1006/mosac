@@ -57,7 +57,7 @@
                </select>
                <p>項結果</p>
             </div>
-            <div class="groupInfoFrame">
+            <div class="tableInfoFrame">
                <table>
                   <!-- 群組排名：大螢幕畫面 -->
                   <!-- 欄位標題 -->
@@ -92,11 +92,17 @@
                </table>
             </div>
 
-            <div class="flex-container page-container">
-               <h3 class="pageNum" v-if="winwidth == true">顯示第 1 到 10 項結果，共 {{ datas }} 項</h3>
+            <div class="flex-container page-container" v-if="winwidth == true">
+               <h3 class="pageNum">顯示第 1 到 10 項結果，共 {{ datas }} 項</h3>
                <v-row justify="end">
-                  <v-pagination :length="pages" :total-visible="5"/>
+                  <v-pagination :length="pages" total-visible="5" class="my-4"/>
                </v-row>
+            </div>
+
+            <div v-else>
+               <v-container class="max-width">
+                  <v-pagination :length="pages" class="my-4"/>
+               </v-container>
             </div>
          </v-card>
       </v-col>

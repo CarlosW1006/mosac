@@ -1,0 +1,180 @@
+/* 表格樣式 */
+.tableInfoFrame {
+   font-size: 10px;
+   display: flex;
+   flex-direction: column; /* 垂直排列子元素 */
+   align-items: center; /* 水平置中子元素 */
+}
+
+.tableInfoFrame .table-title {
+   height: 4em;
+   background-color: #e2e2e2;
+}
+
+.tableInfoFrame tr, th, td {
+   border: 1px solid #c6c6c6;
+   padding: 0.5em 1em;
+   font-size: 1.5em;
+}
+
+table {
+   border-collapse:collapse;
+   width: 97% !important;
+}
+
+.col1 {
+   width: 8%;
+}
+
+.col2 {
+   width: 20%;
+}
+
+.expandBtn {
+   padding: 0.35em;
+   font-size: 20px;
+   color: #7edcbb;
+   text-align: center;
+   border-radius: 5px;
+   border: 1px solid #69c9a7; /* 表格邊框 */
+}
+
+.expandBtn:hover {
+   color: #FFFFFF;
+   background-color: #69c9a7;
+   border: 1px solid #FFFFFF; /* 表格邊框 */
+}
+
+/* 小螢幕資訊樣式 */
+.person-meet-card {
+   width: 97%;
+   font-size: 10px; /* 茅點 */
+   border: 1px solid #e9b347;
+}
+
+.group-meet-card {
+   width: 97%;
+   font-size: 10px; /* 茅點 */
+   border: 1px solid #436ead;
+}
+
+.meet-img {
+   width: 1.8em;
+   height: 1.8em;
+   margin-top: 1.5em;
+}
+
+.person-meet {
+   margin-top: 1em;
+   margin-left: 1em;
+   margin-right: 0.5em;
+   color: #e9b347;
+   font-weight: 800;
+   font-size: 1.8em;
+}
+
+.group-meet {
+   margin-top: 1em;
+   margin-left: 1em;
+   margin-right: 0.5em;
+   color: #436ead;
+   font-weight: 800;
+   font-size: 1.8em;
+}
+
+.person-meet-name {
+   color: #e9b347;
+   text-decoration: none;
+   margin: 0em 0.8em 0.8em;
+   padding: 15px 0;
+   font-size: 2.5em;
+   border-top: 1px solid #e0e0e0;
+   border-bottom: 1px solid #e0e0e0;
+}
+
+.group-meet-name {
+   color: #436ead;
+   text-decoration: none;
+   margin: 0em 0.8em 0.8em;
+   padding: 15px 0;
+   font-size: 2.5em;
+   border-top: 1px solid #e0e0e0;
+   border-bottom: 1px solid #e0e0e0;
+}
+
+a {
+   color: inherit;
+   text-decoration: none;
+}
+
+.meet-host {
+   font-size: 2em;
+   margin: 0 1em 1em;
+   justify-content: space-between;
+}
+
+.reserve-btn {
+   margin-left: auto;
+   color: #FFFFFF;
+   background-color: #e85656;
+
+   font-size: 1em;
+   width: 7.5em;
+   height: 2.5em !important;
+}
+
+.gotoMeet-btn {
+   color: #FFFFFF;
+   background-color: #69c9a7;
+   font-size: 2.5em;
+   font-weight: 600;
+   width: 100%;
+   height: 2em !important;
+   margin-top: 1em;
+}
+
+@media screen and (max-width: 960px) {   
+   .talbeInfoFrame tr, th, td {
+      border: 1px solid #c6c6c6;
+      padding: 0.5em 1em;
+      font-size: 1.3em;
+   }
+
+   .expandBtn {
+      padding: 0.35em;
+      font-size: 18px;
+   }
+
+   table {
+      border-collapse: collapse;
+      width: 93%;
+   }
+
+   /* 小螢幕資訊樣式 */
+   .person-meet-card {
+      width: 95%;
+   }
+
+   .group-meet-card {
+      width: 95%;
+   }
+
+   .person-meet-name {
+      font-size: 2em;
+   }
+   
+   .group-meet-name {
+      font-size: 2em;
+   }
+
+   .meet-host {
+      font-size: 1.5em;
+   }
+
+   .gotoMeet-btn {
+      font-size: 2em;
+      font-weight: 600;
+      width: 100%;
+      height: 2.5em !important;
+   }
+}

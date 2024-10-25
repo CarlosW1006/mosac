@@ -77,11 +77,13 @@
 .toGroupPage {
    margin-left: auto;
    margin-right: -0.5em;
+   
    color: #FFFFFF;
    background-color: #e85656;
 
-   font-size: 0.85em;
+
    width: 4em;
+   font-size: 0.85em;
 }
 
 /* 個人諮詢樣式 */

@@ -160,10 +160,27 @@ select option {
    font-size: 1em;
 }
 
+/* 搜尋列輸入框 */
+.search-input {
+   width: 25%;
+   height: 2.2em;
+   font-size: 23px;
+   margin-right: 1em;
+   padding-left: 10px;
+   border-radius: 5px;
+   outline: none; /* 移除點擊後的外框 */
+   border: 1.5px solid #76caad;
+}
+
+.search-input:focus {
+   border-color: #76caad;
+   background-color: white;
+}
+
 /* 資料顯示數量 */
 .pageTotal {
    font-size: 2em;
-   margin: 1.5% 1.5%;
+   margin: 1em 1.5% 1em;
 }
 
 .pageTotal select {
@@ -199,7 +216,7 @@ select option {
    }
 
    .search-frame {
-      padding: 1.5em 1.5em;
+      padding: 0.5em 1.5em;
    }
 
    .dropdown {
@@ -237,10 +254,29 @@ select option {
       margin-bottom: 0.7em;
    }
 
+   /* 搜尋列輸入框 */
+   .search-input {
+      width: 100%;
+      height: 2.3em;
+      font-size: 18px;
+      margin-bottom: 1em;
+      padding-left: 10px;
+      border-radius: 5px;
+   }
+
    .save-btn {
       width: 3em;
       font-size: 1.2em;
       color: #FFFFFF;
       background-color: #76caad;
+   }
+
+   .search-btn {
+      margin-bottom: 0.5em;
+   }
+
+   .pageTotal {
+      font-size: 2em;
+      margin: 1em 2% 1em;
    }
 }

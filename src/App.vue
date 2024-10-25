@@ -22,7 +22,8 @@
                      <button :class="{'bar-btn': hashUrl !== '#/healthNotes', 
                      'bar-btn-clicked': hashUrl === '#/healthNotes'}" @click="navigateToPath('healthNotes')">健康手札</button>
                      <button class="bar-btn">照護園地</button>
-                     <button class="bar-btn">專家諮詢</button>
+                     <button :class="{'bar-btn': hashUrl !== '#/meetInfo', 
+                     'bar-btn-clicked': hashUrl === '#/meetInfo'}" @click="navigateToPath('meetInfo')">專家諮詢</button>
                      <button class="bar-btn">影音收藏</button>
                   </div>
                   <div v-else>
@@ -61,7 +62,7 @@
                      <v-list-item-title class="custom-title">照護園地</v-list-item-title>
                   </v-list-item>
 
-                  <v-list-item link class="sm-bar-btn">
+                  <v-list-item link class="sm-bar-btn" :to="{ path: '/meetInfo' }">
                      <v-list-item-title class="custom-title">專家諮詢</v-list-item-title>
                   </v-list-item>
 

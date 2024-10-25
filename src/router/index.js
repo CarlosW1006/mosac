@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 
-sessionStorage.setItem('isSurvey', false); // 判斷本月問卷有沒有填寫
+sessionStorage.setItem('isSurvey', true); // 判斷本月問卷有沒有填寫
 
 console.log(sessionStorage.getItem('isSurvey'))
 
@@ -80,7 +80,7 @@ const routes = [
    {
       path: '/healthNotes',
       name: 'healthNotesPage', 
-      component:  () => import('../components/HealthNotes/HealthNotesMain.vue'),//健康手札(主頁)
+      component:  () => import('../components/HealthNotes/HealthNotesMain.vue'), // 健康手札(主頁)
       meta: {
          requiresAuth: true // 需要 session 認證
       }
@@ -88,7 +88,7 @@ const routes = [
    {
       path: '/healthDetailForm',
       name: 'healthDetailFormPage', 
-      component:  () => import('../components/HealthNotes/HealthDetailForm.vue'),//健康手札(資料填寫)
+      component:  () => import('../components/HealthNotes/HealthDetailForm.vue'), // 健康手札(資料填寫)
       meta: {
          requiresAuth: true // 需要 session 認證
       }
@@ -96,7 +96,7 @@ const routes = [
    {
       path: '/healthDetailView',
       name: 'healthDetailViewPage', 
-      component:  () => import('../components/HealthNotes/HealthDetailView.vue'),//健康手札(資料展示)
+      component:  () => import('../components/HealthNotes/HealthDetailView.vue'), // 健康手札(資料展示)
       meta: {
          requiresAuth: true // 需要 session 認證
       }
@@ -104,7 +104,7 @@ const routes = [
    {
       path: '/healthKnowledge',
       name: 'healthKnowledgePage', 
-      component:  () => import('../components/HealthKnow/HealthKnowledge.vue'),//健康知能(主頁)
+      component:  () => import('../components/HealthKnow/HealthKnowledge.vue'), // 健康知能(主頁)
       meta: {
          requiresAuth: true // 需要 session 認證
       }
@@ -112,7 +112,7 @@ const routes = [
    {
       path: '/healthKnowledgeView',
       name: 'healthKnowledgeViewPage', 
-      component:  () => import('../components/HealthKnow/HealthKnowledgeView.vue'),//健康知能(文章頁面)
+      component:  () => import('../components/HealthKnow/HealthKnowledgeView.vue'), // 健康知能(文章頁面)
       meta: {
          requiresAuth: true // 需要 session 認證
       }
@@ -120,11 +120,28 @@ const routes = [
    {
       path: '/game',
       name: 'gamePage', 
-      component:  () => import('../components/HealthKnow/Game.vue'),//健康知能(遊戲)
+      component:  () => import('../components/HealthKnow/Game.vue'), // 健康知能(遊戲)
       meta: {
          requiresAuth: true // 需要 session 認證
       }
    },
+   {
+      path: '/meetInfo',
+      name: 'meetInfoPage',
+      component: () => import('../components/Meeting/MeetInfo.vue'), // 專家諮詢檢視
+      meta: {
+         requiresAuth: true // 需要 session 認證
+      }
+   },
+   {
+      path: '/meetDetail',
+      name: 'meetDtPage',
+      component: () => import('../components/Meeting/MeetDetail.vue'), // 諮詢資料檢視
+      meta: {
+         requiresAuth: true // 需要 session 認證
+      }
+   }
+
 ]
 
 const router = createRouter({
