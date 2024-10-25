@@ -49,14 +49,11 @@
                <h3 class="page-title">群組排名紀錄</h3>
             </v-list-item>
             <div class="flex-container pageTotal">
-               <p>顯示</p>
-               <select v-model="perPage">
-                  <option value="10">10</option>
-                  <option value="20">20</option>
-                  <option value="30">30</option>
-               </select>
-               <p>項結果</p>
+               <div class="perPage flex-container">
+                  <v-select :items="perPageNum" label="每頁筆數" outlined :width="130"/>
+               </div>
             </div>
+
             <div class="tableInfoFrame">
                <table>
                   <!-- 群組排名：大螢幕畫面 -->
@@ -117,6 +114,7 @@
       name: 'accInfoPage',
       setup() {
          const { winwidth } = useWindowWidth();
+         const perPageNum = [10, 20, 30];
          const perPage = ref(10);
          const data = ref([
             ['2月/意圖前期', '陳ＯＯ', '第一名', '這是用戶1的心得回饋內容。'],
@@ -148,6 +146,7 @@
             datas,
             pages,
             perPage,
+            perPageNum,
             toggleCard,
          };
       },

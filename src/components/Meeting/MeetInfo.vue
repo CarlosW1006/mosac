@@ -35,13 +35,9 @@
                <h3 class="page-title">查詢結果</h3>
             </v-list-item>
             <div class="flex-container pageTotal">
-               <p>顯示</p>
-               <select v-model="perPage">
-                  <option value="10">10</option>
-                  <option value="20">20</option>
-                  <option value="30">30</option>
-               </select>
-               <p>項結果</p>
+               <div class="perPage flex-container">
+                  <v-select :items="perPageNum" label="每頁筆數" outlined :width="130"/>
+               </div>
                <v-btn class="reserve-btn" :ripple="false">我要預約諮詢</v-btn>
             </div>
 
@@ -55,10 +51,11 @@
                   </div>
                   <div :class="{'person-meet-name mt-4': item[0] === '個人諮詢', 'group-meet-name mt-4': item[0] !== '個人諮詢'}">
                      <a :href="'#/meetDetail?mid='+item[4]">{{ item[1] }}</a>
+                     <p style="color: grey; margin-top: 15px;">主講人 {{ item[3] }}</p>
+                     
                   </div>
                   <div class="flex-container meet-host">
-                     <p>{{ item[2] }}</p>
-                     <p>{{ item[3] }}</p>
+                     <p>諮詢時間&nbsp;&nbsp;{{ item[2] }}</p>
                   </div>
                </v-card>
             </div>
@@ -88,6 +85,7 @@
       name: 'meetInfoPage',
       setup() {
          const { winwidth } = useWindowWidth();
+         const perPageNum = [10, 20, 30];
          const perPage = ref(10);
          const data = ref([
             ['個人諮詢', '下午2點 個人諮詢會議', '2024/10/10 14:00~15:00', '陳ＯＯ醫師', 'M0001'],
@@ -107,6 +105,7 @@
             datas,
             pages,
             perPage,
+            perPageNum,
          };
       },
    };
