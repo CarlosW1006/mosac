@@ -1,0 +1,199 @@
+.save-btn {
+   font-size: 2em;
+   color: #FFFFFF;
+   background-color: #ff7a9c;
+}
+
+/* 影片網格樣式 */
+.article-grid {
+   display: flex;
+   flex-wrap: wrap;
+   margin: 2em;
+}
+
+.article-item {
+   padding: 0.5em;
+   margin-bottom: 2em;
+}
+
+.article-card{
+   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+ 
+.router-link{
+  text-decoration: none;
+  color: #000;
+}
+
+/* 文章縮圖樣式 */
+.article-thumbnail {
+   position: relative;
+   height: 200px;
+   overflow: hidden;
+   background-color: #b7d5cb;
+   margin: 0em 1em 1em 1em;
+}
+ 
+.article-info {
+    padding: 1em;
+    padding-bottom: 1em;
+}
+ 
+.article-title {
+   width: 280px;
+   font-size: 2em;
+   font-weight: bold;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+   overflow:hidden;
+   color: #74130d;
+}
+
+/* 圖片輪播區塊樣式 */
+.v-carousel__controls {
+    background: 0%;
+    color: rgb(0 0 0);
+}
+
+.v-carousel__controls__item .v-icon {
+    opacity: 0.3;
+}
+
+.video-container {
+   position: relative;
+   margin-top: 1em;
+   padding-bottom: 30%; /* 16:9 aspect ratio */
+   width: 70%;
+   overflow: hidden;
+   align-items: center;
+   text-align: center;
+   justify-self: center;
+}
+   
+.youtube-embed {
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+}
+   
+.article-view-title {
+   width: 1500px;
+   font-size: 2.5em;
+   margin: 0;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+   overflow:hidden;
+   color: #74130d;
+}
+   
+.article-stats {
+   display: flex;
+   justify-content: space-between;
+   padding: 0 1em;
+   font-size: 0.9em;
+   color: grey;
+}
+   
+.upload-date{
+   font-size: 1.5em;
+}
+
+.upload-name {
+   font-size: 1.5em;
+   color: grey;
+   font-weight: bold;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+   overflow:hidden;
+}
+
+.article-subtitle{
+   padding: 0.2em 1em 0em 0.4em;
+   font-size: 2.5em;
+   color: #333;
+   font-weight: bold;
+}
+
+.article-description {
+   padding: 0.4em;
+   font-size: 2em;
+   color: #333;
+}
+ 
+ 
+@media screen and (max-width: 1000px) {
+   .page-title {
+      font-size: 2em;
+      margin-left: 0.05em;
+   }
+    
+   .save-btn {
+      width: 10em;
+      font-size: 1.2em;
+      color: #FFFFFF;
+      background-color: #ff7a9c;
+   }
+
+   .list-title {
+      margin-bottom: 1.3em;
+   }
+ 
+   .article-grid {
+      display: flex;
+      flex-wrap: wrap;
+      margin: 0.5em;
+   }
+ 
+   .article-title {
+      font-size: 1.95em;
+      width: 230px;
+   }
+
+   .article-view-title {
+      font-size: 1.95em;
+      width: 400px;
+   }
+
+   .v-carousel{
+      margin-top: -15em;
+      margin-bottom: -15em;
+      max-width: 100%;
+   }
+
+   .v-carousel__controls {
+      color: rgb(0, 0, 0);
+      position: relative;
+      margin-top: -19.5em;
+   }
+
+   .article-thumbnail {
+      position: relative;
+      height: 200px;
+      overflow: hidden;
+      background-color: #b7d5cb;
+      margin: 0em 1em 1em 1em;
+   }
+
+   .video-container {
+      position: relative;
+      margin-top: 1em;
+      padding-bottom: 56.25%; /* 16:9 aspect ratio */
+      width: 100%;
+      height: 0;
+      overflow: hidden;
+   }
+ 
+   .upload-date{
+      font-size: 1.5em;
+   }
+ 
+   .article-subtitle{
+      font-size: 2em;
+   }
+
+   .article-description {
+      font-size: 1.7em;
+   }
+}

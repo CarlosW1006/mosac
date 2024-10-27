@@ -90,158 +90,171 @@
          <button @click="confirmCancel" class="btn btn-danger">取消遊戲</button>
        </div>
    </div>
- </template>
+</template>
 
 <script>
+import { ref, computed } from 'vue';
+import { useRouter } from 'vue-router';
+
 export default {
    name: 'gamePage',
-   data() {
-    return {
-      selectedQuestion: null,
-      currentQuestion: '',
-      selectedAnswer: '',
-      answeredQuestions: [], // 追踪已完成問題
-      correctAnswersCount: 0, // 記錄第一次答對的題數
-      attempts: {}, // 每個問題的嘗試次數
-      eliminationUses: 2, // 刪去法功能的使用次數
-      questionAnswered: false, // 防止未完成問題前切換題目
-      correctAnswers: {
-        1: '時常精神緊繃',
-        2: '選項B',
-        9: '選項B',
-      },
-      questions: {
-        1: '下列者不是預防高血壓的方法？',
-        2: '選項B',
-        9: '問題九的描述',
-      },
-      optionsContent: {
-        1: ['多吃蔬菜、水果', '避免太鹹的食物', '避免過度疲勞', '時常精神緊繃'],
-        2:['選項A', '選項B', '選項C', '選項D'],
-        9: ['選項A', '選項B', '選項C', '選項D'],
-      },
-      shuffledOptions: [], // 當前問題的隨機選項
-      allAnswered: false,
+   setup() {
+    const router = useRouter();
+    const selectedQuestion = ref(null);
+    const currentQuestion = ref('');
+    const selectedAnswer = ref('');
+    const answeredQuestions = ref([]);
+    const correctAnswersCount = ref(0);
+    const attempts = ref({});
+    const eliminationUses = ref(2);
+    const questionAnswered = ref(false);
+    const allAnswered = ref(false);
+    const shuffledOptions = ref([]);
+    const correctAnswers = {
+      1: '時常精神緊繃',
+      2: '選項B',
+      9: '選項B',
     };
-  },
-  computed: {
-    progressBarWidth() {
-      return Math.round(
-        (this.answeredQuestions.length / Object.keys(this.questions).length) * 100
-      );
-    },
-  },
-  methods: {
-    selectQuestion(questionNumber) {
-      this.selectedQuestion = questionNumber;
-      this.currentQuestion = this.questions[questionNumber];
-      this.selectedAnswer = ''; // 清空選擇的答案
-      this.shuffleOptions(); // 隨機排列選項
+    const questions = {
+      1: '下列者不是預防高血壓的方法？',
+      2: '選項B',
+      9: '問題九的描述',
+    };
+    const optionsContent = {
+      1: ['多吃蔬菜、水果', '避免太鹹的食物', '避免過度疲勞', '時常精神緊繃'],
+      2: ['選項A', '選項B', '選項C', '選項D'],
+      9: ['選項A', '選項B', '選項C', '選項D'],
+    };
 
-      // 初始化該問題的嘗試次數
-      if (!this.attempts[questionNumber]) {
-        this.attempts[questionNumber] = 0;
+    const progressBarWidth = computed(() =>
+      Math.round((answeredQuestions.value.length / Object.keys(questions).length) * 100)
+    );
+
+    const selectQuestion = (questionNumber) => {
+      selectedQuestion.value = questionNumber;
+      currentQuestion.value = questions[questionNumber];
+      selectedAnswer.value = '';
+      shuffleOptions();
+
+      if (!attempts.value[questionNumber]) {
+        attempts.value[questionNumber] = 0;
       }
-    },
-    shuffleOptions() {
-      const content = this.optionsContent[this.selectedQuestion];
+    };
+
+    const shuffleOptions = () => {
+      const content = optionsContent[selectedQuestion.value];
       const options = ['A', 'B', 'C', 'D'];
       const shuffledContent = [...content].sort(() => Math.random() - 0.5);
 
-      this.shuffledOptions = options.map((label, index) => {
-        return {
-          label: `${label}. ${shuffledContent[index]}`,
-          value: shuffledContent[index],
-          locked: false, // 初始時選項未鎖定
-        };
-      });
-    },
-    selectOption(option) {
+      shuffledOptions.value = options.map((label, index) => ({
+        label: `${label}. ${shuffledContent[index]}`,
+        value: shuffledContent[index],
+        locked: false,
+      }));
+    };
+
+    const selectOption = (option) => {
       if (!option.locked) {
-        this.selectedAnswer = option.value;
-        this.shuffledOptions.forEach((opt) => {
+        selectedAnswer.value = option.value;
+        shuffledOptions.value.forEach((opt) => {
           opt.isSelected = opt.value === option.value;
         });
       }
-    },
-    submitAnswer() {
-      if (!this.selectedAnswer) {
+    };
+
+    const submitAnswer = () => {
+      if (!selectedAnswer.value) {
         alert('請先選擇一個答案');
         return;
       }
 
-      this.attempts[this.selectedQuestion]++;
-      const correctAnswer = this.correctAnswers[this.selectedQuestion];
-      this.questionAnswered = true; // 標記問題已回答
+      attempts.value[selectedQuestion.value]++;
+      const correctAnswer = correctAnswers[selectedQuestion.value];
+      questionAnswered.value = true;
 
-      if (this.selectedAnswer === correctAnswer) {
+      if (selectedAnswer.value === correctAnswer) {
         alert('恭喜！你答對了');
-        if (this.attempts[this.selectedQuestion] === 1) {
-          this.correctAnswersCount++;
+        if (attempts.value[selectedQuestion.value] === 1) {
+          correctAnswersCount.value++;
         }
-        this.answeredQuestions.push(this.selectedQuestion);
-        this.shuffledOptions.forEach((opt) => {
-          if (opt.value === this.selectedAnswer) {
-            opt.isCorrect = true; // 標記正確選項
-          }
+        answeredQuestions.value.push(selectedQuestion.value);
+        shuffledOptions.value.forEach((opt) => {
+          if (opt.value === selectedAnswer.value) opt.isCorrect = true;
         });
-
-        const remainingQuestions = Object.keys(this.questions).filter(
-          (q) => !this.answeredQuestions.includes(Number(q))
+        const remainingQuestions = Object.keys(questions).filter(
+          (q) => !answeredQuestions.value.includes(Number(q))
         );
         if (remainingQuestions.length > 0) {
           const nextQuestion = remainingQuestions[Math.floor(Math.random() * remainingQuestions.length)];
-          this.selectQuestion(Number(nextQuestion));
+          selectQuestion(Number(nextQuestion));
         } else {
-          this.checkAllAnswered();
+          checkAllAnswered();
         }
       } else {
         alert('很遺憾，你答錯了');
-        this.shuffledOptions.forEach((opt) => {
-          if (opt.value === this.selectedAnswer) {
-            opt.locked = true;
-            opt.isIncorrect = true; // 標記錯誤選項
-          }
+        shuffledOptions.value.forEach((opt) => {
+          if (opt.value === selectedAnswer.value) opt.locked = true;
         });
       }
+      questionAnswered.value = false;
+    };
 
-      this.questionAnswered = false; // 標記問題結束
-    },
-    useElimination() {
-      if (this.eliminationUses > 0) {
-        // 篩選出尚未被鎖定的錯誤選項
-        const incorrectOptions = this.shuffledOptions.filter(
-          (option) => option.value !== this.correctAnswers[this.selectedQuestion] && !option.locked
+    const useElimination = () => {
+      if (eliminationUses.value > 0) {
+        const incorrectOptions = shuffledOptions.value.filter(
+          (option) => option.value !== correctAnswers[selectedQuestion.value] && !option.locked
         );
 
         if (incorrectOptions.length > 0) {
-          // 隨機刪除一個錯誤選項
           const optionToLock = incorrectOptions[Math.floor(Math.random() * incorrectOptions.length)];
           optionToLock.locked = true;
-
-          // 減少刪去法次數
-          this.eliminationUses--;
+          eliminationUses.value--;
         }
       }
-    },
-    checkAllAnswered() {
-      if (this.answeredQuestions.length === Object.keys(this.questions).length) {
-        this.allAnswered = true;
+    };
+
+    const checkAllAnswered = () => {
+      if (answeredQuestions.value.length === Object.keys(questions).length) {
+        allAnswered.value = true;
         const correctRate = (
-          (this.correctAnswersCount / Object.keys(this.questions).length) *
+          (correctAnswersCount.value / Object.keys(questions).length) *
           100
         ).toFixed(2);
         alert(`你已全部答對！正確率：${correctRate}%`);
       }
-    },
-    goBackToRecord() {
-      this.$router.push('/healthKnowledge');
-    },
-    confirmCancel() {
+    };
+
+    const goBackToRecord = () => {
+      router.push('/healthKnowledge');
+    };
+
+    const confirmCancel = () => {
       if (confirm('你確定要放棄挑戰嗎？')) {
-        this.$router.push('/healthKnowledge');
+        router.push('/healthKnowledge');
       }
-    },
+    };
+
+    return {
+      selectedQuestion,
+      currentQuestion,
+      selectedAnswer,
+      answeredQuestions,
+      correctAnswersCount,
+      attempts,
+      eliminationUses,
+      questionAnswered,
+      allAnswered,
+      shuffledOptions,
+      progressBarWidth,
+      selectQuestion,
+      shuffleOptions,
+      selectOption,
+      submitAnswer,
+      useElimination,
+      checkAllAnswered,
+      goBackToRecord,
+      confirmCancel,
+    };
   },
 };
 </script>
@@ -300,7 +313,7 @@ export default {
 }
 
 .question-title {
-  font-size: 24px;
+  font-size: 2.5em;
   font-weight: bold;
   color: #333;
   margin-bottom: 10px;

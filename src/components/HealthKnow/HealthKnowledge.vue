@@ -1,151 +1,109 @@
-<template>
-    <div class="app">
-      <!-- 頂部導航欄 -->
-      <div class="header">
-        <h1>健康知能</h1>
-        <router-link to="/game">
-          <button class="game-button">動動腦九宮格</button>
-        </router-link>
-      </div>
-  
-      <!-- 衛教文章顯示區 -->
-      <div class="article-container">
-        <div
-          v-for="(article, index) in articles"
-          :key="index"
-          class="article"
-        >
-        <!-- <router-link :to="{ name: 'healthKnowledgeViewPage', params: { id: article.id }}"> -->
-        <router-link :to="{ name: 'healthKnowledgeViewPage'}">
-        <div class="image-wrapper">
-          <strong><p class="article-title">{{ article.title }}</p></strong>
-          <img :src="article.image" alt="衛教文章" />
-        </div>
-        </router-link>
-        </div>
-      </div>
-    </div>
-  </template>
-  
-  <script>
+<template> 
+  <v-row style="margin: 1% 1% 10px;">
+     <v-col cols="12">
+        <v-card style="width: 100%;">
+           <v-list-item class="list-title ">
+              <div class="flex-container" style="justify-content: space-between;">
+                 <h3 class="page-title">健康知能</h3>
+                 <router-link to="/game">
+                    <v-btn class="save-btn">動動腦九宮格</v-btn>
+                 </router-link>
+              </div>
+           </v-list-item>
+
+           <v-list-item>
+              <div class="search-frame">
+                 <div> 
+                    <input type="string" id="steps" class="search-input" placeholder="請輸入文章標題、日期" />
+                    <button class="search-btn" style="width: 70px;">搜尋</button>
+                 </div>
+              </div>
+           </v-list-item>
+           <!-- 文章網格區塊 -->
+           <v-list-item>
+              <v-row class="article-grid">
+                 <v-col 
+                   v-for="(article, index) in articles" 
+                   :key="index" 
+                   cols="12" 
+                   md="6" 
+                   lg="4" 
+                   class="article-item"
+                 >
+                    <v-card class="article-card">
+                    <router-link class="router-link" :to="{ name: 'healthKnowledgeViewPage'}">
+                      <div class="article-info">
+                        <span class="article-title">{{ article.title }}</span> 
+                      </div>
+                      <v-img :src="article.thumbnail" class="article-thumbnail" cover></v-img>                    
+                    </router-link>
+                    </v-card>
+                 </v-col>
+              </v-row>
+           </v-list-item>
+           <div class="flex-container page-container" v-if="winwidth == true">
+             <v-row justify="center">
+                <v-pagination :length="pages" total-visible="5" class="my-4"/>
+             </v-row>
+          </div>
+
+          <div v-else>
+             <v-container class="max-width">
+                <v-pagination :length="pages" class="my-4"/>
+             </v-container>
+          </div>
+        </v-card>
+     </v-col>
+  </v-row>
+</template>
+
+<script>
+  import { useWindowWidth } from '../JS/winwidth.js';
+  import { ref } from 'vue';
+
   export default {
-    name: 'HealthKnowledgePage',
-    data() {
-      return {
-        articles: [
-          {
-            id: 1,
-            title: "營養衛教：口腔保養",
-            image: "/cat03.png",
-          },
-          {
-            id: 2,
-            title: "營養衛教：口腔保養",
-            image: "/cat03.png",
-          },
-          {
-            id: 3,
-            title: "衛教文章 3",
-            image: "/cat01.jpg",
-          },
-          {
-            id: 4,
-            title: "衛教文章 4",
-            image: "/cat02.png",
-          },
-          {
-            id: 5,
-            title: "衛教文章 5",
-            image: "/cat03.png",
-          },
-        ],
-      };
-    },
-    created() {
-      // 模擬後台返回的資料
-      this.article = {
-        title: '營養衛教：口腔保養',
-        image: require('/public/cat03.png'), // 替換成你的圖片
-        publishDate: '114年10月13日',
-        content: '這裡是文章的主要內容...',
-        videoLink: 'https://www.example.com/video',
-      };
-    }
+     name: 'HealthKnowledgePage',
+     setup() {
+        const { winwidth } = useWindowWidth();     
+        
+        // 範例影片資料
+        const articles = [
+           { title: '多吃蔬食有助減重？吃對更重要！', thumbnail: 'article01.png' },
+           { title: '衛教文章2', thumbnail: 'article01.png' },
+           { title: '衛教文章3', thumbnail: 'article01.png' },
+           { title: '衛教文章4', thumbnail: 'article01.png' },
+           { title: '衛教文章5', thumbnail: 'article01.png' },
+           { title: '衛教文章6', thumbnail: 'article01.png' },
+           // 可以根據需求添加更多影片物件
+        ];
+
+        const perPage = ref(10);
+        const data = ref([
+           ['1', '1', '1', '1', '1'],
+           ['2', '2', '2', '2', '2'],
+           ['3', '3', '3', '3', '3']
+        ]);
+
+        //頁碼(後續調整)
+        const datas = data.value.length;
+        const pages = data.value.length * 3;
+        let session = sessionStorage.getItem('session');
+
+        return {
+           winwidth,
+           articles,
+           session,
+           data,
+           datas,
+           pages,
+           perPage,
+        };
+     },
   };
-  </script>
-  
-<style scoped>
-/* 全局樣式設置 */
-.app {
-  padding: 16px;
-  font-family: Arial, sans-serif;
-}
-  
-/* 頂部導航欄 */
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-}
-  
-.game-button {
-  padding: 10px 20px;
-  background-color: #f49595;
-  border: none;
-  color: white;
-  cursor: pointer;
-  border-radius: 5px;
-}
-  
-/* 文章容器樣式 */
-.article-container {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr); /* 手機版單列 */
-  grid-gap: 16px;
-  margin-top: 20px;
-}
-  
-/* 單篇文章樣式 */
-.article {
-  border: 1px solid #f0f0f0;
-  padding: 10px;
-  background-color: #fff;
-  text-align: center;
-}
-.image-wrapper {
-  position: relative;
-  display: flex;
-  flex-direction: column; /* 讓內容垂直排列 */
-  justify-content: flex-start;
-  align-items: flex-start; /* 左對齊 */
-  padding: 10px;
-}
+</script>
 
-/* 標題樣式，放在圖片上方 */
-.article-title {
-  font-size: 1.5em;
-  color: #9e5a33;
-  text-decoration: none;
-  padding: 0.5em 1em;
-  border-radius: 0.5em;
-  z-index: 1; /* 確保文字在圖片上層 */
-}
-
-/* 圖片樣式 */
-.article img {
-  width: 100%;
-  height: auto;
-  max-width: 400px;
-  margin-top: 0.5em; /* 調整圖片與標題的距離，使標題位於圖片左上角 */
-  object-fit: cover; /* 確保圖片按比例縮放並覆蓋整個區域 */
-}
+<style lang="css" scoped>
+  @import "../../assets/css/common.css";
+  @import "../../assets/css/healthklg.css";
   
-/* 桌面版樣式 */
-@media (min-width: 768px) {
-  .article-container {
-    grid-template-columns: repeat(4, 1fr); /* 桌面版四列 */
-  }
-}
 </style>
-  

@@ -140,7 +140,23 @@ const routes = [
       meta: {
          requiresAuth: true // 需要 session 認證
       }
-   }
+   },
+   {
+      path: '/careGarden',
+      name: 'careGdPage',
+      component: () => import('../components/CareGarden/CareGardenMain.vue'), // 照護園地
+      meta: {
+         requiresAuth: true // 需要 session 認證
+      }
+   },
+   {
+      path: '/careGardenView',
+      name: 'careGdViewPage',
+      component: () => import('../components/CareGarden/CareGardenView.vue'), // 照護園地(影片頁面)
+      meta: {
+         requiresAuth: true // 需要 session 認證
+      }
+   },
 
 ]
 

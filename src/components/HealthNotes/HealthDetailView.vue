@@ -39,46 +39,57 @@
 </template>
   
 <script>
+import { ref, computed, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 import localStorageService from './localStorageService.js';
 
 export default {
     name: 'healthDetailViewPage',
-    data() {
-      return {
-        healthInfo: null
-      };
-    },
-    computed: {
-      formattedDate() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const date = urlParams.get('date');
-        return new Date(date).toLocaleDateString();
-      },
-      totalWalkingTime() {
-        // 計算慢跑時間的總和
-        if (this.healthInfo && this.healthInfo.walkingTimes) {
-            return this.healthInfo.walkingTimes.reduce((total, time) => total + Number(time), 0);
-        }
-        return 0;
-      },
-    },
-    created() {
-        // 在組件創建時從 localStorage 獲取健康資料
-        this.healthInfo = localStorageService.getItem('healthInfo');
-    },
-    methods: {
-      isRedBg(index) {
-        // 使用物件語法動態綁定 class，將不同樣式整合
+    setup(){
+      const healthInfo = ref(null);
+      const router = useRouter();
+
+      const formattedDate = computed(() => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const date = urlParams.get('date');
+      return new Date(date).toLocaleDateString();
+      });
+
+      
+      const totalWalkingTime = computed(() => {
+      if (healthInfo.value && healthInfo.value.walkingTimes) {
+        return healthInfo.value.walkingTimes.reduce((total, time) => total + Number(time), 0);
+      }
+      return 0;
+      });
+
+    
+      onMounted(() => {
+        healthInfo.value = localStorageService.getItem('healthInfo');
+      });
+
+      
+      const isRedBg = (index) => {
         return {
           'form-group': true,
-          'red-bg': index % 2 === 0 // 偶數索引顯示紅色背景
+          'red-bg': index % 2 === 0 // 偶數索引顯示红色背景
         };
-      },
-      editHealthRecord() {
-        // 跳轉到 HealthDetailForm
-        this.$router.push('/health-detail-form');
-      }
-    }
+      };
+
+      // 跳轉到編輯健康紀錄的頁面
+      const editHealthRecord = () => {
+        router.push('/health-detail-form');
+      };
+
+      // 返回需要在模板中使用的状态和方法
+      return {
+        healthInfo,
+        formattedDate,
+        totalWalkingTime,
+        isRedBg,
+        editHealthRecord
+      };
+    },    
 };
 </script>
   
