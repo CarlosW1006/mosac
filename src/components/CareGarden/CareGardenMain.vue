@@ -1,5 +1,5 @@
 <template> 
-    <v-row style="margin: 1% 1% 10px;">
+    <v-row style="margin: 1% 1% 50px;">
        <v-col cols="12">
           <v-card style="width: 100%;">
              <v-list-item class="list-title">
@@ -7,14 +7,15 @@
              </v-list-item>
  
              <v-list-item>
-                <div class="search-frame">
+                <div class="search-frame-care">
                    <div> 
                       <input type="string" id="steps" class="search-input" placeholder="請輸入影片標題、日期" />
                       <button class="search-btn" style="width: 70px;">搜尋</button>
                    </div>
                 </div>
              </v-list-item>
-             <!-- 影片網格區塊 -->
+             <!-- 影片網格區塊(大視窗) -->
+             <div v-if="winwidth == true"> 
              <v-list-item>
                 <v-row class="video-grid">
                    <v-col 
@@ -39,7 +40,37 @@
                    </v-col>
                 </v-row>
              </v-list-item>
-             <div class="flex-container page-container" v-if="winwidth == true">
+            </div>
+
+            <!-- 影片網格區塊(小視窗) -->
+            <div v-else>
+             <v-list-item style="padding: 4px 2px">
+                <v-row class="video-grid">
+                   <v-col 
+                     v-for="(video, index) in videos" 
+                     :key="index" 
+                     cols="12" 
+                     md="6" 
+                     lg="4" 
+                     class="video-item"
+                   >
+                      <v-card class="video-card">
+                      <router-link class="router-link" :to="{ name: 'careGdViewPage'}">
+                         <v-img :src="video.thumbnail" class="video-thumbnail" cover>
+                            <v-icon class="play-icon">mdi-play-circle</v-icon>
+                         </v-img>
+                         <div class="video-info">
+                            <span class="video-title">{{ video.title }}</span>
+                            <span class="view-count">觀看次數：{{ video.views }}</span>
+                         </div>
+                      </router-link>
+                      </v-card>
+                   </v-col>
+                </v-row>
+             </v-list-item>
+            </div>
+
+            <div class="flex-container page-container" v-if="winwidth == true">
                <v-row justify="center">
                   <v-pagination :length="pages" total-visible="5" class="my-4"/>
                </v-row>
@@ -77,9 +108,9 @@
 
           const perPage = ref(10);
           const data = ref([
-             ['個人諮詢', '下午2點 個人諮詢會議', '2024/10/10 14:00~15:00', '陳ＯＯ醫師', 'M0001'],
-             ['團體諮詢', '[聊天室] 減重飲食指南1', '2024/10/10 15:00~16:00', '陳ＯＯ醫師', 'M0002'],
-             ['團體諮詢', '[聊天室] 減重飲食指南2', '2024/10/10 16:00~17:00', '陳ＯＯ醫師', 'M0003']
+           ['1', '1', '1', '1', '1'],
+           ['2', '2', '2', '2', '2'],
+           ['3', '3', '3', '3', '3']
           ]);
 
           //頁碼(後續調整)

@@ -51,7 +51,8 @@
         
           // 影片資料
           const videoTitle = ref('衛教影片標題：如何保持健康的生活方式'); // 影片標題
-          const videoUrl = ref('https://www.youtube.com/embed/VIDEO_ID'); // 替換為實際的 YouTube 影片 ID
+          //const videoUrl = ref('https://www.youtube.com/embed/VIDEO_ID'); // 替換為實際的 YouTube 影片 ID
+          const videoUrl = ref('https://www.youtube.com/embed/XavzHsjWIAg?si=0MYLs8S7JNWEV7SD');
           const views = ref(1234); // 觀看次數
           const uploadDate = ref('2024-10-27'); // 上傳日期
           const description = ref(`在這段影片中，我們將介紹一些保持健康生活方式的重要技巧和建議。我們會探討均衡飲食的關鍵，包含如何選擇營養豐富的食物，以及每日所需的各類營養素。此外，我們還將討論運動對身體和心理健康的益處，並分享一些簡單易行的運動建議，讓您可以在繁忙的日常生活中輕鬆融入運動。

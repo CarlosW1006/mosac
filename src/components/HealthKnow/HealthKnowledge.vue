@@ -1,5 +1,5 @@
 <template> 
-  <v-row style="margin: 1% 1% 10px;">
+  <v-row style="margin: 1% 1% 50px;">
      <v-col cols="12">
         <v-card style="width: 100%;">
            <v-list-item class="list-title ">
@@ -12,14 +12,15 @@
            </v-list-item>
 
            <v-list-item>
-              <div class="search-frame">
+              <div class="search-frame-healthklg">
                  <div> 
                     <input type="string" id="steps" class="search-input" placeholder="請輸入文章標題、日期" />
                     <button class="search-btn" style="width: 70px;">搜尋</button>
                  </div>
               </div>
            </v-list-item>
-           <!-- 文章網格區塊 -->
+           <!-- 文章網格區塊(大視窗) -->
+           <div v-if="winwidth == true"> 
            <v-list-item>
               <v-row class="article-grid">
                  <v-col 
@@ -41,6 +42,33 @@
                  </v-col>
               </v-row>
            </v-list-item>
+           </div>
+
+           <!-- 文章網格區塊(小視窗) -->
+           <div v-else> 
+           <v-list-item style="padding: 4px 2px">
+              <v-row class="article-grid">
+                 <v-col 
+                   v-for="(article, index) in articles" 
+                   :key="index" 
+                   cols="12" 
+                   md="6" 
+                   lg="4" 
+                   class="article-item"
+                 >
+                    <v-card class="article-card">
+                    <router-link class="router-link" :to="{ name: 'healthKnowledgeViewPage'}">
+                      <div class="article-info">
+                        <span class="article-title">{{ article.title }}</span> 
+                      </div>
+                      <v-img :src="article.thumbnail" class="article-thumbnail" cover></v-img>                    
+                    </router-link>
+                    </v-card>
+                 </v-col>
+              </v-row>
+           </v-list-item>
+           </div>
+
            <div class="flex-container page-container" v-if="winwidth == true">
              <v-row justify="center">
                 <v-pagination :length="pages" total-visible="5" class="my-4"/>

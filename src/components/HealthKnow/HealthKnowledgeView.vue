@@ -66,7 +66,8 @@
       
         // 文章資料
         const articleTitle = ref('多吃蔬食有助減重？吃對更重要！');
-        const videoUrl = ref('https://www.youtube.com/embed/VIDEO_ID'); // 替換為實際的 YouTube 影片 ID
+        //const videoUrl = ref('https://www.youtube.com/embed/VIDEO_ID'); // 替換為實際的 YouTube 影片 ID
+        const videoUrl = ref('https://www.youtube.com/embed/1qb4p3xxDwg?si=auL4AGzE8iLpJ6qu');
         const uploader = ref('陳ＯＯ醫師');
         const uploadDate = ref('2024-10-27');
         const subtitle = ref('減重是一種良好習慣的養成');

@@ -1,3 +1,7 @@
+.search-frame-care {
+   padding: 3em 1.5em 2em;   
+}
+
 /* 影片網格樣式 */
 .video-grid {
    display: flex;
@@ -115,6 +119,11 @@
 
 
 @media screen and (max-width: 1000px) {
+   .search-frame-care {
+      margin: 1em;
+      padding: 0;
+   }
+
    .page-title {
       font-size: 2em;
       margin-left: 0.05em;
@@ -141,5 +150,5 @@
 
    .video-description {
       font-size: 1.7em;
-   }
+   }   
 }

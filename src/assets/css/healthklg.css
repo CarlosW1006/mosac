@@ -4,6 +4,10 @@
    background-color: #ff7a9c;
 }
 
+.search-frame-healthklg {
+   padding: 3em 1.5em 2em;   
+}
+
 /* 影片網格樣式 */
 .article-grid {
    display: flex;
@@ -62,8 +66,8 @@
 .video-container {
    position: relative;
    margin-top: 1em;
-   padding-bottom: 30%; /* 16:9 aspect ratio */
-   width: 70%;
+   padding-bottom: 56.25%; /* 16:9 aspect ratio */
+   width: 100%;
    overflow: hidden;
    align-items: center;
    text-align: center;
@@ -134,6 +138,11 @@
       font-size: 1.2em;
       color: #FFFFFF;
       background-color: #ff7a9c;
+   }
+
+   .search-frame-healthklg {
+      margin: 1em;
+      padding: 0;   
    }
 
    .list-title {
