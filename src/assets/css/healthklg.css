@@ -1,4 +1,4 @@
-.save-btn {
+.play-btn {
    font-size: 2em;
    color: #FFFFFF;
    background-color: #ff7a9c;
@@ -129,7 +129,7 @@
       margin-left: 0.05em;
    }
     
-   .save-btn {
+   .play-btn {
       width: 10em;
       font-size: 1.2em;
       color: #FFFFFF;

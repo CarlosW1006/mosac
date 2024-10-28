@@ -7,10 +7,10 @@
              </v-list-item>
  
              <v-list-item>
-                <div class="search-frame">
+                <div class="search-frame" >
                    <div> 
                       <input type="string" id="steps" class="search-input" placeholder="請輸入影片標題、日期" />
-                      <button class="search-btn" style="width: 70px;">搜尋</button>
+                      <button class="search-btn">搜尋</button>
                    </div>
                 </div>
              </v-list-item>

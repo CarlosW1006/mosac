@@ -6,10 +6,10 @@
             <h2 class="frame-title">修改密碼</h2> 
             <v-text-field v-model="userid" label="請輸入您的帳號"></v-text-field>
             <v-text-field v-model="password" label="請輸入新的密碼"></v-text-field>
-            <v-text-field v-model="npassword" label="請再輸入新密碼"></v-text-field>
+            <v-text-field v-model="repassword" label="請再輸入新密碼"></v-text-field>
 
             <div class="flex-container-login">
-               <label class="verify-str">2+4=?</label> &nbsp;&nbsp;
+               <label class="verify-frame"><p>{{ verifyCodeArr.verifyCode_question }}</p></label> &nbsp;&nbsp;
                <v-text-field v-model="verifycode" label="請輸入驗證碼"></v-text-field>
             </div>
 
@@ -18,47 +18,52 @@
                <button class="text-body-2 font-weight-regular">重新產生驗證碼</button>
             </div><br>
 
-            <v-btn @click="changeConfirm(userid, password, npassword, verifycode)" block class="mt-2 login-btn"><h3>確認</h3></v-btn>
+            <v-btn @click="changeConfirm(userid, password, repassword, verifycode)" block class="mt-2 login-btn"><h3>確認</h3></v-btn>
          </v-form>
       </v-sheet>
    </div>
 </template>
 
 <script>
-   import { ref, computed } from 'vue';
-   import { useWindowWidth } from './JS/winwidth.js';
+   import { ref } from 'vue';
+   import { useRouter } from 'vue-router';
+   import { getVerifyCode, sendPassword } from './JS/authservice.js';
 
    export default {
       name: 'changepwdPage',
       setup() { 
          const userid = ref('');
          const password = ref('');
-         const npassword = ref('');
+         const repassword = ref('');
          const verifycode = ref('');
-         const { windowWidth } = useWindowWidth();
+         const verifyCodeArr = ref('');
+         const router = useRouter();
 
-         // 使用 computed 動態計算 sheetWidth
-         const sheetWidth = computed(() => {
-            return windowWidth.value > 900 ? '400px' : '300px';
-         });
+         // 呼叫 getVerifyCode 取得驗證碼資料
+         getVerifyCode(verifyCodeArr);
 
-         function changeConfirm(userid, password, npassword, verifycode) {
-            if(userid == '123' && password == '123' && npassword == password && verifycode == '6') {
-               console.log('login success');
-               sessionStorage.setItem('session', userid);
-            } else {
-               console.log('login failed');
-            }
+         // 手動呼叫 getVerifyCode 取得驗證碼資料
+         function callVerifyCode() {
+            getVerifyCode(verifyCodeArr);
+            console.log('call success!!');
+         }
+
+         function changeConfirm(userid, password, repassword, verifycode) {
+            sendPassword(userid.value, password.value, repassword.value, verifycode.value, verifyCodeArr.value.verifyCode_ans).then(() => {
+               router.push('/index').then(() => {
+                  window.location.reload();
+               });
+            })
          }
          
          return {
             userid,
             password,
-            npassword,
+            repassword,
             verifycode,
-            sheetWidth,
-            windowWidth,
+            verifyCodeArr,
             changeConfirm,
+            callVerifyCode,
          };
       },
    };

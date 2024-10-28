@@ -43,11 +43,20 @@
    justify-content: space-between;
 }
 
-.verify-str {
+.verify-frame {
    width: 50%;
    height: 4.5em;
    margin-bottom: 1.8em;
    border: 0.5px solid #b6b6b6;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+.verify-frame p {
+   font-size: 1.8em;
+   font-weight: 400;
+   color: blue;
 }
 
 .login-btn {

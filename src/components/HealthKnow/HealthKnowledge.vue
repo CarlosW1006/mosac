@@ -6,7 +6,7 @@
               <div class="flex-container" style="justify-content: space-between;">
                  <h3 class="page-title">健康知能</h3>
                  <router-link to="/game">
-                    <v-btn class="save-btn">動動腦九宮格</v-btn>
+                    <v-btn class="play-btn">動動腦九宮格</v-btn>
                  </router-link>
               </div>
            </v-list-item>
