@@ -194,7 +194,9 @@ select option {
 
 /* 頁碼功能列 */
 .page-container {
-   margin: 2.3em;
+   margin-top: 2.3em;
+   margin-right: 3.3em;
+   margin-bottom: 2.3em;
 }
 
 .pageNum {
@@ -216,7 +218,7 @@ select option {
    }
 
    .search-frame {
-      padding: 0.5em 1.5em;
+      padding: 0em;
    }
 
    .dropdown {
@@ -225,7 +227,11 @@ select option {
 
    .dropdown select {
       width: 100% !important;
-      margin: 1em 0 1em;
+      margin: 0em 0 1em;
+   }
+
+   .top-select {
+      margin-top: 1em !important;
    }
 
    .list-title {

@@ -17,7 +17,7 @@
                v-model="password" 
                label="請輸入新的密碼" solo
                :type="showPassword ? 'text' : 'password'" autocomplete
-               :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
+               :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                @click:append-inner="togglePasswordVisibility"
                @keydown.enter="changeConfirm(userid, password, repassword, verifycode)"
             >

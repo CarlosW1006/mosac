@@ -20,7 +20,7 @@
                v-model="password" 
                label="請輸入您的密碼" solo
                :type="showPassword ? 'text' : 'password'" autocomplete
-               :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
+               :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                @click:append-inner="togglePasswordVisibility"
                @keydown.enter="callAuthFunc(userid, password, verifycode)"
             >
@@ -70,7 +70,7 @@
          const router = useRouter();
 
          // 呼叫 getVerifyCode 取得驗證碼資料
-         getVerifyCode(verifyCodeArr);
+         // getVerifyCode(verifyCodeArr);
 
          // 手動呼叫 getVerifyCode 取得驗證碼資料
          function callVerifyCode() {

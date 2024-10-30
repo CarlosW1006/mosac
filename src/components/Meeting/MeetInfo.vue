@@ -13,7 +13,7 @@
             <v-list-item>
                <div class="search-frame">
                   <div class="dropdown">
-                     <select id="category" name="category">
+                     <select id="category" name="category" class="top-select">
                         <option value="">諮詢類別</option>
                         <option value="0">個人諮詢</option>
                         <option value="1">團體諮詢</option>

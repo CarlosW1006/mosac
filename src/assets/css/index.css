@@ -66,12 +66,16 @@
 .target {
    color: #e85656;
    font-size: 2.25em;
-   margin: 10px 0 3px; width: 100%;
+   margin: 0.5em 0 3px; width: 100%;
 }
 
 .recent {
    color: #696969;
    font-size: 2.25em;
+}
+
+.target-title {
+   margin-right: 0.8em;
 }
 
 .toGroupPage {
@@ -438,7 +442,12 @@
    }
 
    .target {
+      margin-top: 0.8em;
       font-size: 1.6em;
+   }
+
+   .target-title {
+      margin-right: 0.5em;
    }
 
    .recent {
@@ -461,7 +470,7 @@
    }
 }
 
-@media screen and (max-width: 999px) { 
+@media screen and (max-width: 1000px) { 
    .target {
       font-size: 1.35em;
    }
@@ -471,7 +480,7 @@
    }
 }
 
-@media screen and (max-width: 959px) {  /* 手機螢幕比例：sm */
+@media screen and (max-width: 960px) {  /* 手機螢幕比例：sm */
    .v-card-R {
       margin-top: -2em;
    }

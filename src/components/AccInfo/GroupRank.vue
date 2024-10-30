@@ -13,8 +13,8 @@
             <v-list-item>
                <div class="search-frame">
                   <div class="dropdown">
-                     <p class="search-item">月份</p>
-                     <select id="category" name="category">
+                     <!-- <p class="search-item">月份</p> -->
+                     <select id="category" name="category" class="top-select">
                         <option value="">請選擇月份</option>
                         <option value="2">2月</option>
                         <option value="3">3月</option>
@@ -24,7 +24,7 @@
                         <option value="7">7月</option>
                      </select>
                      
-                     <p class="search-item">群組類別</p>
+                     <!-- <p class="search-item">群組類別</p> -->
                      <select id="category" name="category">
                         <option value="">請選擇群組</option>
                         <option value="專業訓練">意圖前期</option>
@@ -46,7 +46,7 @@
       <v-col cols="12">
          <v-card style="margin-bottom: 50px;">
             <v-list-item class="list-title">
-               <h3 class="page-title">群組排名紀錄</h3>
+               <h3 class="page-title">查詢結果</h3>
             </v-list-item>
             <div class="flex-container pageTotal">
                <div class="perPage flex-container">
