@@ -8,6 +8,9 @@
    font-size: 13px; /* 茅點 */
    align-items: center;
    justify-content: center;
+
+   background: linear-gradient(to top, #7dc5ac, #cde3db, #ffffff);
+   background: -webkit-linear-gradient(to top, #3a1c71, #d76d77, #ffaf7b);
 }
 
 .sys-title {
@@ -44,8 +47,9 @@
 }
 
 .verify-frame {
-   width: 50%;
-   height: 4.5em;
+   width: 40%;
+   height: 4.3em;
+   margin-right: 1em;
    margin-bottom: 1.8em;
    border: 0.5px solid #b6b6b6;
    display: flex;
@@ -54,9 +58,25 @@
 }
 
 .verify-frame p {
-   font-size: 1.8em;
+   font-size: 2.5em;
    font-weight: 400;
-   color: blue;
+   background: linear-gradient(to right, #3a1c71, #d76d77, #ffaf7b);
+   background: -webkit-linear-gradient(to top, #3a1c71, #d76d77, #ffaf7b);
+   background-clip: text;
+   -webkit-background-clip: text;
+   color: transparent;
+}
+
+.forgot-pwd {
+   color: block;
+   color: red;
+   text-decoration: none;
+   font-size: 1.3em !important;
+}
+
+.change-vcode {
+   color: #69c9a7;
+   font-size: 1.3em !important;
 }
 
 .login-btn {
@@ -71,7 +91,25 @@
       width: 90%;
    }
 
+   .center-container {
+      font-size: 10px; /* 茅點 */
+   }
+
    .sys-title {
       font-size: 2em;
    }
+
+   .verify-frame {
+      height: 5.5em;
+   }
+
+   .login-frame {
+      padding: 3em 2em 4.5em;
+   }
+   
+
+   .verify-frame p {
+      font-size: 2.5em;
+   }
+   
 }

@@ -4,18 +4,46 @@
          <p class="sys-title">自我健康管理雲端平台</p>
          <v-form fast-fail class="login-frame">
             <h2 class="frame-title">修改密碼</h2> 
-            <v-text-field v-model="userid" label="請輸入您的帳號"></v-text-field>
-            <v-text-field v-model="password" label="請輸入新的密碼"></v-text-field>
-            <v-text-field v-model="repassword" label="請再輸入新密碼"></v-text-field>
+            <v-text-field 
+               v-model="userid" 
+               label="請輸入您的帳號" solo
+               @keydown.enter="changeConfirm(userid, password, repassword, verifycode)"
+            >
+               <template v-slot:prepend>
+                  <v-icon>mdi-account</v-icon>
+               </template>
+            </v-text-field>
+            <v-text-field 
+               v-model="password" 
+               label="請輸入新的密碼" solo
+               :type="showPassword ? 'text' : 'password'" autocomplete
+               :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
+               @click:append-inner="togglePasswordVisibility"
+               @keydown.enter="changeConfirm(userid, password, repassword, verifycode)"
+            >
+               <template v-slot:prepend>
+                  <v-icon>mdi-lock</v-icon>
+               </template>
+            </v-text-field>
+            <v-text-field 
+               v-model="repassword" 
+               label="請再輸入新密碼" solo
+               type="password"
+               @keydown.enter="changeConfirm(userid, password, repassword, verifycode)"
+            >
+               <template v-slot:prepend>
+                  <v-icon>mdi-lock</v-icon>
+               </template>
+            </v-text-field>
 
             <div class="flex-container-login">
-               <label class="verify-frame"><p>{{ verifyCodeArr.verifyCode_question }}</p></label> &nbsp;&nbsp;
+               <label class="verify-frame"><p>{{ verifyCodeArr.verifyCode_question }}</p></label>
                <v-text-field v-model="verifycode" label="請輸入驗證碼"></v-text-field>
             </div>
 
             <div class="flex-container-login">
-               <a href="#/letmein" class="text-body-2 font-weight-regular">返回登入頁</a>
-               <button class="text-body-2 font-weight-regular">重新產生驗證碼</button>
+               <a href="#/letmein" class="text-body-2 font-weight-regular forgot-pwd">返回登入頁</a>
+               <button class="text-body-2 font-weight-regular change-vcode">重新產生驗證碼</button>
             </div><br>
 
             <v-btn @click="changeConfirm(userid, password, repassword, verifycode)" block class="mt-2 login-btn"><h3>確認</h3></v-btn>
@@ -37,6 +65,8 @@
          const repassword = ref('');
          const verifycode = ref('');
          const verifyCodeArr = ref('');
+
+         const showPassword = ref(false);
          const router = useRouter();
 
          // 呼叫 getVerifyCode 取得驗證碼資料
@@ -46,6 +76,11 @@
          function callVerifyCode() {
             getVerifyCode(verifyCodeArr);
             console.log('call success!!');
+         }
+
+         // 調整密碼顯示方式
+         function togglePasswordVisibility() {
+            showPassword.value = !showPassword.value;
          }
 
          function changeConfirm(userid, password, repassword, verifycode) {
@@ -62,8 +97,11 @@
             repassword,
             verifycode,
             verifyCodeArr,
+            showPassword,
+
             changeConfirm,
             callVerifyCode,
+            togglePasswordVisibility,
          };
       },
    };

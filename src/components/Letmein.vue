@@ -8,18 +8,29 @@
             <!-- 用 @keydown.enter 監聽 Enter 鍵 -->
             <v-text-field 
                v-model="userid" 
-               label="請輸入您的帳號" 
+               label="請輸入您的帳號" solo
                @keydown.enter="callAuthFunc(userid, password, verifycode)"
-            ></v-text-field>
+            >
+               <template v-slot:prepend>
+                  <v-icon>mdi-account</v-icon>
+               </template>
+            </v-text-field>
             
             <v-text-field 
                v-model="password" 
-               label="請輸入您的密碼" 
+               label="請輸入您的密碼" solo
+               :type="showPassword ? 'text' : 'password'" autocomplete
+               :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
+               @click:append-inner="togglePasswordVisibility"
                @keydown.enter="callAuthFunc(userid, password, verifycode)"
-            ></v-text-field>
+            >
+               <template v-slot:prepend>
+                  <v-icon>mdi-lock</v-icon>
+               </template>
+            </v-text-field>
 
             <div class="flex-container-login">
-               <label class="verify-frame"><p>{{ verifyCodeArr.verifyCode_question }}</p></label> &nbsp;&nbsp;
+               <label class="verify-frame"><p>{{ verifyCodeArr.verifyCode_question }}</p></label>
                <v-text-field 
                   v-model="verifycode" 
                   label="請輸入驗證碼" 
@@ -28,8 +39,8 @@
             </div>
 
             <div class="flex-container-login">
-               <a href="#/changePwd" class="text-body-2 font-weight-regular">忘記密碼?</a>
-               <button class="text-body-2 font-weight-regular" @click="callVerifyCode()">重新產生驗證碼</button>
+               <a href="#/changePwd" class="text-body-2 font-weight-regular forgot-pwd">忘記密碼?</a>
+               <button class="text-body-2 font-weight-regular change-vcode" @click="callVerifyCode()">重新產生驗證碼</button>
             </div><br>
 
             <!-- 按鈕點擊也會觸發 login -->
@@ -44,6 +55,7 @@
 <script>
    import { ref } from 'vue';
    import { useRouter } from 'vue-router';
+   import { generateSHA256Hash } from './JS/encryption.js';
    import { getVerifyCode, sendAuth } from './JS/authservice.js';
 
    export default {
@@ -53,6 +65,8 @@
          const password = ref('');
          const verifycode = ref('');
          const verifyCodeArr = ref('');
+
+         const showPassword = ref(false);
          const router = useRouter();
 
          // 呼叫 getVerifyCode 取得驗證碼資料
@@ -64,9 +78,17 @@
             console.log('call success!!');
          }
 
+         // 調整密碼顯示方式
+         function togglePasswordVisibility() {
+            showPassword.value = !showPassword.value;
+         }
+
          // 呼叫 sendAuth 傳送使用者登入資料
          function callAuthFunc() {
-            sendAuth(userid.value, password.value, verifycode.value, verifyCodeArr.value.verifyCode_ans).then(() => {
+            const encrypt_password = generateSHA256Hash(password.value);
+            
+            sendAuth(userid.value, encrypt_password, verifycode.value, verifyCodeArr.value.verifyCode_ans)
+            .then(() => {
                router.push('/index').then(() => {
                   window.location.reload();
                });
@@ -78,8 +100,11 @@
             password,
             verifycode,
             verifyCodeArr,
+            showPassword,
+            
             callAuthFunc,
             callVerifyCode,
+            togglePasswordVisibility,
          };
       },
    };

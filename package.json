@@ -11,6 +11,7 @@
     "@mdi/font": "5.9.55",
     "axios": "^1.7.7",
     "core-js": "^3.8.3",
+    "js-sha256": "^0.11.0",
     "roboto-fontface": "*",
     "v-calendar": "^3.1.2",
     "vue": "^3.2.13",
