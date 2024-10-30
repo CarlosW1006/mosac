@@ -55,6 +55,7 @@
 <script>
    import { ref } from 'vue';
    import { useRouter } from 'vue-router';
+   import { generateSHA256Hash } from './JS/encryption.js';
    import { getVerifyCode, sendPassword } from './JS/authservice.js';
 
    export default {
@@ -83,8 +84,12 @@
             showPassword.value = !showPassword.value;
          }
 
-         function changeConfirm(userid, password, repassword, verifycode) {
-            sendPassword(userid.value, password.value, repassword.value, verifycode.value, verifyCodeArr.value.verifyCode_ans).then(() => {
+         function changeConfirm() {
+            const encrypt_password = generateSHA256Hash(password.value);
+            const encrypt_repassword = generateSHA256Hash(password.value);
+
+            sendPassword(userid.value, encrypt_password, encrypt_repassword, verifycode.value, verifyCodeArr.value.verifyCode_ans)
+            .then(() => {
                router.push('/index').then(() => {
                   window.location.reload();
                });
