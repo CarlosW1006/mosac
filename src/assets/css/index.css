@@ -391,17 +391,15 @@
 
    /* 小螢幕-諮詢會議 */
    .meetCard {
-      height: auto !important;
+      height: auto;
       margin-bottom: -2px;
    }
 
    .meet-box {
       background-color: #ffffff;
-      max-height: 13em;
-      width: 95%;
       height: auto;
-      padding: 0 3px;
-      margin: 10px auto;
+      max-height: 13em;
+      margin: 0.5em 0.5em;
       border-bottom: 1px solid #e0e0e0;
    }
 
