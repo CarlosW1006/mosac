@@ -1,40 +1,19 @@
-<template>
-   <div class="page-tab flex-container">
-      <a href="#/index" class="tab-L">回到首頁</a> <p class="tab-R">首頁＞照護園地</p>
-   </div>
-
-   <v-row style="margin: 1% 1% 10px;">
-      <v-col cols="12">
-         <v-card style="width: 100%;">
-            <v-list-item class="list-title list-title-care">
-               <h3 class="page-title">照護園地</h3>
-            </v-list-item>
-
-            <v-list-item>
-               <div class="search-frame">
-                  <div class="dropdown">
-                     <input type="string" id="steps" class="search-input" placeholder="請輸入影片標題" />
-                     <button class="search-btn" style="width: 70px;">搜尋</button>
-                  </div>
-               </div>
-            </v-list-item>
-         </v-card>
-      </v-col>
-   </v-row>
-    
+<template> 
     <v-row style="margin: 1% 1% 50px;">
        <v-col cols="12">
           <v-card style="width: 100%;">
              <v-list-item class="list-title">
-                <h3 class="page-title">查詢結果</h3>
+                <h3 class="page-title">影音收藏</h3>
              </v-list-item>
-
-             <div class="flex-container pageTotal">
-               <div class="perPage flex-container">
-                  <v-select :items="perPageNum" label="每頁筆數" outlined :width="130"/>
-               </div>
-            </div>
-             
+ 
+             <v-list-item>
+                <div class="search-frame-care">
+                   <div> 
+                      <input type="string" id="steps" class="search-input" placeholder="請輸入影片標題、日期" />
+                      <button class="search-btn" style="width: 70px;">搜尋</button>
+                   </div>
+                </div>
+             </v-list-item>
              <!-- 影片網格區塊(大視窗) -->
              <div v-if="winwidth == true"> 
              <v-list-item>
@@ -52,11 +31,11 @@
                          <v-img :src="video.thumbnail" class="video-thumbnail" cover>
                             <v-icon class="play-icon">mdi-play-circle</v-icon>
                          </v-img>
+                      </router-link>
                          <div class="video-info">
                             <span class="video-title">{{ video.title }}</span>
-                            <span class="view-count">觀看次數：{{ video.views }}</span>
+                            <button @click="toggleFavorite" class="favorite-icon">{{ isFavorite ? '❤️' : '🤍' }}</button>
                          </div>
-                      </router-link>
                       </v-card>
                    </v-col>
                 </v-row>
@@ -80,11 +59,11 @@
                          <v-img :src="video.thumbnail" class="video-thumbnail" cover>
                             <v-icon class="play-icon">mdi-play-circle</v-icon>
                          </v-img>
+                      </router-link>   
                          <div class="video-info">
                             <span class="video-title">{{ video.title }}</span>
-                            <span class="view-count">觀看次數：{{ video.views }}</span>
+                            <button @click="toggleFavorite" class="favorite-icon">{{ isFavorite ? '❤️' : '🤍' }}</button>
                          </div>
-                      </router-link>
                       </v-card>
                    </v-col>
                 </v-row>
@@ -112,10 +91,9 @@
     import { ref } from 'vue';
  
     export default {
-       name: 'careGdPage',
+       name: 'videoclnPage',
        setup() {
-          const { winwidth } = useWindowWidth();
-          const perPageNum = [10, 20, 30];     
+          const { winwidth } = useWindowWidth();   
           
           // 範例影片資料
           const videos = [
@@ -127,6 +105,13 @@
              { title: '影片標題6', views: 10, thumbnail: 'article02.png' },
              // 可以根據需求添加更多影片物件
           ];
+
+          const isFavorite = ref(true); // 收藏狀態
+
+          // 切換收藏狀態
+          const toggleFavorite = () => {
+            isFavorite.value = !isFavorite.value;
+          };
 
           const perPage = ref(10);
           const data = ref([
@@ -143,12 +128,13 @@
           return {
              winwidth,
              videos,
+             isFavorite,
+             toggleFavorite,
              session,
              data,
              datas,
              pages,
              perPage,
-             perPageNum
           };
        },
     };
@@ -156,7 +142,7 @@
  
  <style lang="css" scoped>
     @import "../../assets/css/common.css";
-    @import "../../assets/css/caregd.css";
+    @import "../../assets/css/videocln.css";
     
  </style>
  

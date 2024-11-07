@@ -1,24 +1,42 @@
-<template> 
+<template>
+   <div class="page-tab flex-container">
+      <a href="#/index" class="tab-L">回到首頁</a> <p class="tab-R">首頁＞健康知能</p>
+   </div>
+
+   <v-row style="margin: 1% 1% 10px;">
+      <v-col cols="12">
+         <v-card style="width: 100%;">
+            <v-list-item class="list-title list-title-care">
+               <h3 class="page-title">健康知能</h3>
+            </v-list-item>
+
+            <v-list-item>
+               <div class="search-frame">
+                  <div class="dropdown">
+                     <input type="string" id="steps" class="search-input" placeholder="請輸入文章標題" />
+                     <button class="search-btn" style="width: 70px;">搜尋</button>
+                  </div>
+               </div>
+            </v-list-item>
+         </v-card>
+      </v-col>
+   </v-row>
+     
   <v-row style="margin: 1% 1% 50px;">
      <v-col cols="12">
         <v-card style="width: 100%;">
            <v-list-item class="list-title ">
               <div class="flex-container" style="justify-content: space-between;">
                  <h3 class="page-title">健康知能</h3>
-                 <router-link to="/game">
-                    <v-btn class="save-btn">動動腦九宮格</v-btn>
-                 </router-link>
               </div>
            </v-list-item>
 
-           <v-list-item>
-              <div class="search-frame-healthklg">
-                 <div> 
-                    <input type="string" id="steps" class="search-input" placeholder="請輸入文章標題、日期" />
-                    <button class="search-btn" style="width: 70px;">搜尋</button>
-                 </div>
-              </div>
-           </v-list-item>
+           <div class="flex-container pageTotal">
+               <div class="perPage flex-container">
+                  <v-select :items="perPageNum" label="每頁筆數" outlined :width="130"/>  
+               </div>
+               <v-btn href="#/game" class="save-btn-healthklg " :ripple="false">動動腦九宮格</v-btn>
+           </div>
            <!-- 文章網格區塊(大視窗) -->
            <div v-if="winwidth == true"> 
            <v-list-item>
@@ -92,7 +110,8 @@
   export default {
      name: 'HealthKnowledgePage',
      setup() {
-        const { winwidth } = useWindowWidth();     
+        const { winwidth } = useWindowWidth();   
+        const perPageNum = [10, 20, 30];  
         
         // 範例影片資料
         const articles = [
@@ -125,6 +144,7 @@
            datas,
            pages,
            perPage,
+           perPageNum
         };
      },
   };

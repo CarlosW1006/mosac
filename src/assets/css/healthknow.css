@@ -1,0 +1,168 @@
+.health-detail {
+    margin: 1.4em;
+    padding: 1.4em;
+  }
+  
+  .hd-title{
+    font-size: 2em;
+  }
+
+  .form-container{
+    border: #b7b7b7 solid 1px;
+  }
+
+  .form-title{
+    font-size: 1.9em;
+    margin-bottom: 0.5em;
+  }
+  
+  .form-group {
+    padding: 0.7em;
+    background-color: #fff;
+    font-size: 2em;
+  }
+  
+  .red-bg {
+    background-color: #dfdbdb;
+  }
+  
+  .form-label {
+    font-weight: bold;
+  }
+  
+  .input-unit-wrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  /* 隱藏輸入欄位右側的上下箭頭 */
+  .input-unit-wrapper input[type=number]::-webkit-inner-spin-button, 
+  input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    margin: 0; 
+  }
+  
+  .input-unit-wrapper input[type="number"],
+  input[type="text"] {
+    flex: 1; /* 自動擴展填滿空間 */
+    width: 100%;
+    padding: 0.35em;
+    margin-top: 0.35em;
+    background-color: #fff;
+    border: 0.01rem solid #000000;
+    margin-bottom: 0.3em;
+    max-width: calc(95% - 3em); /* 確保單位文字不會擠壓 input */
+  }
+  
+  .input-unit-wrapper .unit {
+    margin-left: 0.4em;
+    margin-right: 0.4em;
+    white-space: nowrap; /* 防止單位文字換行 */
+  }
+  
+  .btn-round {
+    border: solid 0.01em#f37e7e;
+    border-radius: 50%;
+    color: #f37e7e;
+    cursor: pointer;
+    width: 1.5em;
+    height: 1.5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1em;
+    font-weight: bold;
+  }
+
+  .add-btn{
+    font-size: 25px; /* 讓 + 更大 */
+    font-weight: bold; /* 讓文字更醒目 */
+    color: white; /* 文字顏色 */
+    background-color: #76caad; /* 使用亮眼的綠色 */
+    border: none; /* 移除預設邊框 */
+    border-radius: 50%; /* 圓形按鈕 */
+    width: 35px; /* 控制按鈕大小 */
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 添加陰影提升視覺層次 */
+    transition: all 0.3s ease; /* 添加過渡效果 */
+    margin-top: 0.2em;
+  }
+
+  .add-btn:hover {
+    background-color: #25903c; /* hover 時顏色變深 */
+    transform: scale(1.1); /* 放大效果 */
+  }
+  
+  .add-btn:active {
+    background-color: #1e7e34; /* 按下時的顏色 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 按下時陰影變化 */
+  }
+  
+  input[type="radio"]{
+    margin-right: 0.3em;
+  }
+  
+  .checkbox-group label {
+    margin-right: 0.35em;
+  }
+  
+  .diet-options {
+    display: flex;
+    align-items: center;
+    margin-top: 1em;
+    margin-bottom: 0.2em;
+  }
+  
+  .checkbox-group {
+    margin-left: 0.7em;
+    display: flex;
+    align-items: center;
+  }
+  
+  .checkbox-group label,
+  .checkbox-group input {
+    margin-left: 0.35em;
+  }
+  
+  .save-button {
+    font-size: 2em;
+    background-color: #76caad;
+    color: #FFFFFF;
+    width: 100%; /* 讓按鈕的寬度與表單一致 */
+    margin-top: 1em;
+  }
+  
+  
+
+  @media screen and (max-width: 1000px) {
+    .health-detail {
+      margin: 0.01em;
+      padding: 0.01em;
+    }
+    .hd-title{
+      font-size: 1.3em;
+    }
+    .form-group{
+      font-size: 1.7em;
+    }
+    .form-title{
+      font-size: 1.6em;
+      margin-bottom: 0.5em;
+    }
+    .save-button{
+      font-size: 1.7em;
+    }
+    .input-unit-wrapper input[type="number"],
+    input[type="text"] {
+      max-width: calc(93.5% - 3em); /* 確保單位文字不會擠壓 input */
+    }
+    .add-btn{
+      font-size: 25px; /* 讓 + 更大 */
+      width: 30px; /* 控制按鈕大小 */
+      height: 30px;
+    }
+  }
