@@ -1,7 +1,6 @@
 .v-application {
-   background-color: #FFFAF2;
-   /* padding-bottom: 30px; */
    font-size: 10px; /* 茅點 */
+   background-color: #fffbf7;
 }
 
 .pageTitle {
@@ -41,7 +40,6 @@
 }
 
 .router {
-   /* margin-top: 0.5em; */
    color: '#FF9898';
 }
 

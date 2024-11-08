@@ -164,8 +164,6 @@
 </template>
 
 <script>
-   // import { useWindowWidth } from '../components/JS/winwidth';
-
    export default {
       name: 'surveyPage'
    }

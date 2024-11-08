@@ -41,7 +41,7 @@
                <v-btn class="reserve-btn" :ripple="false">我要預約諮詢</v-btn>
             </div>
 
-            <div class="tableInfoFrame">
+            <div class="meetInfoFrame">
                <v-card v-for="(item, index) in data" :key="index"
                :class="{'person-meet-card' : item[0] === '個人諮詢', 'group-meet-card mt-4': item[0] !== '個人諮詢'}">
                   <div class="flex-container">

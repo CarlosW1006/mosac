@@ -185,7 +185,7 @@ select option {
 /* 資料顯示數量 */
 .pageTotal {
    font-size: 2em;
-   margin: 0.3em 1.5% 0.3em;
+   margin: 0 1em 0;
 }
 
 .perPage {
@@ -283,7 +283,7 @@ select option {
 
    .pageTotal {
       font-size: 2em;
-      margin: 0em 2% 0em;
+      margin: 0 0.5em 0;
    }
 
    .perPage {

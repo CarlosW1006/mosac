@@ -12,14 +12,15 @@
                   <v-btn class="logoutBtn">登出</v-btn>
                </v-app-bar>
             </div>
+            
             <v-app-bar style="background: linear-gradient(to right, #7bd7b7, #69c9a7);" elevation="0">
                <template v-slot:prepend>
                   <div v-if="winwidth == true" style="margin-left: 30px;">
                      <button :class="{'bar-btn': hashUrl !== '#/index', 
                      'bar-btn-clicked': hashUrl === '#/index'}" @click="navigateToPath('index')">首頁</button>
-                     <button :class="{'bar-btn': hashUrl !== '#/healthKnowledge', 
+                     <button v-if="accType == 2" :class="{'bar-btn': hashUrl !== '#/healthKnowledge', 
                      'bar-btn-clicked': hashUrl === '#/healthKnowledge'}" @click="navigateToPath('healthKnowledge')">健康知能</button>
-                     <button :class="{'bar-btn': hashUrl !== '#/healthNotes', 
+                     <button v-if="accType == 2" :class="{'bar-btn': hashUrl !== '#/healthNotes', 
                      'bar-btn-clicked': hashUrl === '#/healthNotes'}" @click="navigateToPath('healthNotes')">健康手札</button>
                      <button :class="{'bar-btn': hashUrl !== '#/careGarden', 
                      'bar-btn-clicked': hashUrl === '#/careGarden'}" @click="navigateToPath('careGarden')">照護園地</button>
@@ -51,13 +52,15 @@
                      <v-list-item-title class="custom-title">首頁</v-list-item-title>
                   </v-list-item>
 
-                  <v-list-item link class="sm-bar-btn" :to="{ path: '/healthKnowledge' }">
-                     <v-list-item-title class="custom-title">健康知能</v-list-item-title>
-                  </v-list-item>
+                  <div v-if="accType == 2">
+                     <v-list-item link class="sm-bar-btn" :to="{ path: '/healthKnowledge' }">
+                        <v-list-item-title class="custom-title">健康知能</v-list-item-title>
+                     </v-list-item>
 
-                  <v-list-item link class="sm-bar-btn" :to="{ path: '/healthNotes' }">
-                     <v-list-item-title class="custom-title">健康手札</v-list-item-title>
-                  </v-list-item>
+                     <v-list-item link class="sm-bar-btn" :to="{ path: '/healthNotes' }">
+                        <v-list-item-title class="custom-title">健康手札</v-list-item-title>
+                     </v-list-item>
+                  </div>
 
                   <v-list-item link class="sm-bar-btn" :to="{ path: '/careGarden' }">
                      <v-list-item-title class="custom-title">照護園地</v-list-item-title>
@@ -108,11 +111,13 @@
       name: 'App',
       setup() {
          let session = sessionStorage.getItem('session');
+         let accType = sessionStorage.getItem('accType');
+         let issurvey = sessionStorage.getItem('isSurvey');
+
          const { winwidth } = useWindowWidth();
          const drawer = ref(false);
          const toAccInfo = ref('#/accountinfo');
          const hashUrl = ref(window.location.hash);
-         let issurvey = sessionStorage.getItem('isSurvey');
 
          // 當頁面載入後檢查當前的 hash 值
          onMounted(() => {
@@ -146,6 +151,7 @@
             winwidth,
             drawer,
             session,
+            accType,
             userImage,
             hashUrl,
             toAccInfo,

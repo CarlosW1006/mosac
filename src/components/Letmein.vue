@@ -70,7 +70,7 @@
          const router = useRouter();
 
          // 呼叫 getVerifyCode 取得驗證碼資料
-         // getVerifyCode(verifyCodeArr);
+         getVerifyCode(verifyCodeArr);
 
          // 手動呼叫 getVerifyCode 取得驗證碼資料
          function callVerifyCode() {

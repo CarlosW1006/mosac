@@ -21,7 +21,9 @@ export function sendAuth(accname, password, verifycode, verifyCode_ans) {
    return login(loginData)
       .then((response) => {
          console.log('Received token:', response);
-         sessionStorage.setItem('session', response);
+         sessionStorage.setItem('session', response.token);
+         sessionStorage.setItem('accType', response.acc_type);
+         sessionStorage.setItem('isSurvey', response.survey_status);
       })
 }
 // 呼叫登入功能 API End//

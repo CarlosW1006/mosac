@@ -1,5 +1,5 @@
 /* 表格樣式 */
-.tableInfoFrame {
+.meetInfoFrame {
    font-size: 10px;
    display: flex;
    flex-direction: column; /* 垂直排列子元素 */
@@ -7,13 +7,13 @@
 }
 
 .person-meet-card {
-   width: 97%;
+   width: 100%;
    font-size: 10px; /* 茅點 */
    border: 1px solid #e9b347;
 }
 
 .group-meet-card {
-   width: 97%;
+   width: 100%;
    font-size: 10px; /* 茅點 */
    border: 1px solid #436ead;
 }
@@ -111,13 +111,13 @@ a {
    }
 
    /* 小螢幕資訊樣式 */
-   .person-meet-card {
+   /* .person-meet-card {
       width: 95%;
    }
 
    .group-meet-card {
       width: 95%;
-   }
+   } */
 
    .person-meet-name {
       font-size: 2em;

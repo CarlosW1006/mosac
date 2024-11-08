@@ -42,7 +42,7 @@
       </v-col>
    </v-row>
 
-   <v-row style="margin: 0 1% 0;">
+   <v-row style="margin: 0 1%;">
       <v-col cols="12">
          <v-card style="margin-bottom: 50px;">
             <v-list-item class="list-title">
@@ -50,46 +50,45 @@
             </v-list-item>
             <div class="flex-container pageTotal">
                <div class="perPage flex-container">
-                  <v-select :items="perPageNum" label="每頁筆數" outlined :width="130"/>
+                  <v-select :items="perPageNum" label="每頁筆數" outlined style="width: 130px;" />
                </div>
             </div>
 
             <div class="tableInfoFrame">
-               <table>
-                  <!-- 群組排名：大螢幕畫面 -->
-                  <!-- 欄位標題 -->
-                  <thead>
-                     <tr class="table-title">
-                        <th class="col1"><strong></strong></th>
-                        <td class="col2"><strong>群組類別</strong></td>
-                        <td class="col2"><strong>用戶姓名</strong></td>
-                        <td class="col2"><strong>群組排名</strong></td>
-                        <td class="col2"><strong>心得回饋</strong></td>
-                     </tr>
-                  </thead>
+               <div class="tableInnerFrame">
+                  <table>
+                     <thead>
+                        <tr class="table-title">
+                           <th class="col1"><strong></strong></th>
+                           <td class="col2"><strong>群組類別</strong></td>
+                           <td class="col2"><strong>用戶姓名</strong></td>
+                           <td class="col2"><strong>群組排名</strong></td>
+                           <td class="col2"><strong>心得回饋</strong></td>
+                        </tr>
+                     </thead>
 
-                  <tbody v-for="(item, index) in data" :key="index"> 
-                     <tr>
-                        <td><p style="text-align: center;">{{ index + 1 }}</p></td>
-                        <td><p>{{ item[0] }}</p></td>
-                        <td><p>{{ item[1] }}</p></td>
-                        <td><p>{{ item[2] }}</p></td>
-                        <td>
-                           <button class="li-info expandBtn" 
-                           @click="toggleCard(index)">檢視心得</button>
-                        </td>
-                     </tr>
+                     <tbody v-for="(item, index) in data" :key="index"> 
+                        <tr>
+                           <td><p style="text-align: center;">{{ index + 1 }}</p></td>
+                           <td><p>{{ item[0] }}</p></td>
+                           <td><p>{{ item[1] }}</p></td>
+                           <td><p>{{ item[2] }}</p></td>
+                           <td>
+                              <button class="li-info expandBtn" @click="toggleCard(index)">檢視心得</button>
+                           </td>
+                        </tr>
 
-                     <tr v-if="showCard[index] == true" class="feedback"> <!-- 使用 index 控制項目的顯示 -->
-                        <td colspan="5">
-                           <p><strong>心得回饋：</strong>{{ item[3] }}</p>
-                        </td>
-                     </tr>
-                  </tbody>
-               </table>
+                        <tr v-if="showCard[index]" class="feedback">
+                           <td colspan="5">
+                              <p><strong>心得回饋：</strong>{{ item[3] }}</p>
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </div>
             </div>
 
-            <div class="flex-container page-container" v-if="winwidth == true">
+            <div class="flex-container page-container" v-if="winwidth">
                <h3 class="pageNum">顯示第 1 到 10 項結果，共 {{ datas }} 項</h3>
                <v-row justify="end">
                   <v-pagination :length="pages" total-visible="5" class="my-4"/>
@@ -104,6 +103,7 @@
          </v-card>
       </v-col>
    </v-row>
+
 </template>
 
 <script>

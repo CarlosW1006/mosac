@@ -49,7 +49,7 @@
             </v-col>
 
             <!-- Personal Information -->
-            <v-col cols="12" class="mt-1">
+            <v-col cols="12" class="mt-1" v-if="accType == 2">
                <v-card>
                   <v-list-item class="list-title">
                      <h3 class="page-title">減重階段/目標</h3>
@@ -130,10 +130,12 @@
       name: 'accInfoPage',
       
       setup() {
+         let isLoading = ref(false);
+         let accType = sessionStorage.getItem('accType');
+
          const { winwidth } = useWindowWidth();
          const accname = ref('');
          const accInfoArr = ref('');
-         let isLoading = ref(false);
 
          // 呼叫 getVerifyCode 取得驗證碼資料
          getAccInfo(accInfoArr);
@@ -159,6 +161,7 @@
          return {
             winwidth,
             isLoading,
+            accType,
             editImage,
             pointsImage,
             rankImage,

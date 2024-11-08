@@ -1,9 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 
-sessionStorage.setItem('isSurvey', true); // 判斷本月問卷有沒有填寫
-
-console.log(sessionStorage.getItem('isSurvey'))
-
 const routes = [
    {
       path: '/:pathMatch(.*)*',

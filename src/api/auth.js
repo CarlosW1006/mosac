@@ -1,5 +1,6 @@
 import axios from 'axios';
-const APIUrl = 'https://61a43e92-0ba6-4a79-96ae-0dc94502861b.mock.pstmn.io/'
+// const APIUrl = 'http://localhost:8888/'
+const APIUrl = 'http://172.20.10.9:8888/';
 
 // 生成驗證碼 API Start //
 export function askVerifyCode() {
@@ -34,7 +35,6 @@ export function login(loginData) {
    else if(loginData.verifyCode_reply.toString() == loginData.verifyCode_ans) {
       return axios.get(
          APIUrl + '/responseAccID',
-         loginData,
          {
             headers: {
                'Content-Type': 'application/json'
@@ -42,8 +42,11 @@ export function login(loginData) {
          }
       )
       .then((response) => {
-         const token = response.data.data[0].token;
-         return token;
+         const data = response.data.data[0];
+         const token = data.token;
+         const acc_type = data.acc_type;
+         const survey_status = { 1: 'true', 2: 'false' }[data.survey_status];
+         return { token, acc_type, survey_status };
       })
       .catch((error) => {
          alert('資料處理發生異常，請聯絡系統管理員 ', error);
