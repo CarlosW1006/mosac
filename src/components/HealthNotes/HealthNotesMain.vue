@@ -1,5 +1,4 @@
 <template>
-   <!--使該容器將自適應螢幕寬度，確保頁面內容佔據整個螢幕的寬度-->
    <v-container fluid>
       <v-row justify="start">
          <!-- 健康手札大標題 -->

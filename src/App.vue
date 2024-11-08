@@ -5,7 +5,7 @@
             <!-- 電腦功能列 -->
             <v-navigation-drawer v-if="winwidth" style="background: linear-gradient(to right, #7bd7b7, #69c9a7);" elevation="0">
                <template v-slot:prepend>
-                     <div style="margin-bottom: 10.5em;"></div>
+                     <div style="margin-bottom: 8.75em;"></div>
                      <button :class="{'bar-btn': hashUrl !== '#/index', 
                      'bar-btn-clicked': hashUrl === '#/index'}" @click="navigateToPath('index')">
                      <div class="flex-container" style="justify-content: center;">

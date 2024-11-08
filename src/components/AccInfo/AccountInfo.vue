@@ -1,5 +1,5 @@
 <template>
-   <div class="page-tab flex-container">
+   <div class="page-tab flex-container" v-if="winwidth != true">
       <a href="#/index" class="tab-L">回到首頁</a> <p class="tab-R">首頁＞帳號資料</p>
    </div>
 

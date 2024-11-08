@@ -1,6 +1,6 @@
 <template>
    <v-container fluid>
-      <v-row :class="{ 'pa-4': winwidth }">
+      <v-row>
          <v-col cols="12" md="8" >
             <!-- 個人及團體目標達成率 -->
             <v-col cols="12" class="v-card-space" v-if="accType == 2">
