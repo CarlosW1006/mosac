@@ -1,0 +1,154 @@
+.search-frame-care {
+    padding: 3em 1.5em 2em;   
+ }
+ 
+ /* 影片網格樣式 */
+ .video-grid {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 2em;
+ }
+ 
+ .video-item {
+    padding: 0.5em;
+    margin-bottom: 2em;
+ }
+ 
+ .video-card{
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+ }
+ 
+ .router-link{
+    text-decoration: none;
+    color: #000;
+ }
+ 
+ /* 影片縮圖樣式 */
+ .video-thumbnail {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+    background-color: #b7d5cb;
+ }
+ 
+ /* 播放按鈕樣式 */
+ .play-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 3em;
+    color: rgb(0, 0, 0);
+    opacity: 0.8;
+ }
+ 
+ .video-title {
+    width: 280px;
+    font-size: 1.75em;
+    font-weight: bold;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow:hidden;
+ }
+ 
+ .view-count {
+    font-size: 1.5em;
+    color: grey;
+    font-weight: bold;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow:hidden;
+ }
+ 
+ .video-container {
+    position: relative;
+    margin-top: 1em;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    width: 100%;
+    height: 0;
+    overflow: hidden;
+ }
+   
+ .youtube-embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+ }
+   
+ .video-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1em;
+    font-size: 1em;
+ }
+   
+ .video-view-title {
+    width: 1500px;
+    font-size: 2.5em;
+    margin: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow:hidden;
+ }
+   
+ .favorite-icon {
+    cursor: pointer;
+    font-size: 1.5em;
+ }
+   
+ .video-stats {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1em;
+    font-size: 0.9em;
+    color: grey;
+ }
+   
+ .upload-date{
+    font-size: 1.5em;
+ }
+ 
+ .video-description {
+    padding: 0.5em;
+    font-size: 2em;
+    color: #333;
+ }
+ 
+ 
+ @media screen and (max-width: 1000px) {
+    .search-frame-care {
+       margin: 1em;
+       padding: 0;
+    }
+ 
+    .page-title {
+       font-size: 2em;
+       margin-left: 0.05em;
+    }
+  
+    .list-title {
+       margin-bottom: 1.3em;
+    }
+  
+    .video-grid {
+       display: flex;
+       flex-wrap: wrap;
+       margin: 0.5em;
+    }
+ 
+    .video-title {
+       font-size: 1.75em;
+       width: 370px;
+    }
+ 
+    .upload-date{
+       font-size: 1.5em;
+    }
+ 
+    .video-description {
+       font-size: 1.7em;
+    }   
+}

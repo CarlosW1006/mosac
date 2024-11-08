@@ -223,7 +223,8 @@
 
                   <!-- 系統功能捷徑 -->
                   <v-col cols="12">
-                     <v-card outlined class="v-card-L" v-if="accType == 2" style="padding: 25px;">
+                     <v-card outlined class="v-card-L" v-if="accType == 2" style="padding: 15px; display: flex; flex-direction: column; gap: 10px;">
+                        <v-row>
                         <button class="next-page-button to-hk" @click="navigateToPath('healthKnowledge')">
                            <span class="arrow">»</span>
                            <span class="text">前往健康知能</span>
@@ -233,14 +234,17 @@
                            <span class="arrow">»</span>
                            <span class="text">前往健康手札</span>
                         </button>
+                        
                         <button class="next-page-button to-cg" @click="navigateToPath('careGarden')">
                            <span class="arrow">»</span>
                            <span class="text">前往照護園地</span>
                         </button>
+                        
                         <button class="next-page-button to-meet" @click="navigateToPath('meetInfo')">
                            <span class="arrow">»</span>
                            <span class="text">前往專家諮詢</span>
                         </button>
+                     </v-row>
                      </v-card>
                   </v-col>
                </v-row>

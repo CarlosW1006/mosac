@@ -153,7 +153,14 @@ const routes = [
          requiresAuth: true // 需要 session 認證
       }
    },
-
+   {
+      path: '/videoCollection',
+      name: 'videoclnPage',
+      component: () => import('../components/CareGarden/VideoCollection.vue'), // 照護園地(影音收藏)
+      meta: {
+         requiresAuth: true // 需要 session 認證
+      }
+   },
 ]
 
 const router = createRouter({

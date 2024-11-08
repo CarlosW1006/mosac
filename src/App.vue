@@ -2,81 +2,167 @@
    <v-app>
       <div v-if="!['/letmein', '/changepwd'].includes($route.path.toLowerCase())">
          <div v-if="session != null">
-            <div v-if="winwidth == true">
-               <v-app-bar color="#ffffff" elevation="0">
-                  <template v-slot:prepend>
-                     <p class="pageTitle">互動式自我健康管理雲端平台</p>
-                  </template>
-                  <img :src="userImage" style="width: 18px; margin-right: 10px;">
-                  <a :href="toAccInfo" class="userName" v-on:click="navigateToAccInfo">Top001</a>
-                  <v-btn class="logoutBtn">登出</v-btn>
-               </v-app-bar>
-            </div>
-            
-            <v-app-bar style="background: linear-gradient(to right, #7bd7b7, #69c9a7);" elevation="0">
+            <!-- 電腦功能列 -->
+            <v-navigation-drawer v-if="winwidth" style="background: linear-gradient(to right, #7bd7b7, #69c9a7);" elevation="0">
                <template v-slot:prepend>
-                  <div v-if="winwidth == true" style="margin-left: 30px;">
+                     <div style="margin-bottom: 10.5em;"></div>
                      <button :class="{'bar-btn': hashUrl !== '#/index', 
-                     'bar-btn-clicked': hashUrl === '#/index'}" @click="navigateToPath('index')">首頁</button>
-                     <button v-if="accType == 2" :class="{'bar-btn': hashUrl !== '#/healthKnowledge', 
-                     'bar-btn-clicked': hashUrl === '#/healthKnowledge'}" @click="navigateToPath('healthKnowledge')">健康知能</button>
-                     <button v-if="accType == 2" :class="{'bar-btn': hashUrl !== '#/healthNotes', 
-                     'bar-btn-clicked': hashUrl === '#/healthNotes'}" @click="navigateToPath('healthNotes')">健康手札</button>
-                     <button :class="{'bar-btn': hashUrl !== '#/careGarden', 
-                     'bar-btn-clicked': hashUrl === '#/careGarden'}" @click="navigateToPath('careGarden')">照護園地</button>
-                     <button :class="{'bar-btn': hashUrl !== '#/meetInfo', 
-                     'bar-btn-clicked': hashUrl === '#/meetInfo'}" @click="navigateToPath('meetInfo')">專家諮詢</button>
-                     <button class="bar-btn">影音收藏</button>
-                  </div>
-                  <div v-else>
-                     <div v-if="drawer == false">
-                        <v-app-bar-nav-icon @click.stop="drawer = !drawer" style="color: white;"></v-app-bar-nav-icon>
+                     'bar-btn-clicked': hashUrl === '#/index'}" @click="navigateToPath('index')">
+                     <div class="flex-container" style="justify-content: center;">
+                        <v-icon class="bar-btn-icon" style="margin-left: -1.5em;">mdi-home</v-icon>首頁
                      </div>
-                     <div v-else>
-                        <v-btn icon="mdi-dots-vertical" @click.stop="drawer = !drawer" style="color: white;"></v-btn>
+                     </button>
+                     <button v-if="accType == 2" :class="{'bar-btn': hashUrl !== '#/healthKnowledge', 
+                     'bar-btn-clicked': hashUrl === '#/healthKnowledge'}" @click="navigateToPath('healthKnowledge')">
+                        <div class="flex-container" style="justify-content: center;">
+                           <v-icon class="bar-btn-icon">mdi-book-open</v-icon>健康知能
+                        </div>
+                     </button>
+                     <button v-if="accType == 2" :class="{'bar-btn': hashUrl !== '#/healthNotes', 
+                     'bar-btn-clicked': hashUrl === '#/healthNotes'}" @click="navigateToPath('healthNotes')">
+                        <div class="flex-container" style="justify-content: center;">
+                           <v-icon class="bar-btn-icon">mdi-file-edit</v-icon>健康手札
+                        </div>
+                     </button>
+                     <button :class="{'bar-btn': hashUrl !== '#/careGarden',
+                     'bar-btn-clicked': hashUrl === '#/careGarden'}" @click="navigateToPath('careGarden')">
+                        <div class="flex-container" style="justify-content: center;">
+                           <v-icon class="bar-btn-icon">mdi-play-circle</v-icon>照護園地
+                        </div>
+                     </button>
+                     <button :class="{'bar-btn': hashUrl !== '#/meetInfo',
+                     'bar-btn-clicked': hashUrl === '#/meetInfo'}" @click="navigateToPath('meetInfo')">
+                        <div class="flex-container" style="justify-content: center;">
+                           <v-icon class="bar-btn-icon">mdi-account-question</v-icon>專家諮詢
+                        </div>
+                     </button>
+                     <button :class="{'bar-btn': hashUrl !== '#/videoCollection',
+                     'bar-btn-clicked': hashUrl === '#/videoCollection'}" @click="navigateToPath('videoCollection')">
+                        <div class="flex-container" style="justify-content: center;">
+                           <v-icon class="bar-btn-icon">mdi-video-plus</v-icon>影音收藏
+                        </div>
+                     </button>
+               </template>
+
+               <template v-slot:append>
+                  <div class="messages">
+                     <div class="flex-container">
+                        <button class="bar-btn-info">健康紀錄未填寫</button>
+                        <div class="info-number"><p>3</p></div>
+                     </div>
+                  </div>
+                  <div class="messages">
+                     <div class="flex-container">
+                        <button class="bar-btn-info">系統訊息通知數</button>
+                        <div class="info-number"><p>3</p></div>
                      </div>
                   </div>
                </template>
+            </v-navigation-drawer>
 
-               <div v-if="winwidth == true">
-                  <button class="bar-btn-info">系統訊息通知</button>
-               </div>
-               <div v-else>
-                  <a href="#/accountInfo" class="userName2">Top001</a>
-               </div>
+            <v-app-bar v-if="winwidth" elevation="0" class="pageTitle">
+               <template v-slot:prepend>
+                  <p>互動式自我健康管理雲端平台</p>
+               </template>
+               <img :src="userImage" style="width: 18px; margin-right: 10px;">
+               <a :href="toAccInfo" class="userName" v-on:click="navigateToAccInfo">Top001</a>
+               <v-btn class="logoutBtn">登出</v-btn>
             </v-app-bar>
 
-            <div v-if="winwidth == false">
-               <v-navigation-drawer v-model="drawer" app class="indigo">
-                  <v-list-item link class="sm-bar-btn" :to="{ path: '/index' }">
-                     <v-list-item-title class="custom-title">首頁</v-list-item-title>
-                  </v-list-item>
+            <!-- 手機功能列 -->
+            <div v-else>
+               <v-app-bar style="background: linear-gradient(to right, #7bd7b7, #69c9a7);" elevation="0">
+                  <v-app-bar-nav-icon @click.stop="drawer = !drawer" style="color: white;"></v-app-bar-nav-icon>
+                  <v-spacer></v-spacer>
+                  <a :href="toAccInfo" class="userName2" v-on:click="navigateToAccInfo" style="color: white;">Top001</a>
+               </v-app-bar>
 
-                  <div v-if="accType == 2">
-                     <v-list-item link class="sm-bar-btn" :to="{ path: '/healthKnowledge' }">
-                        <v-list-item-title class="custom-title">健康知能</v-list-item-title>
+               <v-navigation-drawer v-model="drawer">
+                  <v-list>
+                     <!-- 首頁 -->
+                     <v-list-item link :class="{'sm-bar-btn': hashUrl !== '#/index', 
+                     'sm-bar-btn-clicked': hashUrl === '#/index'}" @click="navigateToPath('index')" style="margin-top: -5px;">
+                        <div class="flex-container">
+                           <v-list-item-icon>
+                              <v-icon class="bar-btn-icon">mdi-home</v-icon>
+                           </v-list-item-icon>
+                           <v-list-item-title>首頁</v-list-item-title>
+                        </div>
                      </v-list-item>
 
-                     <v-list-item link class="sm-bar-btn" :to="{ path: '/healthNotes' }">
-                        <v-list-item-title class="custom-title">健康手札</v-list-item-title>
+                     <!-- 健康知能 -->
+                     <v-list-item v-if="accType == 2" link :class="{'sm-bar-btn': hashUrl !== '#/healthKnowledge', 
+                     'sm-bar-btn-clicked': hashUrl === '#/healthKnowledge'}" @click="navigateToPath('healthKnowledge')">
+                        <div class="flex-container">
+                           <v-list-item-icon>
+                              <v-icon class="sm-bar-btn-icon">mdi-book-open</v-icon>
+                           </v-list-item-icon>
+                           <v-list-item-title>健康知能</v-list-item-title>
+                        </div>
                      </v-list-item>
-                  </div>
 
-                  <v-list-item link class="sm-bar-btn" :to="{ path: '/careGarden' }">
-                     <v-list-item-title class="custom-title">照護園地</v-list-item-title>
-                  </v-list-item>
+                     <!-- 健康手札 -->
+                     <v-list-item v-if="accType == 2" link :class="{'sm-bar-btn': hashUrl !== '#/healthNotes', 
+                     'sm-bar-btn-clicked': hashUrl === '#/healthNotes'}" @click="navigateToPath('healthNotes')">
+                        <div class="flex-container">
+                           <v-list-item-icon>
+                              <v-icon class="sm-bar-btn-icon">mdi-file-edit</v-icon>
+                           </v-list-item-icon>
+                           <v-list-item-title>健康手札</v-list-item-title>
+                        </div>
+                     </v-list-item>
 
-                  <v-list-item link class="sm-bar-btn" :to="{ path: '/meetInfo' }">
-                     <v-list-item-title class="custom-title">專家諮詢</v-list-item-title>
-                  </v-list-item>
+                     <!-- 照護園地 -->
+                     <v-list-item link :class="{'sm-bar-btn': hashUrl !== '#/careGarden',
+                     'sm-bar-btn-clicked': hashUrl === '#/careGarden'}" @click="navigateToPath('careGarden')">
+                        <div class="flex-container">
+                           <v-list-item-icon>
+                              <v-icon class="sm-bar-btn-icon">mdi-play-circle</v-icon>
+                           </v-list-item-icon>
+                           <v-list-item-title>照護園地</v-list-item-title>
+                        </div>
+                     </v-list-item>
 
-                  <v-list-item link class="sm-bar-btn">
-                     <v-list-item-title class="custom-title">影音收藏</v-list-item-title>
-                  </v-list-item>
+                     <!-- 專家諮詢 -->
+                     <v-list-item link :class="{'sm-bar-btn': hashUrl !== '#/meetInfo', 
+                     'sm-bar-btn-clicked': hashUrl === '#/meetInfo'}" @click="navigateToPath('meetInfo')">
+                        <div class="flex-container">
+                           <v-list-item-icon>
+                              <v-icon class="sm-bar-btn-icon">mdi-account-question</v-icon>
+                           </v-list-item-icon>
+                           <v-list-item-title>專家諮詢</v-list-item-title>
+                        </div>
+                     </v-list-item>
+
+                     <!-- 影音收藏 -->
+                     <v-list-item link :class="{'sm-bar-btn': hashUrl !== '#/videoCollection', 
+                     'sm-bar-btn-clicked': hashUrl === '#/videoCollection'}" @click="navigateToPath('videoCollection')">
+                        <div class="flex-container">
+                           <v-list-item-icon>
+                              <v-icon class="sm-bar-btn-icon">mdi-video-plus</v-icon>
+                           </v-list-item-icon>
+                           <v-list-item-title>影音收藏</v-list-item-title>
+                        </div>
+                     </v-list-item>
+
+                     <v-list-item class="sm-bar-btn">
+                        <div class="flex-container">
+                           <v-list-item-title>健康紀錄未填寫</v-list-item-title>
+                           <div class="sm-info-number"><p>3</p></div>
+                        </div>
+                     </v-list-item>
+                     
+                     <v-list-item class="sm-bar-btn">
+                        <div class="flex-container">
+                           <v-list-item-title>系統訊息通知數</v-list-item-title>
+                           <div class="sm-info-number"><p>3</p></div>
+                        </div>
+                     </v-list-item>
+                  </v-list>
 
                   <template v-slot:append>
                      <div class="pa-2">
-                        <v-btn block class="logoutBtn2">登出</v-btn>
+                        <v-btn block class="logoutBtn2" @click="logout">登出</v-btn>
                      </div>
                   </template>
                </v-navigation-drawer>

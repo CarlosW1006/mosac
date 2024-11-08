@@ -1,32 +1,26 @@
-.play-btn {
-   font-size: 2em;
+.save-btn-healthklg {
+   margin-left: auto;
    color: #FFFFFF;
-   background-color: #ff7a9c;
-}
-
-.search-frame-healthklg {
-   padding: 3em 1.5em 2em;   
+   background-color: #e85656;
+   font-size: 1em;
+   width: 7.5em;
+   height: 2.5em !important;
+   
 }
 
 /* 影片網格樣式 */
 .article-grid {
    display: flex;
    flex-wrap: wrap;
-   margin: 2em;
+   margin: 0.5em;
 }
 
 .article-item {
-   padding: 0.5em;
-   margin-bottom: 2em;
+   padding: 1.5em;
 }
 
 .article-card{
    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
-}
- 
-.router-link{
-  text-decoration: none;
-  color: #000;
 }
 
 /* 文章縮圖樣式 */
@@ -125,36 +119,19 @@
    font-size: 2em;
    color: #333;
 }
- 
- 
-@media screen and (max-width: 1000px) {
-   .page-title {
-      font-size: 2em;
-      margin-left: 0.05em;
-   }
-    
-   .play-btn {
-      width: 10em;
-      font-size: 1.2em;
-      color: #FFFFFF;
-      background-color: #ff7a9c;
-   }
 
-   .search-frame-healthklg {
-      margin: 1em;
-      padding: 0;   
-   }
-
-   .list-title {
-      margin-bottom: 1.3em;
-   }
+.router-link{
+   text-decoration: none;
+}
  
+ 
+@media screen and (max-width: 1000px) {     
    .article-grid {
       display: flex;
       flex-wrap: wrap;
-      margin: 0.5em;
+      margin: 0.1em;
    }
- 
+
    .article-title {
       font-size: 1.95em;
       width: 230px;

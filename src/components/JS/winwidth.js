@@ -9,7 +9,7 @@ export function useWindowWidth() {
    };
 
    const updateWinValue = () => {
-      winwidth.value = windowWidth.value > 1000;
+      winwidth.value = windowWidth.value > 1280;
    };
 
    onMounted(() => {

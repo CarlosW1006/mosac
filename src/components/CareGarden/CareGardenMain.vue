@@ -1,84 +1,66 @@
-<template> 
-   <v-row style="margin: 1% 1% 50px;">
+<template>
+   <div class="page-tab flex-container">
+      <a href="#/index" class="tab-L">回到首頁</a> <p class="tab-R">首頁＞照護園地</p>
+   </div>
+
+   <v-row style="margin: 1% 1% 10px;">
       <v-col cols="12">
          <v-card style="width: 100%;">
-            <v-list-item class="list-title">
+            <v-list-item class="list-title list-title-care">
                <h3 class="page-title">照護園地</h3>
             </v-list-item>
 
             <v-list-item>
-               <div class="search-frame-care">
-                  <input type="string" id="steps" class="search-input" placeholder="請輸入影片標題、日期" />
-                  <button class="search-btn">搜尋</button>
+               <div class="search-frame">
+                  <div class="dropdown">
+                     <input type="string" id="steps" class="search-input" placeholder="請輸入影片標題" />
+                     <button class="search-btn" style="width: 70px;">搜尋</button>
+                  </div>
                </div>
             </v-list-item>
+         </v-card>
+      </v-col>
+   </v-row>
+   
+   <v-row style="margin: 1% 1% 50px;">
+      <v-col cols="12">
+         <v-card style="width: 100%;">
+            <v-list-item class="list-title">
+               <h3 class="page-title">查詢結果</h3>
+            </v-list-item>
+
+            <div class="flex-container pageTotal">
+               <div class="perPage flex-container">
+                  <v-select :items="perPageNum" label="每頁筆數" outlined :width="130"/>
+               </div>
+            </div>
+            
             <!-- 影片網格區塊(大視窗) -->
             <div v-if="winwidth == true"> 
-            <v-list-item>
-               <v-row class="video-grid">
-                  <v-col 
-                  v-for="(video, index) in videos" 
-                  :key="index" 
-                  cols="12" 
-                  md="6" 
-                  lg="4" 
-                  class="video-item"
-                  >
-                     <v-card class="video-card">
-                     <router-link class="router-link" :to="{ name: 'careGdViewPage'}">
-                        <v-img :src="video.thumbnail" class="video-thumbnail" cover>
-                           <v-icon class="play-icon">mdi-play-circle</v-icon>
-                        </v-img>
-                        <div class="video-info">
-                           <span class="video-title">{{ video.title }}</span>
-                           <span class="view-count">觀看次數：{{ video.views }}</span>
-                        </div>
-                     </router-link>
-                     </v-card>
-                  </v-col>
-               </v-row>
-            </v-list-item>
-         </div>
+               <v-list-item>
+                  <v-row class="video-grid">
+                     <v-col 
+                     v-for="(video, index) in videos" :key="index" cols="12" 
+                     md="6" lg="4" class="video-item">
+                        <v-card class="video-card">
+                           <router-link class="router-link" :to="{ name: 'careGdViewPage'}">
+                              <v-img :src="video.thumbnail" class="video-thumbnail" cover>
+                                 <v-icon class="play-icon">mdi-play-circle</v-icon>
+                              </v-img>
+                              <div class="video-info">
+                                 <span class="video-title">{{ video.title }}</span>
+                                 <span class="view-count">觀看次數：{{ video.views }}</span>
+                              </div>
+                           </router-link>
+                        </v-card>
+                     </v-col>
+                  </v-row>
+               </v-list-item>
+            </div>
 
-         <!-- 影片網格區塊(小視窗) -->
-         <div v-else>
-            <v-list-item style="padding: 4px 2px">
-               <v-row class="video-grid">
-                  <v-col 
-                  v-for="(video, index) in videos" 
-                  :key="index" 
-                  cols="12" 
-                  md="6" 
-                  lg="4" 
-                  class="video-item"
-                  >
-                     <v-card class="video-card">
-                     <router-link class="router-link" :to="{ name: 'careGdViewPage'}">
-                        <v-img :src="video.thumbnail" class="video-thumbnail" cover>
-                           <v-icon class="play-icon">mdi-play-circle</v-icon>
-                        </v-img>
-                        <div class="video-info">
-                           <span class="video-title">{{ video.title }}</span>
-                           <span class="view-count">觀看次數：{{ video.views }}</span>
-                        </div>
-                     </router-link>
-                     </v-card>
-                  </v-col>
-               </v-row>
-            </v-list-item>
-         </div>
-
-         <div class="flex-container page-container" v-if="winwidth == true">
-            <v-row justify="center">
-               <v-pagination :length="pages" total-visible="5" class="my-4"/>
-            </v-row>
-         </div>
-
-         <div v-else>
             <v-container class="max-width">
-               <v-pagination :length="pages" class="my-4"/>
+               <v-pagination length=9 class="my-4"/>
             </v-container>
-         </div>
          </v-card>
       </v-col>
    </v-row>
@@ -86,12 +68,13 @@
 
 <script>
    import { useWindowWidth } from '../JS/winwidth.js';
-   import { ref } from 'vue';
+//  import { ref } from 'vue';
 
    export default {
       name: 'careGdPage',
       setup() {
-         const { winwidth } = useWindowWidth();     
+         const { winwidth } = useWindowWidth();
+         const perPageNum = [10, 20, 30];     
          
          // 範例影片資料
          const videos = [
@@ -104,26 +87,15 @@
             // 可以根據需求添加更多影片物件
          ];
 
-         const perPage = ref(10);
-         const data = ref([
-         ['1', '1', '1', '1', '1'],
-         ['2', '2', '2', '2', '2'],
-         ['3', '3', '3', '3', '3']
-         ]);
-
-         //頁碼(後續調整)
-         const datas = data.value.length;
-         const pages = data.value.length * 3;
-         let session = sessionStorage.getItem('session');
-
          return {
             winwidth,
             videos,
-            session,
-            data,
-            datas,
-            pages,
-            perPage,
+         //  session,
+         //  data,
+         //  datas,
+         //  pages,
+         //  perPage,
+            perPageNum
          };
       },
    };
@@ -134,3 +106,4 @@
    @import "../../assets/css/caregd.css";
    
 </style>
+

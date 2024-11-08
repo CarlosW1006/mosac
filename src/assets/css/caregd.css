@@ -1,17 +1,12 @@
-.search-frame-care {
-   padding: 3em 1.5em 2em;   
-}
-
 /* 影片網格樣式 */
 .video-grid {
    display: flex;
    flex-wrap: wrap;
-   margin: 2em;
+   margin: 0.5em;
 }
 
 .video-item {
-   padding: 0.5em;
-   margin-bottom: 2em;
+   padding: 1.5em;
 }
 
 .video-card{
@@ -119,24 +114,14 @@
 
 
 @media screen and (max-width: 1000px) {
-   .search-frame-care {
-      margin: 1em;
-      padding: 0;
-   }
-
-   .page-title {
-      font-size: 2em;
-      margin-left: 0.05em;
-   }
- 
-   .list-title {
+   .list-title-care {
       margin-bottom: 1.3em;
    }
  
    .video-grid {
       display: flex;
       flex-wrap: wrap;
-      margin: 0.5em;
+      margin: 0.1em;
    }
 
    .video-title {
