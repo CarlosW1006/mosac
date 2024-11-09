@@ -58,6 +58,34 @@
                </v-list-item>
             </div>
 
+            <!-- 影片網格區塊(小視窗) -->
+            <div v-else>
+               <v-list-item style="padding: 4px 2px">
+                  <v-row class="video-grid">
+                     <v-col 
+                        v-for="(video, index) in videos" 
+                        :key="index" 
+                        cols="12" 
+                        md="6" 
+                        lg="4" 
+                        class="video-item"
+                     >
+                        <v-card class="video-card">
+                        <router-link class="router-link" :to="{ name: 'careGdViewPage'}">
+                           <v-img :src="video.thumbnail" class="video-thumbnail" cover>
+                              <v-icon class="play-icon">mdi-play-circle</v-icon>
+                           </v-img>
+                           <div class="video-info">
+                              <span class="video-title">{{ video.title }}</span>
+                              <span class="view-count">觀看次數：{{ video.views }}</span>
+                           </div>
+                        </router-link>
+                        </v-card>
+                     </v-col>
+                  </v-row>
+               </v-list-item>
+            </div>
+
             <v-container class="max-width">
                <v-pagination length=9 class="my-4"/>
             </v-container>
