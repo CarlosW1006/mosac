@@ -5,14 +5,12 @@
    font-size: 1em;
    width: 7.5em;
    height: 2.5em !important;
-   
 }
 
 /* 影片網格樣式 */
 .article-grid {
    display: flex;
    flex-wrap: wrap;
-   margin: 0.5em;
 }
 
 .article-item {
@@ -48,6 +46,10 @@
 }
 
 /* 圖片輪播區塊樣式 */
+.v-carousel{
+   background-color: #ececec;
+ }
+
 .v-carousel__controls {
     background: 0%;
     color: rgb(0 0 0);
@@ -123,9 +125,63 @@
 .router-link{
    text-decoration: none;
 }
+
+/* 推薦文章區塊 */
+.recommendation-card {
+   margin-bottom: 1em;
+   padding: 10px;
+   display: flex;
+   align-items: center;
+}
  
+.recommendation-item {
+   display: flex;
+   flex-direction: row;
+   width: 100%;
+}
  
-@media screen and (max-width: 1000px) {     
+.thumbnail-r {
+   flex: 0 0 40%;
+   max-width: 300px;
+}
+ 
+.article-thumbnail-r {
+   width: 100%;
+   height: auto;
+   border-radius: 5px;
+}
+ 
+.article-details-r {
+   flex: 1;
+   padding-left: 10px;
+   display: flex;
+   justify-content: center;
+   flex-direction: column;
+   gap: 5px; /* 控制標題與觀看次數的間距 */
+}
+ 
+.article-title-r {
+   font-size: 2em;
+   font-weight: bold;
+   margin: 0;
+}
+ 
+.article-stats-r {
+   font-size: 1.2em;
+   color: gray;
+   display: flex;
+   gap: 5px; /* 控制觀看次數與上傳時間的間距 */
+}
+ 
+.view-count-r, .upload-date-r {
+   margin: 0;
+}
+ 
+@media screen and (max-width: 1000px) { 
+   .list-title-know {
+      margin-bottom: 1.3em;
+   }
+   
    .article-grid {
       display: flex;
       flex-wrap: wrap;
@@ -181,5 +237,19 @@
 
    .article-description {
       font-size: 1.7em;
+   }
+
+   /* 推薦文章區塊 */
+   .thumbnail-r {
+      max-width:  320px;
+      max-height: 180px;
+   }
+  
+   .article-title-r {
+      font-size: 1.8em;
+   }
+  
+   .article-stats-r {
+      font-size: 1.3em;
    }
 }

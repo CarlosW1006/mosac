@@ -5,8 +5,8 @@
 
    <v-row style="margin: 1% 1% 10px;">
       <v-col cols="12">
-         <v-card style="width: 100%;">
-            <v-list-item class="list-title list-title-care">
+         <v-card>
+            <v-list-item class="list-title list-title-know">
                <h3 class="page-title">健康知能</h3>
             </v-list-item>
 
@@ -14,7 +14,7 @@
                <div class="search-frame">
                   <div class="dropdown">
                      <input type="string" id="steps" class="search-input" placeholder="請輸入文章標題" />
-                     <button class="search-btn" style="width: 70px;">搜尋</button>
+                     <button class="search-btn">搜尋</button>
                   </div>
                </div>
             </v-list-item>
@@ -22,69 +22,57 @@
       </v-col>
    </v-row>
      
-  <v-row style="margin: 1% 1% 50px;">
-     <v-col cols="12">
-        <v-card style="width: 100%;">
-           <v-list-item class="list-title ">
-              <div class="flex-container" style="justify-content: space-between;">
-                 <h3 class="page-title">健康知能</h3>
-              </div>
-           </v-list-item>
+   <v-row style="margin: 0 1% 0;">
+      <v-col cols="12">
+         <v-card>
+            <v-list-item class="list-title ">
+               <div class="flex-container" style="justify-content: space-between;">
+                  <h3 class="page-title">查詢結果</h3>
+               </div>
+            </v-list-item>
 
-           <div class="flex-container pageTotal">
+            <div class="flex-container pageTotal">
                <div class="perPage flex-container">
                   <v-select :items="perPageNum" label="每頁筆數" outlined :width="130"/>  
                </div>
                <v-btn href="#/game" class="save-btn-healthklg " :ripple="false">動動腦九宮格</v-btn>
-           </div>
-           <!-- 文章網格區塊(大視窗) -->
-           <div v-if="winwidth == true"> 
-           <v-list-item>
-              <v-row class="article-grid">
-                 <v-col 
-                   v-for="(article, index) in articles" 
-                   :key="index" 
-                   cols="12" 
-                   md="6" 
-                   lg="4" 
-                   class="article-item"
-                 >
-                    <v-card class="article-card">
-                    <router-link class="router-link" :to="{ name: 'healthKnowledgeViewPage'}">
-                      <div class="article-info">
-                        <span class="article-title">{{ article.title }}</span> 
-                        </div>
-                        <v-img :src="article.thumbnail" class="article-thumbnail" cover></v-img>                    
-                     </router-link>
-                     </v-card>
-                  </v-col>
-               </v-row>
-            </v-list-item>
+            </div>
+            <!-- 文章網格區塊(大視窗) -->
+            <div v-if="winwidth == true"> 
+               <v-list-item>
+                  <v-row class="article-grid">
+                     <v-col v-for="(article, index) in articles" :key="index"
+                     cols="12" md="6" lg="4" class="article-item">
+                        <v-card class="article-card">
+                           <router-link class="router-link" :to="{ name: 'healthKnowledgeViewPage'}">
+                              <div class="article-info">
+                                 <span class="article-title">{{ article.title }}</span> 
+                              </div>
+                              <v-img :src="article.thumbnail" class="article-thumbnail" cover></v-img>                    
+                           </router-link>
+                        </v-card>
+                     </v-col>
+                  </v-row>
+               </v-list-item>
             </div>
 
             <!-- 文章網格區塊(小視窗) -->
             <div v-else> 
-            <v-list-item style="padding: 4px 2px">
-               <v-row class="article-grid">
-                  <v-col 
-                     v-for="(article, index) in articles" 
-                     :key="index" 
-                     cols="12" 
-                     md="6" 
-                     lg="4" 
-                     class="article-item"
-                  >
-                     <v-card class="article-card">
-                     <router-link class="router-link" :to="{ name: 'healthKnowledgeViewPage'}">
-                        <div class="article-info">
-                        <span class="article-title">{{ article.title }}</span> 
-                        </div>
-                        <v-img :src="article.thumbnail" class="article-thumbnail" cover></v-img>                    
-                     </router-link>
-                     </v-card>
-                  </v-col>
-               </v-row>
-            </v-list-item>
+               <v-list-item style="padding: 4px 2px">
+                  <v-row class="article-grid">
+                     <v-col v-for="(article, index) in articles" :key="index" 
+                     cols="12" md="6" lg="4">
+                        <v-card class="article-card">
+                           <router-link class="router-link" :to="{ name: 'healthKnowledgeViewPage'}">
+                              <div class="article-info">
+                                 <span class="article-title">{{ article.title }}</span> 
+                              </div>
+                              <v-img :src="article.thumbnail" class="article-thumbnail" cover></v-img>                    
+                           </router-link>
+                        </v-card>
+                     </v-col>
+                  </v-row>
+               </v-list-item>
             </div>
 
             <div class="flex-container page-container" v-if="winwidth == true">

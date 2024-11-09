@@ -1,5 +1,6 @@
 /* 表格樣式 */
 .meetInfoFrame {
+   margin: 0 2em 0;
    font-size: 10px;
    display: flex;
    flex-direction: column; /* 垂直排列子元素 */
@@ -93,31 +94,10 @@ a {
    margin-top: 1em;
 }
 
-@media screen and (max-width: 960px) {   
-   .talbeInfoFrame tr, th, td {
-      border: 1px solid #c6c6c6;
-      padding: 0.5em 1em;
-      font-size: 1.3em;
+@media screen and (max-width: 960px) { 
+   .meetInfoFrame {
+      margin: 0 1em 0;
    }
-
-   .expandBtn {
-      padding: 0.35em;
-      font-size: 18px;
-   }
-
-   table {
-      border-collapse: collapse;
-      width: 93%;
-   }
-
-   /* 小螢幕資訊樣式 */
-   /* .person-meet-card {
-      width: 95%;
-   }
-
-   .group-meet-card {
-      width: 95%;
-   } */
 
    .person-meet-name {
       font-size: 2em;

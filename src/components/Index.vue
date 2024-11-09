@@ -225,22 +225,22 @@
                   <v-col cols="12">
                      <v-card outlined class="v-card-L" v-if="accType == 2" style="padding: 15px; display: flex; flex-direction: column; gap: 10px;">
                         <v-row>
-                        <button class="next-page-button to-hk" @click="navigateToPath('healthKnowledge')">
+                        <button class="next-page-button" @click="navigateToPath('healthKnowledge')">
                            <span class="arrow">»</span>
                            <span class="text">前往健康知能</span>
                         </button>
 
-                        <button class="next-page-button to-hn" @click="navigateToPath('healthNotes')">
+                        <button class="next-page-button" @click="navigateToPath('healthNotes')">
                            <span class="arrow">»</span>
                            <span class="text">前往健康手札</span>
                         </button>
                         
-                        <button class="next-page-button to-cg" @click="navigateToPath('careGarden')">
+                        <button class="next-page-button" @click="navigateToPath('careGarden')">
                            <span class="arrow">»</span>
                            <span class="text">前往照護園地</span>
                         </button>
                         
-                        <button class="next-page-button to-meet" @click="navigateToPath('meetInfo')">
+                        <button class="next-page-button" @click="navigateToPath('meetInfo')">
                            <span class="arrow">»</span>
                            <span class="text">前往專家諮詢</span>
                         </button>

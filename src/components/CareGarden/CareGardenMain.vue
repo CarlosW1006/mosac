@@ -5,7 +5,7 @@
 
    <v-row style="margin: 1% 1% 10px;">
       <v-col cols="12">
-         <v-card style="width: 100%;">
+         <v-card>
             <v-list-item class="list-title list-title-care">
                <h3 class="page-title">照護園地</h3>
             </v-list-item>
@@ -14,7 +14,7 @@
                <div class="search-frame">
                   <div class="dropdown">
                      <input type="string" id="steps" class="search-input" placeholder="請輸入影片標題" />
-                     <button class="search-btn" style="width: 70px;">搜尋</button>
+                     <button class="search-btn">搜尋</button>
                   </div>
                </div>
             </v-list-item>
@@ -22,9 +22,9 @@
       </v-col>
    </v-row>
    
-   <v-row style="margin: 1% 1% 50px;">
+   <v-row style="margin: 0 1% 0;">
       <v-col cols="12">
-         <v-card style="width: 100%;">
+         <v-card>
             <v-list-item class="list-title">
                <h3 class="page-title">查詢結果</h3>
             </v-list-item>
@@ -39,9 +39,8 @@
             <div v-if="winwidth == true"> 
                <v-list-item>
                   <v-row class="video-grid">
-                     <v-col 
-                     v-for="(video, index) in videos" :key="index" cols="12" 
-                     md="6" lg="4" class="video-item">
+                     <v-col v-for="(video, index) in videos" :key="index"
+                     cols="12" md="6" lg="4">
                         <v-card class="video-card">
                            <router-link class="router-link" :to="{ name: 'careGdViewPage'}">
                               <v-img :src="video.thumbnail" class="video-thumbnail" cover>
@@ -62,14 +61,8 @@
             <div v-else>
                <v-list-item style="padding: 4px 2px">
                   <v-row class="video-grid">
-                     <v-col 
-                        v-for="(video, index) in videos" 
-                        :key="index" 
-                        cols="12" 
-                        md="6" 
-                        lg="4" 
-                        class="video-item"
-                     >
+                     <v-col v-for="(video, index) in videos" :key="index" 
+                     cols="12" md="6" lg="4" class="video-item">
                         <v-card class="video-card">
                         <router-link class="router-link" :to="{ name: 'careGdViewPage'}">
                            <v-img :src="video.thumbnail" class="video-thumbnail" cover>
@@ -96,7 +89,6 @@
 
 <script>
    import { useWindowWidth } from '../JS/winwidth.js';
-//  import { ref } from 'vue';
 
    export default {
       name: 'careGdPage',

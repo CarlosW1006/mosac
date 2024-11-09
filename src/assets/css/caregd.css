@@ -2,7 +2,6 @@
 .video-grid {
    display: flex;
    flex-wrap: wrap;
-   margin: 0.5em;
 }
 
 .video-item {
@@ -112,12 +111,62 @@
    color: #333;
 }
 
+/* 推薦影片區塊 */
+.recommendation-card {
+   margin-bottom: 1em;
+   padding: 10px;
+   display: flex;
+   align-items: center;
+}
+ 
+.recommendation-item {
+   display: flex;
+   flex-direction: row;
+   width: 100%;
+}
+ 
+.thumbnail-r {
+   flex: 0 0 40%;
+   max-width: 300px;
+}
+ 
+.video-thumbnail-r {
+   width: 100%;
+   height: auto;
+   border-radius: 5px;
+}
+ 
+.video-details-r {
+   flex: 1;
+   padding-left: 10px;
+   display: flex;
+   justify-content: center;
+   flex-direction: column;
+   gap: 5px; /* 控制標題與觀看次數的間距 */
+}
+ 
+.video-title-r {
+   font-size: 2em;
+   font-weight: bold;
+   margin: 0;
+}
+ 
+.video-stats-r {
+   font-size: 1.2em;
+   color: gray;
+   display: flex;
+   gap: 5px; /* 控制觀看次數與上傳時間的間距 */
+}
+ 
+.view-count-r, .upload-date-r {
+   margin: 0;
+}
 
 @media screen and (max-width: 1000px) {
    .list-title-care {
       margin-bottom: 1.3em;
    }
- 
+
    .video-grid {
       display: flex;
       flex-wrap: wrap;
@@ -135,5 +184,19 @@
 
    .video-description {
       font-size: 1.7em;
-   }   
+   }
+
+   /* 推薦影片區塊 */
+   .thumbnail-r {
+      max-width:  320px;
+      max-height: 180px;
+   }
+  
+    .video-title-r {
+      font-size: 1.8em;
+   }
+  
+    .video-stats-r {
+      font-size: 1.3em;
+   }
 }

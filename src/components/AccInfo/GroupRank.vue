@@ -5,7 +5,7 @@
 
    <v-row style="margin: 1% 1% 10px;">
       <v-col cols="12">
-         <v-card style="width: 100%;">
+         <v-card>
             <v-list-item class="list-title">
                <h3 class="page-title">群組排名紀錄</h3>
             </v-list-item>
@@ -34,7 +34,7 @@
                         <option value="專業課程">維持期</option>
                      </select>
 
-                     <button class="search-btn" style="width: 70px;">搜尋</button>
+                     <button class="search-btn">搜尋</button>
                   </div>
                </div>
             </v-list-item>
@@ -42,7 +42,7 @@
       </v-col>
    </v-row>
 
-   <v-row style="margin: 0 1%;">
+   <v-row style="margin: 0 1% 0;">
       <v-col cols="12">
          <v-card style="margin-bottom: 50px;">
             <v-list-item class="list-title">

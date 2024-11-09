@@ -5,7 +5,7 @@
 
    <v-row style="margin: 1% 1% 10px;">
       <v-col cols="12">
-         <v-card style="width: 100%;">
+         <v-card>
             <v-list-item class="list-title">
                <h3 class="page-title">諮詢預約紀錄</h3>
             </v-list-item>
@@ -20,7 +20,7 @@
                      </select>
 
                      <input type="string" id="steps" class="search-input" placeholder="請輸入諮詢名稱、日期" />
-                     <button class="search-btn" style="width: 70px;">搜尋</button>
+                     <button class="search-btn">搜尋</button>
                   </div>
                </div>
             </v-list-item>

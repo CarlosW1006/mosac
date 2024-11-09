@@ -3,7 +3,7 @@
       <a href="#/healthKnowledge" class="tab-L">回到健康知能</a><p class="tab-R">健康知能＞衛教文章</p>
    </div>
    <v-row style="margin: 1% 1% 10px;">
-      <v-col cols="12">
+      <v-col cols="12" sm="12" xl="12" md="7" lg="7">
          <v-card style="width: 100%;">
             <v-list-item>
                <div class="article-info">
@@ -52,6 +52,25 @@
             </v-list-item>
          </v-card>
       </v-col>
+      <!-- 推薦文章區 -->
+      <v-col cols="12" sm="12" xl="12" md="5" lg="5">
+         <v-card class="recommendation-card" v-for="article in recommendedArticles" :key="article.id">
+         <v-list-item>
+            <div class="recommendation-item">
+               <div class="thumbnail-r">
+               <img :src="article.thumbnail" alt="Article Thumbnail" class="article-thumbnail-r" />
+               </div>
+               <div class="article-details-r">
+               <h3 class="article-title-r">{{ article.title }}</h3>
+               <div class="article-stats-r">
+                  <span class="view-count-r">上傳者：{{ article.uploader }}</span>
+                  <span class="upload-date-r">．{{ article.uploadDate }}</span>
+               </div>
+               </div>
+            </div>
+         </v-list-item>
+         </v-card>
+      </v-col>
    </v-row>
 </template>
 
@@ -88,6 +107,16 @@
          const toggleFavorite = () => {
             isFavorite.value = !isFavorite.value;
          };
+
+         // 推薦影片資料
+         const recommendedArticles= ref([
+            { title: '如何提升睡眠品質', uploader: '陳ＯＯ醫師', uploadDate: '2024-09-15', thumbnail: 'article02.png' },
+            { title: '運動與健康益處', uploader: '陳ＯＯ醫師', uploadDate: '2024-08-30', thumbnail: 'article01.png' },
+            { title: '均衡飲食的重要性', uploader: '陳ＯＯ醫師', uploadDate: '2024-07-20', thumbnail: 'article02.png' },
+            { title: '如何提升睡眠品質', uploader: '陳ＯＯ醫師', uploadDate: '2024-09-15', thumbnail: 'article01.png' },
+            { title: '運動與健康益處', uploader: '陳ＯＯ醫師', uploadDate: '2024-08-30', thumbnail: 'article02.png' },
+            { title: '均衡飲食的重要性', uploader: '陳ＯＯ醫師', uploadDate: '2024-07-20', thumbnail: 'article01.png' }
+         ]);
          
          return {
             winwidth,
@@ -100,6 +129,7 @@
             isFavorite,
             images,
             toggleFavorite,
+            recommendedArticles
          };
       },
    };
@@ -108,5 +138,4 @@
 <style lang="css" scoped>
    @import "../../assets/css/common.css";
    @import "../../assets/css/healthklg.css";
-
 </style>

@@ -2,7 +2,7 @@
   <!-- 頁籤區塊 -->
   <div class="page-tab flex-container">
      <a href="#/healthNotes" class="tab-L">回到健康紀錄</a>
-     <p class="tab-R">健康手札 ＞ 健康紀錄</p>
+     <p class="tab-R">健康手札＞健康紀錄</p>
   </div>
   <v-container fluid>
     <div class="health-detail"> 

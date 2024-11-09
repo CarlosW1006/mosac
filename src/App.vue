@@ -3,14 +3,15 @@
       <div v-if="!['/letmein', '/changepwd'].includes($route.path.toLowerCase())">
          <div v-if="session != null">
             <!-- 電腦功能列 -->
-            <v-navigation-drawer v-if="winwidth" style="background: linear-gradient(to right, #7bd7b7, #69c9a7);" elevation="0">
+            <v-navigation-drawer v-if="winwidth==true" class="cp-drawer">
                <template v-slot:prepend>
-                  <div style="margin-bottom: 8.75em;"></div>
+                  <div style="margin-bottom: 8.75em;"></div> <!-- 系統 icon -->
                   <button :class="{'bar-btn': hashUrl !== '#/index', 
                   'bar-btn-clicked': hashUrl === '#/index'}" @click="navigateToPath('index')">
                   <div class="flex-container" style="justify-content: center;">
                      <v-icon class="bar-btn-icon" style="margin-left: -1.5em;">mdi-home</v-icon>首頁
                   </div>
+
                   </button>
                   <div v-for="(item, index) in barButtons" :key="index">
                      <button v-if="accType == 2" :class="{'bar-btn': hashUrl !== '#/' + item.path, 
@@ -38,15 +39,6 @@
                </template>
             </v-navigation-drawer>
 
-            <v-app-bar v-if="winwidth" elevation="0" class="pageTitle">
-               <template v-slot:prepend>
-                  <p>互動式自我健康管理雲端平台</p>
-               </template>
-               <img :src="userImage" style="width: 18px; margin-right: 10px;">
-               <a :href="toAccInfo" class="userName" v-on:click="navigateToAccInfo">Top001</a>
-               <v-btn class="logoutBtn">登出</v-btn>
-            </v-app-bar>
-
             <!-- 手機功能列 -->
             <div v-else>
                <v-app-bar style="background: linear-gradient(to right, #7bd7b7, #69c9a7);" elevation="0">
@@ -58,11 +50,9 @@
                <v-navigation-drawer v-model="drawer">
                   <v-list>
                      <v-list-item link :class="{'sm-bar-btn': hashUrl !== '#/index', 
-                     'sm-bar-btn-clicked': hashUrl === '#/index'}" @click="navigateToPath('index')">
+                     'sm-bar-btn-clicked': hashUrl === '#/index'}" @click="navigateToPath('index')" style="margin-top: -0.35em;">
                         <div class="flex-container">
-                           <v-list-item-icon>
-                              <v-icon class="bar-btn-icon">mdi-home</v-icon>
-                           </v-list-item-icon>
+                           <v-icon class="bar-btn-icon">mdi-home</v-icon>
                            <v-list-item-title>首頁</v-list-item-title>
                         </div>
                      </v-list-item>
@@ -71,9 +61,7 @@
                         <v-list-item link :class="{'sm-bar-btn': hashUrl !== '#/' + item.path, 
                         'sm-bar-btn-clicked': hashUrl === '#/' + item.path}" @click="navigateToPath(item.path)">
                            <div class="flex-container">
-                              <v-list-item-icon>
-                                 <v-icon class="bar-btn-icon">{{ item.icon }}</v-icon>
-                              </v-list-item-icon>
+                              <v-icon class="bar-btn-icon">{{ item.icon }}</v-icon>
                               <v-list-item-title>{{ item.title }}</v-list-item-title>
                            </div>
                         </v-list-item>
@@ -96,11 +84,22 @@
 
                   <template v-slot:append>
                      <div class="pa-2">
-                        <v-btn block class="logoutBtn2" @click="logout">登出</v-btn>
+                        <v-btn block class="logoutBtn2">登出</v-btn>
                      </div>
                   </template>
                </v-navigation-drawer>
             </div>
+
+            <v-app-bar v-if="winwidth==true" elevation="0" class="pageTitle">
+               <template v-slot:prepend>
+                  <p>互動式自我健康管理雲端平台</p>
+               </template>
+               <img :src="userImage" style="width: 18px; margin-right: 10px;">
+               <a :href="toAccInfo" class="userName" v-on:click="navigateToAccInfo">Top001</a>
+               <v-btn class="logoutBtn">登出</v-btn>
+            </v-app-bar>
+
+            
 
             <!-- 主要內容 -->
             <v-main class="router">
@@ -108,7 +107,6 @@
             </v-main>
 
             <v-overlay></v-overlay>
-
          </div>
       </div>
       

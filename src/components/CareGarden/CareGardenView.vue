@@ -1,10 +1,10 @@
 <template> 
    <div class="page-tab flex-container">
-   <a href="#/careGarden" class="tab-L">回到照護園地</a><p class="tab-R">照護園地＞衛教影片</p>
+      <a href="#/careGarden" class="tab-L">回到照護園地</a><p class="tab-R">照護園地＞衛教影片</p>
    </div>
    <v-row style="margin: 1% 1% 10px;">
-      <v-col cols="12">
-         <v-card style="width: 100%;">
+      <v-col cols="12" sm="12" xl="12" md="7" lg="7">
+         <v-card>
             <v-list-item>
                <!-- 嵌入的 YouTube 影片 -->
                <div class="video-container">
@@ -13,7 +13,7 @@
                   frameborder="0" 
                   allowfullscreen 
                   class="youtube-embed">
-                  </iframe>
+               </iframe>
                </div>
             </v-list-item>
             <v-list-item>
@@ -33,6 +33,26 @@
             <v-list-item>
                <div class="video-description">
                   <p>{{ description }}</p>
+               </div>
+            </v-list-item>
+         </v-card>
+      </v-col>
+
+      <!-- 推薦影片區 -->
+      <v-col cols="12" sm="12" xl="12" md="5" lg="5">
+         <v-card class="recommendation-card" v-for="video in recommendedVideos" :key="video.id">
+            <v-list-item>
+               <div class="recommendation-item">
+                  <div class="thumbnail-r">
+                  <img :src="video.thumbnail" alt="Video Thumbnail" class="video-thumbnail-r" />
+                  </div>
+                  <div class="video-details-r">
+                     <h3 class="video-title-r">{{ video.title }}</h3>
+                     <div class="video-stats-r">
+                        <span class="view-count-r">觀看次數：{{ video.views }}</span>
+                        <span class="upload-date-r">．{{ video.uploadDate }}</span>
+                     </div>
+                  </div>
                </div>
             </v-list-item>
          </v-card>
@@ -64,8 +84,17 @@
          const toggleFavorite = () => {
          isFavorite.value = !isFavorite.value;
          };
-         
 
+         // 推薦影片資料
+         const recommendedVideos = ref([
+            { title: '如何提升睡眠品質', views: '2500', uploadDate: '2024-09-15', thumbnail: 'article02.png' },
+            { title: '運動與健康益處', views: '1800', uploadDate: '2024-08-30', thumbnail: 'article01.png' },
+            { title: '均衡飲食的重要性', views: '3200', uploadDate: '2024-07-20', thumbnail: 'article02.png' },
+            { title: '如何提升睡眠品質', views: '2500', uploadDate: '2024-09-15', thumbnail: 'article01.png' },
+            { title: '運動與健康益處', views: '1800', uploadDate: '2024-08-30', thumbnail: 'article02.png' },
+            { title: '均衡飲食的重要性', views: '3200', uploadDate: '2024-07-20', thumbnail: 'article01.png' }
+         ]);
+         
          return {
             winwidth,
             videoTitle,
@@ -75,6 +104,7 @@
             description,
             isFavorite,
             toggleFavorite,
+            recommendedVideos
          };
       },
    };
@@ -83,5 +113,5 @@
 <style lang="css" scoped>
    @import "../../assets/css/common.css";
    @import "../../assets/css/caregd.css";
-   
+
 </style>

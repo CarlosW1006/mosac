@@ -50,14 +50,6 @@ const routes = [
       }
    },
    {
-      path: '/accInfoEdit',
-      name: 'accInfoEditPage',
-      component: () => import('../components/AccInfo/AccInfoEdit.vue'),
-      meta: {
-         requiresAuth: true // 需要 session 認證
-      }
-   },
-   {
       path: '/userPoints',
       name: 'userPointsPage',
       component: () => import('../components/AccInfo/UserPoints.vue'),
@@ -124,7 +116,7 @@ const routes = [
    {
       path: '/meetInfo',
       name: 'meetInfoPage',
-      component: () => import('../components/Meeting/MeetInfo.vue'), // 專家諮詢檢視
+      component: () => import('../components/Meeting/MeetMain.vue'), // 專家諮詢檢視
       meta: {
          requiresAuth: true // 需要 session 認證
       }
