@@ -3,7 +3,7 @@
       <div v-if="!['/letmein', '/changepwd'].includes($route.path.toLowerCase())">
          <div v-if="session != null">
             <!-- 電腦功能列 -->
-            <v-navigation-drawer v-if="winwidth==true" class="cp-drawer">
+            <v-navigation-drawer v-if="winwidth==true" class="cp-drawer" mobile-breakpoint="1200">
                <template v-slot:prepend>
                   <div style="margin-bottom: 8.75em;"></div> <!-- 系統 icon -->
                   <button :class="{'bar-btn': hashUrl !== '#/index', 
@@ -98,8 +98,6 @@
                <a :href="toAccInfo" class="userName" v-on:click="navigateToAccInfo">Top001</a>
                <v-btn class="logoutBtn">登出</v-btn>
             </v-app-bar>
-
-            
 
             <!-- 主要內容 -->
             <v-main class="router">

@@ -127,7 +127,7 @@
                                     <div class="col-1 text-center">1.</div>
                                     <div class="col-2 personMeet">個人諮詢
                                        <img :src="require('../assets/images/user.png')" class="meetImg"></div>
-                                    <div class="col-3 meetName">下午2點 個人諮詢會議</div>
+                                    <div class="col-3">下午2點 個人諮詢會議</div>
                                     <div class="col-2 col-time">14:00~15:00</div>
                                  </li>
 

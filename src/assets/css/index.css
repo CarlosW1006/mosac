@@ -160,21 +160,17 @@
 }
 
 .arrow {
-   font-size: 30px;
-   width: 15%;
-   height: 70%;
-   color: #ffaf2f;
-   background-color: #FFFFFF;
+   font-size: 40px;
+   color: #FFFFFF;
    border-radius: 10px;
-   padding: 5px;
+   margin: 0 25px 0;
    display: flex;
    align-items: center;
    justify-content: center;
-   margin-right: 10px;
 }
 
 .text {
-   margin-left: 20px;
+   margin-top: 5px;
    font-size: 30px
 }
 
@@ -309,11 +305,10 @@
 
    /* 4大功能區塊 */
    .arrow {
-      font-size: 20px;
+      font-size: 35px;
    }
 
    .text {
-      margin-left: 20px;
       font-size: 25px
    }
    
@@ -453,7 +448,6 @@
    }
    
    .text {
-      margin-left: 20px;
       font-size: 20px
    }
 }
