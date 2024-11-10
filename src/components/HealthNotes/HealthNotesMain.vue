@@ -1,5 +1,4 @@
-<template>
-    <!--使該容器將自適應螢幕寬度，確保頁面內容佔據整個螢幕的寬度--> 
+<template> 
    <v-row style="margin: 1% 1% 10px;">
       <v-col cols="12">
          <v-card>
@@ -95,10 +94,9 @@
       },
       setup() {
          // 每月步數與慢跑目標
-         const stepGoal = ref(''); // 步數目標
-         const runGoal = ref('');  // 慢跑目標
-         const saveSuccess = ref(false); // 保存成功的狀態
- 
+         const stepGoal = ref(''); 
+         const runGoal = ref('');  
+         const saveSuccess = ref(false); 
          // 保存目標功能
          function saveGoals() {
             if (stepGoal.value === '' || runGoal.value === '') {
@@ -173,176 +171,16 @@
   
 <style lang="css" scoped>
 @import "../../assets/css/common.css";
-.sub-title {
-   font-size: 2em; /* 小標題字體大小 */
-   margin: 0; /* 移除上下間距 */
-}
-/* 每月活動目標區塊 */
-.monthly-goal-section {
-   border-radius: 8px; /* 圓角 */
-   width: 60%; /* 區塊寬度 */
-   margin: 3em 1.5em;
-   border: #dddddd solid 1px;
-}
-
-/* 第一行：小標題與保存按鈕 */
-.goal-header {
-   display: flex;
-   justify-content: space-between;
-   align-items: center;
-   border-radius: 8px 8px 0 0;
-   background-color: #f0f0f0;
-   padding: 10px 20px;
-}
-
-/* 每行輸入框區塊 */
-.goal-input-row {
-   display: flex;
-   align-items: center;
-   background-color: #fff; /* 白色背景 */
-   padding: 15px 20px;
-   color: #914502;
-   font-size: 1.6em;
-}
-
-.goal-input-row:nth-child(odd) {
-   background-color: #f0f0f0; /* 灰色背景 */
-   border-radius: 0 0 8px 8px;
-}
-
-/* 調整標籤和輸入框的寬度使它們對齊 */
-.goal-label {
-   width: 150px; /* 固定標籤寬度，確保兩行標籤對齊 */
-   text-align: left;
-}
-
-.goal-input {
-   width: 150px; /* 固定輸入框寬度，確保輸入框對齊 */
-   padding: 5px;
-   background-color: #fff;
-   border: 1px solid #000; /* 黑色邊框 */
-   border-radius: 4px;
-   margin-right: 10px; /* 保持與後面的文字（步、分鐘）間距 */
-}
-
-/* 隱藏輸入欄位右側的上下箭頭 */
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
--webkit-appearance: none;
-margin: 0; 
-}
-
-/* 保存成功的提示 */
-.save-success {
-   color: #28a745; /* 成功提示文字顏色 */
-   margin-bottom: 20px;
-}
-
-.calendar-row{
-   padding: 1.5em 1em 0.5em 1em;
-}
-
-.my-calendar .vc-weekday-1, .my-calendar .vc-weekday-7 {
-   color: #6366f1;
-}
-
-.day-content{
-   text-align: left;
-   font-size: 1.8em;
-   padding-left: 5px;
-   border: 0.05px solid #b6b6b6;
-   border-bottom: none;
-}
-
-.day-content-phone {
-   padding: 0.6em;
-   text-align: center;
-}
-
-.space {
-   height: 80px;
-   width: 100% !important;
-   border: 0.5px solid #b6b6b6 !important;
-   border-top: none !important; /* 強制移除上方線條 */
-   display: flex;
-   align-items: center; /* 垂直置中 */
-   justify-content: center; /* 水平置中 */
-}
+@import "../../assets/css/healthnote.css";
 
 :deep(.vc-day.is-not-in-month *) {
-   opacity: 1;
-   color: #BDBDBD;
-}
-
-
-.space a {
-   height: 70%;
-   width: 70%;
-   font-size: 1.8em;
-   padding-top: 15px;
-   padding-bottom: 15px;
-   text-align: center;
-   color: #53d2aa;
-   white-space: nowrap;
-   overflow: hidden;
-   text-overflow: ellipsis; /* 如果希望結尾有省略號，可以加這個屬性 */
-   text-decoration: none;
-}
-
-.status-icon {
-   font-size: 0.8em;
-   margin-left: 5px;
-   vertical-align: middle;
-}
-
-
-.legend {
-   margin: 1em 2.2em 5em;
-   display: flex;
-   gap: 15px;
-}
-
-.legend-item {
-   display: flex;
-   align-items: center;
-   font-size: 2em;
-   font-family: Arial, Helvetica, sans-serif;
-}
+    opacity: 1;
+    color: #BDBDBD;
+ }
 
 @media screen and (max-width: 1000px) {
-   .monthly-goal-section {
-      border-radius: 8px; /* 圓角 */
-      width: 100%; /* 區塊寬度 */
-      margin: 3em 0.1em;
-   }
-
-   .goal-header {
-      border-radius: 8px 8px 0 0;
-   }
-
-   .goal-header .save-btn {
-      font-size: 1.5em;
-   }
-
-   .calendar-row{
-      padding: 1em 1em 0.5em 1em;
-   }
-
-   :deep(.vc-day){
-      border: 0.05px solid #b6b6b6;
-   }
-
-   .day-content{
-      text-align: left;
-      font-size: 1.8em;
-      padding-left: 0;
-      border: none;
-   }  
-}
-
-@media (min-width: 495px) and (max-width: 570px) {
-   .day-content{
-      font-size: 2.2em;
-   }  
-}
+    :deep(.vc-day){
+       border: 0.05px solid #b6b6b6;
+    }
+ }
 </style>
