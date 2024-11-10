@@ -34,7 +34,6 @@
                </div>
             </v-list-item>
             
-            
             <v-list-item>
                <div class="article-stats">
                   <span class="upload-date">上傳日期：{{ uploadDate }}</span>
@@ -43,9 +42,9 @@
             </v-list-item>
 
             <v-list-item>
-               <div class="article-subtitle">
+               <!-- <div class="article-subtitle">
                   <p>{{ subtitle }}</p>
-               </div>
+               </div> -->
                <div class="article-description">
                   <p>{{ description }}</p>
                </div>

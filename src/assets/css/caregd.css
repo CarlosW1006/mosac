@@ -46,10 +46,18 @@
    overflow:hidden;
 }
 
+.video-info-card {
+   font-size: 1em;
+   display: flex;
+   margin: 1.5em;
+   align-items: center;
+   justify-content: space-between;
+   
+}
+
 .view-count {
-   font-size: 1.5em;
    color: grey;
-   font-weight: bold;
+   font-size: 1.75em;
    text-overflow: ellipsis;
    white-space: nowrap;
    overflow:hidden;
@@ -76,14 +84,13 @@
    display: flex;
    justify-content: space-between;
    align-items: center;
-   padding: 1em;
    font-size: 1em;
 }
   
 .video-view-title {
    width: 1500px;
    font-size: 2.5em;
-   margin: 0;
+   margin-top: 1em;
    text-overflow: ellipsis;
    white-space: nowrap;
    overflow:hidden;
@@ -91,15 +98,16 @@
   
 .favorite-icon {
    cursor: pointer;
+   margin-top: 1em;
    font-size: 1.5em;
 }
   
 .video-stats {
+   font-size: 1.25em;
+   padding: 1em 0 0;
+   color: grey;
    display: flex;
    justify-content: space-between;
-   padding: 0 1em;
-   font-size: 0.9em;
-   color: grey;
 }
   
 .upload-date{
@@ -107,9 +115,9 @@
 }
 
 .video-description {
-   padding: 0.5em;
-   font-size: 2em;
    color: #333;
+   padding: 0.5em 0 1em;
+   font-size: 2em;
 }
 
 /* 推薦影片區塊 */
@@ -153,8 +161,8 @@
 }
 
 .view-count-r {
-   font-size: 1.2em;
    color: grey;
+   font-size: 1.75em;
    font-weight: normal;
 }
 

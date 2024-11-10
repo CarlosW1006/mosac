@@ -18,8 +18,8 @@
             </v-list-item>
             <v-list-item>
                <div class="video-info">
-               <h2 class="video-view-title">{{ videoTitle }}</h2>
-               <button @click="toggleFavorite" class="favorite-icon">{{ isFavorite ? '❤️' : '🤍' }}</button>
+                  <h2 class="video-view-title">{{ videoTitle }}</h2>
+                  <button @click="toggleFavorite" class="favorite-icon">{{ isFavorite ? '❤️' : '🤍' }}</button>
                </div>
             </v-list-item>
          

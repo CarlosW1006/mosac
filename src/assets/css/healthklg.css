@@ -86,11 +86,11 @@
 }
    
 .article-stats {
+   font-size: 1.25em;
+   padding: 1em 0 0;
+   color: grey;
    display: flex;
    justify-content: space-between;
-   padding: 0 1em;
-   font-size: 0.9em;
-   color: grey;
 }
    
 .upload-date{
@@ -100,21 +100,20 @@
 .upload-name {
    font-size: 1.5em;
    color: grey;
-   font-weight: bold;
    text-overflow: ellipsis;
    white-space: nowrap;
    overflow:hidden;
 }
 
 .article-subtitle{
-   padding: 0.2em 1em 0em 0.4em;
+   padding: 0.2em 0em 0.4em;
    font-size: 2.5em;
    color: #333;
    font-weight: bold;
 }
 
 .article-description {
-   padding: 0.4em;
+   padding: 0.2em 0em 1em;
    font-size: 2em;
    color: #333;
 }
@@ -193,6 +192,10 @@
    .article-view-title {
       font-size: 1.95em;
       width: 400px;
+   }
+
+   .article-stats {
+      font-size: 1em;
    }
 
    .v-carousel{

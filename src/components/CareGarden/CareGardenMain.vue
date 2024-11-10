@@ -46,7 +46,7 @@
                               <v-img :src="video.thumbnail" class="video-thumbnail" cover>
                                  <v-icon class="play-icon">mdi-play-circle</v-icon>
                               </v-img>
-                              <div class="video-info">
+                              <div class="video-info-card">
                                  <span class="video-title">{{ video.title }}</span>
                                  <span class="view-count">觀看次數：{{ video.views }}</span>
                               </div>
@@ -64,15 +64,15 @@
                      <v-col v-for="(video, index) in videos" :key="index" 
                      cols="12" md="6" lg="4" class="video-item">
                         <v-card class="video-card">
-                        <router-link class="router-link" :to="{ name: 'careGdViewPage'}">
-                           <v-img :src="video.thumbnail" class="video-thumbnail" cover>
-                              <v-icon class="play-icon">mdi-play-circle</v-icon>
-                           </v-img>
-                           <div class="video-info">
-                              <span class="video-title">{{ video.title }}</span>
-                              <span class="view-count">觀看次數：{{ video.views }}</span>
-                           </div>
-                        </router-link>
+                           <router-link class="router-link" :to="{ name: 'careGdViewPage'}">
+                              <v-img :src="video.thumbnail" class="video-thumbnail" cover>
+                                 <v-icon class="play-icon">mdi-play-circle</v-icon>
+                              </v-img>
+                              <div class="video-info-card">
+                                 <span class="video-title">{{ video.title }}</span>
+                                 <span class="view-count">觀看次數：{{ video.views }}</span>
+                              </div>
+                           </router-link>
                         </v-card>
                      </v-col>
                   </v-row>
@@ -143,9 +143,5 @@
    };
 </script>
 
-<style lang="css" scoped>
-   @import "../../assets/css/common.css";
-   @import "../../assets/css/caregd.css";
-   
-</style>
-
+<style scoped src="../../assets/css/common.css"></style>
+<style scoped src="../../assets/css/caregd.css"></style>
