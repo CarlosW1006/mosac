@@ -24,7 +24,7 @@
      
    <v-row style="margin: 0 1% 0;">
       <v-col cols="12">
-         <v-card>
+         <v-card style="margin-bottom: 50px;">
             <v-list-item class="list-title ">
                <div class="flex-container" style="justify-content: space-between;">
                   <h3 class="page-title">查詢結果</h3>
@@ -61,7 +61,7 @@
                <v-list-item style="padding: 4px 2px">
                   <v-row class="article-grid">
                      <v-col v-for="(article, index) in articles" :key="index" 
-                     cols="12" md="6" lg="4">
+                     cols="12" md="6" lg="4" class="article-item">
                         <v-card class="article-card">
                            <router-link class="router-link" :to="{ name: 'healthKnowledgeViewPage'}">
                               <div class="article-info">
@@ -76,7 +76,8 @@
             </div>
 
             <div class="flex-container page-container" v-if="winwidth == true">
-               <v-row justify="center">
+               <h3 class="pageNum">顯示第 1 到 10 項結果，共 {{ datas }} 項</h3>
+               <v-row justify="end">
                   <v-pagination :length="pages" total-visible="5" class="my-4"/>
                </v-row>
             </div>

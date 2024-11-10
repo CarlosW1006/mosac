@@ -10,7 +10,7 @@
                <p class="intro-content">
                   系統將依照問卷填寫結果，為您安排到意圖前期、意圖期、準備期、行動期、維持期，5個階段群組。
                </p>
-            </v-card>         
+            </v-card>
          </v-card>
 
          <v-card class="question-container">

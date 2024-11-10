@@ -4,33 +4,23 @@
          <p class="sys-title">自我健康管理雲端平台</p>
          <v-form fast-fail class="login-frame">
             <h2 class="frame-title">修改密碼</h2> 
-            <v-text-field 
-               v-model="userid" 
-               label="請輸入您的帳號" solo
-               @keydown.enter="changeConfirm(userid, password, repassword, verifycode)"
-            >
+            <v-text-field v-model="userid" label="請輸入您的帳號" solo 
+            @keydown.enter="changeConfirm(userid, password, repassword, verifycode)">
                <template v-slot:prepend>
                   <v-icon>mdi-account</v-icon>
                </template>
             </v-text-field>
-            <v-text-field 
-               v-model="password" 
-               label="請輸入新的密碼" solo
-               :type="showPassword ? 'text' : 'password'" autocomplete
-               :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-               @click:append-inner="togglePasswordVisibility"
-               @keydown.enter="changeConfirm(userid, password, repassword, verifycode)"
-            >
+
+            <v-text-field v-model="password" label="請輸入新的密碼" solo
+            :type="showPassword ? 'text' : 'password'" autocomplete :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'" 
+            @click:append-inner="togglePasswordVisibility"  @keydown.enter="changeConfirm(userid, password, repassword, verifycode)">
                <template v-slot:prepend>
                   <v-icon>mdi-lock</v-icon>
                </template>
             </v-text-field>
-            <v-text-field 
-               v-model="repassword" 
-               label="請再輸入新密碼" solo
-               type="password"
-               @keydown.enter="changeConfirm(userid, password, repassword, verifycode)"
-            >
+
+            <v-text-field v-model="repassword" label="請再輸入新密碼" solo
+            type="password" @keydown.enter="changeConfirm(userid, password, repassword, verifycode)">
                <template v-slot:prepend>
                   <v-icon>mdi-lock</v-icon>
                </template>

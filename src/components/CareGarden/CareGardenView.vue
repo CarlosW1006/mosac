@@ -3,7 +3,7 @@
       <a href="#/careGarden" class="tab-L">回到照護園地</a><p class="tab-R">照護園地＞衛教影片</p>
    </div>
    <v-row style="margin: 1% 1% 10px;">
-      <v-col cols="12" sm="12" xl="12" md="7" lg="7">
+      <v-col cols="12" sm="12" xl="12" md="8" lg="8">
          <v-card>
             <v-list-item>
                <!-- 嵌入的 YouTube 影片 -->
@@ -39,7 +39,7 @@
       </v-col>
 
       <!-- 推薦影片區 -->
-      <v-col cols="12" sm="12" xl="12" md="5" lg="5">
+      <v-col cols="12" sm="12" xl="12" md="4" lg="4">
          <v-card class="recommendation-card" v-for="video in recommendedVideos" :key="video.id">
             <v-list-item>
                <div class="recommendation-item">
@@ -48,10 +48,8 @@
                   </div>
                   <div class="video-details-r">
                      <h3 class="video-title-r">{{ video.title }}</h3>
-                     <div class="video-stats-r">
-                        <span class="view-count-r">觀看次數：{{ video.views }}</span>
-                        <span class="upload-date-r">．{{ video.uploadDate }}</span>
-                     </div>
+                     <span class="view-count-r">觀看次數：{{ video.views }}</span>
+                     <span class="upload-date-r">{{ video.uploadDate }}</span>
                   </div>
                </div>
             </v-list-item>

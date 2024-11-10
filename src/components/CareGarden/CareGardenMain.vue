@@ -24,7 +24,7 @@
    
    <v-row style="margin: 0 1% 0;">
       <v-col cols="12">
-         <v-card>
+         <v-card style="margin-bottom: 50px;">
             <v-list-item class="list-title">
                <h3 class="page-title">查詢結果</h3>
             </v-list-item>
@@ -40,7 +40,7 @@
                <v-list-item>
                   <v-row class="video-grid">
                      <v-col v-for="(video, index) in videos" :key="index"
-                     cols="12" md="6" lg="4">
+                     cols="12" md="6" lg="4" class="video-item">
                         <v-card class="video-card">
                            <router-link class="router-link" :to="{ name: 'careGdViewPage'}">
                               <v-img :src="video.thumbnail" class="video-thumbnail" cover>
@@ -79,9 +79,18 @@
                </v-list-item>
             </div>
 
-            <v-container class="max-width">
-               <v-pagination length=9 class="my-4"/>
-            </v-container>
+            <div class="flex-container page-container" v-if="winwidth == true">
+               <h3 class="pageNum">顯示第 1 到 10 項結果，共 {{ datas }} 項</h3>
+               <v-row justify="end">
+                  <v-pagination :length="pages" total-visible="5" class="my-4"/>
+               </v-row>
+            </div>
+
+            <div v-else>
+               <v-container class="max-width">
+                  <v-pagination :length="pages" class="my-4"/>
+               </v-container>
+            </div>
          </v-card>
       </v-col>
    </v-row>
@@ -89,6 +98,7 @@
 
 <script>
    import { useWindowWidth } from '../JS/winwidth.js';
+   import { ref } from 'vue';
 
    export default {
       name: 'careGdPage',
@@ -107,14 +117,26 @@
             // 可以根據需求添加更多影片物件
          ];
 
+         const perPage = ref(10);
+         const data = ref([
+            ['1', '1', '1', '1', '1'],
+            ['2', '2', '2', '2', '2'],
+            ['3', '3', '3', '3', '3']
+         ]);
+
+         //頁碼(後續調整)
+         const datas = data.value.length;
+         const pages = data.value.length * 3;
+         let session = sessionStorage.getItem('session');
+
          return {
             winwidth,
             videos,
-         //  session,
-         //  data,
-         //  datas,
-         //  pages,
-         //  perPage,
+            session,
+            data,
+            datas,
+            pages,
+            perPage,
             perPageNum
          };
       },
