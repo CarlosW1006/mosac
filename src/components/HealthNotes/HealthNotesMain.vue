@@ -1,80 +1,86 @@
 <template>
-    <!--使該容器將自適應螢幕寬度，確保頁面內容佔據整個螢幕的寬度-->
-    <v-container fluid>
-       <v-row justify="start">
-          <!-- 健康手札大標題 -->
-          <h1 class="main-title">健康手札</h1>
-       </v-row>
+    <!--使該容器將自適應螢幕寬度，確保頁面內容佔據整個螢幕的寬度--> 
+   <v-row style="margin: 1% 1% 10px;">
+      <v-col cols="12">
+         <v-card>
+            <v-list-item class="list-title">
+               <h3 class="page-title">健康手札</h3>
+            </v-list-item>
+            <v-list-item center>
+               <!-- 每月活動目標區塊 -->
+               <div :class="{'monthly-goal-section': true, 'wide': winwidth}">
+                  <div class="goal-header">
+                     <h2 class="sub-title">每月活動目標</h2>
+                     <v-btn @click="saveGoals" class="save-btn">儲存</v-btn>
+                  </div>
+      
+                  <div class="goal-input-row">
+                     <label class="goal-label">每月步數目標：</label>
+                     <input v-model="stepGoal" type="number" class="goal-input" placeholder="輸入步數目標" /> 步
+                  </div>
+                  
+                  <div class="goal-input-row">
+                     <label class="goal-label">每月慢跑目標：</label>
+                     <input v-model="runGoal" type="number" class="goal-input" placeholder="輸入慢跑目標" /> 分鐘
+                  </div>
+               </div>
+            </v-list-item>
+ 
+            <!-- 用戶成功保存後的提示 -->
+            <div v-if="saveSuccess" class="save-success">
+               <p>目標已保存！</p>
+            </div>
+
+            <v-list-item justify="center" class="calendar-row">
+               <Calendar is-inline expanded ref="calendar">
+                  <!--day-content 插槽傳入的 day 物件包含了每一天的日期等資訊。-->
+                  <template #day-content="{ day }">
+                     <!--這行是綁定 day-content 元素的背景顏色，根據 checkDay() 函數的回傳值改變背景顏色。-->
+                     <div class="day-content" :style="{ backgroundColor: checkDay(day.date.toLocaleDateString()) }">
+                        <!--如果螢幕寬度足夠寬（桌面裝置），直接顯示日期-->
+                        <div v-if="winwidth == true">
+                           {{ day.date.getDate() }}
+                           <span v-if="isPastOrToday(day.date)">
+                              <span v-if="isCompleted(day.date)" class="status-icon completed">✔️</span>
+                              <span v-else class="status-icon not-completed">❌</span>
+                           </span>
+                        </div>
+                        <!--如果螢幕寬度較窄（行動裝置），則用按鈕包裹日期，讓使用者可以點擊跳轉到該日期的詳細頁面。-->
+                        <div v-else class="day-content-phone">
+                           <button @click="navigate(day.date)">
+                              {{ day.date.getDate() }}
+                              <span v-if="isPastOrToday(day.date)">
+                                 <span v-if="isCompleted(day.date)" class="status-icon completed">✔️</span>
+                                 <span v-else class="status-icon not-completed">❌</span>
+                              </span>
+                           </button>
+                        </div>
+                     </div>
+      
+                     <div v-if="winwidth == true">
+                        <div class="space"
+                        :style="{ backgroundColor: checkDay(day.date.toLocaleDateString()) }">
+                           <!-- 每一天的 Dom -->
+                           <a v-bind:href="`./index.html#/healthDetailForm?date=${day.date.toISOString()}`">每日健康紀錄</a>
+                        </div>
+                     </div>
+                  </template>
+               </Calendar>
+            </v-list-item>
+            <v-list-item justify="center" class="legend">
+               <div class="legend-item">
+                     <span class="status-icon completed">✔️</span>完成填寫 
+               </div>
+               <div class="legend-item">
+                     <span class="status-icon not-completed">❌</span> 尚未填寫
+               </div>
+            </v-list-item>
+         </v-card>
+      </v-col>
+   </v-row>
        
-       <v-row justify="center">
-          <!-- 每月活動目標區塊 -->
-          <div :class="{'monthly-goal-section': true, 'wide': winwidth}">
-             <div class="goal-header">
-                <h2 class="sub-title">每月活動目標</h2>
-                <button @click="saveGoals" class="save-button">保存目標</button>
-             </div>
- 
-             <div class="goal-input-row">
-                <label class="goal-label">每月步數目標：</label>
-                <input v-model="stepGoal" type="number" class="goal-input" placeholder="輸入步數目標" /> 步
-             </div>
-             
-             <div class="goal-input-row">
-                <label class="goal-label">每月慢跑目標：</label>
-                <input v-model="runGoal" type="number" class="goal-input" placeholder="輸入慢跑目標" /> 分鐘
-             </div>
-          </div>
-       </v-row>
- 
-       <!-- 用戶成功保存後的提示 -->
-       <div v-if="saveSuccess" class="save-success">
-          <p>目標已保存！</p>
-       </div>
-       <v-row justify="center" class="calendar-row">
-          <Calendar is-inline expanded ref="calendar">
-             <!--day-content 插槽傳入的 day 物件包含了每一天的日期等資訊。-->
-             <template #day-content="{ day }">
-                <!--這行是綁定 day-content 元素的背景顏色，根據 checkDay() 函數的回傳值改變背景顏色。-->
-                <div class="day-content" :style="{ backgroundColor: checkDay(day.date.toLocaleDateString()) }">
-                   <!--如果螢幕寬度足夠寬（桌面裝置），直接顯示日期-->
-                   <div v-if="winwidth == true">
-                      {{ day.date.getDate() }}
-                      <span v-if="isPastOrToday(day.date)">
-                         <span v-if="isCompleted(day.date)" class="status-icon completed">✔️</span>
-                         <span v-else class="status-icon not-completed">❌</span>
-                      </span>
-                   </div>
-                   <!--如果螢幕寬度較窄（行動裝置），則用按鈕包裹日期，讓使用者可以點擊跳轉到該日期的詳細頁面。-->
-                   <div v-else class="day-content-phone">
-                      <button @click="navigate(day.date)">
-                        {{ day.date.getDate() }}
-                        <span v-if="isPastOrToday(day.date)">
-                           <span v-if="isCompleted(day.date)" class="status-icon completed">✔️</span>
-                           <span v-else class="status-icon not-completed">❌</span>
-                        </span>
-                      </button>
-                   </div>
-                </div>
- 
-                <div v-if="winwidth == true">
-                   <div class="space"
-                   :style="{ backgroundColor: checkDay(day.date.toLocaleDateString()) }">
-                      <!-- 每一天的 Dom -->
-                      <a v-bind:href="`./index.html#/healthDetailForm?date=${day.date.toISOString()}`">每日健康紀錄</a>
-                   </div>
-                </div>
-             </template>
-          </Calendar>
-        </v-row>
-        <v-row justify="center" class="legend">
-           <div class="legend-item">
-               <span class="status-icon completed">✔️</span>完成填寫 
-           </div>
-           <div class="legend-item">
-               <span class="status-icon not-completed">❌</span> 尚未填寫
-           </div>
-         </v-row>
-    </v-container>
+       
+    
  </template>
   
 <script>
@@ -166,28 +172,19 @@
  
 </script>
   
-<style scoped>
-.main-title {
-   font-size: 2.5em; /* 大標題字體大小 */
-   margin-top: 10px; /* 大標題上方間距 */
-   margin-bottom: 20px; /* 標題下方間距 */
-   margin-left: 45px; /* 標題左方間距 */
-}
-
+<style lang="css" scoped>
+@import "../../assets/css/common.css";
 .sub-title {
-   font-size: 1.5em; /* 小標題字體大小 */
+   font-size: 2em; /* 小標題字體大小 */
    margin: 0; /* 移除上下間距 */
 }
 /* 每月活動目標區塊 */
 .monthly-goal-section {
    border-radius: 8px; /* 圓角 */
-   width: 400px; /* 區塊寬度 */
-   margin-bottom: 50px;
+   width: 60%; /* 區塊寬度 */
+   padding: 3em 1.5em;
 }
 
-.monthly-goal-section.wide {
-   width: 60%; /* 當視窗為桌面時，佔據大部分寬度 */
-} 
 /* 第一行：小標題與保存按鈕 */
 .goal-header {
    display: flex;
@@ -195,20 +192,6 @@
    align-items: center;
    background-color: #f0f0f0;
    padding: 10px 20px;
-   border-radius: 8px 8px 0 0; /* 只讓上方圓角 */
-}
-
-.save-button {
-   background-color: #ff7f7f;
-   color: white;
-   padding: 10px;
-   border: none;
-   border-radius: 5px;
-   cursor: pointer;
-}
-
-.save-button:hover {
-   background-color: #ff4f4f; /* 鼠標懸停時背景顏色 */
 }
 
 /* 每行輸入框區塊 */
@@ -218,6 +201,7 @@
    background-color: #fff; /* 白色背景 */
    padding: 15px 20px;
    color: #914502;
+   font-size: 1.6em;
 }
 
 .goal-input-row:nth-child(odd) {
@@ -283,7 +267,7 @@ margin: 0;
    justify-content: center; /* 水平置中 */
 }
 
-:deep(vc-day.is-not-in-month *) {
+:deep(.vc-day.is-not-in-month *) {
    opacity: 1;
    color: #BDBDBD;
 }
@@ -334,5 +318,18 @@ a {
    align-items: center;
    font-size: 2em;
    font-family: Arial, Helvetica, sans-serif;
+}
+
+@media screen and (max-width: 1000px) {
+   .monthly-goal-section {
+      border-radius: 8px; /* 圓角 */
+      width: 100%; /* 區塊寬度 */
+      margin-bottom: 4em;
+      padding: 3em 1.5em;
+   }
+
+   .goal-header .save-btn {
+      font-size: 1.5em;
+   }
 }
 </style>

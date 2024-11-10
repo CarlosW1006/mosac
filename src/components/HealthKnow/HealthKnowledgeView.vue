@@ -3,7 +3,7 @@
       <a href="#/healthKnowledge" class="tab-L">回到健康知能</a><p class="tab-R">健康知能＞衛教文章</p>
    </div>
    <v-row style="margin: 1% 1% 10px;">
-      <v-col cols="12" sm="12" xl="12" md="7" lg="7">
+      <v-col cols="12" sm="12" xl="12" md="8" lg="8">
          <v-card style="width: 100%;">
             <v-list-item>
                <div class="article-info">
@@ -53,19 +53,17 @@
          </v-card>
       </v-col>
       <!-- 推薦文章區 -->
-      <v-col cols="12" sm="12" xl="12" md="5" lg="5">
+      <v-col cols="12" sm="12" xl="12" md="4" lg="4">
          <v-card class="recommendation-card" v-for="article in recommendedArticles" :key="article.id">
-         <v-list-item>
+         <v-list-item style="padding: 0 0 0 5px;">
             <div class="recommendation-item">
                <div class="thumbnail-r">
                <img :src="article.thumbnail" alt="Article Thumbnail" class="article-thumbnail-r" />
                </div>
                <div class="article-details-r">
                <h3 class="article-title-r">{{ article.title }}</h3>
-               <div class="article-stats-r">
-                  <span class="view-count-r">上傳者：{{ article.uploader }}</span>
-                  <span class="upload-date-r">．{{ article.uploadDate }}</span>
-               </div>
+               <span class="article-uploader-r">上傳者：{{ article.uploader }}</span>
+               <span class="upload-date-r">{{ article.uploadDate }}</span>
                </div>
             </div>
          </v-list-item>
