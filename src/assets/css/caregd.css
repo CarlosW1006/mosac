@@ -2,6 +2,7 @@
 .video-grid {
    display: flex;
    flex-wrap: wrap;
+   padding-bottom: 1em;
 }
 
 .video-item {
@@ -170,7 +171,11 @@
    .video-grid {
       display: flex;
       flex-wrap: wrap;
-      margin: 0.1em;
+      margin: 0;
+   }
+
+   .video-item {
+      padding: 1em;
    }
 
    .video-title {

@@ -11,6 +11,7 @@
 .article-grid {
    display: flex;
    flex-wrap: wrap;
+   padding-bottom: 1em;
 }
 
 .article-item {
@@ -187,6 +188,10 @@
       display: flex;
       flex-wrap: wrap;
       margin: 0.1em;
+   }
+
+   .article-item {
+      padding: 1em;
    }
 
    .article-title {
