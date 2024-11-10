@@ -20,7 +20,8 @@
                   <v-list-item class="list-item">
                      <div class="flex-container">
                         <h4 class="list-name">帳號名稱：</h4>
-                        <p class="list-info50">{{ accInfoArr.accName }}</p>
+                        <!-- <p class="list-info50">{{ accInfoArr.accName }}</p> -->
+                        <input type="string" id="steps" class="item-input" v-model="accname" :placeholder="accInfoArr.accName || '請輸入暱稱'" />
                      </div>
                   </v-list-item>
 
@@ -42,7 +43,8 @@
                   <v-list-item class="list-item">
                      <div class="flex-container">
                         <h4 class="list-name">帳號暱稱：</h4>
-                        <input type="string" id="steps" class="item-input" v-model="accname" :placeholder="accInfoArr.accNickName || '請輸入暱稱'" />
+                        <p class="list-info50">{{ accInfoArr.accNickName }}</p>
+                        <!-- <input type="string" id="steps" class="item-input" v-model="accname" :placeholder="accInfoArr.accNickName || '請輸入暱稱'" /> -->
                      </div>
                   </v-list-item>
                </v-card>
@@ -115,9 +117,8 @@
 </template>
 
 <script>
-   import { getAccInfo, sendAccNickname } from '../JS/accinfoservice.js';
+   import { askAccInfo, changeAccInfo } from '../../api/accInfo.js';
    import { useWindowWidth } from '../JS/winwidth.js';
-   import { callback } from '../JS/callback.js';
    import { ref } from 'vue';
 
    import editImage from '../../assets/images/editing.png';
@@ -137,20 +138,17 @@
          const accname = ref('');
          const accInfoArr = ref('');
 
-         // 呼叫 getVerifyCode 取得驗證碼資料
-         getAccInfo(accInfoArr);
+         // 呼叫 getAccInfo 取得帳號資料
+         askAccInfo().then((response) => {
+            accInfoArr.value = response; // 更新 accInfoArr 的值
+         });
 
          async function handleSave(accname) { 
-            sendAccNickname(accname);
-            
+            changeAccInfo(accname);
             this.isLoading = true;
 
             try {
-               const result = await callback(accname);
                this.isLoading = false;
-               setTimeout(()=>{
-                  alert(result);
-               }, 500)
             } catch (error) {
                console.error(error);
             } finally {

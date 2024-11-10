@@ -79,7 +79,6 @@
 <script>
    import { useWindowWidth } from '../../components/JS/winwidth';
    import userImage from '../../assets/images/user.png';
-   import { callback } from '../JS/callback.js';
    import { ref } from 'vue';
 
    export default {
@@ -93,12 +92,11 @@
 
          let session = sessionStorage.getItem('session');
 
-         async function handleSave(accname) {
+         function handleSave(accname) {
             editStatus.value = '資料處理中...';
             buttonStatus.value = true;
 
-            try {
-               const result = await callback(accname);
+            try { 
                alert(result);
             } catch (error) {
                console.error( error);

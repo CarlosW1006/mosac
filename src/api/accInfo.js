@@ -35,11 +35,11 @@ export function askAccInfo() {
 // 取得帳號資料 API End //
 
 // 儲存帳號資料 API Start //
-export function changeAccNickname(accNickName) { 
+export function changeAccInfo(accNickName) { 
    const token = sessionStorage.getItem('session');
    return axios.post(
-      APIUrl + 'changeAccNickname',
-      { nickname: accNickName },
+      `${APIUrl}/users/${token}/updateUserInfo`, 
+      { nickname: accNickName }, 
       {
          headers: {
             'Content-Type': 'application/json',
@@ -48,12 +48,13 @@ export function changeAccNickname(accNickName) {
       }
    )
    .then((response) => {
-      console.log('暱稱更新成功:', response);
-      return response;
+      console.log('資料更新成功 ', response.data);
+      alert('資料更新成功 ' + response.data.response);
+      return response.data;
    })
    .catch((error) => {
-      alert('資料處理發生異常，請聯絡系統管理員 ', error);
-      throw error;
+      alert('資料處理發生異常，請聯絡系統管理員' + error);
+      // throw error;
    });
 }
 // 儲存帳號資料 API End //
