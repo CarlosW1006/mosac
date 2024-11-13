@@ -18,11 +18,19 @@ const routes = [
       }
    },
    {
+      path: '/forgotPwd',
+      name: 'forgotpwdPage',
+      component: () => import('../components/ForgotPwd.vue'),
+      meta: {
+         requiresAuth: false // 不需要 session 認證
+      }
+   },
+   {
       path: '/changePwd',
       name: 'changepwdPage',
       component: () => import('../components/ChangePwd.vue'),
       meta: {
-         requiresAuth: false // 不需要 session 認證
+         requiresAuth: true // 需要 session 認證
       }
    },
    {

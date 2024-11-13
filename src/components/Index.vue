@@ -1,10 +1,10 @@
 <template>
    <v-container fluid>
       <v-row>
-         <v-col cols="12" md="8" >
+         <v-col cols="12" md="8">
             <!-- 個人及團體目標達成率 -->
-            <v-col cols="12" class="v-card-space" v-if="accType == 2">
-               <v-row v-if="accType == 2">
+            <v-col cols="12" class="v-card-space" v-if="accType == 0">
+               <v-row>
                   <!-- 個人目標達成率卡片 -->
                   <v-col cols="12" sm="6" md="6">
                      <v-card outlined class="v-card-Target">
@@ -38,9 +38,9 @@
             <!-- 下方左側功能區 -->
             <v-col cols="12">
                <v-row>
-                  <v-col cols="12">
+                  <v-col cols="12" v-if="accType == 0">
                      <!-- 今日健康紀錄 -->
-                     <v-card outlined class="v-card-L v-card-space" v-if="accType == 2">
+                     <v-card outlined class="v-card-L v-card-space">
                         <v-card-title>今日健康紀錄</v-card-title>
                         <v-card-text class="inner-box">
                            <ul class="mt-4">
@@ -176,13 +176,13 @@
             </v-col>
          </v-col>
 
-         <v-col cols="12" md="4">
+         <v-col cols="12" md="4" v-if="accType == 0">
             <!-- 下方右側功能區 -->
             <v-col cols="12">
                <v-row>
                   <!-- 上個月群組排名 -->
                   <v-col cols="12">
-                     <v-card outlined class="v-card-Group v-card-space" v-if="accType == 2">
+                     <v-card outlined class="v-card-Group v-card-space">
                         <v-card-title>上個月群組排名：準備期</v-card-title>
                         
                         <v-card-text class="inner-box">
@@ -223,7 +223,7 @@
 
                   <!-- 系統功能捷徑 -->
                   <v-col cols="12">
-                     <v-card outlined class="v-card-L" v-if="accType == 2" style="padding: 15px; display: flex; flex-direction: column; gap: 10px;">
+                     <v-card outlined class="v-card-L" style="padding: 15px; display: flex; flex-direction: column; gap: 10px;">
                         <v-row>
                         <button class="next-page-button" @click="navigateToPath('healthKnowledge')">
                            <span class="arrow">»</span>

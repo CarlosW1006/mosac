@@ -1,6 +1,6 @@
 <template>
    <v-app>
-      <div v-if="!['/letmein', '/changepwd'].includes($route.path.toLowerCase())">
+      <div v-if="!['/letmein', '/forgotpwd', '/changepwd'].includes($route.path.toLowerCase())">
          <div v-if="session != null">
             <!-- 電腦功能列 -->
             <v-navigation-drawer v-if="winwidth==true" class="cp-drawer" mobile-breakpoint="1200">
@@ -8,19 +8,26 @@
                   <div style="margin-bottom: 8.75em;"></div> <!-- 系統 icon -->
                   <button :class="{'bar-btn': hashUrl !== '#/index', 
                   'bar-btn-clicked': hashUrl === '#/index'}" @click="navigateToPath('index')">
-                  <div class="flex-container" style="justify-content: center;">
-                     <v-icon class="bar-btn-icon" style="margin-left: -1.5em;">mdi-home</v-icon>首頁
-                  </div>
-
+                     <div class="flex-container" style="justify-content: center;">
+                        <v-icon class="bar-btn-icon" style="margin-left: -1.5em;">mdi-home</v-icon>首頁
+                     </div>
                   </button>
+
                   <div v-for="(item, index) in barButtons" :key="index">
-                     <button v-if="accType == 2" :class="{'bar-btn': hashUrl !== '#/' + item.path, 
+                     <button v-if="accType == 0" :class="{'bar-btn': hashUrl !== '#/' + item.path, 
                      'bar-btn-clicked': hashUrl === '#/' + item.path}" @click="navigateToPath(item.path)">
                         <div class="flex-container" style="justify-content: center;">
                         <v-icon class="bar-btn-icon">{{ item.icon }}</v-icon>{{ item.title }}
                      </div>
                      </button>
                   </div>
+
+                  <button v-if="accType == 1" :class="{'bar-btn': hashUrl !== '#/meetInfo', 
+                  'bar-btn-clicked': hashUrl === '#/meetInfo'}" @click="navigateToPath('meetInfo')">
+                     <div class="flex-container" style="justify-content: center;">
+                        <v-icon class="bar-btn-icon">mdi-account-question</v-icon>專家諮詢
+                     </div>
+                  </button>
                </template>
 
                <template v-slot:append>

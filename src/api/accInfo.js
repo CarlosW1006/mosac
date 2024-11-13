@@ -39,7 +39,7 @@ export function changeAccInfo(accNickName) {
    const token = sessionStorage.getItem('session');
    return axios.post(
       `${APIUrl}/users/${token}/updateUserInfo`, 
-      { nickname: accNickName }, 
+      { nickname: accNickName }, // Body
       {
          headers: {
             'Content-Type': 'application/json',
