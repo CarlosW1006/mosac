@@ -89,16 +89,6 @@
    font-weight: 800;
 }
 
-.meetImg {
-   width: 17px;
-   margin-left: 5px;
-}
-
-.meetImg2 {
-   width: 23px;
-   margin-left: 5px;
-}
-
 .row {
    display: flex;
    padding: 5px 0;
@@ -392,17 +382,6 @@
 
    .meetTime {
       margin-left: auto;
-   }
-
-   .meetImg {
-      width: 15px;
-      height: 15px;
-      margin-left: 10px;
-   }
-
-   .meetImg2 {
-      width: 13px;
-      margin-left: 3px;
    }
 
 }

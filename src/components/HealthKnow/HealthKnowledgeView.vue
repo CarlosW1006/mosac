@@ -4,7 +4,7 @@
    </div>
    <v-row style="margin: 1% 1% 10px;">
       <v-col cols="12" sm="12" xl="12" md="8" lg="8">
-         <v-card style="width: 100%;">
+         <v-card style="width: 100%; padding-bottom: 1em;">
             <v-list-item>
                <div class="article-title">
                   <h2 class="article-view-title">{{ articleTitle }}</h2>
@@ -22,18 +22,6 @@
                </v-carousel>
             </v-list-item>
 
-            <!-- 嵌入的 YouTube 影片 -->
-            <v-list-item>
-               <div class="video-container">
-                  <iframe 
-                     :src="videoUrl" 
-                  frameborder="0" 
-                  allowfullscreen 
-                  class="youtube-embed">
-                  </iframe>
-               </div>
-            </v-list-item>
-            
             <v-list-item>
                <div class="article-stats">
                   <span class="upload-date">上傳日期：{{ uploadDate }}</span>
@@ -47,6 +35,18 @@
                </div> -->
                <div class="article-description">
                   <p>{{ description }}</p>
+               </div>
+            </v-list-item>
+
+            <!-- 嵌入的 YouTube 影片 -->
+            <v-list-item>
+               <div class="video-container">
+                  <iframe 
+                     :src="videoUrl" 
+                  frameborder="0" 
+                  allowfullscreen 
+                  class="youtube-embed">
+                  </iframe>
                </div>
             </v-list-item>
          </v-card>
@@ -113,7 +113,11 @@
             { title: '均衡飲食的重要性', uploader: '陳ＯＯ醫師', uploadDate: '2024-07-20', thumbnail: 'article02.png' },
             { title: '如何提升睡眠品質', uploader: '陳ＯＯ醫師', uploadDate: '2024-09-15', thumbnail: 'article01.png' },
             { title: '運動與健康益處', uploader: '陳ＯＯ醫師', uploadDate: '2024-08-30', thumbnail: 'article02.png' },
-            { title: '均衡飲食的重要性', uploader: '陳ＯＯ醫師', uploadDate: '2024-07-20', thumbnail: 'article01.png' }
+            { title: '均衡飲食的重要性', uploader: '陳ＯＯ醫師', uploadDate: '2024-07-20', thumbnail: 'article01.png' },
+            { title: '如何提升睡眠品質', uploader: '陳ＯＯ醫師', uploadDate: '2024-09-15', thumbnail: 'article02.png' },
+            { title: '運動與健康益處', uploader: '陳ＯＯ醫師', uploadDate: '2024-08-30', thumbnail: 'article01.png' },
+            { title: '均衡飲食的重要性', uploader: '陳ＯＯ醫師', uploadDate: '2024-07-20', thumbnail: 'article02.png' },
+            { title: '如何提升睡眠品質', uploader: '陳ＯＯ醫師', uploadDate: '2024-09-15', thumbnail: 'article01.png' }
          ]);
          
          return {

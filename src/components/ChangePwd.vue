@@ -2,18 +2,18 @@
    <div class="center-container">
       <v-sheet class="mx-auto"> 
          <p class="sys-title">自我健康管理雲端平台</p>
-         <v-form fast-fail class="login-frame">
+         <v-form fast-fail class="login-frame" @keyup.enter="changeConfirm">
             <h2 class="frame-title">修改密碼</h2>
 
             <v-text-field v-model="originPassword" label="請輸入舊的密碼" solo
-            :type="showPassword ? 'text' : 'password'" autocomplete :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'" @click:append-inner="togglePasswordVisibility">
+            :type="showOldPassword ? 'text' : 'password'" autocomplete :append-inner-icon="showOldPassword ? 'mdi-eye' : 'mdi-eye-off'" @click:append-inner="toggleOldPasswordVisibility">
                <template v-slot:prepend>
                   <v-icon>mdi-lock</v-icon>
                </template>
             </v-text-field>
 
             <v-text-field v-model="newPassword" label="請輸入新的密碼" solo
-            :type="showPassword ? 'text' : 'password'" autocomplete :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'" @click:append-inner="togglePasswordVisibility">
+            :type="showNewPassword ? 'text' : 'password'" autocomplete :append-inner-icon="showNewPassword ? 'mdi-eye' : 'mdi-eye-off'" @click:append-inner="toggleNewPasswordVisibility">
                <template v-slot:prepend>
                   <v-icon>mdi-lock</v-icon>
                </template>
@@ -52,8 +52,9 @@
          const verifyAnswer = ref('');
          const verifyCodeArr = ref('');
 
-         const showPassword = ref(false);
          const router = useRouter();
+         const showOldPassword = ref(false);
+         const showNewPassword = ref(false);
 
          // 取得驗證碼資料
          askVerify(verifyCodeArr);
@@ -65,8 +66,11 @@
          }
 
          // 調整密碼顯示方式
-         function togglePasswordVisibility() {
-            showPassword.value = !showPassword.value;
+         function toggleOldPasswordVisibility() {
+            showOldPassword.value = !showOldPassword.value;
+         }
+         function toggleNewPasswordVisibility() {
+            showNewPassword.value = !showNewPassword.value;
          }
 
          function changeConfirm() { 
@@ -93,12 +97,13 @@
             newPassword,
             verifyAnswer,
             verifyCodeArr,
-            showPassword,
             isLoading,
-
             callVerify,
             changeConfirm,
-            togglePasswordVisibility,
+            showOldPassword,
+            showNewPassword,
+            toggleOldPasswordVisibility,
+            toggleNewPasswordVisibility,
          };
       },
    };

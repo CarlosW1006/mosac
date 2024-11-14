@@ -2,7 +2,7 @@
    <div class="center-container">
       <v-sheet class="mx-auto" > 
          <p class="sys-title">自我健康管理雲端平台</p>
-         <v-form fast-fail class="login-frame" @submit.prevent>
+         <v-form fast-fail class="login-frame" @submit.prevent @keyup.enter="sendAuth">
             <h2 class="frame-title">登入</h2> 
             
             <v-text-field v-model="credential" label="請輸入您的帳號" solo>

@@ -126,7 +126,8 @@
                                  <li class="row">
                                     <div class="col-1 text-center">1.</div>
                                     <div class="col-2 personMeet">個人諮詢
-                                       <img :src="require('../assets/images/user.png')" class="meetImg"></div>
+                                       <v-icon>mdi-account-outline</v-icon>
+                                    </div>
                                     <div class="col-3">下午2點 個人諮詢會議</div>
                                     <div class="col-2 col-time">14:00~15:00</div>
                                  </li>
@@ -134,7 +135,8 @@
                                  <li class="row gray">
                                     <div class="col-1 text-center">2.</div>
                                     <div class="col-2 groupMeet">團體諮詢
-                                       <img :src="require('../assets/images/users.png')" class="meetImg2"></div>
+                                       <v-icon>mdi-account-multiple-plus-outline</v-icon>   
+                                    </div>
                                     <div class="col-3">[聊天室] 減重飲食指南1</div>
                                     <div class="col-2 col-time">15:00~16:00</div>
                                  </li>
@@ -142,7 +144,8 @@
                                  <li class="row">
                                     <div class="col-1 text-center">3.</div>
                                     <div class="col-2 groupMeet">團體諮詢
-                                       <img :src="require('../assets/images/users.png')" class="meetImg2"></div>
+                                       <v-icon>mdi-account-multiple-plus-outline</v-icon>
+                                    </div>
                                     <div class="col-3">[聊天室] 減重飲食指南2</div>
                                     <div class="col-2 col-time">16:00~17:00</div>
                                  </li>
@@ -157,14 +160,18 @@
                            <v-card-title>今日諮詢行程</v-card-title>
                            <v-card outlined class="meet-box" style="border: 3px solid #e9b347;"><v-card-text>
                               <div class="meetInfo">
-                                 <strong class="personMeet">個人諮詢</strong><img :src="require('../assets/images/user.png')" class="meetImg">
+                                 <strong class="personMeet">個人諮詢
+                                    <v-icon>mdi-account-outline</v-icon>
+                                 </strong>
                                  <p class="meetTime">14:00~15:00</p>
                               </div>
                               <div class="meetName">下午2點 個人諮詢會議 下午2點 個人諮詢會議 下午2點 個人諮詢會議</div>
                            </v-card-text></v-card>
                            <v-card outlined class="meet-box" style="border: 3px solid #436ead;"><v-card-text>
                               <div class="meetInfo">
-                                 <strong class="groupMeet">團體諮詢</strong><img :src="require('../assets/images/users.png')" class="meetImg">
+                                 <strong class="groupMeet">團體諮詢
+                                    <v-icon>mdi-account-multiple-plus-outline</v-icon>
+                                 </strong>
                                  <p class="meetTime">15:00~16:00</p>
                               </div>
                               <div class="meetName">[聊天室] 減重飲食指南1</div>

@@ -2,7 +2,7 @@
    <div class="center-container">
       <v-sheet class="mx-auto"> 
          <p class="sys-title">自我健康管理雲端平台</p>
-         <v-form fast-fail class="login-frame">
+         <v-form fast-fail class="login-frame" @keyup.enter="changeConfirm">
             <h2 class="frame-title">忘記密碼</h2> 
             <v-text-field v-model="userid" label="請輸入您的帳號" solo>
                <template v-slot:prepend>
@@ -37,6 +37,9 @@
          </v-form>
       </v-sheet>
    </div>
+
+   <!-- 等待執行結果動畫 -->
+   <isLoading :active="isLoading" color="#76caad"/>
 </template>
 
 <script>

@@ -4,10 +4,9 @@
    </div>
 
    <v-row style="margin: 1% 1% 20px;">
-      <!-- Main Profile Content -->
       <v-col cols="12" sm="12" xl="12" md="7" lg="7">
-         <!-- Profile Section -->
          <v-row>
+            <!-- 帳號資料檢視 -->
             <v-col cols="12">
                <v-card>
                   <v-list-item class="list-title">
@@ -20,15 +19,14 @@
                   <v-list-item class="list-item">
                      <div class="flex-container">
                         <h4 class="list-name">帳號名稱：</h4>
-                        <!-- <p class="list-info50">{{ accInfoArr.accName }}</p> -->
-                        <input type="string" id="steps" class="item-input" v-model="accname" :placeholder="accInfoArr.accName || '請輸入暱稱'" />
+                        <p class="list-info50">{{ accInfoArr.credential }}</p>
                      </div>
                   </v-list-item>
 
                   <v-list-item class="list-item">
                      <div class="flex-container">
                         <h4 class="list-name">帳號類別：</h4>
-                        <p class="list-info50">{{ accInfoArr.acc_type }}</p>
+                        <p class="list-info50">{{ accInfoArr.userType }}</p>
                         <img :src="userImage" class="userImg">
                      </div>
                   </v-list-item>
@@ -36,22 +34,21 @@
                   <v-list-item class="list-item">
                      <div class="flex-container">
                         <h4 class="list-name">帳號姓名：</h4>
-                        <p class="list-info50">{{ accInfoArr.accFullName }}</p>
+                        <p class="list-info50">{{ accInfoArr.name }}</p>
                      </div>
                   </v-list-item>
                   
                   <v-list-item class="list-item">
                      <div class="flex-container">
                         <h4 class="list-name">帳號暱稱：</h4>
-                        <p class="list-info50">{{ accInfoArr.accNickName }}</p>
-                        <!-- <input type="string" id="steps" class="item-input" v-model="accname" :placeholder="accInfoArr.accNickName || '請輸入暱稱'" /> -->
+                        <input type="string" id="steps" class="item-input" v-model="accname" :placeholder="accInfoArr.nickName || '請輸入暱稱'" />
                      </div>
                   </v-list-item>
                </v-card>
             </v-col>
 
-            <!-- Personal Information -->
-            <v-col cols="12" class="mt-1" v-if="accType == 2">
+            <!-- 減重階段/目標 -->
+            <v-col cols="12" class="mt-1" v-if="accType == 0">
                <v-card>
                   <v-list-item class="list-title">
                      <h3 class="page-title">減重階段/目標</h3>
@@ -60,28 +57,28 @@
                   <v-list-item class="list-item">
                      <div class="flex-container">
                         <h4 class="list-name">目前階段：</h4>
-                        <p class="list-info50">{{ accInfoArr.recent_range }}</p>
+                        <p class="list-info50">{{ accTargetInfoArr.currentPhase }}</p>
                      </div>
                   </v-list-item>
 
                   <v-list-item class="list-item">
                      <div class="flex-container">
                         <h4 class="list-name">目標體重：</h4>
-                        <p class="list-info50">{{ accInfoArr.target_weight }}公斤</p>
+                        <p class="list-info50">{{ accTargetInfoArr.currentWeight }}公斤</p>
                      </div>
                   </v-list-item>
 
                   <v-list-item class="list-item">
                      <div class="flex-container">
                         <h4 class="list-name">每日步數：</h4>
-                        <p class="list-info50">{{ accInfoArr.target_walk }}步</p>
+                        <p class="list-info50">{{ accTargetInfoArr.currentSteps }}步</p>
                      </div>
                   </v-list-item>
 
                   <v-list-item class="list-item">
                      <div class="flex-container">
                         <h4 class="list-name">慢跑時間：</h4>
-                        <p class="list-info50">{{ accInfoArr.target_jog }}分鐘</p>
+                        <p class="list-info50">{{ accTargetInfoArr.currentJogTime }}分鐘</p>
                      </div>
                   </v-list-item>
                </v-card>
@@ -117,9 +114,9 @@
 </template>
 
 <script>
-   import { askAccInfo, changeAccInfo } from '../../api/accInfo.js';
-   import { useWindowWidth } from '../JS/winwidth.js';
    import { ref } from 'vue';
+   import { useWindowWidth } from '../JS/winwidth.js';
+   import { askAccInfo, askTargetInfo, changeAccInfo } from '../../api/accInfo.js';
 
    import editImage from '../../assets/images/editing.png';
    import pointsImage from '../../assets/images/points.png';
@@ -137,22 +134,32 @@
          const { winwidth } = useWindowWidth();
          const accname = ref('');
          const accInfoArr = ref('');
+         const accTargetInfoArr = ref('');
 
          // 呼叫 getAccInfo 取得帳號資料
          askAccInfo().then((response) => {
             accInfoArr.value = response; // 更新 accInfoArr 的值
          });
 
+         // 呼叫 getAccInfo 取得帳號資料
+         askTargetInfo().then((targetResponse) => { 
+            console.log(targetResponse);
+            accTargetInfoArr.value = targetResponse; // 更新 accTargetInfoArr 的值
+         });
+
          async function handleSave(accname) { 
-            changeAccInfo(accname);
-            this.isLoading = true;
+            isLoading.value = true;
 
             try {
-               this.isLoading = false;
+               await changeAccInfo(accname);
             } catch (error) {
                console.error(error);
             } finally {
-               window.location.href = '#/accountInfo';
+               isLoading.value = false;
+               
+               setTimeout(() => {
+                  window.location.reload();
+               }, 1000);
             }
          }
          
@@ -167,6 +174,7 @@
             userImage,
             accname,
             accInfoArr,
+            accTargetInfoArr,
             handleSave,
          }
       }

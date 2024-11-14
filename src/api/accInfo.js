@@ -1,12 +1,12 @@
 import axios from 'axios';
-// const APIUrl = 'http://localhost:8888/';
-const APIUrl = 'http://172.20.10.9:8888/';
+// const APIUrl = 'http://localhost:3000/';
+const APIUrl = 'http://192.168.1.98:3000/';
 
 // 取得帳號資料 API Start //
 export function askAccInfo() {
    const token = sessionStorage.getItem('session');
    return axios.get(
-      APIUrl + 'responseAccInfo',
+      APIUrl + 'user',
       {
          headers: {
             'Content-Type': 'application/json',
@@ -15,31 +15,28 @@ export function askAccInfo() {
       }
    )
    .then((response) => {
-      const data = response.data.data[0]
-      const accName = data.accName;
-      const acc_type = { 1: "管理者", 2: "一般使用者", 3: "諮詢專家"}[data.acc_type];
-      const accFullName = data.accFullName;
-      const accNickName = data.accNickName;
-      const recent_range = { 1: "意圖前期", 2: "意圖期", 3: "準備期", 4: "行動期", 5: "維持期" }[data.recent_range];
-      const target_weight = data.target_weight;
-      const target_walk = data.target_walk;
-      const target_jog = data.target_jog;
+      const credential = response.data.credential;
+      const userType = { 0: "一般用戶", 2: "專家帳號", 3: "系統管理者"}[response.data.userType];
+      const name = response.data.name;
+      const nickName = response.data.nickname;
 
-      return { accName, acc_type, accFullName, accNickName, recent_range, target_weight, target_walk, target_jog };
+      return { credential, name, userType, nickName };
    })
    .catch((error) => {
-      alert('資料處理發生異常，請聯絡系統管理員 ', error);
-      throw error;
+      if (error.response && error.response.data && error.response.data.message) {
+         alert(error.response.data.message); // 顯示伺服器返回的錯誤訊息
+      } else {
+         alert('資料處理發生異常，請聯絡系統管理員' + error);
+      }
    });
 }
 // 取得帳號資料 API End //
 
-// 儲存帳號資料 API Start //
-export function changeAccInfo(accNickName) { 
+// 取得目標資料 API Start //
+export function askTargetInfo() {
    const token = sessionStorage.getItem('session');
-   return axios.post(
-      `${APIUrl}/users/${token}/updateUserInfo`, 
-      { nickname: accNickName }, // Body
+   return axios.get(
+      APIUrl + 'user/health-targets?latest=true',
       {
          headers: {
             'Content-Type': 'application/json',
@@ -47,14 +44,51 @@ export function changeAccInfo(accNickName) {
          }
       }
    )
-   .then((response) => {
-      console.log('資料更新成功 ', response.data);
-      alert('資料更新成功 ' + response.data.response);
-      return response.data;
+   .then((response) => { 
+      console.log(response)
+      const currentPhase = { 0: "意圖前期", 1: "意圖期", 2: "準備期", 3: "行動期", 4: "維持期" }[response.data[0].phase];
+      const currentWeight = response.data[0].weeklyWeight;
+      const currentSteps = response.data[0].dailySteps;
+      const currentJogTime = response.data[0].dailyJoggingTime;
+
+      return { currentPhase, currentWeight, currentSteps, currentJogTime };
    })
    .catch((error) => {
-      alert('資料處理發生異常，請聯絡系統管理員' + error);
-      // throw error;
+      if (error.response && error.response.data && error.response.data.message) {
+         alert(error.response.data.message); // 顯示伺服器返回的錯誤訊息
+      } else {
+         alert('資料處理發生異常，請聯絡系統管理員' + error);
+      }
+   });
+}
+// 取得目標資料 API End //
+
+// 儲存帳號資料 API Start //
+export function changeAccInfo(accNickName) { 
+   const token = sessionStorage.getItem('session');
+   const credential = sessionStorage.getItem('credential');
+   return axios.patch(
+      APIUrl + 'user',
+      {
+         credential: credential,
+         nickname: accNickName,
+      },
+      {
+         headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}` 
+         }
+      }
+   )
+   .then(() => {
+      alert('資料變更成功');
+   })
+   .catch((error) => {
+      if (error.response && error.response.data && error.response.data.message) {
+         alert(error.response.data.message); // 顯示伺服器返回的錯誤訊息
+      } else {
+         alert('資料處理發生異常，請聯絡系統管理員' + error);
+      }
    });
 }
 // 儲存帳號資料 API End //
