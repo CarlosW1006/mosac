@@ -7,7 +7,7 @@
       <v-col cols="12">
          <v-card>
             <v-list-item class="list-title list-title-care">
-               <h3 class="page-title">健康知能</h3>
+               <h3 class="page-title">照護園地</h3>
             </v-list-item>
 
             <v-list-item>
