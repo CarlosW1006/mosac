@@ -165,7 +165,11 @@
 
 <script>
    export default {
-      name: 'surveyPage'
+      name: 'surveyPage',
+
+      setup() {
+         
+      }
    }
 </script>
 

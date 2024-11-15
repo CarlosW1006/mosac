@@ -1,6 +1,6 @@
 import axios from 'axios';
 // const APIUrl = 'http://localhost:3000/';
-const APIUrl = 'http://192.168.1.98:3000/';
+const APIUrl = 'http://172.20.10.9:3000/';
 
 // 生成驗證碼 API Start //
 export function askVerify(verifyCodeArr) {
@@ -66,7 +66,34 @@ export function login(credential, password, verificationId, verifyAnswer) {
 // 登入功能 API End//
 
 // 忘記密碼 API Start//
-
+export function forgotPassword(credential, newPassword, verificationId, verifyAnswer) { 
+   return axios.patch(
+      APIUrl + 'user/password',
+      {
+         credential: credential,
+         passwordList:{
+            newPassword: newPassword,
+         },
+         verificationId: verificationId,
+         verificationAnswer: Number(verifyAnswer)
+      },
+      {
+         headers: {
+            'Content-Type': 'application/json',
+         }
+      }
+   )
+   .then(() => {
+      alert('密碼變更成功');
+   })
+   .catch((error) => {
+      if (error.response && error.response.data && error.response.data.message) {
+         alert(error.response.data.message); // 顯示伺服器返回的錯誤訊息
+      } else {
+         alert('資料處理發生異常，請聯絡系統管理員' + error);
+      }
+   });
+}
 // 忘記密碼 API End//
 
 // 修改密碼 API Start//
@@ -74,7 +101,7 @@ export function changePassword(originPassword, newPassword, verificationId, veri
    const token = sessionStorage.getItem('session');
    const credential = sessionStorage.getItem('credential');
    return axios.patch(
-      APIUrl + 'user',
+      APIUrl + 'user/password',
       {
          credential: credential,
          passwordList:{

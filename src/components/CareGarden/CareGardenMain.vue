@@ -31,7 +31,7 @@
 
             <div class="flex-container pageTotal">
                <div class="perPage flex-container">
-                  <v-select :items="perPageNum" label="每頁筆數" outlined :width="130"/>
+                  <v-select v-model="selectPerPageNum" :items="perPageNum" label="每頁筆數" outlined :width="130"/>
                </div>
             </div>
             
@@ -104,6 +104,7 @@
       name: 'careGdPage',
       setup() {
          const { winwidth } = useWindowWidth();
+         const selectPerPageNum = ref(10);
          const perPageNum = [10, 20, 30];     
          
          // 範例影片資料
@@ -137,7 +138,8 @@
             datas,
             pages,
             perPage,
-            perPageNum
+            perPageNum,
+            selectPerPageNum,
          };
       },
    };

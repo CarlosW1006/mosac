@@ -74,30 +74,36 @@
          }
 
          function changeConfirm() { 
-            isLoading.value = true;
-            changePassword(originPassword.value, newPassword.value, verifyCodeArr.value.verify_id, verifyAnswer.value)
-            .then(() => {
-               isLoading.value = false;
-               router.push('/index').then(() => {
-                  window.location.reload();
+            if(originPassword.value == "" || newPassword.value == "") {
+               alert('密碼輸入不可為空');
+            }
+            else {
+               isLoading.value = true;
+               changePassword(originPassword.value, newPassword.value, verifyCodeArr.value.verify_id, verifyAnswer.value)
+               .then(() => {
+                  isLoading.value = false;
+                  router.push('/index').then(() => {
+                     window.location.reload();
+                  });
+               })
+               .catch((error) => {
+                  isLoading.value = false;
+                  if (error.response && error.response.data && error.response.data.message) {
+                     alert(error.response.data.message); // 顯示伺服器返回的錯誤訊息
+                  } else {
+                     alert('資料處理發生異常，請聯絡系統管理員' + error);
+                  }
                });
-            })
-            .catch((error) => {
-               isLoading.value = false;
-               if (error.response && error.response.data && error.response.data.message) {
-                  alert(error.response.data.message); // 顯示伺服器返回的錯誤訊息
-               } else {
-                  alert('資料處理發生異常，請聯絡系統管理員' + error);
-               }
-            });
+            }
          }
          
          return { 
+            isLoading,
             originPassword,
             newPassword,
             verifyAnswer,
             verifyCodeArr,
-            isLoading,
+
             callVerify,
             changeConfirm,
             showOldPassword,

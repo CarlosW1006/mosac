@@ -19,9 +19,14 @@
                         <option value="1">團體諮詢</option>
                      </select>
 
-                     <input type="string" id="steps" class="search-input" placeholder="請輸入諮詢名稱、日期" />
-                     <button class="search-btn">搜尋</button>
+                     <p class="date-input-info">查詢區間</p>
+                     <input type="date" class="date-input-start" placeholder="查詢起始日期">
+                     <span style="margin: 0 0.5em; font-size: 2em;">—</span>
+                     <input type="date" class="date-input-end" placeholder="查詢結束日期" style="margin-right: 1em;"><br>
+                     
                   </div>
+                  <input type="string" id="steps" class="search-input-meet" placeholder="請輸入諮詢名稱" />
+                     <button class="search-btn">搜尋</button>
                </div>
             </v-list-item>
          </v-card>
@@ -36,7 +41,7 @@
             </v-list-item>
             <div class="flex-container pageTotal">
                <div class="perPage flex-container">
-                  <v-select :items="perPageNum" label="每頁筆數" outlined :width="130"/>
+                  <v-select v-model="selectPerPageNum" :items="perPageNum" label="每頁筆數" outlined :width="130"/>
                </div>
                <v-btn class="reserve-btn" :ripple="false">我要預約諮詢</v-btn>
             </div>
@@ -85,6 +90,7 @@
       name: 'meetInfoPage',
       setup() {
          const { winwidth } = useWindowWidth();
+         const selectPerPageNum = ref(10);
          const perPageNum = [10, 20, 30];
          const perPage = ref(10);
          const data = ref([
@@ -106,6 +112,7 @@
             pages,
             perPage,
             perPageNum,
+            selectPerPageNum,
          };
       },
    };

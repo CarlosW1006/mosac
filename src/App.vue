@@ -31,16 +31,18 @@
                </template>
 
                <template v-slot:append>
-                  <div class="messages">
-                     <div class="flex-container">
-                        <button class="bar-btn-info">健康紀錄未填寫</button>
-                        <div class="info-number"><p>3</p></div>
+                  <div class="bar-btn-info-container">
+                     <div class="messages">
+                        <div class="flex-container">
+                           <a href="#/healthNotes" class="bar-btn-info">健康紀錄未填寫</a>
+                           <div class="info-number"><p>3</p></div>
+                        </div>
                      </div>
-                  </div>
-                  <div class="messages">
-                     <div class="flex-container">
-                        <button class="bar-btn-info">系統訊息通知數</button>
-                        <div class="info-number"><p>3</p></div>
+                     <div class="messages">
+                        <div class="flex-container">
+                           <a href="#/healthNotes" class="bar-btn-info">系統訊息通知數</a>
+                           <div class="info-number"><p>3</p></div>
+                        </div>
                      </div>
                   </div>
                </template>
@@ -76,14 +78,14 @@
 
                      <v-list-item class="sm-bar-btn">
                         <div class="flex-container">
-                           <v-list-item-title>健康紀錄未填寫</v-list-item-title>
+                           <v-list-item-title><a href="#/healthNotes" class="sm-bar-btn-info">健康紀錄未填寫</a></v-list-item-title>
                            <div class="sm-info-number"><p>3</p></div>
                         </div>
                      </v-list-item>
                      
                      <v-list-item class="sm-bar-btn">
                         <div class="flex-container">
-                           <v-list-item-title>系統訊息通知數</v-list-item-title>
+                           <v-list-item-title><a href="#/healthNotes" class="sm-bar-btn-info">系統訊息通知數</a></v-list-item-title>
                            <div class="sm-info-number"><p>3</p></div>
                         </div>
                      </v-list-item>
@@ -91,7 +93,7 @@
 
                   <template v-slot:append>
                      <div class="pa-2">
-                        <v-btn block class="logoutBtn2">登出</v-btn>
+                        <v-btn block class="logoutBtn2" @click="logout()">登出</v-btn>
                      </div>
                   </template>
                </v-navigation-drawer>
@@ -103,7 +105,7 @@
                </template>
                <img :src="userImage" style="width: 18px; margin-right: 10px;">
                <a :href="toAccInfo" class="userName" v-on:click="navigateToAccInfo">Top001</a>
-               <v-btn class="logoutBtn">登出</v-btn>
+               <v-btn class="logoutBtn" @click="logout()">登出</v-btn>
             </v-app-bar>
 
             <!-- 主要內容 -->
@@ -171,11 +173,28 @@
             }
          }
 
+         // 問卷填寫狀態確認
          function navigateToAccInfo() {
             if(issurvey == 'false') {
                alert("本月問卷尚未填寫")
                this.toAccInfo = '#/survey';
             }
+         }
+
+         // 登出功能
+         function logout() {
+            if(confirm('確認要登出系統?')) {
+               sessionStorage.removeItem('session');
+               if(sessionStorage.getItem('session') == null) {
+                  alert('登出成功');
+               }
+               window.location.href = '#/letmein';
+               window.location.reload();
+            }
+            else {
+               window.location.reload();
+            }
+            
          }
 
          return {
@@ -187,6 +206,8 @@
             hashUrl,
             toAccInfo,
             barButtons,
+
+            logout,
             navigateToPath,
             navigateToAccInfo,
          };

@@ -50,7 +50,7 @@
             </v-list-item>
             <div class="flex-container pageTotal">
                <div class="perPage flex-container">
-                  <v-select :items="perPageNum" label="每頁筆數" outlined style="width: 130px;" />
+                  <v-select v-model="selectPerPageNum" :items="perPageNum" label="每頁筆數" outlined style="width: 130px;" />
                </div>
             </div>
 
@@ -114,6 +114,7 @@
       name: 'accInfoPage',
       setup() {
          const { winwidth } = useWindowWidth();
+         const selectPerPageNum = ref(10);
          const perPageNum = [10, 20, 30];
          const perPage = ref(10);
          const data = ref([
@@ -147,6 +148,7 @@
             pages,
             perPage,
             perPageNum,
+            selectPerPageNum,
             toggleCard,
          };
       },

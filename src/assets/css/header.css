@@ -81,13 +81,28 @@
    font-size: 1.5em;
    font-weight: bold;
    color: #FFFFFF;
+   text-decoration: none;
+}
+
+.messages {
+   font-size: 1.25em;
+   display: flex;
+   display: flex;
+   flex-direction: column; /* 垂直排列 */
+   align-items: center; /* 水平居中 */
+   justify-content: center; /* 垂直居中 */
+}
+
+.bar-btn-info-container {
+   margin-top: 3em;
 }
 
 .info-number {
    background-color: orange;
    width: 2.5em;
    height: 2.5em;
-   margin-left: 1.5em;
+   margin-top: -4.25em;
+   margin-left: 1em;
    border-radius: 50%;
    display: flex;
    text-align: center;
@@ -127,6 +142,11 @@
    margin-right: 0.75em;
 }
 
+.sm-bar-btn-info {
+   color: #69c9a7;
+   text-decoration: none;
+}
+
 .sm-info-number {
    width: 1.5em;
    height: 1.5em;
@@ -145,13 +165,4 @@
 /* 修改 v-list-item 樣式 */
 .v-list-item.sm-bar-btn {
    color: #69c9a7; /* 改變文字顏色 */
-}
-
-.messages {
-   font-size: 1.25em;
-   display: flex;
-   display: flex;
-   flex-direction: column; /* 垂直排列 */
-   align-items: center; /* 水平居中 */
-   justify-content: center; /* 垂直居中 */
 }

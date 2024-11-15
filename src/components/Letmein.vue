@@ -38,6 +38,9 @@
          </v-form>
       </v-sheet>
    </div>
+
+   <!-- 等待執行結果動畫 -->
+   <isLoading :active="isLoading" color="#76caad"/>
 </template>
 
 <script>
@@ -49,6 +52,7 @@
    export default {
       name: 'LetmeinPage',
       setup() { 
+         let isLoading = ref(false);
          const credential = ref('');
          const password = ref('');
          const verifyAnswer = ref('');
@@ -71,9 +75,11 @@
          }
 
          // 呼叫 login 傳送使用者登入資料
-         function sendAuth() {             
+         function sendAuth() { 
+            isLoading.value = true;
             login(credential.value, password.value, verifyCodeArr.value.verify_id, verifyAnswer.value)
             .then(() => {
+               isLoading.value = false;
                router.push('/index').then(() => {
                   window.location.reload();
                });
@@ -81,6 +87,7 @@
          }
 
          return {
+            isLoading,
             credential,
             password,
             verifyAnswer,

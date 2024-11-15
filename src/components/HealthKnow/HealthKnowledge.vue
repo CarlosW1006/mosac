@@ -33,7 +33,7 @@
 
             <div class="flex-container pageTotal">
                <div class="perPage flex-container">
-                  <v-select :items="perPageNum" label="每頁筆數" outlined :width="130"/>  
+                  <v-select v-model="selectPerPageNum" :items="perPageNum" label="每頁筆數" outlined :width="130"/>  
                </div>
                <v-btn href="#/game" class="save-btn-healthklg " :ripple="false">動動腦九宮格</v-btn>
             </div>
@@ -99,7 +99,8 @@
   export default {
      name: 'HealthKnowledgePage',
      setup() {
-        const { winwidth } = useWindowWidth();   
+        const { winwidth } = useWindowWidth();
+        const selectPerPageNum = ref(10);
         const perPageNum = [10, 20, 30];  
         
         // 範例影片資料
@@ -133,7 +134,8 @@
            datas,
            pages,
            perPage,
-           perPageNum
+           perPageNum,
+           selectPerPageNum,
         };
      },
   };
