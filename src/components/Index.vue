@@ -45,12 +45,12 @@
                         <v-card-text class="inner-box">
                            <ul class="mt-4">
                               <!-- 欄位標題 -->
-                              <li class="row title-row">
+                              <!-- <li class="row title-row">
                                  <div class="col-1"></div>
                                  <div class="col-2"><strong>項目</strong></div>
                                  <div class="col-2"><strong>填寫狀態</strong></div>
                                  <div class="col-2 col-time"><strong>填寫時間</strong></div>
-                              </li>
+                              </li> -->
 
                               <!-- 健康紀錄項目 -->
                               <li class="row">
@@ -60,7 +60,7 @@
                                     <v-chip class="completed-chip" color="green" text-color="white" outlined>
                                        填寫完成
                                     </v-chip></div>
-                                 <div class="col-2 col-time">2024/10/10 08:10</div>
+                                 <!-- <div class="col-2 col-time">2024/10/10 08:10</div> -->
                               </li>
 
                               <li class="row gray">
@@ -70,7 +70,7 @@
                                     <v-chip class="completed-chip" color="green" text-color="white" outlined>
                                        填寫完成
                                     </v-chip></div>
-                                 <div class="col-2 col-time">2024/10/10 08:10</div>
+                                 <!-- <div class="col-2 col-time">2024/10/10 08:10</div> -->
                               </li>
 
                               <li class="row">
@@ -80,7 +80,7 @@
                                     <v-chip class="completed-chip" color="green" text-color="white" outlined>
                                        填寫完成
                                     </v-chip></div>
-                                 <div class="col-2 col-time">2024/10/10 08:10</div>
+                                 <!-- <div class="col-2 col-time">2024/10/10 08:10</div> -->
                               </li>
 
                               <li class="row gray">
@@ -90,7 +90,7 @@
                                     <v-chip class="completed-chip" color="red" text-color="white" outlined>
                                        尚未填寫
                                     </v-chip></div>
-                                 <div class="col-2 col-time"></div>
+                                 <!-- <div class="col-2 col-time"></div> -->
                               </li>
 
                               <li class="row">
@@ -100,7 +100,7 @@
                                     <v-chip class="completed-chip" color="red" text-color="white" outlined>
                                        尚未填寫
                                     </v-chip></div>
-                                 <div class="col-2 col-time"></div>
+                                 <!-- <div class="col-2 col-time"></div> -->
                               </li>
                            </ul>
                         </v-card-text>
@@ -117,7 +117,7 @@
                                  <!-- 欄位標題 -->
                                  <li class="row title-row">
                                     <div class="col-1"></div>
-                                    <div class="col-2"><strong>類別</strong></div>
+                                    <div class="col-2" style="margin-right: 20px;"><strong>類別</strong></div>
                                     <div class="col-3"><strong>會議名稱</strong></div>
                                     <div class="col-2 col-time"><strong>諮詢時間</strong></div>
                                  </li>
@@ -125,8 +125,8 @@
                                  <!-- 健康紀錄項目 -->
                                  <li class="row">
                                     <div class="col-1 text-center">1.</div>
-                                    <div class="col-2 personMeet">個人諮詢
-                                       <v-icon>mdi-account-outline</v-icon>
+                                    <div class="col-2 personMeet" style="margin-right: 20px;">個人諮詢
+                                       <v-icon size="25" style="margin-top: -0.15em;">mdi-account-outline</v-icon>
                                     </div>
                                     <div class="col-3">下午2點 個人諮詢會議</div>
                                     <div class="col-2 col-time">14:00~15:00</div>
@@ -134,8 +134,8 @@
 
                                  <li class="row gray">
                                     <div class="col-1 text-center">2.</div>
-                                    <div class="col-2 groupMeet">團體諮詢
-                                       <v-icon>mdi-account-multiple-plus-outline</v-icon>   
+                                    <div class="col-2 groupMeet" style="margin-right: 20px;">團體諮詢
+                                       <v-icon size="25" style="margin-top: -0.15em;">mdi-account-multiple-plus-outline</v-icon>   
                                     </div>
                                     <div class="col-3">[聊天室] 減重飲食指南1</div>
                                     <div class="col-2 col-time">15:00~16:00</div>
@@ -143,8 +143,8 @@
 
                                  <li class="row">
                                     <div class="col-1 text-center">3.</div>
-                                    <div class="col-2 groupMeet">團體諮詢
-                                       <v-icon>mdi-account-multiple-plus-outline</v-icon>
+                                    <div class="col-2 groupMeet" style="margin-right: 20px;">團體諮詢
+                                       <v-icon size="25" style="margin-top: -0.15em;">mdi-account-multiple-plus-outline</v-icon>
                                     </div>
                                     <div class="col-3">[聊天室] 減重飲食指南2</div>
                                     <div class="col-2 col-time">16:00~17:00</div>
@@ -198,30 +198,30 @@
                               <li class="row title-row">
                                  <div class="col-4"></div>
                                  <div class="col-5"><strong>姓名</strong></div>
+                                 <div class="col-5"><strong>排名</strong></div>
                                  <div class="col-5"><strong>達成率</strong></div>
-                                 <div class="col-5"><strong>組排名</strong></div>
                               </li>
 
                               <!-- 健康紀錄項目 -->
                               <li class="row">
                                  <div class="col-4 text-center"></div>
                                  <div class="col-6">葉ＯＯ</div>
-                                 <div class="col-6">100%</div>
                                  <div class="col-6">第一名</div>
+                                 <div class="col-6">100%</div>
                               </li>
 
                               <li class="row gray">
                                  <div class="col-4 text-center"></div>
                                  <div class="col-6">陳ＯＯ</div>
-                                 <div class="col-6">100%</div>
                                  <div class="col-6">第一名</div>
+                                 <div class="col-6">100%</div>
                               </li>
 
                               <li class="row">
                                  <div class="col-4 text-center"></div>
                                  <div class="col-6">王ＯＯ</div>
-                                 <div class="col-6">95%</div>
                                  <div class="col-6">第三名</div>
+                                 <div class="col-6">95%</div>
                               </li>
                            </ul>
                         </v-card-text>
@@ -258,16 +258,20 @@
             </v-col>
          </v-col>
       </v-row>
-
    </v-container>
+   <SysAlert/>
 </template>
 
 <script>
-   import { useWindowWidth } from './JS/winwidth.js';
    import { ref, reactive } from 'vue';
+   import SysAlert from './SystemAlert.vue';
+   import { useWindowWidth } from './JS/winwidth.js';
 
    export default {
       name: 'IndexPage',
+      components: {
+         SysAlert,
+      },
       setup() {
          let accType = sessionStorage.getItem('accType');
          let timer = reactive({ interval: null, progress: 0 });
@@ -287,10 +291,10 @@
          }
 
          return {
-            winwidth,
-            showDetails,
             timer,
             accType,
+            winwidth,
+            showDetails,
             navigateToPath,
          };
       },

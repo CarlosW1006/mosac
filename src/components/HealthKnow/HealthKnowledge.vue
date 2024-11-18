@@ -13,7 +13,7 @@
             <v-list-item>
                <div class="search-frame">
                   <div class="dropdown">
-                     <input type="string" id="steps" class="search-input" placeholder="請輸入文章標題" />
+                     <input type="string" id="steps" class="search-input top-select" placeholder="請輸入文章標題" />
                      <button class="search-btn">搜尋</button>
                   </div>
                </div>
@@ -38,9 +38,9 @@
                <v-btn href="#/game" class="save-btn-healthklg " :ripple="false">動動腦九宮格</v-btn>
             </div>
             <!-- 文章網格區塊(大視窗) -->
-            <div v-if="winwidth == true"> 
+            <div v-if="winwidth == true">
                <v-list-item>
-                  <v-row class="article-grid">
+                  <v-row>
                      <v-col v-for="(article, index) in articles" :key="index"
                      cols="12" md="6" lg="4" class="article-item">
                         <v-card class="article-card">

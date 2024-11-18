@@ -1,6 +1,6 @@
 import axios from 'axios';
-// const APIUrl = 'http://localhost:3000/';
-const APIUrl = 'http://172.20.10.9:3000/';
+const APIUrl = 'http://localhost:3000/';
+// const APIUrl = 'http://172.20.10.9:3000/';
 
 // 取得帳號資料 API Start //
 export function askAccInfo() {

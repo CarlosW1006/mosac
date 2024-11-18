@@ -14,10 +14,6 @@
    padding-bottom: 1em;
 }
 
-.article-item {
-   padding: 1.25em 1.75em 1.75em;
-}
-
 .article-card{
    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
@@ -124,6 +120,7 @@
 
 .article-description {
    padding: 0.2em 0em 1em;
+   text-align:justify;
    font-size: 2em;
    color: #333;
 }
@@ -184,11 +181,7 @@
    color: grey;
 }
  
-@media screen and (max-width: 1000px) { 
-   .list-title-know {
-      margin-bottom: 1.3em;
-   }
-   
+@media screen and (max-width: 1000px) {    
    .article-grid {
       margin: 0.1em;
    }

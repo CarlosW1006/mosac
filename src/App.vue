@@ -123,7 +123,6 @@
             <router-view />
          </v-main>
       </div>
-      
    </v-app>
 </template>
 
@@ -137,7 +136,7 @@
       setup() {
          let session = sessionStorage.getItem('session');
          let accType = sessionStorage.getItem('accType');
-         let issurvey = sessionStorage.getItem('isSurvey');
+         let hasPendingSurvey = sessionStorage.getItem('hasPendingSurvey');
 
          const { winwidth } = useWindowWidth();
          const drawer = ref(false);
@@ -164,7 +163,7 @@
 
          // 功能列頁面轉址
          function navigateToPath(path) {
-            if(issurvey == 'true') {
+            if(hasPendingSurvey === 'true' || path.value != 'careGarden') {
                window.location.href = '#/' + path;
             }
             else {
@@ -175,9 +174,9 @@
 
          // 問卷填寫狀態確認
          function navigateToAccInfo() {
-            if(issurvey == 'false') {
+            if(hasPendingSurvey !== 'true') {
                alert("本月問卷尚未填寫")
-               this.toAccInfo = '#/survey';
+               toAccInfo.value = '#/survey';
             }
          }
 
@@ -194,7 +193,6 @@
             else {
                window.location.reload();
             }
-            
          }
 
          return {
@@ -217,5 +215,6 @@
 </script>
 
 <style lang="css" scoped>
+   @import "./assets/css/common.css";
    @import "./assets/css/header.css";
 </style>

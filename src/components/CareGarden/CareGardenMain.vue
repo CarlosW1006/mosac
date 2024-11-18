@@ -13,7 +13,7 @@
             <v-list-item>
                <div class="search-frame">
                   <div class="dropdown">
-                     <input type="string" id="steps" class="search-input" placeholder="請輸入文章標題" />
+                     <input type="string" id="steps" class="search-input top-select" placeholder="請輸入文章標題" />
                      <button class="search-btn">搜尋</button>
                   </div>
                </div>
@@ -38,7 +38,7 @@
             <!-- 影片網格區塊(大視窗) -->
             <div v-if="winwidth == true"> 
                <v-list-item>
-                  <v-row class="video-grid">
+                  <v-row>
                      <v-col v-for="(video, index) in videos" :key="index"
                      cols="12" md="6" lg="4" class="video-item">
                         <v-card class="video-card">
@@ -59,7 +59,7 @@
 
             <!-- 影片網格區塊(小視窗) -->
             <div v-else>
-               <v-list-item style="padding: 4px 2px">
+               <v-list-item style="padding: 0em">
                   <v-row class="video-grid">
                      <v-col v-for="(video, index) in videos" :key="index" 
                      cols="12" md="6" lg="4" class="video-item">

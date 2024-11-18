@@ -155,20 +155,45 @@
             </v-card>
 
             <div class="button-container">
-               <v-btn class="submitBtn">送出答案</v-btn>
-               <v-btn class="cancelBtn">取消作答</v-btn>
+               <v-btn class="submitBtn" @click="sendSurveyOutcome()">送出答案</v-btn>
+               <!-- <v-btn class="cancelBtn">取消作答</v-btn> -->
             </div>
          </v-card>
       </v-col>
    </v-row>
+
+   <!-- 等待執行結果動畫 -->
+   <isLoading :active="isLoading" color="#76caad"/>
 </template>
 
 <script>
+   import { ref } from 'vue';
+   import { useRouter } from 'vue-router';
+   import { postSurveyOutcome } from '@/api/survey';
+
    export default {
       name: 'surveyPage',
-
       setup() {
-         
+         let isLoading = ref(false);
+         const router = useRouter();
+
+         function sendSurveyOutcome() {
+            isLoading.value = true;
+            postSurveyOutcome(1)
+            .then(() => {
+               sessionStorage.setItem('hasPendingSurvey', 'true');
+               alert("本月問卷填寫完成");
+               isLoading.value = false;
+               router.push('/index').then(() => {
+                  window.location.reload();
+               });
+            })
+         }
+
+         return {
+            isLoading,
+            sendSurveyOutcome,
+         };
       }
    }
 </script>

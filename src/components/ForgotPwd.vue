@@ -69,7 +69,6 @@
          // 手動取得驗證碼資料
          function callVerify() {
             askVerify(verifyCodeArr);
-            console.log('call success!!');
          }
 
          // 調整密碼顯示方式

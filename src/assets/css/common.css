@@ -27,7 +27,9 @@
 .list-title { 
    height: auto;
    padding: 1em;
-   background-color: #e2e2e2;
+   color: #FFFFFF;
+   background: #81d0cd;
+   border-bottom: 0.5px solid #a3a3a3;
 }
 
 /* 標題文字 */
@@ -91,7 +93,7 @@
 
 .save-btn {
    font-size: 2em;
-   color: #FFFFFF;
+   color: #FFFFFF !important;
    background-color: #76caad;
 }
 
@@ -131,6 +133,11 @@
    display: flex;
    align-items: center;
    /* justify-items: center; */
+}
+
+.dropdown select:focus {
+   border-color: #76caad;
+   background-color: white;
 }
 
 .dropdown label {
@@ -177,6 +184,11 @@ select option {
    border: 1.5px solid #ababab;
 }
 
+.search-input:focus {
+   border-color: #76caad;
+   background-color: white;
+}
+
 .search-input-meet {
    width: 25%;
    height: 2.2em;
@@ -189,7 +201,7 @@ select option {
    border: 1.5px solid #ababab;
 }
 
-.search-input:focus {
+.search-input-meet:focus {
    border-color: #76caad;
    background-color: white;
 }
@@ -198,7 +210,7 @@ select option {
    color: #828282;
    font-weight: 600;
    font-size: 2.5em;
-   margin-right: 0.5em;
+   margin-right: 0.7em;
 }
 
 .date-input-start {
@@ -212,6 +224,11 @@ select option {
    border: 1.5px solid #ababab;
 }
 
+.date-input-start:focus {
+   border-color: #76caad;
+   background-color: white;
+}
+
 .date-input-end {
    width: 25%;
    height: 2.2em;
@@ -221,6 +238,11 @@ select option {
    border-radius: 5px;
    outline: none; /* 移除點擊後的外框 */
    border: 1.5px solid #ababab;
+}
+
+.date-input-end:focus {
+   border-color: #76caad;
+   background-color: white;
 }
 
 .search-input:focus {
@@ -250,7 +272,7 @@ select option {
    font-size: 20px;
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 1200px) {
    .page-tab {
       height: 50px;
       font-size: 15px;

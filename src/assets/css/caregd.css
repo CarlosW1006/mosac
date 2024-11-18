@@ -5,10 +5,6 @@
    padding-bottom: 1em;
 }
 
-.video-item {
-   padding: 1.25em 1.75em 1.75em;
-}
-
 .video-card{
    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
@@ -126,9 +122,10 @@
 }
 
 .video-description {
-   color: #333;
    padding: 0.5em 0 1em;
+   text-align:justify;
    font-size: 2em;
+   color: #333;
 }
 
 /* 推薦影片區塊 */
@@ -183,10 +180,6 @@
 }
 
 @media screen and (max-width: 1000px) {
-   .list-title-care {
-      margin-bottom: 1.3em;
-   }
-
    .video-grid {
       margin: 0;
    }

@@ -8,7 +8,7 @@
 
             <v-list-item>
                <!-- 每月活動目標區塊 -->
-               <div :class="{'monthly-goal-section': true, 'wide': winwidth}">
+               <!-- <div :class="{'monthly-goal-section': true, 'wide': winwidth}">
                   <div class="goal-header">
                      <h2 class="sub-title">每月活動目標</h2>
                      <v-btn @click="saveGoals" class="save-btn">儲存</v-btn>
@@ -21,7 +21,15 @@
                   
                   <div class="goal-input-row">
                      <label class="goal-label">每月慢跑目標：</label>
-                     <input v-model="runGoal" type="number" class="goal-input" placeholder="輸入慢跑目標" /> 分鐘
+                     <input v-model="joggingGoal" type="number" class="goal-input" placeholder="輸入慢跑目標" /> 分鐘
+                  </div>
+               </div> -->
+            
+               <div class="search-frame">
+                  <div class="dropdown">
+                     <input v-model="stepGoal" type="number" class="search-input top-select" placeholder="每日步數目標" />
+                     <input v-model="joggingGoal" type="number" class="search-input" placeholder="每日慢跑目標" />
+                     <button class="search-btn" @click="saveGoals">儲存</button>
                   </div>
                </div>
             </v-list-item>
@@ -77,10 +85,7 @@
          <span class="status-icon not-completed">❌</span> 尚未填寫
       </div>
    </v-row>
-       
-       
-    
- </template>
+</template>
   
 <script>
    import { Calendar } from 'v-calendar';
@@ -96,15 +101,15 @@
       setup() {
          // 每月步數與慢跑目標
          const stepGoal = ref(''); 
-         const runGoal = ref('');  
+         const joggingGoal = ref('');  
          const saveSuccess = ref(false); 
          // 保存目標功能
          function saveGoals() {
-            if (stepGoal.value === '' || runGoal.value === '') {
+            if (stepGoal.value === '' || joggingGoal.value === '') {
                alert('請填寫完整的目標');
                return;
             }
-            console.log('步數目標:', stepGoal.value, '慢跑目標:', runGoal.value);
+            console.log('步數目標:', stepGoal.value, '慢跑目標:', joggingGoal.value);
  
             // 保存成功後顯示提示，並清空表單
             saveSuccess.value = true;
@@ -114,7 +119,7 @@
  
             // 清空表單
             stepGoal.value = '';
-            runGoal.value = '';
+            joggingGoal.value = '';
          }
  
          // 獲取今天的日期 Start //
@@ -161,7 +166,7 @@
             winwidth,
             navigate,
             stepGoal,
-            runGoal,
+            joggingGoal,
             saveGoals,
             saveSuccess,
          };
@@ -171,17 +176,17 @@
 </script>
   
 <style lang="css" scoped>
-@import "../../assets/css/common.css";
-@import "../../assets/css/healthnote.css";
+   @import "../../assets/css/common.css";
+   @import "../../assets/css/healthnote.css";
 
-:deep(.vc-day.is-not-in-month *) {
-    opacity: 1;
-    color: #BDBDBD;
- }
+   :deep(.vc-day.is-not-in-month *) {
+      opacity: 1;
+      color: #BDBDBD;
+   }
 
-@media screen and (max-width: 1000px) {
-    :deep(.vc-day){
-       border: 0.05px solid #b6b6b6;
-    }
- }
+   @media screen and (max-width: 1000px) {
+      :deep(.vc-day){
+         border: 0.05px solid #b6b6b6;
+      }
+   }
 </style>

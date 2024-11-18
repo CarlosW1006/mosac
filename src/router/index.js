@@ -173,19 +173,18 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => { 
    const session = sessionStorage.getItem('session');
-   const isSurvey = sessionStorage.getItem('isSurvey');
-   // const isSurvey = false;
+   const hasPendingSurvey = sessionStorage.getItem('hasPendingSurvey');
 
    if(to.path === '/letmein' && session) { 
       next({ path: '/index' });
    } else if(to.meta.requiresAuth) { 
       if(!session) { 
          next({ path: '/letmein' });
-      } else if(isSurvey !== 'true' && to.path !== '/survey' && to.path !== '/careGarden' && to.path !== '/careGardenView') { 
+      } else if(hasPendingSurvey !== 'true' && to.path !== '/survey' && to.path !== '/careGarden' && to.path !== '/careGardenView') { 
          alert('親愛的用戶您好，本月尚未填寫問卷，請先完成問卷');
          next({ path: '/survey' });
       }
-      else if( isSurvey === 'true' && to.path === '/survey') {
+      else if( hasPendingSurvey === 'true' && to.path === '/survey') {
          alert('親愛的用戶您好，本月已填寫過問卷，頁面將跳轉至系統首頁');
          next({ path: '/index'});
       }

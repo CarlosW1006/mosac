@@ -1,6 +1,6 @@
 import axios from 'axios';
-// const APIUrl = 'http://localhost:3000/';
-const APIUrl = 'http://172.20.10.9:3000/';
+const APIUrl = 'http://localhost:3000/';
+// const APIUrl = 'http://172.20.10.9:3000/';
 
 // 生成驗證碼 API Start //
 export function askVerify(verifyCodeArr) {
@@ -48,12 +48,12 @@ export function login(credential, password, verificationId, verifyAnswer) {
    .then((response) => {
       const token = response.data.token;
       const userType = response.data.userType;
-      // const hasPendingSurvey = { 1: 'true', 2: 'false' }[response.hasPendingSurvey];
+      const hasPendingSurvey = response.data.hasPendingSurvey;
       
       sessionStorage.setItem('session', token);
       sessionStorage.setItem('accType', userType);
-      sessionStorage.setItem('isSurvey', 'true');
       sessionStorage.setItem('credential', credential);
+      sessionStorage.setItem('hasPendingSurvey', hasPendingSurvey);
    })
    .catch((error) => {
       if (error.response && error.response.data && error.response.data.message) {

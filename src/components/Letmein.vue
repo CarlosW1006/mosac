@@ -57,9 +57,8 @@
          const password = ref('');
          const verifyAnswer = ref('');
          const verifyCodeArr = ref('');
-
-         const showPassword = ref(false);
          const router = useRouter();
+         const showPassword = ref(false);
 
          // 取得驗證碼資料
          askVerify(verifyCodeArr);

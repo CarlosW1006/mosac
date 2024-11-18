@@ -7,7 +7,7 @@
       <v-col cols="12">
          <v-card>
             <v-list-item class="list-title">
-               <h3 class="page-title">諮詢預約紀錄</h3>
+               <h3 class="page-title">專家諮詢</h3>
             </v-list-item>
 
             <v-list-item>
@@ -18,15 +18,13 @@
                         <option value="0">個人諮詢</option>
                         <option value="1">團體諮詢</option>
                      </select>
-
                      <p class="date-input-info">查詢區間</p>
                      <input type="date" class="date-input-start" placeholder="查詢起始日期">
                      <span style="margin: 0 0.5em; font-size: 2em;">—</span>
                      <input type="date" class="date-input-end" placeholder="查詢結束日期" style="margin-right: 1em;"><br>
-                     
                   </div>
                   <input type="string" id="steps" class="search-input-meet" placeholder="請輸入諮詢名稱" />
-                     <button class="search-btn">搜尋</button>
+                  <button class="search-btn">搜尋</button>
                </div>
             </v-list-item>
          </v-card>
@@ -51,8 +49,10 @@
                :class="{'person-meet-card' : item[0] === '個人諮詢', 'group-meet-card mt-4': item[0] !== '個人諮詢'}">
                   <div class="flex-container">
                      <p :class="{'person-meet': item[0] === '個人諮詢', 'group-meet': item[0] !== '個人諮詢'}">{{ item[0] }}</p>
-                     <img :src="require('../../assets/images/user.png')" class="meet-img" v-if="item[0] === '個人諮詢'">
-                     <img :src="require('../../assets/images/users.png')" class="meet-img" v-else>
+                     <v-icon style="color: #e9b347; margin-top: 0.8em;" size="20" v-if="item[0] === '個人諮詢'">mdi-account-outline</v-icon>
+                     <v-icon style="color: #436ead; margin-top: 0.8em;" size="20" v-else>mdi-account-multiple-plus-outline</v-icon>
+                     <!-- <img :src="require('../../assets/images/user.png')" class="meet-img" v-if="item[0] === '個人諮詢'">
+                     <img :src="require('../../assets/images/users.png')" class="meet-img" v-else> -->
                   </div>
                   <div :class="{'person-meet-name mt-4': item[0] === '個人諮詢', 'group-meet-name mt-4': item[0] !== '個人諮詢'}">
                      <a :href="'#/meetDetail?mid='+item[4]">{{ item[1] }}</a>
