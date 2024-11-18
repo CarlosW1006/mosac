@@ -1,4 +1,5 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router';
+import { askAccInfo, askTargetInfo } from '../api/accInfo.js';
 
 const routes = [
    {
@@ -55,6 +56,18 @@ const routes = [
       component: () => import('../components/AccInfo/AccountInfo.vue'),
       meta: {
          requiresAuth: true // 需要 session 認證
+      },
+      beforeEnter: async (to, from, next) => {
+         // 在進入路由之前呼叫 API 取得資料
+         const accInfo = await askAccInfo();
+         const accTargetInfo = await askTargetInfo();
+
+         // 把資料存放到路由的 meta 中，以便在組件中使用
+         to.meta.accInfo = accInfo;
+         to.meta.accTargetInfo = accTargetInfo;
+
+         // 資料取得成功，進入頁面
+         next();
       }
    },
    {

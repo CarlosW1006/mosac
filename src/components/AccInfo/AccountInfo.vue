@@ -27,7 +27,7 @@
                      <div class="flex-container">
                         <h4 class="list-name">帳號類別：</h4>
                         <p class="list-info50">{{ accInfoArr.userType }}</p>
-                        <img :src="userImage" class="userImg">
+                        <!-- <img :src="userImage" class="userImg"> -->
                      </div>
                   </v-list-item>
 
@@ -114,9 +114,9 @@
 </template>
 
 <script>
-   import { ref } from 'vue';
+   import { ref } from 'vue'; import { useRoute } from 'vue-router';
    import { useWindowWidth } from '../JS/winwidth.js';
-   import { askAccInfo, askTargetInfo, changeAccInfo } from '../../api/accInfo.js';
+   import { changeAccInfo } from '../../api/accInfo.js';
 
    import editImage from '../../assets/images/editing.png';
    import pointsImage from '../../assets/images/points.png';
@@ -133,23 +133,14 @@
 
          const { winwidth } = useWindowWidth();
          const accname = ref('');
-         const accInfoArr = ref('');
-         const accTargetInfoArr = ref('');
 
-         // 呼叫 getAccInfo 取得帳號資料
-         askAccInfo().then((response) => {
-            accInfoArr.value = response; // 更新 accInfoArr 的值
-         });
-
-         // 呼叫 getAccInfo 取得帳號資料
-         askTargetInfo().then((targetResponse) => { 
-            console.log(targetResponse);
-            accTargetInfoArr.value = targetResponse; // 更新 accTargetInfoArr 的值
-         });
+         // 使用 useRoute 取得從路由 meta 傳來的資料
+         const route = useRoute();
+         const accInfoArr = ref(route.meta.accInfo || {});
+         const accTargetInfoArr = ref(route.meta.accTargetInfo || {});
 
          async function handleSave(accname) { 
             isLoading.value = true;
-
             try {
                await changeAccInfo(accname);
             } catch (error) {
