@@ -11,10 +11,8 @@
                </template>
             </v-text-field>
             
-            <v-text-field v-model="password" label="請輸入您的密碼" solo
-            :type="showPassword ? 'text' : 'password'" autocomplete
-            :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-            @click:append-inner="togglePasswordVisibility">
+            <v-text-field v-model="password" label="請輸入您的密碼" solo :type="showPassword ? 'text' : 'password'" autocomplete
+            :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'" @click:append-inner="PasswordVisible">
                <template v-slot:prepend>
                   <v-icon>mdi-lock</v-icon>
                </template>
@@ -46,8 +44,8 @@
 <script>
    import { ref } from 'vue';
    import { useRouter } from 'vue-router';
-   // import { generateSHA256Hash } from './JS/encryption.js';
    import { askVerify, login } from '@/api/auth';
+   // import { generateSHA256Hash } from './JS/encryption.js';
 
    export default {
       name: 'LetmeinPage',
@@ -65,12 +63,19 @@
 
          // 手動取得驗證碼資料
          function callVerify() {
+            verifyAnswer.value = '';
             askVerify(verifyCodeArr);
          }
 
          // 調整密碼顯示方式
-         function togglePasswordVisibility() {
+         function PasswordVisible() {
             showPassword.value = !showPassword.value;
+
+            if (showPassword.value) {
+               setTimeout(() => {
+                  showPassword.value = false;
+               }, 2000);
+            }
          }
 
          // 呼叫 login 傳送使用者登入資料
@@ -86,16 +91,16 @@
          }
 
          return {
+            password,
             isLoading,
             credential,
-            password,
+            showPassword,
             verifyAnswer,
             verifyCodeArr,
-            showPassword,
             
             sendAuth,
             callVerify,
-            togglePasswordVisibility,
+            PasswordVisible,
          };
       },
    };

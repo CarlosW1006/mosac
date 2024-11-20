@@ -13,7 +13,7 @@
             <v-list-item>
                <div class="search-frame">
                   <div class="dropdown">
-                     <input type="string" id="steps" class="search-input top-select" placeholder="請輸入文章標題" />
+                     <input type="string" id="steps" class="search-input top-select" placeholder="請輸入影片標題" />
                      <button class="search-btn">搜尋</button>
                   </div>
                </div>

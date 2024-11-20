@@ -14,10 +14,13 @@
    color: #69c9a7;
 }
 
+.userName-container {
+   margin-right: 1em;
+}
+
 .userName {
    font-size: 1.8em;
    font-weight: bold;
-   margin-right: 1em;
    color: #5fb396;
    text-decoration: none;
 }
@@ -25,12 +28,23 @@
 .userName2 {
    font-size: 1.8em;
    font-weight: bold;
-   margin-right: 1em;
    color: #FFFFFF;
    text-decoration: none;
 }
 
+.drop-down-btn {
+   color: #afafaf;
+   margin-bottom: 0.2em;
+}
+
+.drop-down-btn2 {
+   color: #FFFFFF;
+   margin-right: 0.2em;
+   margin-bottom: 0.2em;
+}
+
 .logoutBtn {
+   width: 80px !important;
    font-size: 1.8em;
    font-weight: bold;
    margin-right: 1.2em !important;
@@ -110,10 +124,10 @@
 }
 
 .info-number p {
-   margin-top: 2.5px;
    font-size: 1.5em;
    font-weight: 500;
    color: #FFFFFF;
+   margin-top: 2.5px;
 }
 
 .bar-btn-icon {
@@ -165,4 +179,56 @@
 /* 修改 v-list-item 樣式 */
 .v-list-item.sm-bar-btn {
    color: #69c9a7; /* 改變文字顏色 */
+}
+
+/* 帳號功能視窗 */
+.account-page-container {
+   position: absolute;
+   right: 0;
+   margin-top: 1.25em;
+   margin-right: 1em;
+   width: 225px !important;
+   height: 240px !important;
+}
+
+.account-page-container .v-icon {
+   color: #69c9a7;
+   margin-right: 0.5em;
+}
+
+.account-page-container a {
+   height: 2.5em;
+   font-weight: 550;
+   font-size: 1.4em;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   text-decoration: none;
+   color: #69c9a7;
+}
+
+
+.sm-account-page-container {
+   position: absolute;
+   right: 0;
+   width: 225px !important;
+   height: 240px !important;
+   margin-top: 1em;
+   margin-right: -0.5em;
+}
+
+.sm-account-page-container .v-icon {
+   color: #69c9a7;
+   margin-right: 0.5em;
+}
+
+.sm-account-page-container a {
+   height: 2.5em;
+   font-weight: 550;
+   font-size: 1.4em;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   text-decoration: none;
+   color: #69c9a7;
 }

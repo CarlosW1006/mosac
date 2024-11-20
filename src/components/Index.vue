@@ -264,6 +264,7 @@
 
 <script>
    import { ref, reactive } from 'vue';
+   import { useRouter } from 'vue-router';
    import SysAlert from './SystemAlert.vue';
    import { useWindowWidth } from './JS/winwidth.js';
 
@@ -276,6 +277,7 @@
          let accType = sessionStorage.getItem('accType');
          let timer = reactive({ interval: null, progress: 0 });
 
+         const router = useRouter();
          const showDetails = ref(false);
          const { winwidth } = useWindowWidth();
 
@@ -287,7 +289,7 @@
 
          // 功能列頁面轉址
          function navigateToPath(path) { 
-            window.location.href = '#/' + path;
+            router.push({ path: '/' + path });
          }
 
          return {

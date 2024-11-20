@@ -57,20 +57,6 @@ table {
    height: 10em;
 }
 
-/* 跳轉頁面按鈕 */
-.page-btn-icon {
-   width: 2.3em;
-   height: 2.3em;
-   margin: 1.8em;
-}
-
-.page-btn { 
-   padding: 0.5em;
-   font-size: 2.5em;
-   color: #69c9a7;
-   text-decoration: none;
-}
-
 .exchange-btn {
    color: #FFFFFF;
    background-color: #69c9a7;
@@ -79,6 +65,76 @@ table {
    width: 100%;
    height: 2em !important;
    margin-top: 1em;
+}
+
+.unexchange-btn {
+   color: #4d4d4d;
+   background-color: #bababa;
+   font-size: 2.5em;
+   font-weight: 600;
+   width: 100%;
+   height: 2em !important;
+   margin-top: 1em;
+}
+
+.list-info50 {
+   margin-left: 1em;
+   margin-top: 0.7em;
+   margin-bottom: 0.7em;
+}
+
+.list-number {
+   margin-left: 1em;
+   margin-right: 0.5em;
+   margin-top: 0.7em;
+   margin-bottom: 0.7em;
+}
+
+.list-name {
+   margin-top: 0.7em;
+   margin-bottom: 0.7em;
+}
+
+.item-input {
+   width: 50%;
+   height: 2.5em;
+   font-size: 23px;
+   margin-left: 25px;
+   padding-left: 10px;
+   border-radius: 5px;
+   outline: none; /* 移除點擊後的外框 */
+   border: 1.5px solid #76caad;
+}
+
+.item-input:focus {
+   border-color: #76caad;
+   background-color: white;
+}
+
+.list-name {
+   margin-top: 0.7em;
+   margin-bottom: 0.7em;
+}
+
+@media screen and (max-width: 1200px) {
+   .list-info50 { 
+      margin-left: 0.5em;
+   }
+
+   .list-number { 
+      margin-left: 1em;
+   }
+
+   .item-input {
+      height: 2.3em;
+      font-size: 18px;
+      margin-left: 10px;
+      margin-top: 0.7em;
+      margin-bottom: 0.7em;
+      padding-left: 10px;
+      border-radius: 5px;
+   }
+
 }
 
 @media screen and (max-width: 960px) {   
@@ -111,6 +167,13 @@ table {
    }
 
    .exchange-btn {
+      font-size: 2em;
+      font-weight: 600;
+      width: 100%;
+      height: 2.5em !important;
+   }
+
+   .unexchange-btn {
       font-size: 2em;
       font-weight: 600;
       width: 100%;

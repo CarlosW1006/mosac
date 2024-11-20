@@ -1,18 +1,8 @@
-import axios from 'axios';
-const APIUrl = 'http://localhost:3000/';
-// const APIUrl = 'http://172.20.10.9:3000/';
+import API from './apiInstance';
 
 // 生成驗證碼 API Start //
 export function askVerify(verifyCodeArr) {
-   return axios.get(
-      APIUrl + 'verification',
-      {
-         headers: {
-            'Content-Type': 'application/json'
-         }
-      }
-   )
-   .then((response) => {
+   return API.get('verification').then((response) => {
       const verify_id = response.data.verificationId;
       const verify_num1 = response.data.number1;
       const verify_num2 = response.data.number2;
@@ -23,7 +13,7 @@ export function askVerify(verifyCodeArr) {
       if (error.response && error.response.data && error.response.data.message) {
          alert(error.response.data.message); // 顯示伺服器返回的錯誤訊息
       } else {
-         alert('資料處理發生異常，請聯絡系統管理員' + error);
+         alert('資料處理發生異常，請聯絡系統管理員');
       }
    });
 }
@@ -31,18 +21,12 @@ export function askVerify(verifyCodeArr) {
 
 // 登入功能 API Start//
 export function login(credential, password, verificationId, verifyAnswer) {
-   return axios.post(
-      APIUrl + 'user/login',
+   return API.post('user/login',
       {
          credential: credential,
          password: password,
          verificationId: verificationId,
-         verificationAnswer: Number(verifyAnswer)
-      },
-      {
-         headers: {
-            'Content-Type': 'application/json',
-         }
+         verificationAnswer: Number(verifyAnswer),
       }
    )
    .then((response) => {
@@ -59,7 +43,7 @@ export function login(credential, password, verificationId, verifyAnswer) {
       if (error.response && error.response.data && error.response.data.message) {
          alert(error.response.data.message); // 顯示伺服器返回的錯誤訊息
       } else {
-         alert('資料處理發生異常，請聯絡系統管理員' + error);
+         alert('資料處理發生異常，請聯絡系統管理員');
       }
    });
 }
@@ -67,8 +51,7 @@ export function login(credential, password, verificationId, verifyAnswer) {
 
 // 忘記密碼 API Start//
 export function forgotPassword(credential, newPassword, verificationId, verifyAnswer) { 
-   return axios.patch(
-      APIUrl + 'user/password',
+   return API.patch('user/password',
       {
          credential: credential,
          passwordList:{
@@ -76,11 +59,6 @@ export function forgotPassword(credential, newPassword, verificationId, verifyAn
          },
          verificationId: verificationId,
          verificationAnswer: Number(verifyAnswer)
-      },
-      {
-         headers: {
-            'Content-Type': 'application/json',
-         }
       }
    )
    .then(() => {
@@ -90,18 +68,16 @@ export function forgotPassword(credential, newPassword, verificationId, verifyAn
       if (error.response && error.response.data && error.response.data.message) {
          alert(error.response.data.message); // 顯示伺服器返回的錯誤訊息
       } else {
-         alert('資料處理發生異常，請聯絡系統管理員' + error);
+         alert('資料處理發生異常，請聯絡系統管理員');
       }
    });
 }
 // 忘記密碼 API End//
 
 // 修改密碼 API Start//
-export function changePassword(originPassword, newPassword, verificationId, verifyAnswer) {
-   const token = sessionStorage.getItem('session');
+export function changePassword(originPassword, newPassword, verificationId, verifyAnswer) { 
    const credential = sessionStorage.getItem('credential');
-   return axios.patch(
-      APIUrl + 'user/password',
+   return API.patch('user/password',
       {
          credential: credential,
          passwordList:{
@@ -110,12 +86,6 @@ export function changePassword(originPassword, newPassword, verificationId, veri
          },
          verificationId: verificationId,
          verificationAnswer: Number(verifyAnswer)
-      },
-      {
-         headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}` 
-         }
       }
    )
    .then(() => {
@@ -125,7 +95,7 @@ export function changePassword(originPassword, newPassword, verificationId, veri
       if (error.response && error.response.data && error.response.data.message) {
          alert(error.response.data.message); // 顯示伺服器返回的錯誤訊息
       } else {
-         alert('資料處理發生異常，請聯絡系統管理員' + error);
+         alert('資料處理發生異常，請聯絡系統管理員');
       }
    });
 }

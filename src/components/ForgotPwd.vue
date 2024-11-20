@@ -10,15 +10,15 @@
                </template>
             </v-text-field>
 
-            <v-text-field v-model="newPassword" label="請輸入新的密碼" solo
-            :type="showNewPassword ? 'text' : 'password'" autocomplete :append-inner-icon="showNewPassword ? 'mdi-eye' : 'mdi-eye-off'" @click:append-inner="toggleNewPasswordVisibility">
+            <v-text-field v-model="password" label="請輸入新的密碼" solo :type="showPassword ? 'text' : 'password'" 
+            autocomplete :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'" @click:append-inner="toggleNewPasswordVisibility">
                <template v-slot:prepend>
                   <v-icon>mdi-lock</v-icon>
                </template>
             </v-text-field>
 
-            <v-text-field v-model="newPassword2" label="請再輸入新密碼" solo 
-            :type="showNewPassword2 ? 'text' : 'password'" autocomplete :append-inner-icon="showNewPassword2 ? 'mdi-eye' : 'mdi-eye-off'" @click:append-inner="toggleNewPassword2Visibility">
+            <v-text-field v-model="password2" label="請再輸入新密碼" solo :type="showPassword2 ? 'text' : 'password'" 
+            autocomplete :append-inner-icon="showPassword2 ? 'mdi-eye' : 'mdi-eye-off'" @click:append-inner="toggleNewPassword2Visibility">
                <template v-slot:prepend>
                   <v-icon>mdi-lock</v-icon>
                </template>
@@ -46,49 +46,42 @@
 <script>
    import { ref } from 'vue';
    import { useRouter } from 'vue-router';
-   // import { generateSHA256Hash } from './JS/encryption.js';
+   import { usePasswordToggle } from './JS/authservice';
    import { askVerify, forgotPassword } from '@/api/auth';
+   // import { generateSHA256Hash } from './JS/encryption.js';
 
    export default {
       name: 'forgotpwdPage',
       setup() { 
+         const router = useRouter();
          let isLoading = ref(false);
          const credential = ref('');
-         const newPassword = ref('');
-         const newPassword2 = ref('');
+         const password = ref('');
+         const password2 = ref('');
          const verifyAnswer = ref('');
          const verifyCodeArr = ref('');
-
-         const router = useRouter();
-         const showNewPassword = ref(false);
-         const showNewPassword2 = ref(false);
+         const { isPasswordVisible: showPassword, togglePasswordVisibility: toggleNewPasswordVisibility } = usePasswordToggle();
+         const { isPasswordVisible: showPassword2, togglePasswordVisibility: toggleNewPassword2Visibility } = usePasswordToggle();
 
          // 取得驗證碼資料
          askVerify(verifyCodeArr);
 
          // 手動取得驗證碼資料
          function callVerify() {
+            verifyAnswer.value = '';
             askVerify(verifyCodeArr);
          }
 
-         // 調整密碼顯示方式
-         function toggleNewPasswordVisibility() {
-            showNewPassword.value = !showNewPassword.value;
-         }
-         function toggleNewPassword2Visibility() {
-            showNewPassword2.value = !showNewPassword2.value;
-         }
-
          function changeConfirm() { 
-            if(newPassword.value == "" || newPassword2.value == "") {
+            if(password.value == "" || password2.value == "") {
                alert('密碼輸入不可為空');
             }
-            else if(newPassword.value != newPassword2.value) {
+            else if(password.value != password2.value) {
                alert('密碼輸入不一致');
             }
             else {
                isLoading.value = true;
-               forgotPassword(credential.value, newPassword.value, verifyCodeArr.value.verify_id, verifyAnswer.value)
+               forgotPassword(credential.value, password.value, verifyCodeArr.value.verify_id, verifyAnswer.value)
                .then(() => {
                   isLoading.value = false;
                   router.push('/letmein').then(() => {
@@ -108,12 +101,12 @@
          
          return {
             credential,
-            newPassword,
-            newPassword2,
+            password,
+            password2,
             verifyAnswer,
             verifyCodeArr,
-            showNewPassword,
-            showNewPassword2,
+            showPassword,
+            showPassword2,
 
             callVerify,
             changeConfirm,

@@ -1,4 +1,8 @@
 <template> 
+   <div class="page-tab flex-container" v-if="winwidth != true">
+      <a href="#/index" class="tab-L">回到首頁</a> <p class="tab-R">首頁＞健康手札</p>
+   </div>
+
    <v-row style="margin: 1% 1% 10px;">
       <v-col cols="12">
          <v-card>
@@ -6,25 +10,7 @@
                <h3 class="page-title">健康手札</h3>
             </v-list-item>
 
-            <v-list-item>
-               <!-- 每月活動目標區塊 -->
-               <!-- <div :class="{'monthly-goal-section': true, 'wide': winwidth}">
-                  <div class="goal-header">
-                     <h2 class="sub-title">每月活動目標</h2>
-                     <v-btn @click="saveGoals" class="save-btn">儲存</v-btn>
-                  </div>
-      
-                  <div class="goal-input-row">
-                     <label class="goal-label">每月步數目標：</label>
-                     <input v-model="stepGoal" type="number" class="goal-input" placeholder="輸入步數目標" /> 步
-                  </div>
-                  
-                  <div class="goal-input-row">
-                     <label class="goal-label">每月慢跑目標：</label>
-                     <input v-model="joggingGoal" type="number" class="goal-input" placeholder="輸入慢跑目標" /> 分鐘
-                  </div>
-               </div> -->
-            
+            <v-list-item>            
                <div class="search-frame">
                   <div class="dropdown">
                      <input v-model="stepGoal" type="number" class="search-input top-select" placeholder="每日步數目標" />
@@ -41,6 +27,7 @@
          </v-card>
       </v-col>
    </v-row>
+
    <v-row justify="center" class="calendar-row" style="margin: 1% 1% 0;">
           <Calendar is-inline expanded ref="calendar">
              <!--day-content 插槽傳入的 day 物件包含了每一天的日期等資訊。-->
@@ -77,6 +64,7 @@
              </template>
           </Calendar>
    </v-row>
+   
    <v-row justify="center" class="legend">
       <div class="legend-item">
          <span class="status-icon completed">✔️</span>完成填寫 

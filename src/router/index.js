@@ -62,11 +62,9 @@ const routes = [
          const accInfo = await askAccInfo();
          const accTargetInfo = await askTargetInfo();
 
-         // 把資料存放到路由的 meta 中，以便在組件中使用
          to.meta.accInfo = accInfo;
          to.meta.accTargetInfo = accTargetInfo;
 
-         // 資料取得成功，進入頁面
          next();
       }
    },
@@ -174,39 +172,58 @@ const routes = [
          requiresAuth: true // 需要 session 認證
       }
    },
+   {
+      path: '/systemNotice',
+      name: 'sysNoticePage',
+      component: () => import('../components/SystemNotice.vue'), // 系統通知訊息
+      meta: {
+         requiresAuth: true // 需要 session 認證
+      }
+   },
 ]
 
 const router = createRouter({
    history: createWebHashHistory(),
    routes,
    scrollBehavior() { // 跳轉頁面組件後，滑到頁面頂端
-         return { top: 0 };
+      return { top: 0 };
    },
 })
 
 router.beforeEach((to, from, next) => { 
    const session = sessionStorage.getItem('session');
+   const accType = sessionStorage.getItem('accType');
    const hasPendingSurvey = sessionStorage.getItem('hasPendingSurvey');
+   const expertPaths = [ '/letmein', '/index', '/careGarden', '/careGardenView', 
+   '/meetInfo', '/meetDetail', '/accountInfo', '/changePwd', './systemNotice' ];
 
-   if(to.path === '/letmein' && session) { 
-      next({ path: '/index' });
-   } else if(to.meta.requiresAuth) { 
-      if(!session) { 
-         next({ path: '/letmein' });
-      } else if(hasPendingSurvey !== 'true' && to.path !== '/survey' && to.path !== '/careGarden' && to.path !== '/careGardenView') { 
-         alert('親愛的用戶您好，本月尚未填寫問卷，請先完成問卷');
-         next({ path: '/survey' });
-      }
-      else if( hasPendingSurvey === 'true' && to.path === '/survey') {
-         alert('親愛的用戶您好，本月已填寫過問卷，頁面將跳轉至系統首頁');
-         next({ path: '/index'});
-      }
-      else {
-         next();
-      }
-   } else { 
-      next();
+   if (!expertPaths.includes(to.path) && accType == 1) {
+      alert('該帳號無權限使用此頁面');
+      next({ path: '/letmein' });
    }
+
+   if (to.path === '/letmein' && session) {
+      next({ path: '/index' }); return;
+   }
+   
+   if (to.meta.requiresAuth) {
+      if (!session) {
+         next({ path: '/letmein' }); return;
+      }
+
+      if (hasPendingSurvey === 'true' && to.path === '/survey') {
+         alert('親愛的用戶您好，本月已填寫過問卷，頁面將跳轉至系統首頁');
+         next({ path: '/index' }); return;
+      }
+   
+      if (hasPendingSurvey !== 'true' && !['/survey', '/careGarden', '/careGardenView'].includes(to.path) && accType == 0) {
+         alert('親愛的用戶您好，本月尚未填寫問卷，請先完成問卷');
+         next({ path: '/survey' }); return;
+      }
+   }
+   
+   next();
+
 });
 
 export default router;

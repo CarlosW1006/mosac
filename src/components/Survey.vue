@@ -179,8 +179,8 @@
 
          function sendSurveyOutcome() {
             isLoading.value = true;
-            postSurveyOutcome(1)
-            .then(() => {
+            
+            postSurveyOutcome(1).then(() => {
                sessionStorage.setItem('hasPendingSurvey', 'true');
                alert("本月問卷填寫完成");
                isLoading.value = false;

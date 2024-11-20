@@ -1,32 +1,22 @@
-import axios from 'axios';
-const APIUrl = 'http://localhost:3000/';
-// const APIUrl = 'http://172.20.10.9:3000/';
+import API from './apiInstance';
 
 // 取得帳號資料 API Start //
-export function askAccInfo() {
-   const token = sessionStorage.getItem('session');
-   return axios.get(
-      APIUrl + 'user',
-      {
-         headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}` 
-         }
-      }
-   )
-   .then((response) => {
+export function askAccInfo() { 
+   return API.get('user').then((response) => {
       const credential = response.data.credential;
       const userType = { 0: "一般用戶", 2: "專家帳號", 3: "系統管理者"}[response.data.userType];
       const name = response.data.name;
       const nickName = response.data.nickname;
+      const totalPoints = response.data.totalPoints;
+      const totalMedals = response.data.totalMedals;
 
-      return { credential, name, userType, nickName };
+      return { credential, name, userType, nickName, totalPoints, totalMedals };
    })
    .catch((error) => {
       if (error.response && error.response.data && error.response.data.message) {
          alert(error.response.data.message); // 顯示伺服器返回的錯誤訊息
       } else {
-         alert('資料處理發生異常，請聯絡系統管理員' + error);
+         alert('資料處理發生異常，請聯絡系統管理員');
       }
    });
 }
@@ -34,18 +24,7 @@ export function askAccInfo() {
 
 // 取得目標資料 API Start //
 export function askTargetInfo() {
-   const token = sessionStorage.getItem('session');
-   return axios.get(
-      APIUrl + 'user/health-targets?latest=true',
-      {
-         headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}` 
-         }
-      }
-   )
-   .then((response) => { 
-      console.log(response)
+   return API.get('user/health-targets?latest=true').then((response) => { 
       const currentPhase = { 0: "意圖前期", 1: "意圖期", 2: "準備期", 3: "行動期", 4: "維持期" }[response.data[0].phase];
       const currentWeight = response.data[0].weeklyWeight;
       const currentSteps = response.data[0].dailySteps;
@@ -57,7 +36,7 @@ export function askTargetInfo() {
       if (error.response && error.response.data && error.response.data.message) {
          alert(error.response.data.message); // 顯示伺服器返回的錯誤訊息
       } else {
-         alert('資料處理發生異常，請聯絡系統管理員' + error);
+         alert('資料處理發生異常，請聯絡系統管理員');
       }
    });
 }
@@ -65,19 +44,11 @@ export function askTargetInfo() {
 
 // 儲存帳號資料 API Start //
 export function changeAccInfo(accNickName) { 
-   const token = sessionStorage.getItem('session');
    const credential = sessionStorage.getItem('credential');
-   return axios.patch(
-      APIUrl + 'user',
+   return API.patch('user',
       {
          credential: credential,
          nickname: accNickName,
-      },
-      {
-         headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}` 
-         }
       }
    )
    .then(() => {
@@ -87,8 +58,70 @@ export function changeAccInfo(accNickName) {
       if (error.response && error.response.data && error.response.data.message) {
          alert(error.response.data.message); // 顯示伺服器返回的錯誤訊息
       } else {
-         alert('資料處理發生異常，請聯絡系統管理員' + error);
+         alert('資料處理發生異常，請聯絡系統管理員');
       }
    });
 }
 // 儲存帳號資料 API End //
+
+// 點數兌換紀錄 API Start //
+export function askPointsRecord() {
+   return API.get('user/point-records').then((response) => { 
+      const pointsRecord = {};
+
+      if(Array.isArray(response.data)) {
+         response.data.forEach(record => {
+            // 篩選 operationType === 1 的資料
+            if(record.operationType === 1) {
+               const rawDate = new Date(record.createAt);
+               // 格式化日期為 'YYYY/MM/DD HH:mm'
+               const formattedDate = rawDate.getFullYear() + '/' +
+               (rawDate.getMonth() + 1).toString().padStart(2, '0') + '/' +
+               rawDate.getDate().toString().padStart(2, '0') + ' ' +
+               rawDate.getHours().toString().padStart(2, '0') + ':' +
+               rawDate.getMinutes().toString().padStart(2, '0');
+               
+               const key = formattedDate;
+      
+               if(!pointsRecord[key]) {
+                  pointsRecord[key] = [];
+               }
+               pointsRecord[key].push(record);
+            }
+         });
+      }
+
+      const result = Object.entries(pointsRecord).map(([createAt, records]) => ({
+         createAt,
+         records
+      }));
+
+      return result;
+   })
+   .catch((error) => {
+      if (error.response && error.response.data && error.response.data.message) {
+         alert(error.response.data.message); // 顯示伺服器返回的錯誤訊息
+      } else {
+         alert('資料處理發生異常，請聯絡系統管理員');
+      }
+   });
+}
+// 點數兌換紀錄 API End //
+
+// 兌換點數 API Start //
+export function exchangePoints() {
+   return API.post('user/points/exchange',
+      { }, // 傳送空的 body //
+   )
+   .then((response) => {
+      console.log(response);
+   })
+   .catch((error) => {
+      if (error.response && error.response.data && error.response.data.message) {
+         alert(error.response.data.message); // 顯示伺服器返回的錯誤訊息
+      } else {
+         alert('資料處理發生異常，請聯絡系統管理員');
+      }
+   });
+}
+// 兌換點數 API End //

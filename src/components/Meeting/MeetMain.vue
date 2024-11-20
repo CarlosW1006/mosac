@@ -21,7 +21,7 @@
                      <p class="date-input-info">查詢區間</p>
                      <input type="date" class="date-input-start" placeholder="查詢起始日期">
                      <span style="margin: 0 0.5em; font-size: 2em;">—</span>
-                     <input type="date" class="date-input-end" placeholder="查詢結束日期" style="margin-right: 1em;"><br>
+                     <input type="date" class="date-input-end" placeholder="查詢結束日期"><br>
                   </div>
                   <input type="string" id="steps" class="search-input-meet" placeholder="請輸入諮詢名稱" />
                   <button class="search-btn">搜尋</button>

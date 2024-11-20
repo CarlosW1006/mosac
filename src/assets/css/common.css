@@ -56,35 +56,6 @@
    font-size: 2.3em;
 }
 
-.item-input {
-   width: 50%;
-   height: 2.5em;
-   font-size: 23px;
-   margin-left: 45px;
-   margin-top: 0.7em;
-   margin-bottom: 0.7em;
-   padding-left: 10px;
-   border-radius: 5px;
-   outline: none; /* 移除點擊後的外框 */
-   border: 1.5px solid #76caad;
-}
-
-.item-input:focus {
-   border-color: #76caad;
-   background-color: white;
-}
-
-.list-info50 {
-   margin-left: 1.8em;
-   margin-top: 0.7em;
-   margin-bottom: 0.7em;
-}
-
-.list-name {
-   margin-top: 0.7em;
-   margin-bottom: 0.7em;
-}
-
 .userImg {
    width: 2em;
    height: 2em;
@@ -106,17 +77,11 @@
    font-size: 2em;
 }
 
-.search-item {
-   font-size: 2em;
-   font-weight: 600;
-   margin-right: 0.5em;
-}
-
 .search-btn {
    height: 50px;
    font-size: 2em;
    border-radius: 5px;
-   width: 150px !important;
+   width: 130px !important;
 
    color: #FFFFFF;
    text-align: center;
@@ -132,7 +97,6 @@
 .dropdown {
    display: flex;
    align-items: center;
-   /* justify-items: center; */
 }
 
 .dropdown select:focus {
@@ -149,7 +113,7 @@
 .dropdown select {
    width: 25%;
    padding: 10px;
-   margin-right: 20px;
+   margin-right: 20px !important;
    font-size: 1.8em;
    border-radius: 5px;
    border: 1px solid #ccc;
@@ -210,7 +174,7 @@ select option {
    color: #828282;
    font-weight: 600;
    font-size: 2.5em;
-   margin-right: 0.7em;
+   margin-right: 1em;
 }
 
 .date-input-start {
@@ -289,16 +253,15 @@ select option {
       padding: 0em;
    }
 
-   .dropdown {
-      display: block;
-   }
-
    .dropdown select {
-      width: 100% !important;
       margin: 0em 0 1em;
    }
 
    .top-select {
+      margin-top: 1em !important;
+   }
+
+   .top-select2 {
       margin-top: 1em !important;
    }
 
@@ -311,36 +274,18 @@ select option {
       font-size: 0.8em;
    }
 
-   .item-input {
-      width: 65%;
-      height: 2.3em;
-      font-size: 18px;
-      margin-left: 20px;
-      margin-top: 0.7em;
-      margin-bottom: 0.7em;
-      padding-left: 10px;
-      border-radius: 5px;
-   }
-   
-   .list-info50 {
-      margin-left: 1em;
-      margin-top: 0.7em;
-      margin-bottom: 0.7em;
-   }
-
    /* 搜尋列輸入框 */
    .search-input {
-      width: 100%;
+      width: 30%;
       height: 2.3em;
       font-size: 18px;
-      margin-top: 0em;
+      margin-top: 1em;
       margin-bottom: 1em;
       padding-left: 10px;
       border-radius: 5px;
    }
 
    .search-input-meet {
-      width: 100%;
       height: 2.3em;
       font-size: 18px;
       margin-top: 0em;
@@ -351,11 +296,9 @@ select option {
 
    .date-input-info {
       font-size: 2em;
-      margin-bottom: 0.75em;
    }
 
    .date-input-start {
-      width: 100%;
       height: 2.3em;
       font-size: 18px;
       padding-left: 10px;
@@ -363,12 +306,16 @@ select option {
    }
 
    .date-input-end {
-      width: 100%;
       height: 2.3em;
       font-size: 18px;
-      margin-bottom: 1em;
       padding-left: 10px;
       border-radius: 5px;
+   }
+
+   .search-btn {
+      width: 100px !important;
+      height: 45px;
+      font-size: 1.8em;
    }
 
    .save-btn {
@@ -378,10 +325,6 @@ select option {
       background-color: #76caad;
    }
 
-   .search-btn {
-      margin-bottom: 0.5em;
-   }
-
    .pageTotal {
       font-size: 2em;
       margin: 0 0.5em 0;
@@ -389,5 +332,64 @@ select option {
 
    .perPage {
       margin-top: 1em;
+   }
+}
+
+@media screen and (max-width: 1000px) {
+   .dropdown {
+      display: block;
+   }
+
+   .dropdown select {
+      width: 100%;
+   }
+
+   .top-select2 {
+      margin-top: 0em !important;
+   }
+
+   .date-input-info {
+      margin-bottom: 1em;
+   }
+   
+   .date-input-start {
+      width: 47.65%;
+   }
+
+   .date-input-end {
+      width: 47.5%;
+   }
+
+   .search-input {
+      margin-top: 0em;
+   }
+
+   .search-input-meet {
+      width: 100%;
+      margin-top: 1em;
+   }
+
+   .search-btn {
+      margin-bottom: 0.5em;
+   }
+}
+
+@media screen and (max-width: 830px) { 
+   .date-input-start {
+      width: 100%;
+   }
+
+   .date-input-end {
+      width: 100%;
+   }
+}
+
+@media screen and (max-width: 700px) { 
+   .search-input {
+      width: 100%;
+   }
+
+   .search-btn {
+      margin-bottom: 0.5em;
    }
 }

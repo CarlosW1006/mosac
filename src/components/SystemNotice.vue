@@ -1,46 +1,9 @@
 <template>
    <v-row style="margin: 1% 1% 10px;">
       <v-col cols="12">
-         <v-card>
-            <v-list-item class="list-title">
-               <h3 class="page-title">群組排名紀錄</h3>
-            </v-list-item>
-
-            <v-list-item>
-               <div class="search-frame">
-                  <div class="dropdown">
-                     <select id="category" name="category" class="top-select">
-                        <option value="">請選擇月份</option>
-                        <option value="2">2月</option>
-                        <option value="3">3月</option>
-                        <option value="4">4月</option>
-                        <option value="5">5月</option>
-                        <option value="6">6月</option>
-                        <option value="7">7月</option>
-                     </select>
-                     
-                     <select id="category" name="category" class="top-select2">
-                        <option value="">請選擇群組</option>
-                        <option value="專業訓練">意圖前期</option>
-                        <option value="通識訓練">意圖期</option>
-                        <option value="職前訓練">準備期</option>
-                        <option value="管理訓練">行動期</option>
-                        <option value="專業課程">維持期</option>
-                     </select>
-
-                     <button class="search-btn">搜尋</button>
-                  </div>
-               </div>
-            </v-list-item>
-         </v-card>
-      </v-col>
-   </v-row>
-
-   <v-row style="margin: 0 1% 0;">
-      <v-col cols="12">
          <v-card style="margin-bottom: 50px;">
             <v-list-item class="list-title">
-               <h3 class="page-title">查詢結果</h3>
+               <h3 class="page-title">系統通知訊息</h3>
             </v-list-item>
             <div class="flex-container pageTotal">
                <div class="perPage flex-container">
@@ -54,10 +17,8 @@
                      <thead>
                         <tr class="table-title">
                            <th class="col1"><strong></strong></th>
-                           <td class="col2"><strong>群組類別</strong></td>
-                           <td class="col2"><strong>用戶姓名</strong></td>
-                           <td class="col2"><strong>群組排名</strong></td>
-                           <td class="col2"><strong>心得回饋</strong></td>
+                           <td class="col2"><strong>標題</strong></td>
+                           <td class="col2"><strong>發布時間</strong></td>
                         </tr>
                      </thead>
 
@@ -66,16 +27,6 @@
                            <td><p style="text-align: center;">{{ index + 1 }}</p></td>
                            <td><p>{{ item[0] }}</p></td>
                            <td><p>{{ item[1] }}</p></td>
-                           <td><p>{{ item[2] }}</p></td>
-                           <td>
-                              <button class="li-info expandBtn" @click="toggleCard(index)">檢視心得</button>
-                           </td>
-                        </tr>
-
-                        <tr v-if="showCard[index]" class="feedback">
-                           <td colspan="5">
-                              <p><strong>心得回饋：</strong>{{ item[3] }}</p>
-                           </td>
                         </tr>
                      </tbody>
                   </table>
@@ -101,20 +52,23 @@
 </template>
 
 <script>
-   import { useWindowWidth } from '../JS/winwidth.js';
+   import { useWindowWidth } from './JS/winwidth.js';
    import { ref } from 'vue';
 
    export default {
-      name: 'accInfoPage',
+      name: 'sysNoticePage',
       setup() {
          const { winwidth } = useWindowWidth();
          const selectPerPageNum = ref(10);
          const perPageNum = [10, 20, 30];
          const perPage = ref(10);
          const data = ref([
-            ['2月/意圖前期', '陳ＯＯ', '第一名', '這是用戶1的心得回饋內容。'],
-            ['2月/意圖前期', '李ＯＯ', '第二名', '這是用戶2的心得回饋內容。'],
-            ['2月/意圖前期', '黃ＯＯ', '第三名', '這是用戶3的心得回饋內容。']
+            ['系統已為您安排諮詢會議，諮詢時間：2024/10/10 14:00~15:00', '2024/10/01'],
+            ['健康知能已新增一篇文章：多吃蔬食有助減重？吃對更重要！', '2024/10/01'],
+            ['健康知能已新增一篇文章：多吃蔬食有助減重？吃對更重要！', '2024/10/01'],
+            ['系統已為您安排諮詢會議，諮詢時間：2024/10/10 14:00~15:00', '2024/10/01'],
+            ['健康知能已新增一篇文章：多吃蔬食有助減重？吃對更重要！', '2024/10/01'],
+            ['健康知能已新增一篇文章：多吃蔬食有助減重？吃對更重要！', '2024/10/01'],
          ]);
 
          const datas = data.value.length;
@@ -150,6 +104,6 @@
 </script>
 
 <style lang="css" scoped>
-   @import "../../assets/css/common.css";
-   @import "../../assets/css/accountInfo.css";
+   @import "../assets/css/common.css";
+   @import "../assets/css/accountInfo.css";
 </style>

@@ -5,15 +5,15 @@
          <v-form fast-fail class="login-frame" @keyup.enter="changeConfirm">
             <h2 class="frame-title">修改密碼</h2>
 
-            <v-text-field v-model="originPassword" label="請輸入舊的密碼" solo
-            :type="showOldPassword ? 'text' : 'password'" autocomplete :append-inner-icon="showOldPassword ? 'mdi-eye' : 'mdi-eye-off'" @click:append-inner="toggleOldPasswordVisibility">
+            <v-text-field v-model="password" label="請輸入舊的密碼" solo :type="showPassword ? 'text' : 'password'" 
+            autocomplete :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'" @click:append-inner="toggleNewPasswordVisibility">
                <template v-slot:prepend>
                   <v-icon>mdi-lock</v-icon>
                </template>
             </v-text-field>
 
-            <v-text-field v-model="newPassword" label="請輸入新的密碼" solo
-            :type="showNewPassword ? 'text' : 'password'" autocomplete :append-inner-icon="showNewPassword ? 'mdi-eye' : 'mdi-eye-off'" @click:append-inner="toggleNewPasswordVisibility">
+            <v-text-field v-model="password2" label="請輸入新的密碼" solo :type="showPassword2 ? 'text' : 'password'" 
+            autocomplete :append-inner-icon="showPassword2 ? 'mdi-eye' : 'mdi-eye-off'" @click:append-inner="toggleNewPassword2Visibility">
                <template v-slot:prepend>
                   <v-icon>mdi-lock</v-icon>
                </template>
@@ -40,45 +40,38 @@
 <script>
    import { ref } from 'vue';
    import { useRouter } from 'vue-router';
-   // import { generateSHA256Hash } from './JS/encryption.js';
+   import { usePasswordToggle } from './JS/authservice';
    import { askVerify, changePassword } from '@/api/auth';
+   // import { generateSHA256Hash } from './JS/encryption.js';
 
    export default {
       name: 'changepwdPage',
       setup() { 
+         const router = useRouter();
          let isLoading = ref(false);
-         const originPassword = ref('');
-         const newPassword = ref('');
+         const password = ref('');
+         const password2 = ref('');
          const verifyAnswer = ref('');
          const verifyCodeArr = ref('');
-
-         const router = useRouter();
-         const showOldPassword = ref(false);
-         const showNewPassword = ref(false);
-
+         const { isPasswordVisible: showPassword, togglePasswordVisibility: toggleNewPasswordVisibility } = usePasswordToggle();
+         const { isPasswordVisible: showPassword2, togglePasswordVisibility: toggleNewPassword2Visibility } = usePasswordToggle();
+         
          // 取得驗證碼資料
          askVerify(verifyCodeArr);
 
          // 手動取得驗證碼資料
          function callVerify() {
+            verifyAnswer.value = '';
             askVerify(verifyCodeArr);
          }
 
-         // 調整密碼顯示方式
-         function toggleOldPasswordVisibility() {
-            showOldPassword.value = !showOldPassword.value;
-         }
-         function toggleNewPasswordVisibility() {
-            showNewPassword.value = !showNewPassword.value;
-         }
-
          function changeConfirm() { 
-            if(originPassword.value == "" || newPassword.value == "") {
+            if(password.value == "" || password2.value == "") {
                alert('密碼輸入不可為空');
             }
             else {
                isLoading.value = true;
-               changePassword(originPassword.value, newPassword.value, verifyCodeArr.value.verify_id, verifyAnswer.value)
+               changePassword(password.value, password2.value, verifyCodeArr.value.verify_id, verifyAnswer.value)
                .then(() => {
                   isLoading.value = false;
                   router.push('/index').then(() => {
@@ -98,17 +91,17 @@
          
          return { 
             isLoading,
-            originPassword,
-            newPassword,
+            password,
+            password2,
             verifyAnswer,
             verifyCodeArr,
+            showPassword,
+            showPassword2,
 
             callVerify,
             changeConfirm,
-            showOldPassword,
-            showNewPassword,
-            toggleOldPasswordVisibility,
             toggleNewPasswordVisibility,
+            toggleNewPassword2Visibility
          };
       },
    };

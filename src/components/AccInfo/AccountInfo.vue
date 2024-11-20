@@ -4,15 +4,14 @@
    </div>
 
    <v-row style="margin: 1% 1% 20px;">
-      <v-col cols="12" sm="12" xl="12" md="7" lg="7">
+      <v-col>
          <v-row>
             <!-- 帳號資料檢視 -->
-            <v-col cols="12">
+            <v-col cols="12" sm="12" md="6" lg="6">
                <v-card>
                   <v-list-item class="list-title">
                      <div class="flex-container" style="justify-content: space-between;">
                         <h3 class="page-title">帳號資料檢視</h3>
-                        <v-btn class="save-btn" @click="handleSave(accname)" :ripple="false">儲存</v-btn>
                      </div>
                   </v-list-item>
                      
@@ -45,10 +44,12 @@
                      </div>
                   </v-list-item>
                </v-card>
+
+               <v-btn class="exchange-btn" @click="handleSave(accname)" :ripple="false">儲存個人資料</v-btn>
             </v-col>
 
             <!-- 減重階段/目標 -->
-            <v-col cols="12" class="mt-1" v-if="accType == 0">
+            <v-col v-col cols="12" sm="12" md="6" lg="6" v-if="accType == 0">
                <v-card>
                   <v-list-item class="list-title">
                      <h3 class="page-title">減重階段/目標</h3>
@@ -85,28 +86,6 @@
             </v-col>
          </v-row>
       </v-col>
-
-      <!-- Sidebar Navigation in Card -->
-      <v-col cols="12" sm="12" xl="12" md="5" lg="5">
-         <v-card style="padding: 10px;">
-            <div style="display: flex; background-color: #7edcbb">
-               <img :src="editImage" class="page-btn-icon">
-               <a class="page-btn" style="color: #FFFFFF">帳號資料編輯</a>
-            </div>
-            <div style="display: flex;">
-               <img :src="pointsImage" class="page-btn-icon">
-               <a href="#/userPoints" class="page-btn">個人累積點數</a>
-            </div>
-            <div style="display: flex;">
-               <img :src="rankImage" class="page-btn-icon">
-               <a href="#/groupRank" class="page-btn">群組排名紀錄</a>
-            </div>
-            <div style="display: flex;">
-               <img :src="lockImage" class="page-btn-icon">
-               <a href="#/changePwd" class="page-btn">變更帳號密碼</a>
-            </div>
-         </v-card>
-      </v-col>
    </v-row>
 
    <!-- 等待執行結果動畫 -->
@@ -114,14 +93,10 @@
 </template>
 
 <script>
-   import { ref } from 'vue'; import { useRoute } from 'vue-router';
+   import { ref } from 'vue';
+   import { useRoute } from 'vue-router';
    import { useWindowWidth } from '../JS/winwidth.js';
    import { changeAccInfo } from '../../api/accInfo.js';
-
-   import editImage from '../../assets/images/editing.png';
-   import pointsImage from '../../assets/images/points.png';
-   import rankImage from '../../assets/images/ranking.png';
-   import lockImage from '../../assets/images/lock.png';
    import userImage from '../../assets/images/user.png';
 
    export default {
@@ -143,8 +118,6 @@
             isLoading.value = true;
             try {
                await changeAccInfo(accname);
-            } catch (error) {
-               console.error(error);
             } finally {
                isLoading.value = false;
                
@@ -158,10 +131,6 @@
             winwidth,
             isLoading,
             accType,
-            editImage,
-            pointsImage,
-            rankImage,
-            lockImage,
             userImage,
             accname,
             accInfoArr,

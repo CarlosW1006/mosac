@@ -1,10 +1,7 @@
 <template>
-   <div class="page-tab flex-container">
-      <a href="#/accountinfo" class="tab-L">回到帳號資料</a> <p class="tab-R">帳號資料＞個人累積點數</p>
-   </div>
-
    <v-row style="margin: 1% 1% 10px;">
-      <v-col cols="12" sm="12" md="7" lg="7">
+      <!-- 目前累積點數功能區 -->
+      <v-col cols="12" sm="12" md="6" lg="6">
          <v-card>
             <v-list-item class="list-title">
                <div class="flex-container">
@@ -14,40 +11,108 @@
                
             <v-list-item class="list-item">
                <div class="flex-container">
-                  <p class="item-name">個人點數：</p>
-                  <p class="list-info50">45</p>
+                  <p class="list-name">累積點數：</p>
+                  <div class="flex-container">
+                     <p class="list-number">{{ accInfoArr.totalPoints }}</p><p class="list-unit">點</p>
+                  </div>
                </div>
             </v-list-item>
 
             <v-list-item class="list-item">
                <div class="flex-container">
-                  <p class="item-name">團體徽章：</p>
-                  <p class="list-info50">2</p>
+                  <p class="list-name">累積徽章：</p>
+                  <p class="list-number">{{ accInfoArr.totalMedals }}</p><p class="list-unit">枚</p>
                </div>
             </v-list-item>
          </v-card>
 
-         <v-btn class="exchange-btn" :ripple="false">我要兌換點數</v-btn>
+         <v-btn :class="pointsChangable? 'exchange-btn':'unexchange-btn'" :disabled="!pointsChangable" 
+         :ripple="false" @click="callExchangePoints()">我要兌換點數</v-btn>
+      </v-col>
+
+      <!-- 點數兌換紀錄功能區 -->
+      <v-col cols="12" sm="12" md="6" lg="6">
+         <v-card>
+            <v-list-item class="list-title">
+               <div class="flex-container">
+                  <h3 class="page-title">點數兌換紀錄</h3>
+               </div>
+            </v-list-item>
+         </v-card>
+
+         <v-card style="height: 430px; overflow-y: auto;">         
+            <v-list-item class="list-item" v-for="(item, index) in pointsRecord" :key="index">
+               <div class="flex-container">
+                  <p>兌換時間：</p>
+                  <p class="list-info50" style="margin-right: 50px;">{{ item['createAt'] }}</p>
+               </div>
+               <div class="flex-container">
+                  <p>兌換點數：</p>
+                  <p v-if="item.records && item.records.length > 0" class="list-info50" style="margin-right: 35px;">{{ item['records'][0]['amount'] }}點</p>
+                  <p v-else class="list-info50">0點</p>
+
+                  <p>兌換徽章：</p>
+                  <p v-if="item.records && item.records.length > 1" class="list-info50">{{ item['records'][1]['amount'] }}枚</p>
+                  <p v-else class="list-info50">0枚</p>
+               </div>
+            </v-list-item>
+            
+         </v-card>
       </v-col>
    </v-row>
+
+   <!-- 等待執行結果動畫 -->
+   <isLoading :active="isLoading" color="#76caad"/>
 </template>
 
 <script>
-   import { useWindowWidth } from '../JS/winwidth.js';
    import { ref } from 'vue';
+   import { checkDateDurant } from '../JS/accinfoservice';
+   import { askAccInfo, askPointsRecord, exchangePoints } from '../../api/accInfo.js'
 
    export default {
-      name: 'accInfoPage',
-      setup() {
-         const { winwidth } = useWindowWidth();
-         const drawer = ref(false);
+      name: 'userPointsPage',
 
-         let session = sessionStorage.getItem('session');
+      setup() { 
+         let isLoading = ref(false);
+         const accInfoArr = ref('');
+         const pointsRecord = ref([]);
+         let pointsChangable = ref('');
 
-         return {
-            winwidth,
-            drawer,
-            session,
+         pointsChangable.value = checkDateDurant();
+
+         askAccInfo().then((result) => {
+            accInfoArr.value = result;
+         })
+
+         askPointsRecord().then((result) => {
+            pointsRecord.value = result;
+         })
+
+         function callExchangePoints() { 
+            if(accInfoArr.value.totalPoints==0 && accInfoArr.value.totalMedals==0) {
+               alert('目前尚無點數與徽章可以兌換');
+            } else {
+               isLoading.value = true;
+               try {
+                  exchangePoints();
+               } finally {
+                  alert('點數兌換完成')
+                  isLoading.value = false;
+
+                  setTimeout(() => {
+                     window.location.reload();
+                  }, 1000);
+               }
+            }
+         }
+
+         return { 
+            isLoading,
+            accInfoArr,
+            pointsRecord,
+            pointsChangable,
+            callExchangePoints,
          };
       },
    };
