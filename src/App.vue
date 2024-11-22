@@ -58,7 +58,7 @@
                   <div>
                      <v-menu activator="parent">
                         <template v-slot:activator="{ attrs }">
-                           <a v-bind="attrs" class="userName2" style="cursor: pointer;">Top001</a>
+                           <a v-bind="attrs" class="userName2" style="cursor: pointer;">王大明</a>
                            <v-icon class="drop-down-btn2" size="30" style="cursor: pointer;">mdi-chevron-down</v-icon>
                         </template>
                         
@@ -147,7 +147,7 @@
                      <template v-slot:activator="{ attrs }">
                         <div class="userName-container">
                            <!-- <img :src="userImage" style="width: 18px; margin-right: 10px;"> -->
-                           <a v-bind="attrs" class="userName" style="cursor: pointer;">Top001</a>
+                           <a v-bind="attrs" class="userName" style="cursor: pointer;">王大明</a>
                            <v-icon class="drop-down-btn" size="30" style="cursor: pointer;">mdi-chevron-down</v-icon>
                         </div>
                      </template>

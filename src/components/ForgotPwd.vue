@@ -2,7 +2,7 @@
    <div class="center-container">
       <v-sheet class="mx-auto"> 
          <p class="sys-title">自我健康管理雲端平台</p>
-         <v-form fast-fail class="login-frame" @keyup.enter="changeConfirm">
+         <div class="login-frame" @keyup.enter="changeConfirm">
             <h2 class="frame-title">忘記密碼</h2> 
             <v-text-field v-model="credential" label="請輸入您的帳號" solo>
                <template v-slot:prepend>
@@ -35,7 +35,7 @@
             </div><br>
 
             <v-btn @click="changeConfirm(credential, password, repassword, verifycode)" block class="mt-2 login-btn"><h3>確認</h3></v-btn>
-         </v-form>
+         </div>
       </v-sheet>
    </div>
 

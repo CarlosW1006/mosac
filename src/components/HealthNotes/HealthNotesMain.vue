@@ -15,152 +15,130 @@
                   <div class="dropdown">
                      <input v-model="stepGoal" type="number" class="search-input top-select" placeholder="每日步數目標" />
                      <input v-model="joggingGoal" type="number" class="search-input" placeholder="每日慢跑目標" />
-                     <button class="search-btn" @click="saveGoals">儲存</button>
+                     <button class="search-btn">儲存</button>
                   </div>
                </div>
             </v-list-item>
- 
-            <!-- 用戶成功保存後的提示 -->
-            <div v-if="saveSuccess" class="save-success">
-               <p>目標已保存！</p>
-            </div>
          </v-card>
       </v-col>
+      <div class="legend-item"><span class="status-icon0">✔️</span>完成填寫</div>
+      <div class="legend-item"><span class="status-icon0">❌</span>尚未填寫</div>
    </v-row>
 
    <v-row justify="center" class="calendar-row" style="margin: 1% 1% 0;">
-          <Calendar is-inline expanded ref="calendar">
-             <!--day-content 插槽傳入的 day 物件包含了每一天的日期等資訊。-->
-             <template #day-content="{ day }">
-                <!--這行是綁定 day-content 元素的背景顏色，根據 checkDay() 函數的回傳值改變背景顏色。-->
-                <div class="day-content" :style="{ backgroundColor: checkDay(day.date.toLocaleDateString()) }">
-                   <!--如果螢幕寬度足夠寬（桌面裝置），直接顯示日期-->
-                   <div v-if="winwidth == true">
-                      {{ day.date.getDate() }}
-                      <span v-if="isPastOrToday(day.date)">
-                         <span v-if="isCompleted(day.date)" class="status-icon completed">✔️</span>
-                         <span v-else class="status-icon not-completed">❌</span>
-                      </span>
-                   </div>
-                   <!--如果螢幕寬度較窄（行動裝置），則用按鈕包裹日期，讓使用者可以點擊跳轉到該日期的詳細頁面。-->
-                   <div v-else class="day-content-phone">
-                      <button @click="navigate(day.date)">
-                        {{ day.date.getDate() }}
-                        <span v-if="isPastOrToday(day.date)">
-                           <span v-if="isCompleted(day.date)" class="status-icon completed">✔️</span>
-                           <span v-else class="status-icon not-completed">❌</span>
-                        </span>
-                      </button>
-                   </div>
-                </div>
- 
-                <div v-if="winwidth == true">
-                   <div class="space"
-                   :style="{ backgroundColor: checkDay(day.date.toLocaleDateString()) }">
-                      <!-- 每一天的 Dom -->
-                      <a v-bind:href="`./index.html#/healthDetailForm?date=${day.date.toISOString()}`">每日健康紀錄</a>
-                   </div>
-                </div>
-             </template>
-          </Calendar>
-   </v-row>
-   
-   <v-row justify="center" class="legend">
-      <div class="legend-item">
-         <span class="status-icon completed">✔️</span>完成填寫 
-      </div>
-      <div class="legend-item">
-         <span class="status-icon not-completed">❌</span> 尚未填寫
-      </div>
+      <Calendar is-inline expanded ref="calendar" @did-move="handleDidMove">
+         <template #day-content="{ day }">
+            <div class="day-content" :style="{ backgroundColor: checkDay(day.date.toLocaleDateString()) }">
+               <!-- 桌面裝置＞直接顯示日期-->
+               <div v-if="winwidth == true">
+                  {{ day.date.getDate() }}
+                  <span class="status-icon completed" v-if="isFinished(day.date.toLocaleDateString()) === true">✔️</span>
+                  <span class="status-icon not-completed" v-else-if="isFinished(day.date.toLocaleDateString()) === false">❌</span>
+                  <span v-else></span>
+               </div>
+               <!-- 行動裝置＞使用按鈕 -->
+               <div v-else class="day-content-phone">
+                  <button @click="navigate(day.date)">
+                     {{ day.date.getDate() }}
+                     <span class="status-icon completed" v-if="isFinished(day.date.toLocaleDateString()) === true">✔️</span>
+                     <span class="status-icon not-completed" v-else-if="isFinished(day.date.toLocaleDateString()) === false">❌</span>
+                     <span v-else></span>
+                  </button>
+               </div>
+            </div>
+
+            <div v-if="winwidth == true">
+               <div class="space" :style="{ backgroundColor: checkDay(day.date.toLocaleDateString()) }">
+                  <a v-bind:href="`./index.html#/healthDetailForm?date=${day.date.toISOString()}`">每日健康紀錄</a>
+               </div>
+            </div>
+         </template>
+      </Calendar>
    </v-row>
 </template>
   
 <script>
    import { Calendar } from 'v-calendar';
    import { useWindowWidth } from '../JS/winwidth';
+   import { askHealthNoteRecord } from '../../api/healthNote';
    import 'v-calendar/style.css';
-   import { ref } from 'vue'; 
- 
+   import { ref } from 'vue';
+
    export default {
-      name: 'healthNotesPage',
-      components: {
-         Calendar
-      },
-      setup() {
-         // 每月步數與慢跑目標
-         const stepGoal = ref(''); 
-         const joggingGoal = ref('');  
-         const saveSuccess = ref(false); 
-         // 保存目標功能
-         function saveGoals() {
-            if (stepGoal.value === '' || joggingGoal.value === '') {
-               alert('請填寫完整的目標');
-               return;
-            }
-            console.log('步數目標:', stepGoal.value, '慢跑目標:', joggingGoal.value);
- 
-            // 保存成功後顯示提示，並清空表單
-            saveSuccess.value = true;
-            setTimeout(() => {
-               saveSuccess.value = false; // 2秒後隱藏提示
-            }, 2000);
- 
-            // 清空表單
-            stepGoal.value = '';
-            joggingGoal.value = '';
+   name: 'healthNotesPage',
+   components: {
+      Calendar,
+   },
+   setup() {
+      const stepGoal = ref('');
+      const joggingGoal = ref('');
+      const today = new Date();
+      const eachDayFinish = ref([]);
+      const currentMonth = today.getMonth() + 1;
+      const { winwidth } = useWindowWidth();
+
+      function checkDay(val) {
+         // 如果當前日期匹配今天，改變背景顏色
+         if (val === today.toLocaleDateString()) {
+            return '#b0d9ff';
          }
- 
-         // 獲取今天的日期 Start //
-         const today = new Date();
- 
-         function checkDay(val) {
-            // 如果當前日期匹配今天，改變背景顏色
-            if (val === today.toLocaleDateString()) {
-               return '#b0d9ff'; // 高亮顏色
-            }
-            return '#ffffff'; // 預設背景顏色
+         return '#ffffff';
+      }
+
+      function navigate(val) {
+         window.location.href = `./index.html#/healthDetailForm?date=${val.toISOString()}`;
+      }
+
+      function handleDidMove(pages) {
+         if (pages && pages.length > 0) {
+            const month = pages[0].month;
+            askHealthNoteRecord('2024/' + month + '/01', '2024/' + month + '/31').then((result) => {
+               eachDayFinish.value = result.HealthNoteRecord;
+            });
          }
-         // 獲取今天日期 End //
+      }
+
+      askHealthNoteRecord('2024/' + currentMonth + '/01', '2024/' + currentMonth + '/31').then((result) => {
+         eachDayFinish.value = result.HealthNoteRecord;
+         // console.log(eachDayFinish.value);
+      });
+
+      function isFinished(val) {
+         const date = new Date(val);
+         const rangeMonth = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}`;
+         const formattedDate = `${date.getFullYear()}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}`;
          
-         // 獲取螢幕寬度 Start //
-         const { winwidth } = useWindowWidth();
-         // 獲取螢幕寬度 End //
-         
-         // 記錄填寫的日期，假設是填寫過的日期列表
-         const completedDates = ref(['2023-10-21', '2023-10-22']); // 用 YYYY-MM-DD 格式
-
-         // 檢查日期是否已完成
-         const isCompleted = (date) => {
-            const dateStr = date.toISOString().split('T')[0];
-            return completedDates.value.includes(dateStr);
-         };
-
-         // 檢查日期是否為今天或之前
-         const isPastOrToday = (date) => {
-            return date <= today;
-         };
-
-         // 月曆按鈕 function Start //
-         function navigate(val) {
-            window.location.href = `./index.html#/healthDetailForm?date=${val.toISOString()}`; 
+         // 尋找有符合指定日期、finish=true
+         if(rangeMonth === '2024-10' || rangeMonth === '2024-11' || rangeMonth === '2024-12') {
+            if((new Date(formattedDate) > new Date(today)) == true) {
+               return(null);
+            }
+            else if(eachDayFinish.value.some(item => item.createAt === formattedDate && item.finish === 'true')) {
+               // console.log(new Date(formattedDate) > new Date(today));
+               return(true);
+            }
+            else {
+               return(false);
+            }
          }
-         // 月曆按鈕 function End //
- 
-         return { 
-            today,
-            isCompleted,
-            isPastOrToday,
-            checkDay,
-            winwidth,
-            navigate,
-            stepGoal,
-            joggingGoal,
-            saveGoals,
-            saveSuccess,
-         };
-      },
+         return(null);
+      }
+
+      return {
+         today,
+         winwidth,
+         stepGoal,
+         joggingGoal,
+         currentMonth,
+         eachDayFinish,
+
+         checkDay,
+         navigate,
+         isFinished,
+         handleDidMove,
+      };
+   },
    };
- 
 </script>
   
 <style lang="css" scoped>
