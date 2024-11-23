@@ -21,8 +21,14 @@
             </v-list-item>
          </v-card>
       </v-col>
-      <div class="legend-item"><span class="status-icon0">✔️</span>完成填寫</div>
-      <div class="legend-item"><span class="status-icon0">❌</span>尚未填寫</div>
+      <div class="legend-item"><span class="status-icon0 complete-icon">
+         <v-icon class="complete-icon">mdi-check-bold</v-icon>
+         <p>完成填寫</p>
+      </span></div>
+      <div class="legend-item"><span class="status-icon0 uncomplete-icon">
+         <v-icon class="uncomplete-icon">mdi-close-thick</v-icon>
+         <p>尚未填寫</p>
+      </span></div>
    </v-row>
 
    <v-row justify="center" class="calendar-row" style="margin: 1% 1% 0;">
@@ -32,16 +38,24 @@
                <!-- 桌面裝置＞直接顯示日期-->
                <div v-if="winwidth == true">
                   {{ day.date.getDate() }}
-                  <span class="status-icon completed" v-if="isFinished(day.date.toLocaleDateString()) === true">✔️</span>
-                  <span class="status-icon not-completed" v-else-if="isFinished(day.date.toLocaleDateString()) === false">❌</span>
+                  <span class="status-icon" v-if="isFinished(day.date.toLocaleDateString()) === true">
+                     <v-icon class="complete-icon">mdi-check-bold</v-icon>
+                  </span>
+                  <span class="status-icon" v-else-if="isFinished(day.date.toLocaleDateString()) === false">
+                     <v-icon class="uncomplete-icon">mdi-close-thick</v-icon>
+                  </span>
                   <span v-else></span>
                </div>
                <!-- 行動裝置＞使用按鈕 -->
                <div v-else class="day-content-phone">
                   <button @click="navigate(day.date)">
                      {{ day.date.getDate() }}
-                     <span class="status-icon completed" v-if="isFinished(day.date.toLocaleDateString()) === true">✔️</span>
-                     <span class="status-icon not-completed" v-else-if="isFinished(day.date.toLocaleDateString()) === false">❌</span>
+                     <span class="status-icon" v-if="isFinished(day.date.toLocaleDateString()) === true">
+                        <v-icon class="complete-icon">mdi-check-bold</v-icon>
+                     </span>
+                     <span class="status-icon" v-else-if="isFinished(day.date.toLocaleDateString()) === false">
+                        <v-icon class="uncomplete-icon">mdi-close-thick</v-icon>
+                     </span>
                      <span v-else></span>
                   </button>
                </div>
@@ -49,7 +63,12 @@
 
             <div v-if="winwidth == true">
                <div class="space" :style="{ backgroundColor: checkDay(day.date.toLocaleDateString()) }">
-                  <a v-bind:href="`./index.html#/healthDetailForm?date=${day.date.toISOString()}`">每日健康紀錄</a>
+                  <a class="recordComplete" v-bind:href="`./index.html#/healthDetailForm?date=${day.date.toISOString()}`"
+                  v-if="isFinished(day.date.toLocaleDateString()) === true"><p>完成填寫</p></a>
+                  <a class="recordUnComplete" v-bind:href="`./index.html#/healthDetailForm?date=${day.date.toISOString()}`"
+                  v-else-if="isFinished(day.date.toLocaleDateString()) === false"><p>尚未填寫</p></a>
+                  <a v-bind:href="`./index.html#/healthDetailForm?date=${day.date.toISOString()}`"
+                  v-else><p>&nbsp;</p></a>
                </div>
             </div>
          </template>
