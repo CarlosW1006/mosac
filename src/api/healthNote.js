@@ -2,6 +2,15 @@
 import axios from 'axios';
 const APIUrl = 'http://localhost:8888/';
 
+function changeDate(val) {
+   const rawDate = new Date(val);
+   const formattedDate = rawDate.getFullYear() + '/' +
+   (rawDate.getMonth() + 1).toString().padStart(2, '0') + '/' +
+   rawDate.getDate().toString().padStart(2, '0');
+
+   return(formattedDate);
+}
+
 // 健康手札紀錄 API Start //
 export function askHealthNoteRecord(startAt, endAt) {
    const token = sessionStorage.getItem('session');
@@ -23,11 +32,7 @@ export function askHealthNoteRecord(startAt, endAt) {
       // 撈最近一筆重複日期記錄
       if(Array.isArray(response.data)) {
          for(let i = 0; i < response.data.length; i++) {
-            const rawDate = new Date(response.data[i].createAt);
-            const formattedDate = rawDate.getFullYear() + '/' +
-            (rawDate.getMonth() + 1).toString().padStart(2, '0') + '/' +
-            rawDate.getDate().toString().padStart(2, '0');
-            response.data[i].createAt = formattedDate;
+            response.data[i].createAt = changeDate(response.data[i].createAt);
 
             let isDuplicate = false;
 
@@ -47,12 +52,20 @@ export function askHealthNoteRecord(startAt, endAt) {
          // 更新 finish 狀態
          for(let j = 0; j < HealthNoteRecord.length; j++) {
             const record = HealthNoteRecord[j];
+            const parsedCreateAt = new Date(record.createAt);
+            // 確認每週6的體重紀錄
+            const isSaturday = parsedCreateAt.getDay() === 6;
+            // 確認每天的步數、慢跑、飲食紀錄
             const isDailyIncomplete = record.dailySteps == null || record.dailyJoggingTime == null || record.dailyDietGoal == null;
-            const isSaturday = new Date(record.createAt).getDay() === 6;
+            // 確認第3、6個月最後一天的Hba1c紀錄
+            const isLastDayofMonth = record.createAt === '2024/4/30' || record.createAt === '2024/7/31';
 
-            if (isSaturday && record.weeklyWeight == null) {
+            if(isLastDayofMonth && record.HbA1c == null) {
                record.finish = 'false';
-            } else if (isDailyIncomplete) {
+            }
+            else if(isSaturday && record.weeklyWeight == null) {
+               record.finish = 'false';
+            } else if(isDailyIncomplete) {
                record.finish = 'false';
             } else {
                record.finish = 'true';
@@ -60,7 +73,7 @@ export function askHealthNoteRecord(startAt, endAt) {
          }
       }
 
-      const groupByWeekArr = {};
+      const groupByWeekArr = [];
 
       // 日期依照週數分類
       for(let i = 0; i < HealthNoteRecord.length; i++) {
