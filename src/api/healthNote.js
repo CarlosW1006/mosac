@@ -62,14 +62,16 @@ export function askHealthNoteRecord(startAt, endAt) {
             // 確認第3、6個月最後一天的Hba1c紀錄
             const isLastDayofMonth = record.createAt === '2024/4/30' || record.createAt === '2024/7/31';
 
-            if(isLastDayofMonth && record.HbA1c == null) {
+            if(isDailyIncomplete) {
                record.finish = 'false';
             }
             else if(isSaturday && record.weeklyWeight == null) {
                record.finish = 'false';
-            } else if(isDailyIncomplete) {
+            }
+            else if(isLastDayofMonth && record.HbA1c == null) {
                record.finish = 'false';
-            } else {
+            }
+            else {
                record.finish = 'true';
             }
          }
