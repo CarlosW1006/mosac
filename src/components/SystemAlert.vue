@@ -1,5 +1,5 @@
 <template>
-   <div v-if="showAlert" class="overlay">
+   <div v-if="dataReady && showAlert" class="overlay">
       <v-card class="system-alert">
          <v-card-title class="alert-title">
             <span class="alert-title-font">提示訊息</span>
@@ -8,7 +8,7 @@
             </v-btn>
          </v-card-title>
          <v-card-text class="flex-container">
-            <p>目前尚有<span class="day-count">3</span>天健康紀錄還未完成，請盡快填寫謝謝。</p>
+            <p>目前尚有<span class="day-count">{{ uncompleteNumber }}</span>天健康紀錄還未完成，請盡快填寫謝謝。</p>
          </v-card-text>
       </v-card>
    </div>
@@ -16,17 +16,31 @@
 
 <script>
    import { ref } from 'vue';
+   import { askHealthNoteRecord } from '../api/healthNote.js';
 
    export default {
       setup() {
          let showAlert = ref(true);
+         let dataReady = ref(false);
+         const uncompleteNumber = ref('');
 
          function closeAlert() {
-            showAlert.value = false; // 關閉訊息視窗
+            showAlert.value = false;
          }
+
+         // 計算未完成天數
+         askHealthNoteRecord('2024/11/22', '2024/11/24').then((result) => {
+            uncompleteNumber.value = result.uncompleteNumber;
+            if (result.uncompleteNumber === 0) {
+               showAlert.value = false;
+            }
+            dataReady.value = true; // 先跑完數據再顯示通知
+         });
 
          return {
             showAlert,
+            dataReady,
+            uncompleteNumber,
             closeAlert,
          };
       },

@@ -37,7 +37,7 @@
                      <div v-if="accType == 0" class="messages">
                         <div class="flex-container">
                            <a href="#/healthNotes" class="bar-btn-info">健康紀錄未填寫</a>
-                           <div class="info-number"><p>3</p></div>
+                           <div class="info-number"><p>{{ uncompleteNumber }}</p></div>
                         </div>
                      </div>
                      <div class="messages">
@@ -115,7 +115,7 @@
                      <v-list-item v-if="accType == 0" class="sm-bar-btn">
                         <div class="flex-container">
                            <v-list-item-title><a href="#/healthNotes" class="sm-bar-btn-info">健康紀錄未填寫</a></v-list-item-title>
-                           <div class="sm-info-number"><p>3</p></div>
+                           <div class="sm-info-number"><p>{{ uncompleteNumber }}</p></div>
                         </div>
                      </v-list-item>
                      
@@ -196,12 +196,14 @@
 
 <script>
    import { useWindowWidth } from './components/JS/winwidth.js';
+   import { askHealthNoteRecord } from './api/healthNote.js';
    import userImage from './assets/images/user.png';
    import { ref, onMounted } from 'vue';
 
    export default {
       name: 'App',
       setup() {
+         const uncompleteNumber = ref('');
          let session = sessionStorage.getItem('session');
          let accType = sessionStorage.getItem('accType');
          let hasPendingSurvey = sessionStorage.getItem('hasPendingSurvey');
@@ -244,6 +246,11 @@
             }
          }
 
+         // 計算未完成天數
+         askHealthNoteRecord('2024/11/22', '2024/11/24').then((result) => {
+            uncompleteNumber.value = result.uncompleteNumber;
+         });
+
          // 登出功能
          function logout() {
             if(confirm('確定要登出系統?')) {
@@ -268,6 +275,7 @@
             hashUrl,
             barButtons,
             expBarButtons,
+            uncompleteNumber,
 
             logout,
             navigateToPath,

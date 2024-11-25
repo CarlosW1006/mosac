@@ -27,7 +27,9 @@ export function askHealthNoteRecord(startAt, endAt) {
          }
       }
    ).then((response) => { 
+      const groupByWeekArr = [];
       const HealthNoteRecord = [];
+      let uncompleteNumber = 0;
 
       // 撈最近一筆重複日期記錄
       if(Array.isArray(response.data)) {
@@ -73,8 +75,6 @@ export function askHealthNoteRecord(startAt, endAt) {
          }
       }
 
-      const groupByWeekArr = [];
-
       // 日期依照週數分類
       for(let i = 0; i < HealthNoteRecord.length; i++) {
          const rawDate = HealthNoteRecord[i].createAt;
@@ -91,7 +91,14 @@ export function askHealthNoteRecord(startAt, endAt) {
          groupByWeekArr[weekNumber].push(HealthNoteRecord[i]);
       }
 
-      return { HealthNoteRecord };
+      // 計算沒有填寫的天數
+      for(let i=0; i<HealthNoteRecord.length; i++) {
+         if(HealthNoteRecord[i].finish === 'false') {
+            uncompleteNumber += 1;
+         }
+      }
+
+      return { HealthNoteRecord, uncompleteNumber };
       
    })
    .catch((error) => {

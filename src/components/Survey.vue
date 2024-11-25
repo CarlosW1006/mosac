@@ -3,162 +3,56 @@
       <v-col cols="12">
          <v-card style="width: 100%;">
             <v-list-item class="survey-title">
-               <h3>減重5階段問卷</h3>
+               <h3>健康減重計畫階段問卷</h3>
             </v-list-item>
             <v-card class="intro-container">
-               <p class="intro-title">問卷填寫說明</p>
                <p class="intro-content">
-                  系統將依照問卷填寫結果，為您安排到意圖前期、意圖期、準備期、行動期、維持期，5個階段群組。
+                  『健康減重』指的是實踐健康均衡飲食及從事規律的身體運動(如:快走、游泳、慢跑、騎走踏車、爬樓梯、各種球類活動…等)
+                  以達到體重的控制，請問您目前是否進行健康減重?
                </p>
+
+               <div class="form-check-container">
+                  <input class="form-check-input" type="checkbox" value="1"
+                  v-model="surveyResult" @change="toggleCheckbox('1')">
+                  <label class="form-check-label">
+                     沒有，且在未來6個月內沒計畫開始減重
+                  </label>
+               </div>
+               <div class="form-check-container">
+                  <input class="form-check-input" type="checkbox" value="2" 
+                  v-model="surveyResult" @change="toggleCheckbox('2')">
+                  <label class="form-check-label">
+                     沒有，但計畫在未來6個月內開始減重
+                  </label>
+               </div>
+               <div class="form-check-container">
+                  <input class="form-check-input" type="checkbox" value="3" 
+                  v-model="surveyResult" @change="toggleCheckbox('3')">
+                  <label class="form-check-label">
+                     目前有在控制飲食及運動但沒有規律，計畫未來一個月內開始運動
+                  </label>
+               </div>
+               <div class="form-check-container">
+                  <input class="form-check-input" type="checkbox" value="4" 
+                  v-model="surveyResult" @change="toggleCheckbox('4')">
+                  <label class="form-check-label">
+                     有，減重中但未滿6個月
+                  </label>
+               </div>
+               <div class="form-check-container">
+                  <input class="form-check-input" type="checkbox" value="5" 
+                  v-model="surveyResult" @change="toggleCheckbox('5')">
+                  <label class="form-check-label">
+                     有，而且已執行減重超過6過月
+                  </label>
+               </div>
+
+               <div class="button-container">
+                  <v-btn class="submitBtn" @click="sendSurveyOutcome()">送出答案</v-btn>
+               </div>
             </v-card>
          </v-card>
 
-         <v-card class="question-container">
-            <v-card class="question-inner">
-                  <p class="question-title">1.&nbsp;&nbsp;問題一</p>
-                  <div class="question-content">
-                     <input class="form-check-input custom-checkbox" type="checkbox" name="flexRadioDefault" id="flexRadioDefault1">
-                     <label class="form-check-label" for="flexRadioDefault1">
-                        選項1
-                     </label>
-                  </div>
-                  <div class="form-check">
-                     <input class="form-check-input custom-checkbox" type="checkbox">
-                     <label class="form-check-label">
-                        選項2
-                     </label>
-                  </div>
-                  <div class="form-check">
-                     <input class="form-check-input custom-checkbox" type="checkbox">
-                     <label class="form-check-label">
-                        選項3
-                     </label>
-                  </div>
-                  <div class="form-check">
-                     <input class="form-check-input custom-checkbox" type="checkbox">
-                     <label class="form-check-label">
-                        選項4
-                     </label>
-                  </div>
-            </v-card>
-
-            <v-card class="question-inner">
-               <p class="question-title">2.&nbsp;&nbsp;問題二</p>
-               <div class="question-content">
-                  <input class="form-check-input custom-checkbox" type="checkbox" name="flexRadioDefault" id="flexRadioDefault1">
-                  <label class="form-check-label" for="flexRadioDefault1">
-                     選項1
-                  </label>
-               </div>
-               <div class="form-check">
-                  <input class="form-check-input custom-checkbox" type="checkbox">
-                  <label class="form-check-label">
-                     選項2
-                  </label>
-               </div>
-               <div class="form-check">
-                  <input class="form-check-input custom-checkbox" type="checkbox">
-                  <label class="form-check-label">
-                     選項3
-                  </label>
-               </div>
-               <div class="form-check">
-                  <input class="form-check-input custom-checkbox" type="checkbox">
-                  <label class="form-check-label">
-                     選項4
-                  </label>
-               </div>
-            </v-card>
-
-            <v-card class="question-inner">
-               <p class="question-title">3.&nbsp;&nbsp;問題三</p>
-               <div class="question-content">
-                  <input class="form-check-input custom-checkbox" type="checkbox" name="flexRadioDefault" id="flexRadioDefault1">
-                  <label class="form-check-label" for="flexRadioDefault1">
-                     選項1
-                  </label>
-               </div>
-               <div class="form-check">
-                  <input class="form-check-input custom-checkbox" type="checkbox">
-                  <label class="form-check-label">
-                     選項2
-                  </label>
-               </div>
-               <div class="form-check">
-                  <input class="form-check-input custom-checkbox" type="checkbox">
-                  <label class="form-check-label">
-                     選項3
-                  </label>
-               </div>
-               <div class="form-check">
-                  <input class="form-check-input custom-checkbox" type="checkbox">
-                  <label class="form-check-label">
-                     選項4
-                  </label>
-               </div>
-            </v-card>
-
-            <v-card class="question-inner">
-               <p class="question-title">4.&nbsp;&nbsp;問題四</p>
-               <div class="question-content">
-                  <input class="form-check-input custom-checkbox" type="checkbox" name="flexRadioDefault" id="flexRadioDefault1">
-                  <label class="form-check-label" for="flexRadioDefault1">
-                     選項1
-                  </label>
-               </div>
-               <div class="form-check">
-                  <input class="form-check-input custom-checkbox" type="checkbox">
-                  <label class="form-check-label">
-                     選項2
-                  </label>
-               </div>
-               <div class="form-check">
-                  <input class="form-check-input custom-checkbox" type="checkbox">
-                  <label class="form-check-label">
-                     選項3
-                  </label>
-               </div>
-               <div class="form-check">
-                  <input class="form-check-input custom-checkbox" type="checkbox">
-                  <label class="form-check-label">
-                     選項4
-                  </label>
-               </div>
-            </v-card>
-
-            <v-card class="question-inner">
-               <p class="question-title">5.&nbsp;&nbsp;問題五</p>
-               <div class="question-content">
-                  <input class="form-check-input custom-checkbox" type="checkbox" name="flexRadioDefault" id="flexRadioDefault1">
-                  <label class="form-check-label" for="flexRadioDefault1">
-                     選項1
-                  </label>
-               </div>
-               <div class="form-check">
-                  <input class="form-check-input custom-checkbox" type="checkbox">
-                  <label class="form-check-label">
-                     選項2
-                  </label>
-               </div>
-               <div class="form-check">
-                  <input class="form-check-input custom-checkbox" type="checkbox">
-                  <label class="form-check-label">
-                     選項3
-                  </label>
-               </div>
-               <div class="form-check">
-                  <input class="form-check-input custom-checkbox" type="checkbox">
-                  <label class="form-check-label">
-                     選項4
-                  </label>
-               </div>
-            </v-card>
-
-            <div class="button-container">
-               <v-btn class="submitBtn" @click="sendSurveyOutcome()">送出答案</v-btn>
-               <!-- <v-btn class="cancelBtn">取消作答</v-btn> -->
-            </div>
-         </v-card>
       </v-col>
    </v-row>
 
@@ -175,27 +69,48 @@
       name: 'surveyPage',
       setup() {
          let isLoading = ref(false);
+         let surveyResult = ref([]);
          const router = useRouter();
 
+         function toggleCheckbox(value) {
+            const numericValue = Number(value);
+            if (surveyResult.value.includes(numericValue)) {
+               surveyResult.value[0] = value;
+               console.log(surveyResult.value[0]);
+            } else {
+               surveyResult.value = [];
+               surveyResult.value.push(value);
+               console.log(surveyResult.value[0]);
+            }
+         }
+
          function sendSurveyOutcome() {
+            if (surveyResult.value.length === 0) {
+               alert("請選擇一個選項後再送出");
+               return;
+            }
+
             isLoading.value = true;
-            
-            postSurveyOutcome(1).then(() => {
+
+            postSurveyOutcome(parseInt(surveyResult.value[0])).then(() => {
                sessionStorage.setItem('hasPendingSurvey', 'true');
                alert("本月問卷填寫完成");
                isLoading.value = false;
                router.push('/index').then(() => {
                   window.location.reload();
                });
-            })
+            });
          }
 
          return {
             isLoading,
+            surveyResult,
+            toggleCheckbox,
             sendSurveyOutcome,
          };
-      }
-   }
+      },
+   };
+
 </script>
 
 <style lang="css" scoped>

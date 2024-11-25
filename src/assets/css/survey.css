@@ -7,82 +7,56 @@
    background-color: #71ccc7;
    color: #FFFFFF;
    height: 3em;
-   font-size: 2em;
+   font-size: 3em;
 }
 
 .intro-container {
    height: auto;
-   font-size: 2em;
-   padding: 1.5em 1em 1.5em;
-
+   font-size: 2.5em;
+   padding: 1.8em 2em 1.8em;
    display: flex;
    flex-direction: column;
    justify-content: center;
    background-color: #FFFFFF;
-}
-
-.intro-title {
-   color: #71ccc7;
-   font-weight: 600;
-   margin-bottom: 1em;
 }
 
 .intro-content {
    color: #636d6d;
    font-weight: 600;
+   text-align: justify;
+   margin-bottom: 1.8em;
 }
 
-.question-container {
-   height: auto;
-   font-size: 2em;
-   padding: 0em 0.5em;
-   margin-top: 1em;
-
+.form-check-container {
+   margin-bottom: 1.8em;
    display: flex;
-   flex-direction: column;
-   justify-content: center;
-   background-color: #FFFFFF;
-}
-
-.question-inner {
-   padding: 1em;
-   margin: 0.5em 0 0.25em;
-   border: 0.5px solid #71ccc7;
-}
-
-.question-title {
-   color: #71ccc7;
-   font-weight: 600;
-}
-
-.question-content {
-   margin-top: 0.5em;
+   align-items: flex-start; /* 顶部对齐，确保复选框和第一行文字对齐 */
 }
 
 .form-check-input {
-   margin-right: 1em;
-   margin-left: 1.5em;
-
+   flex-shrink: 0; /* 阻止复选框因为文字多行而缩小 */
    width: 20px;
    height: 20px;
-   margin-right: 10px;
+   margin-right: 10px; /* 给复选框和文字之间增加一定的间距 */
+   margin-top: 6px; /* 手动调整复选框的位置，使其与文字对齐 */
    border: 2px solid #71ccc7 !important;
    border-radius: 4px;
    vertical-align: middle;
 }
 
 .form-check-label {
+   line-height: 1.5; /* 保持文本的可读性 */
    color: #636d6d;
 }
 
 .button-container {
    display: flex;
-   margin-bottom: 0.8em;
+   margin: 0.5em 0 0.5em;
 }
 
 .submitBtn {
    height: 3em !important;
-   width: 30%;
+   width: 100%;
    font-size: 1em;
    font-weight: 600;
    margin-top: 0.5em;
@@ -100,19 +74,26 @@
    background-color: #db6666;
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1200px) {   
    .survey-container { 
       margin: 1% 10% 10px;
    }
 
+   .survey-title {
+      font-size: 2.5em;
+   }
+
+   .intro-container {
+      font-size: 2.3em;
+      padding: 1.3em 1.5em 1.3em;
+   }
+
    .button-container {
-      display: flex;
       flex-direction: column;
       justify-content: center;
    }
 
-   .submitBtn { 
-      width: 100%;
+   .submitBtn {
       margin-top: 10px;
    }
 
