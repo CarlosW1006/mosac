@@ -103,13 +103,12 @@
   import { useWindowWidth } from '../JS/winwidth.js';
   import { ref,computed } from 'vue';
   import { useRouter } from 'vue-router';
-  import localStorageService from './localStorageService.js';
   
   export default {
     name: 'healthDetailFormPage',
     setup() {
       const { winwidth } = useWindowWidth();
-      const healthInfo = ref( {
+      const healthInfo = ref({
         steps: '',
         walkingTimes: [0],
         diet: '',
@@ -118,50 +117,49 @@
         hba1c: ''
       });
 
-         const breakfast = ref(null);
-         const lunch = ref(null);
-         const dinner = ref(null);
-         const router = useRouter(); 
+      const breakfast = ref(null);
+      const lunch = ref(null);
+      const dinner = ref(null);
+      const router = useRouter(); 
 
-         const formattedDate = computed(() => {
-         const urlParams = new URLSearchParams(window.location.search);
-         const date = urlParams.get('date');
-         return new Date(date).toLocaleDateString();
-         });
+      const formattedDate = computed(() => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const date = urlParams.get('date');
+      return new Date(date).toLocaleDateString();
+      });
 
-         const saveHealthInfo = () => {
+      const saveHealthInfo = () => {
          if (healthInfo.value.diet === '是' && healthInfo.value.selectedMeals.length === 0){
             alert('必須選擇至少一餐');
             return; // 取消保存
          }
-         // 使用 localStorage 服務來保存健康資料
-         localStorageService.setItem('healthInfo', healthInfo.value);
+
          // 使用 this.$router 進行路由跳轉
          router.push('/healthDetailView');
-         };
-         
-         const addWalkingTime = () => {
+      };
+      
+      const addWalkingTime = () => {
          healthInfo.value.walkingTimes.push(0);
-         };
+      };
 
-         const removeWalkingTime = (index) => {
+      const removeWalkingTime = (index) => {
          healthInfo.value.walkingTimes.splice(index, 1);
-         };
+      };
 
-         //表單背景(灰白)
-         const isRedBg = (index) => {
+      //表單背景(灰白)
+      const isRedBg = (index) => {
          return{
             'form-group':true,
             'red-bg': index % 2 === 0
          };
-         };
+      };
 
-         const updateMeals = () => {
-         healthInfo.value.selectedMeals = [];
+      const updateMeals = () => {
+      healthInfo.value.selectedMeals = [];
          if (breakfast.value.checked) healthInfo.value.selectedMeals.push('早餐');       
          if (lunch.value.checked) healthInfo.value.selectedMeals.push('午餐');       
          if (dinner.value.checked) healthInfo.value.selectedMeals.push('晚餐');      
-         };
+      };
 
       return {
         winwidth,

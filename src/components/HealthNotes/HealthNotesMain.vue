@@ -27,7 +27,7 @@
       </span></div>
       <div class="legend-item"><span class="status-icon0 uncomplete-icon">
          <v-icon class="uncomplete-icon">mdi-close-thick</v-icon>
-         <p>尚未填寫</p>
+         <p>尚未完成</p>
       </span></div>
    </v-row>
 
@@ -66,7 +66,7 @@
                   <a class="recordComplete" v-bind:href="`./index.html#/healthDetailForm?date=${day.date.toISOString()}`"
                   v-if="isFinished(day.date.toLocaleDateString()) === true"><p>完成填寫</p></a>
                   <a class="recordUnComplete" v-bind:href="`./index.html#/healthDetailForm?date=${day.date.toISOString()}`"
-                  v-else-if="isFinished(day.date.toLocaleDateString()) === false"><p>尚未填寫</p></a>
+                  v-else-if="isFinished(day.date.toLocaleDateString()) === false"><p>尚未完成</p></a>
                   <a v-bind:href="`./index.html#/healthDetailForm?date=${day.date.toISOString()}`"
                   v-else><p>&nbsp;</p></a>
                </div>
@@ -84,79 +84,79 @@
    import { ref } from 'vue';
 
    export default {
-   name: 'healthNotesPage',
-   components: {
-      Calendar,
-   },
-   setup() {
-      const stepGoal = ref('');
-      const joggingGoal = ref('');
-      const today = new Date();
-      const eachDayFinish = ref([]);
-      const currentMonth = today.getMonth() + 1;
-      const { winwidth } = useWindowWidth();
+      name: 'healthNotesPage',
+      components: {
+         Calendar,
+      },
+      setup() {
+         const stepGoal = ref('');
+         const joggingGoal = ref('');
+         const today = new Date();
+         const eachDayFinish = ref([]);
+         const currentMonth = today.getMonth() + 1;
+         const { winwidth } = useWindowWidth();
 
-      function checkDay(val) {
-         // 如果當前日期匹配今天，改變背景顏色
-         if (val === today.toLocaleDateString()) {
-            return '#b0d9ff';
-         }
-         return '#ffffff';
-      }
-
-      function navigate(val) {
-         window.location.href = `./index.html#/healthDetailForm?date=${val.toISOString()}`;
-      }
-
-      function handleDidMove(pages) {
-         if (pages && pages.length > 0) {
-            const month = pages[0].month;
-            askHealthNoteRecord('2024/' + month + '/01', '2024/' + month + '/31').then((result) => {
-               eachDayFinish.value = result.HealthNoteRecord;
-            });
-         }
-      }
-
-      askHealthNoteRecord('2024/' + currentMonth + '/01', '2024/' + currentMonth + '/31').then((result) => {
-         eachDayFinish.value = result.HealthNoteRecord;
-         // console.log(eachDayFinish.value);
-      });
-
-      function isFinished(val) {
-         const date = new Date(val);
-         const rangeMonth = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}`;
-         const formattedDate = `${date.getFullYear()}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}`;
-         
-         // 尋找有符合指定日期、finish=true
-         if(rangeMonth === '2024-10' || rangeMonth === '2024-11' || rangeMonth === '2024-12') {
-            if((new Date(formattedDate) > new Date(today)) == true) {
-               return(null);
+         function checkDay(val) {
+            // 如果當前日期匹配今天，改變背景顏色
+            if (val === today.toLocaleDateString()) {
+               return '#b0d9ff';
             }
-            else if(eachDayFinish.value.some(item => item.createAt === formattedDate && item.finish === 'true')) {
-               // console.log(new Date(formattedDate) > new Date(today));
-               return(true);
-            }
-            else {
-               return(false);
+            return '#ffffff';
+         }
+
+         function navigate(val) {
+            window.location.href = `./index.html#/healthDetailForm?date=${val.toISOString()}`;
+         }
+
+         function handleDidMove(pages) {
+            if (pages && pages.length > 0) {
+               const month = pages[0].month;
+               askHealthNoteRecord('2024/' + month + '/01', '2024/' + month + '/31').then((result) => {
+                  eachDayFinish.value = result.HealthNoteRecord;
+               });
             }
          }
-         return(null);
-      }
 
-      return {
-         today,
-         winwidth,
-         stepGoal,
-         joggingGoal,
-         currentMonth,
-         eachDayFinish,
+         askHealthNoteRecord('2024/' + currentMonth + '/01', '2024/' + currentMonth + '/31').then((result) => {
+            eachDayFinish.value = result.HealthNoteRecord;
+            // console.log(eachDayFinish.value);
+         });
 
-         checkDay,
-         navigate,
-         isFinished,
-         handleDidMove,
-      };
-   },
+         function isFinished(val) {
+            const date = new Date(val);
+            const rangeMonth = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}`;
+            const formattedDate = `${date.getFullYear()}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}`;
+            
+            // 尋找有符合指定日期、finish=true
+            if(rangeMonth === '2024-10' || rangeMonth === '2024-11' || rangeMonth === '2024-12') {
+               if((new Date(formattedDate) > new Date(today)) == true) {
+                  return(null);
+               }
+               else if(eachDayFinish.value.some(item => item.createAt === formattedDate && item.finish === 'true')) {
+                  // console.log(new Date(formattedDate) > new Date(today));
+                  return(true);
+               }
+               else {
+                  return(false);
+               }
+            }
+            return(null);
+         }
+
+         return {
+            today,
+            winwidth,
+            stepGoal,
+            joggingGoal,
+            currentMonth,
+            eachDayFinish,
+
+            checkDay,
+            navigate,
+            isFinished,
+            handleDidMove,
+         };
+      },
    };
 </script>
   

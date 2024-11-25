@@ -30,22 +30,41 @@
 .form-check-container {
    margin-bottom: 1.8em;
    display: flex;
-   align-items: flex-start; /* 顶部对齐，确保复选框和第一行文字对齐 */
+   align-items: flex-start;
 }
 
 .form-check-input {
-   flex-shrink: 0; /* 阻止复选框因为文字多行而缩小 */
-   width: 20px;
-   height: 20px;
-   margin-right: 10px; /* 给复选框和文字之间增加一定的间距 */
-   margin-top: 6px; /* 手动调整复选框的位置，使其与文字对齐 */
-   border: 2px solid #71ccc7 !important;
+   width: 30px;
+   height: 30px;
+   margin-top: 2px;
+   margin-right: 10px;
    border-radius: 4px;
+   border: 2px solid #71ccc7;
+   appearance: none;
+   -webkit-appearance: none;
+   cursor: pointer;
+   position: relative;
+   flex-shrink: 0;
    vertical-align: middle;
 }
 
+.form-check-input:checked {
+   background-color: #71ccc7;
+}
+
+.form-check-input:checked::before {
+   content: '\2713';
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   color: white;
+   font-weight: bold;
+   font-size: 20px;
+}
+
 .form-check-label {
-   line-height: 1.5; /* 保持文本的可读性 */
+   line-height: 1.5;
    color: #636d6d;
 }
 
@@ -62,16 +81,6 @@
    margin-top: 0.5em;
    color: #FFFFFF;
    background-color: #71ccc7;
-}
-
-.cancelBtn {
-   height: 3em !important;
-   width: 30%;
-   font-size: 1em;
-   font-weight: 600;
-   margin: 0.5em 30px 0;
-   color: #FFFFFF;
-   background-color: #db6666;
 }
 
 @media screen and (max-width: 1200px) {   
@@ -95,11 +104,6 @@
 
    .submitBtn {
       margin-top: 10px;
-   }
-
-   .cancelBtn {
-      width: 100%;
-      margin: 15px 0 0;
    }
 }
 

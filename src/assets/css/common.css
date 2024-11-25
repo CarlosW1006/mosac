@@ -393,3 +393,9 @@ select option {
       margin-bottom: 0.5em;
    }
 }
+
+@media screen and (max-width: 500px) { 
+   .v-pagination {
+      font-size: 5px !important;
+   }
+}

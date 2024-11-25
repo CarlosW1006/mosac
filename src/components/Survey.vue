@@ -80,7 +80,6 @@
             } else {
                surveyResult.value = [];
                surveyResult.value.push(value);
-               console.log(surveyResult.value[0]);
             }
          }
 
