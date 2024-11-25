@@ -52,7 +52,6 @@
                </div>
             </v-card>
          </v-card>
-
       </v-col>
    </v-row>
 
@@ -72,15 +71,9 @@
          let surveyResult = ref([]);
          const router = useRouter();
 
-         function toggleCheckbox(value) {
-            const numericValue = Number(value);
-            if (surveyResult.value.includes(numericValue)) {
-               surveyResult.value[0] = value;
-               console.log(surveyResult.value[0]);
-            } else {
-               surveyResult.value = [];
-               surveyResult.value.push(value);
-            }
+         function toggleCheckbox(value) { 
+            surveyResult.value = [parseInt(value)];
+            console.log(surveyResult.value);
          }
 
          function sendSurveyOutcome() {
@@ -91,9 +84,7 @@
 
             isLoading.value = true;
 
-            postSurveyOutcome(parseInt(surveyResult.value[0])).then(() => {
-               sessionStorage.setItem('hasPendingSurvey', 'true');
-               alert("本月問卷填寫完成");
+            postSurveyOutcome(surveyResult.value[0]).then(() => {
                isLoading.value = false;
                router.push('/index').then(() => {
                   window.location.reload();
@@ -109,7 +100,6 @@
          };
       },
    };
-
 </script>
 
 <style lang="css" scoped>

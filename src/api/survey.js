@@ -9,6 +9,7 @@ export function postSurveyOutcome(resultPhase) {
    )
    .then(() => {
       sessionStorage.setItem('hasPendingSurvey', 'true');
+      alert("本月問卷填寫完成");
    })
    .catch((error) => {
       if (error.response && error.response.data && error.response.data.message) {
