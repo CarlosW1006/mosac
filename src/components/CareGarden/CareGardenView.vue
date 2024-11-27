@@ -42,6 +42,7 @@
       <v-col cols="12" sm="12" xl="12" md="4" lg="4">
          <v-card class="recommendation-card" v-for="video in recommendedVideos" :key="video.id">
             <v-list-item>
+               <router-link class="router-link" :to="{ name: 'careGdViewPage'}">
                <div class="recommendation-item">
                   <div class="thumbnail-r">
                   <img :src="video.thumbnail" alt="Video Thumbnail" class="video-thumbnail-r" />
@@ -52,6 +53,7 @@
                      <span class="upload-date-r">{{ video.uploadDate }}</span>
                   </div>
                </div>
+               </router-link>
             </v-list-item>
          </v-card>
       </v-col>
