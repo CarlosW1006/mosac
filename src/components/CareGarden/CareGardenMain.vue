@@ -72,8 +72,10 @@
                                  <v-icon class="play-icon">mdi-play-circle</v-icon>
                               </v-img>
                               <div class="video-info-card">
-                                 <v-icon class="complete-icon">mdi-check-bold</v-icon>
-                                 <span class="video-title">{{ video.title }}</span>
+                                 <div class="left-section">
+                                    <v-icon class="complete-icon">mdi-check-bold</v-icon>
+                                    <span class="video-title">{{ video.title }}</span>
+                                 </div>
                                  <span class="view-count">觀看次數：{{ video.views }}</span>
                               </div>
                            </router-link>

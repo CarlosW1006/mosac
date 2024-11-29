@@ -25,8 +25,12 @@
          <v-icon class="complete-icon">mdi-check-bold</v-icon>
          <p>完成填寫</p>
       </span></div>
+      <div class="legend-item"><span class="status-icon0 missing-icon">
+         <v-icon class="missing-icon">mdi-close-thick</v-icon>
+         <p>缺少紀錄</p>
+      </span></div>
       <div class="legend-item"><span class="status-icon0 uncomplete-icon">
-         <v-icon class="uncomplete-icon">mdi-close-thick</v-icon>
+         <v-icon class="uncomplete-icon">mdi-alert-circle</v-icon>
          <p>尚未完成</p>
       </span></div>
    </v-row>
@@ -38,38 +42,63 @@
                <!-- 桌面裝置＞直接顯示日期-->
                <div v-if="winwidth == true">
                   {{ day.date.getDate() }}
-                  <span class="status-icon" v-if="isFinished(day.date.toLocaleDateString()) === true">
-                     <v-icon class="complete-icon">mdi-check-bold</v-icon>
-                  </span>
-                  <span class="status-icon" v-else-if="isFinished(day.date.toLocaleDateString()) === false">
-                     <v-icon class="uncomplete-icon">mdi-close-thick</v-icon>
-                  </span>
-                  <span v-else></span>
+                  <!--1129狀態修改-->
+                  <template v-if="getStatus(day.date)">
+                     <span class="status-icon" v-if="getStatus(day.date) === '完成填寫'">
+                        <v-icon class="complete-icon">mdi-check-bold</v-icon>
+                     </span>
+                     <span class="status-icon" v-else-if="getStatus(day.date) === '缺少紀錄'">
+                        <v-icon class="missing-icon">mdi-close-thick</v-icon>
+                     </span>
+                     <span class="status-icon" v-else-if="getStatus(day.date) === '尚未完成'">
+                        <v-icon class="uncomplete-icon">mdi-alert-circle</v-icon>
+                     </span>
+                  </template>
+                  <!--修改-->
                </div>
                <!-- 行動裝置＞使用按鈕 -->
                <div v-else class="day-content-phone">
                   <button @click="navigate(day.date)">
                      {{ day.date.getDate() }}
-                     <span class="status-icon" v-if="isFinished(day.date.toLocaleDateString()) === true">
-                        <v-icon class="complete-icon">mdi-check-bold</v-icon>
+                     <!--1129狀態修改-->
+                     <span class="status-icon" v-if="getStatus(day.date) === '完成填寫'">
+                       <v-icon class="complete-icon">mdi-check-bold</v-icon>
                      </span>
-                     <span class="status-icon" v-else-if="isFinished(day.date.toLocaleDateString()) === false">
-                        <v-icon class="uncomplete-icon">mdi-close-thick</v-icon>
+                     <span class="status-icon" v-else-if="getStatus(day.date) === '缺少紀錄'">
+                       <v-icon class="missing-icon">mdi-close-thick</v-icon>
                      </span>
-                     <span v-else></span>
+                     <span class="status-icon" v-else-if="getStatus(day.date) === '尚未完成'">
+                       <v-icon class="uncomplete-icon">mdi-alert-circle</v-icon>
+                     </span>
+                     <!--修改-->
                   </button>
                </div>
             </div>
 
             <div v-if="winwidth == true">
+               <!--修改-->
                <div class="space" :style="{ backgroundColor: checkDay(day.date.toLocaleDateString()) }">
-                  <a class="recordComplete" v-bind:href="`./index.html#/healthDetailForm?date=${day.date.toISOString()}`"
-                  v-if="isFinished(day.date.toLocaleDateString()) === true"><p>完成填寫</p></a>
-                  <a class="recordUnComplete" v-bind:href="`./index.html#/healthDetailForm?date=${day.date.toISOString()}`"
-                  v-else-if="isFinished(day.date.toLocaleDateString()) === false"><p>尚未完成</p></a>
-                  <a v-bind:href="`./index.html#/healthDetailForm?date=${day.date.toISOString()}`"
-                  v-else><p>&nbsp;</p></a>
+                  <template v-if="getStatus(day.date)">
+                  <a class="recordComplete" v-bind:href.prop="`./index.html#/healthDetailForm?date=${day.date.toISOString()}`"
+                     v-if="getStatus(day.date) === '完成填寫'">
+                     <p>完成填寫</p>
+                  </a>
+                  <a class="recordMissing" v-bind:href.prop="`./index.html#/healthDetailForm?date=${day.date.toISOString()}`"
+                     v-else-if="getStatus(day.date) === '缺少紀錄'">
+                     <p>缺少紀錄</p>
+                  </a>
+                  <a class="recordUnComplete" v-bind:href.prop="`./index.html#/healthDetailForm?date=${day.date.toISOString()}`"
+                     v-else>
+                     <p>尚未完成</p>
+                  </a>
+                  </template>
+                  <template v-else>
+                     <a class="recordNull">
+                        <p>健康紀錄</p>
+                     </a>
+                  </template>
                </div>
+               <!--修改-->
             </div>
          </template>
       </Calendar>
@@ -105,7 +134,9 @@
          }
 
          function navigate(val) {
-            window.location.href = `./index.html#/healthDetailForm?date=${val.toISOString()}`;
+            if (this.getStatus(val)) {
+               window.location.href = `./index.html#/healthDetailForm?date=${val.toISOString()}`;
+         }
          }
 
          function handleDidMove(pages) {
@@ -122,26 +153,58 @@
             // console.log(eachDayFinish.value);
          });
 
-         function isFinished(val) {
-            const date = new Date(val);
-            const rangeMonth = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}`;
-            const formattedDate = `${date.getFullYear()}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}`;
+         // function isFinished(val) {
+         //    const date = new Date(val);
+         //    const rangeMonth = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}`;
+         //    const formattedDate = `${date.getFullYear()}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}`;
             
-            // 尋找有符合指定日期、finish=true
-            if(rangeMonth === '2024-10' || rangeMonth === '2024-11' || rangeMonth === '2024-12') {
-               if((new Date(formattedDate) > new Date(today)) == true) {
-                  return(null);
-               }
-               else if(eachDayFinish.value.some(item => item.createAt === formattedDate && item.finish === 'true')) {
-                  // console.log(new Date(formattedDate) > new Date(today));
-                  return(true);
-               }
-               else {
-                  return(false);
-               }
+         //    // 尋找有符合指定日期、finish=true
+         //    if(rangeMonth === '2024-10' || rangeMonth === '2024-11' || rangeMonth === '2024-12') {
+         //       if((new Date(formattedDate) > new Date(today)) == true) {
+         //          return(null);
+         //       }
+         //       else if(eachDayFinish.value.some(item => item.createAt === formattedDate && item.finish === 'true')) {
+         //          // console.log(new Date(formattedDate) > new Date(today));
+         //          return(true);
+         //       }
+         //       else {
+         //          return(false);
+         //       }
+         //    }
+         //    return(null);
+         // }
+
+         function getStatus(date) {
+            const inputDate = new Date(date);
+            const today = new Date(); // 重新獲取當前日期，確保是最新的
+
+            // 如果輸入日期大於今天，直接返回 null 或禁用狀態
+            if (inputDate > today) {
+               return null; // 或者返回一個特殊狀態表示不可操作
             }
-            return(null);
-         }
+
+            const daysDifference = Math.floor((today - inputDate) / (1000 * 60 * 60 * 24));
+            const formattedDate = inputDate.toLocaleDateString();
+
+            const isCompleted = eachDayFinish.value.some(
+            (item) => item.createAt === formattedDate && item.finish === 'true'
+            );
+
+            if (isCompleted) {
+            return '完成填寫';
+            } else if (daysDifference > 2) {
+            // 超過兩天的未完成視為缺少紀錄
+            return '缺少紀錄';
+            } else {
+            // 最近三天的未完成視為尚未完成
+            return '尚未完成';
+            }
+         }   
+
+         console.log('Today:', today);
+console.log('Today toLocaleDateString():', today.toLocaleDateString());
+console.log('Today getMonth():', today.getMonth() + 1);
+console.log('Today getDate():', today.getDate());
 
          return {
             today,
@@ -150,10 +213,9 @@
             joggingGoal,
             currentMonth,
             eachDayFinish,
-
             checkDay,
             navigate,
-            isFinished,
+            getStatus,
             handleDidMove,
          };
       },
