@@ -113,8 +113,16 @@ margin: 0;
    color: #43a989;
 }
 
-.recordUnComplete {
+.recordMissing {
    color: #ff0000;
+}
+
+.recordUnComplete {
+   color: #e6933b;
+}
+
+.recordNull{
+   color: #b6b6b6;
 }
 
 .status-icon {
@@ -135,8 +143,12 @@ margin: 0;
    color: #43a989;
 }
 
-.uncomplete-icon {
+.missing-icon {
    color: #ff0000;
+}
+
+.uncomplete-icon {
+   color: #e6933b;
 }
 
 .legend-item {

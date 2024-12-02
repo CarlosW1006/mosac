@@ -48,18 +48,15 @@
    padding: 2em 0 1em;
 }
 
-/* 圖片輪播區塊樣式 */
-.v-carousel{
-   background-color: #ececec;
- }
-
-.v-carousel__controls {
-    background: 0%;
-    color: rgb(0 0 0);
-}
-
-.v-carousel__controls__item .v-icon {
-    opacity: 0.3;
+.image-container {
+   position: relative;
+   margin-top: 1em;
+   padding-bottom: 56.25%;
+   width: 100%;
+   overflow: hidden;
+   align-items: center;
+   text-align: center;
+   justify-self: center;
 }
 
 .video-container {
@@ -127,6 +124,7 @@
 
 .router-link{
    text-decoration: none;
+   color: #000;
 }
 
 /* 推薦文章區塊 */
@@ -153,6 +151,7 @@
    width: 100%;
    height: auto;
    border-radius: 5px;
+   padding-top: 5px;
 }
  
 .article-details-r {
@@ -197,18 +196,6 @@
 
    .article-stats {
       font-size: 1em;
-   }
-
-   .v-carousel{
-      margin-top: -15em;
-      margin-bottom: -15em;
-      max-width: 100%;
-   }
-
-   .v-carousel__controls {
-      color: rgb(0, 0, 0);
-      position: relative;
-      margin-top: -19.5em;
    }
 
    .article-thumbnail {

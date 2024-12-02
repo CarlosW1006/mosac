@@ -11,15 +11,10 @@
                </div>
             </v-list-item>
 
-            <!-- 圖片輪播區塊 -->
             <v-list-item>
-               <v-carousel show-arrows-on-hover >
-               <v-carousel-item
-                  v-for="(image, index) in images"
-                  :key="index"
-                  :src="image"
-               ></v-carousel-item>
-               </v-carousel>
+               <div class="image-container">
+                  <v-img :src="images" class="youtube-embed"></v-img>
+               </div>
             </v-list-item>
 
             <v-list-item>
@@ -30,9 +25,6 @@
             </v-list-item>
 
             <v-list-item>
-               <!-- <div class="article-subtitle">
-                  <p>{{ subtitle }}</p>
-               </div> -->
                <div class="article-description">
                   <p>{{ description }}</p>
                </div>
@@ -56,6 +48,7 @@
       <v-col cols="12" sm="12" xl="12" md="4" lg="4">
          <v-card class="recommendation-card" v-for="article in recommendedArticles" :key="article.id">
          <v-list-item>
+            <router-link class="router-link" :to="{ name: 'healthKnowledgeViewPage'}">
             <div class="recommendation-item">
                <div class="thumbnail-r">
                <img :src="article.thumbnail" alt="Article Thumbnail" class="article-thumbnail-r" />
@@ -66,6 +59,7 @@
                <span class="upload-date-r">{{ article.uploadDate }}</span>
                </div>
             </div>
+            </router-link>
          </v-list-item>
          </v-card>
       </v-col>
@@ -83,6 +77,7 @@
       
          // 文章資料
          const articleTitle = ref('多吃蔬食有助減重？吃對更重要！');
+         const images = ref('article01.png');
          //const videoUrl = ref('https://www.youtube.com/embed/VIDEO_ID'); // 替換為實際的 YouTube 影片 ID
          const videoUrl = ref('https://www.youtube.com/embed/1qb4p3xxDwg?si=auL4AGzE8iLpJ6qu');
          const uploader = ref('陳ＯＯ醫師');
@@ -92,14 +87,6 @@
             除了飲食和運動，我們還會深入了解睡眠的重要性，如何建立良好的睡眠習慣，以促進身心的恢復與健康。我們的專家將提供一些有用的提示，幫助您管理壓力，保持積極的心態，讓生活更加充實。
             希望這段影片能夠啟發您，並促進您對健康生活的思考。請與我們一起學習，為自己和家人的健康加分！`); // 影片簡介
          const isFavorite = ref(false); // 收藏狀態
-
-         // 圖片輪播資料
-         const images = ref([
-            'article01.png',
-            'article02.png',
-            'cat03.png', 
-            // 可依需求添加更多圖片
-         ]);
 
          // 切換收藏狀態
          const toggleFavorite = () => {

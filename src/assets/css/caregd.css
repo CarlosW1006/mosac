@@ -7,6 +7,7 @@
 
 .video-card{
    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+   margin-bottom: 10px;
 }
 
 .router-link{
@@ -44,14 +45,24 @@
    opacity: 0.8;
 }
 
+.complete-icon {
+   color: #43a989;
+   margin-right: 4px;
+}
+
 .video-title {
-   width: 230px;
+   width: 200px;
    font-size: 1.75em;
    font-weight: bold;
    text-overflow: ellipsis;
    white-space: nowrap;
    overflow:hidden;
 }
+
+.left-section {
+   display: flex; /* 使用 Flex 排列 .complete-icon 和 .video-title */
+   align-items: center; /* 垂直居中對齊 */
+ }
 
 .video-info-card {
    font-size: 1em;
@@ -64,7 +75,7 @@
 
 .view-count {
    color: grey;
-   font-size: 1.75em;
+   font-size: 1.5em;
    text-overflow: ellipsis;
    white-space: nowrap;
    overflow:hidden;
@@ -151,6 +162,7 @@
    width: 100%;
    height: auto;
    border-radius: 5px;
+   padding-top: 5px;
 }
  
 .video-details-r {
@@ -170,7 +182,7 @@
 
 .view-count-r {
    color: grey;
-   font-size: 1.75em;
+   font-size: 1.2em;
    font-weight: normal;
 }
 
@@ -193,8 +205,12 @@
       width: 230px;
    }
 
+   .view-count{
+      font-size: 1.25em;
+   }
+
    .upload-date{
-      font-size: 1.5em;
+      font-size: 1.25em;
    }
 
    .video-description {
