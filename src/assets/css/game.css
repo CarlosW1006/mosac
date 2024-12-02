@@ -1,32 +1,40 @@
 .container {
     max-width: 600px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 5px 20px 20px 20px;
  }
 
  .grid-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 10px;
+    margin-top: 30px;
+    background-color: #b5d8c3;
+    padding: 1em;
+    border-radius: 12px;
  }
 
  .grid-item {
-    background-color: #f08080;
+    background-color: #49b994;
     border: none;
     padding: 20px;
     font-size: 18px;
     text-align: center;
-    border-radius: 8px;
+    border-radius: 10px;
     cursor: pointer;
+    transition: box-shadow 0.3s ease;
+    color: #ffffff;
+    font-weight: bold;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 3px, rgba(0, 0, 0, 0.23) 0px 3px 3px;
     transition: box-shadow 0.3s ease;
  }
 
  .grid-item:hover {
-    background-color: #ff7f7f;
+    background-color: #47ab6f;
  }
 
  .grid-item.selected {
-    background-color: #ffcccc;
+    background-color: #298258;
  }
 
  .grid-item.locked {
@@ -35,14 +43,14 @@
  }
 
  .grid-item.glow {
-    box-shadow: 0 0 15px 5px rgba(255, 127, 127, 0.8);
+    box-shadow: 0 0 15px 5px rgba(60, 120, 82, 0.8);
  }
 
  .question-box {
-    background-color: #ffffff;
+    background-color: #cbe2da;
     padding: 20px;
     border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
     transition: box-shadow 0.3s ease;
  }
 
@@ -159,10 +167,13 @@
     pointer-events: none; /* 禁止文字影響點擊行為 */
  }
 
-
+ .btn{
+   font-size: 1.5em;
+   font-weight: bold;
+ }
 
  .btn-success {
-    background-color: #28a745;
+    background-color: #5fb899;
     border-color: #28a745;
     color: white;
     padding: 10px 20px;
