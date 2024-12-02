@@ -6,7 +6,6 @@ export const healthRecords = ref({
    records: {},  // 存儲所有記錄
 });
 
-
 // 更新記錄
 export function updateHealthRecords(monthKey, records) {
    healthRecords.value.records[monthKey] = records;
@@ -19,29 +18,25 @@ export function getHealthRecords(monthKey) {
 
 export function changeDate(val) {
    const rawDate = new Date(val);
-   const formattedDate = rawDate.getFullYear() + '/' +
-   (rawDate.getMonth() + 1).toString().padStart(2, '0') + '/' +
-   rawDate.getDate().toString().padStart(2, '0');
+   const formattedDate = rawDate.getFullYear() + '/' + 
+   (rawDate.getMonth() + 1).toString().padStart(2, '0')
+   + '/' + rawDate.getDate().toString().padStart(2, '0');
 
    return(formattedDate);
 }
 
 // 健康手札紀錄 API Start //
 export function askHealthNoteRecord(startAt, endAt) {
-   const token = sessionStorage.getItem('session');
    return API.get(
-       'user/health-records',
+      'user/health-records',
       {
          params: {
             startAt: startAt,
             endAt: endAt
          },
-         headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}` 
-         }
       }
-   ).then((response) => { 
+   )
+   .then((response) => { 
       const HealthNoteRecord = [];
       let uncompleteNumber = 0;
       if(Array.isArray(response.data)) {
@@ -59,8 +54,7 @@ export function askHealthNoteRecord(startAt, endAt) {
             
             // 檢查基本記錄
             const hasBasicRecords = record.dailySteps != null && 
-                                  record.dailyJoggingTime != null && 
-                                  record.dailyDietGoal != null;
+            record.dailyJoggingTime != null && record.dailyDietGoal != null;
 
             // 只在特殊日期檢查額外要求
             const isSaturday = recordDate.getDay() === 6;
@@ -97,7 +91,6 @@ export function askHealthNoteRecord(startAt, endAt) {
       return { HealthNoteRecord: [] };
    });
 }
-
 // 健康手札紀錄 API End //
 
 // 儲存每月目標 API Start //
@@ -131,9 +124,7 @@ export function addHealthRecord(healthData) {
       {
          dailySteps: healthData.steps,
          dailyJoggingTime: healthData.walkingTimes.reduce((a, b) => a + b, 0),
-         dailyDietGoal: healthData.diet === '是' 
-            ? `是(${healthData.selectedMeals.join('、')})` 
-            : '否',
+         dailyDietGoal: healthData.diet === '是' ? `是(${healthData.selectedMeals.join('、')})` : '否',
          weeklyWeight: healthData.weight,
          HbA1c: healthData.hba1c ? parseFloat(healthData.hba1c) : null,
          startAt: healthData.startAt,  // 使用傳入的 startAt
@@ -160,7 +151,6 @@ export function addHealthRecord(healthData) {
       throw error;
    });
 }
-
 // 上傳健康紀錄 API End //
 
 // 取得健康紀錄 API Start //
@@ -184,23 +174,22 @@ export function getHealthRecordByDate(dateString) {
        }
      }
    ).then((response) => {
-     console.log('API response:', response.data);
-     
-     if (Array.isArray(response.data) && response.data.length > 0) {
-       // 找到對應日期的記錄
-       const targetRecord = response.data.find(record => {
-         const recordDate = changeDate(record.createAt).replace(/\//g, '-');
-         return recordDate === formattedDate;
-       });
-       
-       console.log('Found record for date:', formattedDate, targetRecord);
-       return targetRecord || null;
-     }
-     return null;
+      console.log('API response:', response.data);
+      
+      if (Array.isArray(response.data) && response.data.length > 0) {
+         // 找到對應日期的記錄
+         const targetRecord = response.data.find(record => {
+            const recordDate = changeDate(record.createAt).replace(/\//g, '-');
+            return recordDate === formattedDate;
+         });
+         
+         console.log('Found record for date:', formattedDate, targetRecord);
+         return targetRecord || null;
+      }
+      return null;
    }).catch((error) => {
-     console.error('獲取健康紀錄失敗:', error);
-     return null;
+      console.error('獲取健康紀錄失敗:', error);
+      return null;
    });
 }
-
 // 取得健康紀錄 API End //
