@@ -17,7 +17,7 @@
             <!-- 外層的響應式排列 -->
             <v-row style="padding: 2em;">
                <!-- 左側主要表單區塊 -->
-               <v-col cols="12" md="7">
+               <v-col cols="12" :md="hasRightContent ? 7 : 12">
                   <h2 class="form-title">每日健康紀錄</h2>
                   <form @submit.prevent="saveHealthInfo" class="form-container">
                   <!-- 每日記錄區塊 -->
@@ -64,28 +64,28 @@
                </v-col>
 
                <!-- 右側區塊容器 -->
-               <v-col cols="12" md="5">
+               <v-col v-if="hasRightContent" cols="12" md="5">
                   <v-row>
-                  <!-- 每週體重紀錄區塊 -->
-                  <v-col cols="12">
+                  <!-- 每週體重紀錄區塊 - 只在週六顯示 -->
+                  <v-col cols="12" v-if="isSaturday">
                      <h2 class="form-title">每週體重紀錄</h2>
                      <div class="form-container form-group" :class="isRedBg(4)">
                         <label class="form-label" for="weight">每週體重：</label>
                         <div class="input-unit-wrapper">
-                        <input type="number" id="weight" v-model="healthInfo.weight" placeholder="輸入體重" />
-                        <span class="unit">公斤</span>
+                           <input type="number" id="weight" v-model="healthInfo.weight" placeholder="輸入體重" />
+                           <span class="unit">公斤</span>
                         </div>
                      </div> 
                   </v-col>
 
-                  <!-- 每3個月HbA1C紀錄區塊 -->
-                  <v-col cols="12">
+                  <!-- 每3個月HbA1C紀錄區塊 - 只在特定日期顯示 -->
+                  <v-col cols="12" v-if="needHbA1c">
                      <h2 class="form-title">每3個月HbA1C紀錄</h2>
                      <div class="form-container form-group" :class="isRedBg(6)">
                         <label class="form-label" for="hba1c">HbA1C：</label>
                         <div class="input-unit-wrapper">
-                        <input type="text" id="hba1c" v-model="healthInfo.hba1c" placeholder="輸入HbA1C數值" />
-                        <span class="unit">?</span>
+                           <input type="text" id="hba1c" v-model="healthInfo.hba1c" placeholder="輸入HbA1C數值" />
+                           <span class="unit">?</span>
                         </div>
                      </div>
                   </v-col>
@@ -96,18 +96,19 @@
          <v-btn class="save-hr-btn" @click="saveHealthInfo">儲存健康紀錄</v-btn>
       </div>
    </v-container>
+   <!-- 等待執行結果動畫 -->
+   <isLoading :active="loading" color="#76caad"/>
 </template>
 
 
 <script>
-  import { useWindowWidth } from '../JS/winwidth.js';
-  import { ref,computed } from 'vue';
-  import { useRouter } from 'vue-router';
-  
+  import { ref, computed, onMounted, nextTick } from 'vue';
+  import { useRoute } from 'vue-router';
+  import { addHealthRecord, getHealthRecordByDate, changeDate } from '../../api/healthNote';
+
   export default {
     name: 'healthDetailFormPage',
     setup() {
-      const { winwidth } = useWindowWidth();
       const healthInfo = ref({
         steps: '',
         walkingTimes: [0],
@@ -120,22 +121,165 @@
       const breakfast = ref(null);
       const lunch = ref(null);
       const dinner = ref(null);
-      const router = useRouter(); 
+      const route = useRoute();
+      const loading = ref(false);
 
       const formattedDate = computed(() => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const date = urlParams.get('date');
-      return new Date(date).toLocaleDateString();
+         // 從路由參數中獲取日期
+         const dateString = route.query.date;
+         if (dateString) {
+            const date = new Date(dateString);
+            // 格式化日期為本地化日期字串
+            return date.toLocaleDateString('zh-TW', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+            });
+         }
+         return ''; // 如果沒有日期，返回空字串
       });
 
-      const saveHealthInfo = () => {
-         if (healthInfo.value.diet === '是' && healthInfo.value.selectedMeals.length === 0){
-            alert('必須選擇至少一餐');
-            return; // 取消保存
+      onMounted(async () => {
+         const dateString = route.query.date;
+         if (!dateString) {
+            console.error('未提供日期參數');
+            return;
          }
 
-         // 使用 this.$router 進行路由跳轉
-         router.push('/healthDetailView');
+         // 每次掛載時都重置表單
+         healthInfo.value = {
+            steps: '',
+            walkingTimes: [0],
+            diet: '',
+            selectedMeals: [],
+            weight: '',
+            hba1c: ''
+         };
+
+         loading.value = true;
+         try {
+            const recordData = await getHealthRecordByDate(dateString);
+            if (recordData) {
+               // 只有當記錄的日期與當前選擇的日期相符時才載入資料
+               const recordDate = changeDate(recordData.createAt);
+               const currentDate = changeDate(dateString);
+               
+               if (recordDate === currentDate) {
+               healthInfo.value = {
+                  steps: recordData.dailySteps,
+                  walkingTimes: [recordData.dailyJoggingTime],
+                  diet: recordData.dailyDietGoal.startsWith('是') ? '是' : '否',
+                  selectedMeals: recordData.dailyDietGoal.startsWith('是') 
+                     ? recordData.dailyDietGoal.match(/早餐|午餐|晚餐/g) || []
+                     : [],
+                  weight: recordData.weeklyWeight,
+                  hba1c: recordData.HbA1c
+               };
+
+               // 設置複選框狀態
+               await nextTick();
+               if (healthInfo.value.diet === '是') {
+                  if (breakfast.value) breakfast.value.checked = healthInfo.value.selectedMeals.includes('早餐');
+                  if (lunch.value) lunch.value.checked = healthInfo.value.selectedMeals.includes('午餐');
+                  if (dinner.value) dinner.value.checked = healthInfo.value.selectedMeals.includes('晚餐');
+               }
+               }
+            }
+         } catch (error) {
+            console.error('載入健康紀錄失敗:', error);
+         } finally {
+            loading.value = false;
+         }
+      });
+
+      const saveHealthInfo = async () => {
+         if (!validateForm()) return;
+
+         loading.value = true;
+         try {
+            const selectedDate = route.query.date;
+            const dateObj = new Date(selectedDate);
+            
+            // 格式化日期為 YYYY-MM-DD 格式
+            const formattedDate = `${dateObj.getFullYear()}-${(dateObj.getMonth() + 1).toString().padStart(2, '0')}-${dateObj.getDate().toString().padStart(2, '0')}`;
+
+            // 儲存記錄
+            const savedRecord = await addHealthRecord({
+               ...healthInfo.value,
+               startAt: formattedDate,
+               endAt: formattedDate
+            });
+
+            // 將新儲存的記錄存入 sessionStorage
+            if (savedRecord) {
+               sessionStorage.setItem('temp-health-record', JSON.stringify(savedRecord));
+            }
+
+            // 直接跳轉，讓主頁面在重新載入時自動更新狀態
+            window.location.href = `./index.html#/healthDetailView?date=${selectedDate}`;
+         } catch (error) {
+            console.error('儲存健康紀錄失敗:', error);
+         } finally {
+            loading.value = false;
+         }
+      };
+
+      const hasRightContent = computed(() => {
+         return isSaturday.value || needHbA1c.value;
+      });
+
+      const isSaturday = computed(() => {
+         const selectedDate = new Date(route.query.date);
+         return selectedDate.getDay() === 6;  // 0 是星期日，6 是星期六
+      });
+
+      const needHbA1c = computed(() => {
+         const selectedDate = new Date(route.query.date);
+         // 格式化日期為 YYYY-MM-DD
+         const dateString = selectedDate.toISOString().split('T')[0];
+         
+         // 檢查是否是 3 月和 6 月的最後一天
+         const lastDayOfMarch = `${selectedDate.getFullYear()}-03-31`;
+         const lastDayOfJune = `${selectedDate.getFullYear()}-06-30`;
+         const lastDaySep = `${selectedDate.getFullYear()}-09-30`;
+         const lastDayDec = `${selectedDate.getFullYear()}-12-31`;
+
+         return [lastDayOfMarch, lastDayOfJune, lastDaySep, lastDayDec].includes(dateString);
+      });
+
+      // 新增表單驗證方法
+      const validateForm = () => {
+         // 步數驗證
+         if (!healthInfo.value.steps) {
+            alert('請輸入每日步數');
+            return false;
+         }
+
+         // 慢跑時間驗證
+         if (healthInfo.value.walkingTimes.every(time => time === 0)) {
+            alert('請輸入慢跑時間');
+            return false;
+         }
+
+         // 飲食目標驗證
+         if (healthInfo.value.diet === '是' && healthInfo.value.selectedMeals.length === 0) {
+            alert('請選擇至少一餐');
+            return false;
+         }
+
+         // 體重驗證（每週六才需要）
+         if (isSaturday.value && !healthInfo.value.weight) {
+            alert('請輸入每週體重');
+            return false;
+         }
+
+         // HbA1C驗證（特定日期才需要）
+         if (needHbA1c.value && !healthInfo.value.hba1c) {
+            alert('請輸入HbA1C數值');
+            return false;
+         }
+
+         return true;
       };
       
       const addWalkingTime = () => {
@@ -162,9 +306,9 @@
       };
 
       return {
-        winwidth,
         healthInfo,
         formattedDate,
+        loading,
         saveHealthInfo,
         addWalkingTime,
         removeWalkingTime,
@@ -172,7 +316,10 @@
         updateMeals,
         breakfast,
         lunch,
-        dinner
+        dinner,
+        hasRightContent,
+        isSaturday,
+        needHbA1c,
       };
     }
   };

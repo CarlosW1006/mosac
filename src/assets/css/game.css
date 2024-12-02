@@ -1,0 +1,221 @@
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+ }
+
+ .grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+ }
+
+ .grid-item {
+    background-color: #f08080;
+    border: none;
+    padding: 20px;
+    font-size: 18px;
+    text-align: center;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: box-shadow 0.3s ease;
+ }
+
+ .grid-item:hover {
+    background-color: #ff7f7f;
+ }
+
+ .grid-item.selected {
+    background-color: #ffcccc;
+ }
+
+ .grid-item.locked {
+    background-color: #d3d3d3;
+    cursor: not-allowed;
+ }
+
+ .grid-item.glow {
+    box-shadow: 0 0 15px 5px rgba(255, 127, 127, 0.8);
+ }
+
+ .question-box {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+ }
+
+ .question-box:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+ }
+
+ .question-title {
+    font-size: 2.5em;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+ }
+
+ .question-subtitle {
+    font-size: 2em;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+ }
+
+ .question-box ul {
+    list-style-type: none;
+    padding: 0;
+ }
+
+ .question-box li {
+    margin: 10px 0;
+ }
+
+ label {
+    font-size: 18px;
+    color: #555;
+    cursor: pointer;
+    background-color: transparent;
+    transition: background-color 0.3s ease;
+ }
+
+ label:hover {
+    background-color: #e0f7fa;
+ }
+
+ label.is-selected {
+    background-color: #e0f7fa;
+ }
+
+ label.error-option {
+    text-decoration: line-through;
+    color: #d9534f;
+ }
+
+ label.is-correct {
+    background-color: #d4edda;
+ }
+
+ label.is-incorrect {
+    background-color: #f8d7da;
+    text-decoration: line-through;
+ }
+
+ /* 進度條容器加上灰白色外框和陰影 */
+ .progress-container {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    overflow: hidden;
+    background-color: #f2f2f2; /* 外框的灰白色 */
+    padding: 3px; /* 外框的厚度 */
+ }
+
+ /* 內層底色為白色 */
+ .progress-bar-wrapper {
+    background-color: #ffffff;
+    border-radius: 5px;
+    position: relative;
+    height: 30px; /* 調整進度條高度 */
+    overflow: hidden;
+ }
+
+ /* 進度條 */
+ .progress-bar-striped {
+    height: 100%;
+    background-image: linear-gradient();
+    background-size: 20px 20px; /* 調整條紋密集度 */
+    border-radius: 5px;
+
+ }
+
+
+ /* 使用CSS變數和HSL控制顏色變化 */
+ .progress-bar-striped {
+    --progress-empty-color-h: 4.1;
+    --progress-empty-color-s: 89.6;
+    --progress-empty-color-l: 58.4;
+    --progress-filled-color-h: 122.4;
+    --progress-filled-color-s: 39.4;
+    --progress-filled-color-l: 49.2;
+    background-color: hsl(
+       calc((var(--progress-empty-color-h) + (var(--progress-filled-color-h) - var(--progress-empty-color-h)) * (var(--progress-value) / 100)) * 1deg),
+       calc((var(--progress-empty-color-s) + (var(--progress-filled-color-s) - var(--progress-empty-color-s)) * (var(--progress-value) / 100)) * 1%),
+       calc((var(--progress-empty-color-l) + (var(--progress-filled-color-l) - var(--progress-empty-color-l)) * (var(--progress-value) / 100)) * 1%)
+    );
+ }
+
+ /* 進度文字居中顯示在進度條變色部分 */
+ .progress-label {
+    color: #3f0e0e;
+    font-weight: bold;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* 完全水平和垂直居中 */
+    white-space: nowrap; /* 防止文字換行 */
+    z-index: 1; /* 保證文字顯示在進度條上方 */
+    pointer-events: none; /* 禁止文字影響點擊行為 */
+ }
+
+
+
+ .btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+ }
+
+ .btn-success:hover {
+    background-color: #218838;
+ }
+
+ .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+ }
+
+ .btn-primary:hover {
+    background-color: #0056b3;
+ }
+
+ .btn-danger {
+    background-color: #ff6666;
+    border-color: #ff6666;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+ }
+
+ .btn-danger:hover {
+    background-color: #ff3333;
+ }
+
+ .elimination-btn {
+    background-color: #ffc107;
+    border-color: #ffc107;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+ }
+
+ .elimination-btn:disabled {
+    background-color: #e0e0e0;
+    cursor: not-allowed;
+ }

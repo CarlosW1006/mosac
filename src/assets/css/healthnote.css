@@ -101,7 +101,7 @@ margin: 0;
    font-size: 2.5em;
    font-weight: 600;
    margin-top: 20px;
-
+   cursor: pointer;
    overflow: hidden;
    text-align: center;
    white-space: nowrap;
@@ -119,6 +119,13 @@ margin: 0;
 
 .recordUnComplete {
    color: #e6933b;
+}
+
+.recordComplete,
+.recordMissing,
+.recordUnComplete {
+   cursor: pointer;
+   text-decoration: none;  /* 移除預設的下劃線 */
 }
 
 .recordNull{
@@ -157,6 +164,19 @@ margin: 0;
 
    display: flex;
    align-items: center;
+}
+
+.no-record-container {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   min-height: 200px;  /* 確保容器有足夠的高度 */
+}
+
+.no-record-text {
+   font-size: 24px;
+   color: #666;
+   margin: 0;
 }
 
 @media screen and (max-width: 1350px) {

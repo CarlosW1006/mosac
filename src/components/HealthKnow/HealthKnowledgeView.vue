@@ -1,6 +1,7 @@
 <template> 
    <div class="page-tab flex-container">
-      <a href="#/healthKnowledge" class="tab-L">回到健康知能</a><p class="tab-R">健康知能＞衛教文章</p>
+      <a href="#/healthKnowledge" class="tab-L">回到健康知能</a>
+      <p class="tab-R">健康知能＞衛教文章</p>
    </div>
    <v-row style="margin: 1% 1% 10px;">
       <v-col cols="12" sm="12" xl="12" md="8" lg="8">
