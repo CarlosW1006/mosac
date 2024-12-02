@@ -48,7 +48,7 @@
                </div>
 
                <div class="button-container">
-                  <v-btn class="submitBtn" @click="sendSurveyOutcome()">送出答案</v-btn>
+                  <v-btn class="submitBtn" @click="sendSurveyOutcome()">儲存結果</v-btn>
                </div>
             </v-card>
          </v-card>

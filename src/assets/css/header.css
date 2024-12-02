@@ -15,7 +15,7 @@
 }
 
 .userName-container {
-   margin-right: 1em;
+   margin-top: 10px;
 }
 
 .userName {
@@ -34,6 +34,7 @@
 
 .drop-down-btn {
    color: #afafaf;
+   margin-right: 0.5em;
    margin-bottom: 0.2em;
 }
 
@@ -65,7 +66,7 @@
 .cp-drawer {
    overflow-y: auto;
    border: none;
-   background: linear-gradient(to right, #7bd7b7, #69c9a7); overflow-y: auto;
+   background: linear-gradient(to right, #7bd7b7, #69c9a7);
 }
 
 .bar-btn {
@@ -101,10 +102,9 @@
 .messages {
    font-size: 1.25em;
    display: flex;
-   display: flex;
-   flex-direction: column; /* 垂直排列 */
-   align-items: center; /* 水平居中 */
-   justify-content: center; /* 垂直居中 */
+   align-items: center;
+   flex-direction: column;
+   justify-content: center;
 }
 
 .bar-btn-info-container {
@@ -178,7 +178,7 @@
 
 /* 修改 v-list-item 樣式 */
 .v-list-item.sm-bar-btn {
-   color: #69c9a7; /* 改變文字顏色 */
+   color: #69c9a7;
 }
 
 /* 帳號功能視窗 */

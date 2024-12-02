@@ -19,7 +19,7 @@
             </button>
          </div>
 
-         <div v-if="accType == 1" >
+         <div v-if="accType == 1">
             <button v-for="(item, index) in expBarButtons" :key="index" :class="{'bar-btn': hashUrl !== '#/' + item.path, 
             'bar-btn-clicked': hashUrl === '#/' + item.path}" @click="navigateToPath(item.path)">
                <div class="flex-container" style="justify-content: center;">
@@ -59,7 +59,7 @@
             <template v-slot:activator="{ attrs }">
                <div class="userName-container">
                   <!-- <img :src="userImage" style="width: 18px; margin-right: 10px;"> -->
-                  <a v-bind="attrs" class="userName" style="cursor: pointer;">王大明</a>
+                  <a v-bind="attrs" class="userName" style="cursor: pointer;">{{ accName }}</a>
                   <v-icon class="drop-down-btn" size="30" style="cursor: pointer;">mdi-chevron-down</v-icon>
                </div>
             </template>
@@ -91,7 +91,7 @@
 
 <script>
    import { useWindowWidth } from '../JS/winwidth.js';
-   import { askHealthNoteRecord } from '../../api/healthNote.js';
+   import { changeDate, askHealthNoteRecord } from '../../api/healthNote.js';
    // import userImage from './assets/images/user.png';
    import { ref, onMounted } from 'vue';
 
@@ -100,6 +100,7 @@
       setup() {
          const uncompleteNumber = ref('');
          let session = sessionStorage.getItem('session');
+         let accName = sessionStorage.getItem('accName');
          let accType = sessionStorage.getItem('accType');
          let hasPendingSurvey = sessionStorage.getItem('hasPendingSurvey');
 
@@ -142,7 +143,8 @@
          }
 
          // 計算未完成天數
-         askHealthNoteRecord('2024/11/22', '2024/11/24').then((result) => {
+         askHealthNoteRecord(changeDate(new Date()-3), changeDate(new Date()-(3*24*60*60*1000)))
+         .then((result) => {
             uncompleteNumber.value = result.uncompleteNumber;
          });
 
@@ -165,6 +167,7 @@
             winwidth,
             drawer,
             session,
+            accName,
             accType,
             // userImage,
             hashUrl,

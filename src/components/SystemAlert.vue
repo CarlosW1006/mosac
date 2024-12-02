@@ -16,7 +16,7 @@
 
 <script>
    import { ref } from 'vue';
-   import { askHealthNoteRecord } from '../api/healthNote.js';
+   import { changeDate, askHealthNoteRecord } from '../api/healthNote.js';
 
    export default {
       setup() {
@@ -29,7 +29,7 @@
          }
 
          // 計算未完成天數
-         askHealthNoteRecord('2024/11/22', '2024/11/24').then((result) => {
+         askHealthNoteRecord(changeDate(new Date()-3), changeDate(new Date() - 3 * 24 * 60 * 60 * 1000)).then((result) => {
             uncompleteNumber.value = result.uncompleteNumber;
             if (result.uncompleteNumber === 0) {
                showAlert.value = false;

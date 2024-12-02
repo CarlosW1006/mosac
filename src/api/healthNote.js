@@ -1,8 +1,6 @@
-// import API from './apiInstance'; 
-import axios from 'axios';
-const APIUrl = 'http://localhost:8888/';
+import API from './apiInstance.js';
 
-function changeDate(val) {
+export function changeDate(val) {
    const rawDate = new Date(val);
    const formattedDate = rawDate.getFullYear() + '/' +
    (rawDate.getMonth() + 1).toString().padStart(2, '0') + '/' +
@@ -13,18 +11,12 @@ function changeDate(val) {
 
 // 健康手札紀錄 API Start //
 export function askHealthNoteRecord(startAt, endAt) {
-   const token = sessionStorage.getItem('session');
-   return axios.get(
-      APIUrl + 'user/health-records',
+   return API.get('user/health-records',
       {
          params: {
             startAt: startAt,
             endAt: endAt
          },
-         headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}` 
-         }
       }
    ).then((response) => { 
       const groupByWeekArr = [];
@@ -98,6 +90,9 @@ export function askHealthNoteRecord(startAt, endAt) {
          if(HealthNoteRecord[i].finish === 'false') {
             uncompleteNumber += 1;
          }
+      }
+      if(HealthNoteRecord.length <= 3) { 
+         uncompleteNumber += 3 - HealthNoteRecord.length;
       }
 
       return { HealthNoteRecord, uncompleteNumber };

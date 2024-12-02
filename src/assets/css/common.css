@@ -236,6 +236,22 @@ select option {
    font-size: 20px;
 }
 
+.nodata {
+   width: 100%;
+   font-size: 30px;
+   color: #929292;
+   font-weight: 530;
+   padding: 1.5em 0 1.5em;
+
+   display: flex;
+   text-align: center;
+   justify-content: center;
+}
+
+.nodata-frame {
+   border: 1px solid #c6c6c6;
+}
+
 @media screen and (max-width: 1200px) {
    .page-tab {
       height: 50px;

@@ -1,4 +1,4 @@
-import API from './apiInstance';
+import API from './apiInstance.js';
 
 // 生成驗證碼 API Start //
 export function askVerify(verifyCodeArr) {
@@ -31,10 +31,12 @@ export function login(credential, password, verificationId, verifyAnswer) {
    )
    .then((response) => {
       const token = response.data.token;
+      const userName = response.data.name;
       const userType = response.data.userType;
       const hasPendingSurvey = response.data.hasPendingSurvey;
       
       sessionStorage.setItem('session', token);
+      sessionStorage.setItem('accName', userName);
       sessionStorage.setItem('accType', userType);
       sessionStorage.setItem('credential', credential);
       sessionStorage.setItem('hasPendingSurvey', hasPendingSurvey);

@@ -10,7 +10,6 @@
    justify-content: center;
 
    background: linear-gradient(to top, #7dc5ac, #bde1d4, #ffffff);
-   background: -webkit-linear-gradient(to top, #3a1c71, #d76d77, #ffaf7b);
 }
 
 .sys-title {
@@ -61,7 +60,6 @@
    font-size: 2.5em;
    font-weight: 400;
    background: linear-gradient(to right, #3a1c71, #d76d77, #ffaf7b);
-   background: -webkit-linear-gradient(to top, #3a1c71, #d76d77, #ffaf7b);
    background-clip: text;
    -webkit-background-clip: text;
    color: transparent;

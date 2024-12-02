@@ -1,12 +1,15 @@
 <template>
+   <!-- 手機功能列 -->
    <v-app-bar style="background: linear-gradient(to right, #7bd7b7, #69c9a7);" elevation="0">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" style="color: white;"></v-app-bar-nav-icon>
       <v-spacer></v-spacer>
       <div>
          <v-menu activator="parent">
             <template v-slot:activator="{ attrs }">
-               <a v-bind="attrs" class="userName2" style="cursor: pointer;">王大明</a>
+               <div class="userName-container">
+               <a v-bind="attrs" class="userName2" style="cursor: pointer;">{{ accName }}</a>
                <v-icon class="drop-down-btn2" size="30" style="cursor: pointer;">mdi-chevron-down</v-icon>
+               </div>
             </template>
             
             <v-card class="sm-account-page-container">
@@ -84,7 +87,7 @@
 
 <script>
    import { useWindowWidth } from '../JS/winwidth.js';
-   import { askHealthNoteRecord } from '../../api/healthNote.js';
+   import { changeDate, askHealthNoteRecord } from '../../api/healthNote.js';
    // import userImage from './assets/images/user.png';
    import { ref, onMounted } from 'vue';
 
@@ -93,6 +96,7 @@
       setup() {
          const uncompleteNumber = ref('');
          let session = sessionStorage.getItem('session');
+         let accName = sessionStorage.getItem('accName');
          let accType = sessionStorage.getItem('accType');
          let hasPendingSurvey = sessionStorage.getItem('hasPendingSurvey');
 
@@ -135,7 +139,8 @@
          }
 
          // 計算未完成天數
-         askHealthNoteRecord('2024/11/22', '2024/11/24').then((result) => {
+         askHealthNoteRecord(changeDate(new Date()-3), changeDate(new Date()-(3*24*60*60*1000)))
+         .then((result) => {
             uncompleteNumber.value = result.uncompleteNumber;
          });
 
@@ -158,6 +163,7 @@
             winwidth,
             drawer,
             session,
+            accName,
             accType,
             // userImage,
             hashUrl,

@@ -122,32 +122,13 @@
                                     <div class="col-2 col-time"><strong>諮詢時間</strong></div>
                                  </li>
 
-                                 <!-- 健康紀錄項目 -->
-                                 <li class="row">
-                                    <div class="col-1 text-center">1.</div>
-                                    <div class="col-2 personMeet" style="margin-right: 20px;">個人諮詢
-                                       <v-icon size="25" style="margin-top: -0.15em;">mdi-account-outline</v-icon>
+                                 <li class="row" v-for="(item, index) in meetingData" :key="index">
+                                    <div class="col-1 text-center">{{ index + 1 }}</div>
+                                    <div :class="['col-2', item[1]]" style="margin-right: 20px;">{{ item[0] }}
+                                       <v-icon size="25" style="margin-top: -0.15em;">{{ item[2] }}</v-icon>
                                     </div>
-                                    <div class="col-3">下午2點 個人諮詢會議</div>
-                                    <div class="col-2 col-time">14:00~15:00</div>
-                                 </li>
-
-                                 <li class="row gray">
-                                    <div class="col-1 text-center">2.</div>
-                                    <div class="col-2 groupMeet" style="margin-right: 20px;">團體諮詢
-                                       <v-icon size="25" style="margin-top: -0.15em;">mdi-account-multiple-plus-outline</v-icon>   
-                                    </div>
-                                    <div class="col-3">[聊天室] 減重飲食指南1</div>
-                                    <div class="col-2 col-time">15:00~16:00</div>
-                                 </li>
-
-                                 <li class="row">
-                                    <div class="col-1 text-center">3.</div>
-                                    <div class="col-2 groupMeet" style="margin-right: 20px;">團體諮詢
-                                       <v-icon size="25" style="margin-top: -0.15em;">mdi-account-multiple-plus-outline</v-icon>
-                                    </div>
-                                    <div class="col-3">[聊天室] 減重飲食指南2</div>
-                                    <div class="col-2 col-time">16:00~17:00</div>
+                                    <div class="col-3">{{ item[3] }}</div>
+                                    <div class="col-2 col-time">{{ item[4] }}</div>
                                  </li>
                               </ul>
                            </v-card-text>
@@ -158,24 +139,18 @@
                      <div v-else>
                         <v-card class="meetCard v-card-space">
                            <v-card-title>今日諮詢行程</v-card-title>
-                           <v-card outlined class="meet-box" style="border: 3px solid #e9b347;"><v-card-text>
-                              <div class="meetInfo">
-                                 <strong class="personMeet">個人諮詢
-                                    <v-icon>mdi-account-outline</v-icon>
-                                 </strong>
-                                 <p class="meetTime">14:00~15:00</p>
-                              </div>
-                              <div class="meetName">下午2點 個人諮詢會議 下午2點 個人諮詢會議 下午2點 個人諮詢會議</div>
-                           </v-card-text></v-card>
-                           <v-card outlined class="meet-box" style="border: 3px solid #436ead;"><v-card-text>
-                              <div class="meetInfo">
-                                 <strong class="groupMeet">團體諮詢
-                                    <v-icon>mdi-account-multiple-plus-outline</v-icon>
-                                 </strong>
-                                 <p class="meetTime">15:00~16:00</p>
-                              </div>
-                              <div class="meetName">[聊天室] 減重飲食指南1</div>
-                           </v-card-text></v-card>
+                           <v-card outlined :class="['col-2', item[1]]" class="meet-box" style="border: 3px solid"
+                           v-for="(item, index) in meetingData" :key="index">
+                              <v-card-text>
+                                 <div class="meetInfo">
+                                    <strong :class="['col-2', item[1]]">{{ item[0] }}
+                                       <v-icon>{{ item[2] }}</v-icon>
+                                    </strong>
+                                    <p class="meetTime">{{ item[4] }}</p>
+                                 </div>
+                                 <div class="meetName">{{ item[3] }}</div>
+                              </v-card-text>
+                           </v-card>
                         </v-card>
                      </div>
                   </v-col>
@@ -203,26 +178,16 @@
                               </li>
 
                               <!-- 健康紀錄項目 -->
-                              <li class="row">
+                              <li class="row" v-for="(item, index) in gpRankData" :key="index">
                                  <div class="col-4 text-center"></div>
-                                 <div class="col-6">葉ＯＯ</div>
-                                 <div class="col-6">第一名</div>
-                                 <div class="col-6">100%</div>
+                                 <div class="col-6">{{ item[0] }}</div>
+                                 <div class="col-6">{{ item[1] }}</div>
+                                 <div class="col-6">{{ item[2] }}</div>
                               </li>
 
-                              <li class="row gray">
-                                 <div class="col-4 text-center"></div>
-                                 <div class="col-6">陳ＯＯ</div>
-                                 <div class="col-6">第一名</div>
-                                 <div class="col-6">100%</div>
-                              </li>
-
-                              <li class="row">
-                                 <div class="col-4 text-center"></div>
-                                 <div class="col-6">王ＯＯ</div>
-                                 <div class="col-6">第三名</div>
-                                 <div class="col-6">95%</div>
-                              </li>
+                              <div v-if="gpRankData.length == 0">
+                                 <p class="nodata">查無資料</p>
+                              </div>
                            </ul>
                         </v-card-text>
                      </v-card>
@@ -278,8 +243,17 @@
          let timer = reactive({ interval: null, progress: 0 });
 
          const router = useRouter();
-         const showDetails = ref(false);
          const { winwidth } = useWindowWidth();
+         const gpRankData = ref([
+            ['葉ＯＯ', '第一名', '100%'],
+            ['陳ＯＯ', '第一名', '100%'],
+            ['王ＯＯ', '第三名', '95%']
+         ]);
+         const meetingData = ref([
+            ['個人諮詢', 'personMeet', 'mdi-account-outline', '下午2點 個人諮詢會議', '14:00~15:00'],
+            ['團體諮詢', 'groupMeet', 'mdi-account-multiple-plus-outline', '[聊天室] 減重飲食指南1', '15:00~16:00'],
+            ['團體諮詢', 'groupMeet', 'mdi-account-multiple-plus-outline', '[聊天室] 減重飲食指南2', '16:00~17:00'],
+         ]);
 
          timer.interval = setInterval(() => {
             if(timer.progress < 60) {
@@ -296,7 +270,8 @@
             timer,
             accType,
             winwidth,
-            showDetails,
+            gpRankData,
+            meetingData,
             navigateToPath,
          };
       },

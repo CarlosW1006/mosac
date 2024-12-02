@@ -14,22 +14,22 @@
 }
 
 .inner-box {
-   font-size: 10px; /* 茅點 */
    height: auto;
-   overflow-y: auto;
    max-height: 80%;
+   overflow-y: auto;
+   font-size: 10px; /* 茅點 */
    background-color: #FFFFFF;
 }
 
 .v-card-L {
-   font-size: 10px; /* 茅點 */
    height: 38em;
+   font-size: 10px; /* 茅點 */
 }
 
 .recent-progress {
+   color: #c53939;
    padding-top: 1em;
    font-size: 1.5em;
-   color: #c53939;
 }
 
 .recent-progress-linear {
@@ -39,25 +39,22 @@
 
 .recent-progress-num {
    font-size: 1.5em;
+   font-weight: 500;
    margin-left: 1em;
    margin-top: 1.25em;
-   font-weight: 500;
 }
 
 /* 首頁-左側功能區 */
 .col-1 {
    flex: 0 0 13%;
-   font-size: 2.3em;
 }
 
 .col-2 {
    flex: 0 0 23%;
-   font-size: 2em;
 }
 
 .col-3 {
    flex: 0 0 35%;
-   font-size: 2.3em;
 }
 
 .col-time {
@@ -65,14 +62,14 @@
 }
 
 .col-2, .col-3 {
-   white-space: nowrap;        /* 防止文本換行 */
-   overflow: hidden;           /* 隱藏超出部分 */
-   text-overflow: ellipsis;    /* 超出部分顯示省略號 */
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
 }
 
 .v-chip {
-   font-size: 20px !important;
    height: 2em !important;
+   font-size: 20px !important;
 }
 
 .completed-chip {
@@ -95,10 +92,10 @@
    font-weight: 800;
 }
 
-
 .row {
    display: flex;
    padding: 1rem;
+   font-size: 1.15em;
    align-items: center;
    border-bottom: 1px solid #e0e0e0;
 }
@@ -119,10 +116,6 @@
 .v-card-Group {
    font-size: 10px; /* 茅點 */
    height: 63em;
-}
-
-.group-rank {
-   font-size: 2.3em;
 }
 
 .col-4 {
@@ -180,28 +173,20 @@
 
    .col-1 {
       flex: 0 0 16%;
-      font-size: 3em;
       margin: 1% 0 1%;
    }
 
    .col-2 {
       flex: 0 0 25%;
-      font-size: 3em;
    }
 
    .col-3 {
       flex: 0 0 30%;
-      font-size: 3em;
    }
 
    .v-chip {
       height: 50px !important;
       font-size: 25px !important;
-   }
-
-   /* 首頁-排名功能區 */
-   .group-rank {
-      font-size: 3em;
    }
 }
 
@@ -229,19 +214,20 @@
       height: 37.75em;
    }
 
+   .row {
+      font-size: 2.5em;
+   }
+
    .col-1 {
       flex: 0 0 13%;
-      font-size: 2.3em;
    }
 
    .col-2 {
       flex: 0 0 23%;
-      font-size: 2.3em;
    }
 
    .col-3 {
       flex: 0 0 35%;
-      font-size: 2.3em;
    }
 
    .v-chip {
@@ -252,10 +238,6 @@
    /* 首頁-排名功能區 */
    .v-card-Group {
       height: 63em;
-   }
-
-   .group-rank {
-      font-size: 2.3em;
    }
 
 }
@@ -271,19 +253,20 @@
       height: 32.5em;
    }
 
+   .row {
+      font-size: 2.3em;
+   }
+
    .col-1 {
       flex: 0 0 15%;
-      font-size: 2em;
    }
 
    .col-2 {
       flex: 0 0 23%;
-      font-size: 2em;
    }
 
    .col-3 {
       flex: 0 0 35%;
-      font-size: 2em;
    }
 
    .v-chip {
@@ -294,10 +277,6 @@
    /* 首頁-排名功能區 */
    .v-card-Group {
       height: 56.75em;
-   }
-
-   .group-rank {
-      font-size: 2em;
    }
 
    /* 4大功能區塊 */
@@ -317,23 +296,24 @@
       height: 29.85em;
    }
 
+   .row {
+      font-size: 2.2em;
+   }
+
    .col-1 {
       flex: 0 0 15%;
-      font-size: 1.9em;
    }
 
    .col-2 {
       flex: 0 0 23%;
-      font-size: 1.9em;
    }
 
    .col-3 {
       flex: 0 0 35%;
-      font-size: 1.9em;
    }
 
    .v-chip {
-      font-size: 19px !important;
+      font-size: 20px !important;
       height: 35px !important;
    }
 
@@ -341,20 +321,18 @@
    .v-card-Group {
       height: 54.25em;
    }
-
-   .group-rank {
-      font-size: 1.9em;
-   }
 }
 
-@media screen and (max-width: 1300px) {  /* 筆電螢幕100%：完成 */
-   
+@media screen and (max-width: 1500px){   /* 筆電螢幕80%：完成 */
+   .row {
+      font-size: 1.8em;
+   }
 }
 
 @media screen and (max-width: 1200px) {  /* 手機螢幕比例：完成 */
    .v-chip {
-      font-size: 15px !important;
       height: 30px !important;
+      font-size: 20px !important;
    }
 
    /* 小螢幕-諮詢會議 */
@@ -363,23 +341,32 @@
       margin-bottom: -20px;
    }
 
+   .personMeet {
+      color: #e9b347;
+      font-weight: 800;
+      font-size: 1.3em;
+   }
+   
+   .groupMeet {
+      color: #436ead;
+      font-weight: 800;
+      font-size: 1.3em;
+   }
+
    .meet-box {
-      background-color: #ffffff;
       height: auto;
       max-height: 13em;
       margin: 0.5em 0.5em;
+      background-color: #ffffff;
       border-bottom: 1px solid #e0e0e0;
    }
 
    .meetName {
-      margin: 20px 0;
-      padding: 15px 0;
-      font-size: 18px;
-      border-top: 1px solid #e0e0e0;
-      border-bottom: 1px solid #e0e0e0;
+      font-size: 1.65em;
+      margin: 25px 0 10px;
 
-      white-space: nowrap;
       overflow: hidden;
+      white-space: nowrap;
       text-overflow: ellipsis;
    }
 
@@ -388,33 +375,23 @@
    }
 
    .meetTime {
+      font-size: 1.5em;
       margin-left: auto;
    }
 
 }
 
-@media screen and (max-width: 1100px) { 
-   
-}
-
 @media screen and (max-width: 1000px) { 
    .col-1 {
       flex: 0 0 15%;
-      font-size: 1.6em;
    }
 
    .col-2 {
       flex: 0 0 40%;
-      font-size: 1.6em;
    }
 
    .col-time {
       display: none;
-   }
-
-   /* 首頁-排名功能區 */
-   .group-rank {
-      font-size: 1.6em;
    }
 }
 

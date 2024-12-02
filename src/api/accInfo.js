@@ -1,4 +1,4 @@
-import API from './apiInstance';
+import API from './apiInstance.js';
 
 // 取得帳號資料 API Start //
 export function askAccInfo() { 

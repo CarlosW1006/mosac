@@ -1,4 +1,4 @@
-import API from './apiInstance';
+import API from './apiInstance.js';
 
 // 傳送問卷結果 API Start//
 export function postSurveyOutcome(resultPhase) { 

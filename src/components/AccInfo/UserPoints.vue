@@ -28,6 +28,8 @@
 
          <v-btn :class="pointsChangable? 'exchange-btn':'unexchange-btn'" :disabled="!pointsChangable" 
          :ripple="false" @click="callExchangePoints()">我要兌換點數</v-btn>
+         <p class="exxhangeDateMsg">第一梯次 點數兌換時間：2025/04/01 ~ 04/14</p>
+         <p class="exxhangeDateMsg">第二梯次 點數兌換時間：2025/07/01 ~ 07/14</p>
       </v-col>
 
       <!-- 點數兌換紀錄功能區 -->
@@ -44,7 +46,7 @@
             <v-list-item class="list-item" v-for="(item, index) in pointsRecord" :key="index">
                <div class="flex-container">
                   <p>兌換時間：</p>
-                  <p class="list-info50" style="margin-right: 50px;">{{ item['createAt'] }}</p>
+                  <p class="list-info50" style="margin-right: 50px; padding: 5px 0px 5px;">{{ item['createAt'] }}</p>
                </div>
                <div class="flex-container">
                   <p>兌換點數：</p>
@@ -56,6 +58,10 @@
                   <p v-else class="list-info50">0枚</p>
                </div>
             </v-list-item>
+
+            <div v-if="pointsRecord.length == 0">
+               <p class="nodata">查無資料</p>
+            </div>
             
          </v-card>
       </v-col>
