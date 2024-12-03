@@ -139,7 +139,7 @@
          }
 
          // 計算未完成天數
-         askHealthNoteRecord(changeDate(new Date()-3), changeDate(new Date()-(3*24*60*60*1000)))
+         askHealthNoteRecord(changeDate(new Date()-(2*24*60*60*1000)), changeDate(new Date()))
          .then((result) => {
             uncompleteNumber.value = result.uncompleteNumber;
          });

@@ -235,6 +235,17 @@ select option {
    font-size: 20px;
 }
 
+.nodata-frame {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   
+   margin: 3em;
+   color: #4f4f4f;
+   font-size: 3em;
+   font-weight: 500;
+}
+
 @media screen and (max-width: 1200px) {
    .page-tab {
       height: 50px;

@@ -1,6 +1,6 @@
 .survey-container {
+   margin: 1.5%;
    font-size: 10px; /* 茅點 */
-   margin: 1% 20% 10px;
 }
 
 .survey-title {
@@ -28,7 +28,7 @@
 }
 
 .form-check-container {
-   margin-bottom: 1.8em;
+   margin-bottom: 1.5em;
    display: flex;
    align-items: flex-start;
 }
@@ -70,7 +70,6 @@
 
 .button-container {
    display: flex;
-   margin: 0.5em 0 0.5em;
 }
 
 .submitBtn {
@@ -78,16 +77,11 @@
    width: 100%;
    font-size: 1em;
    font-weight: 600;
-   margin-top: 0.5em;
    color: #FFFFFF;
    background-color: #71ccc7;
 }
 
-@media screen and (max-width: 1200px) {   
-   .survey-container { 
-      margin: 1% 10% 10px;
-   }
-
+@media screen and (max-width: 1200px) {  
    .survey-title {
       font-size: 2.5em;
    }
@@ -101,14 +95,10 @@
       flex-direction: column;
       justify-content: center;
    }
-
-   .submitBtn {
-      margin-top: 10px;
-   }
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 700px) { 
    .survey-container { 
-      margin: 0%;
+      margin: 1.5%;
    }
 }

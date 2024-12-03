@@ -59,8 +59,8 @@
                </div>
             </v-list-item>
 
-            <div v-if="pointsRecord.length == 0">
-               <p class="nodata">查無資料</p>
+            <div v-if="pointsRecord.length == 0" class="nodata-frame">
+               <p>查無資料</p>
             </div>
             
          </v-card>

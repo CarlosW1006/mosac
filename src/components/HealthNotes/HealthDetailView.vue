@@ -73,8 +73,8 @@
             </template>
             <template v-else>
                <!-- 無記錄時顯示中央提示文字 -->
-               <div class="no-record-container">
-                  <p class="no-record-text">查無紀錄</p>
+               <div class="nodata-frame">
+                  <p>查無紀錄</p>
                </div>
             </template>
             </template>
@@ -261,7 +261,6 @@ export default {
 
 <style scoped>
    @import "../../assets/css/common.css";
-   @import "../../assets/css/meetInfo.css";
    @import "../../assets/css/accountInfo.css";
 
    /* common */
