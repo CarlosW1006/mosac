@@ -5,7 +5,7 @@
    </div>
 
    <v-row style="margin: 1% 1% 10px;">
-      <v-col cols="12">
+      <v-col cols="12" sm="12" md="7" lg="7">
          <v-card>
             <v-list-item class="list-title list-title-know">
                <h3 class="page-title">動動腦九宮格</h3>

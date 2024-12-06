@@ -1,21 +1,13 @@
-.search-frame-care {
-   padding: 3em 1.5em 2em;   
-}
-
 /* 影片網格樣式 */
 .video-grid {
    display: flex;
    flex-wrap: wrap;
-   margin: 2em;
-}
-
-.video-item {
-   padding: 0.5em;
-   margin-bottom: 2em;
+   padding-bottom: 1em;
 }
 
 .video-card{
    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+   margin-bottom: 10px;
 }
 
 .router-link{
@@ -26,9 +18,20 @@
 /* 影片縮圖樣式 */
 .video-thumbnail {
    position: relative;
-   height: 200px;
+   width: 100%; /* 保證適應父元素寬度 */
+   height: 0;
+   padding-bottom: 56.25%; /* 16:9 比例 */
    overflow: hidden;
    background-color: #b7d5cb;
+}
+
+.video-thumbnail img {
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   object-fit: cover; /* 保持圖片填滿容器，不變形 */
 }
 
 /* 播放按鈕樣式 */
@@ -51,32 +54,6 @@
    overflow:hidden;
 }
 
-.view-count {
-   font-size: 1.5em;
-   color: grey;
-   font-weight: bold;
-   text-overflow: ellipsis;
-   white-space: nowrap;
-   overflow:hidden;
-}
-
-.video-container {
-   position: relative;
-   margin-top: 1em;
-   padding-bottom: 56.25%; /* 16:9 aspect ratio */
-   width: 100%;
-   height: 0;
-   overflow: hidden;
-}
-
-.youtube-embed {
-   position: absolute;
-   top: 0;
-   left: 0;
-   width: 100%;
-   height: 100%;
-}
-
 .video-info {
    display: flex;
    justify-content: space-between;
@@ -85,58 +62,55 @@
    font-size: 1em;
 }
 
-.video-view-title {
-   width: 1500px;
-   font-size: 2.5em;
-   margin: 0;
-   text-overflow: ellipsis;
-   white-space: nowrap;
-   overflow:hidden;
-}
-
 .favorite-icon {
    cursor: pointer;
    font-size: 1.5em;
 }
 
-.video-stats {
+/* 分類切換按鈕樣式 */
+.category-tabs {
    display: flex;
-   justify-content: space-between;
-   padding: 0 1em;
-   font-size: 0.9em;
-   color: grey;
+   gap: 1em;
+   margin-top: 2em;
+   margin-bottom: 2em;
 }
 
-.upload-date{
-   font-size: 1.5em;
+.category-tab {
+   padding: 0.8em 2em;
+   font-size: 1.6em;
+   border: none;
+   border-radius: 5px;
+   background-color: #f0f0f0;
+   color: #666;
+   cursor: pointer;
+   transition: all 0.3s ease;
 }
 
-.video-description {
-   padding: 0.5em;
-   font-size: 2em;
-   color: #333;
+.category-tab:hover {
+   background-color: #e0e0e0;
+}
+
+.category-tab.active {
+   background-color: #76caad;
+   color: white;
+}
+
+/* 無內容顯示樣式 */
+.no-content {
+   text-align: center;
+   padding: 3em;
+   font-size: 1.8em;
+   color: #666;
 }
 
 
 @media screen and (max-width: 1000px) {
-   .search-frame-care {
-      margin: 1em;
-      padding: 0;
-   }
-
-   .page-title {
-      font-size: 2em;
-      margin-left: 0.05em;
-   }
-
-   .list-title {
-      margin-bottom: 1.3em;
-   }
-
    .video-grid {
-      display: flex;
-      flex-wrap: wrap;
-      margin: 0.5em;
+      margin: 0;
+   }
+
+   .video-item {
+      padding: 1em;
    }
 
    .video-title {
@@ -144,11 +118,22 @@
       width: 370px;
    }
 
-   .upload-date{
-      font-size: 1.5em;
+   .category-tabs {
+      display: flex;
+      gap: 1em;
+      margin-top: 2em;
+      margin-bottom: 1em;
    }
+}
 
-   .video-description {
-      font-size: 1.7em;
-   }   
+@media (min-width: 1000px) and (max-width: 1280px) { 
+   .video-grid {
+      margin: 0em;
+   }
+}
+
+@media (min-width: 700px) and (max-width: 1400px) { 
+   .v{
+      width: 40%;
+   }
 }
