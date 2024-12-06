@@ -3,7 +3,7 @@
       <v-row>
          <v-col cols="12" md="8">
             <!-- 個人及團體目標達成率 -->
-            <v-col cols="12" class="v-card-space" v-if="accType == 0">
+            <v-col cols="12" class="v-card-space" v-if="accType != 1">
                <v-row>
                   <!-- 個人目標達成率卡片 -->
                   <v-col cols="12" sm="6" md="6">
@@ -38,7 +38,7 @@
             <!-- 下方左側功能區 -->
             <v-col cols="12">
                <v-row>
-                  <v-col cols="12" v-if="accType == 0">
+                  <v-col cols="12" v-if="accType != 1">
                      <!-- 今日健康紀錄 -->
                      <v-card outlined class="v-card-L v-card-space">
                         <v-card-title>今日健康紀錄</v-card-title>
@@ -158,7 +158,7 @@
             </v-col>
          </v-col>
 
-         <v-col cols="12" md="4" v-if="accType == 0">
+         <v-col cols="12" md="4" v-if="accType != 1">
             <!-- 下方右側功能區 -->
             <v-col cols="12">
                <v-row>

@@ -17,10 +17,10 @@
                   <div class="flex-container" style="align-items: center; justify-content: center;">
                      <v-icon>mdi-account-edit-outline</v-icon><a href="#/accountInfo"><p>帳號資料編輯</p></a>
                   </div>
-                  <div v-if="accType == 0" class="flex-container" style="align-items: center; justify-content: center;">
+                  <div v-if="accType !== 1" class="flex-container" style="align-items: center; justify-content: center;">
                      <v-icon>mdi-star-circle-outline</v-icon><a href="#/userPoints"><p>個人累積點數</p></a>
                   </div>
-                  <div v-if="accType == 0" class="flex-container" style="align-items: center; justify-content: center;">
+                  <div v-if="accType !== 1" class="flex-container" style="align-items: center; justify-content: center;">
                      <v-icon>mdi-account-group-outline</v-icon><a href="#/groupRank"><p>群組排名紀錄</p></a>
                   </div>
                   <div class="flex-container" style="align-items: center; justify-content: center;">
@@ -42,7 +42,7 @@
             </div>
          </v-list-item>
 
-         <div v-if="accType == 0">
+         <div v-if="accType !== 1">
             <v-list-item v-for="(item, index) in barButtons" :key="index" link :class="{'sm-bar-btn': hashUrl !== '#/' + item.path, 
             'sm-bar-btn-clicked': hashUrl === '#/' + item.path}" @click="navigateToPath(item.path)">
                <div class="flex-container">
@@ -62,7 +62,7 @@
             </v-list-item>
          </div>
 
-         <v-list-item v-if="accType == 0" class="sm-bar-btn">
+         <v-list-item v-if="accType !== 1" class="sm-bar-btn">
             <div class="flex-container">
                <v-list-item-title><a href="#/healthNotes" class="sm-bar-btn-info">健康紀錄未填寫</a></v-list-item-title>
                <div class="sm-info-number"><p>{{ uncompleteNumber }}</p></div>

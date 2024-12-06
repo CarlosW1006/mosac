@@ -4,7 +4,7 @@ import API from './apiInstance.js';
 export function askAccInfo() { 
    return API.get('user').then((response) => {
       const credential = response.data.credential;
-      const userType = { 0: "一般用戶", 2: "專家帳號", 3: "系統管理者"}[response.data.userType];
+      const userType = { 0: "一般用戶", 1: "專家帳號", 2: "系統管理者"}[response.data.userType];
       const name = response.data.name;
       const nickName = response.data.nickname;
       const totalPoints = response.data.totalPoints;

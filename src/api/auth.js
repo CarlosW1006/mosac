@@ -33,12 +33,14 @@ export function login(credential, password, verificationId, verifyAnswer) {
       const token = response.data.token;
       const userName = response.data.name;
       const userType = response.data.userType;
+      const currentPhase = response.data.currentPhase;
       const hasPendingSurvey = response.data.hasPendingSurvey;
       
       sessionStorage.setItem('session', token);
       sessionStorage.setItem('accName', userName);
       sessionStorage.setItem('accType', userType);
       sessionStorage.setItem('credential', credential);
+      sessionStorage.setItem('currentPhase', currentPhase);
       sessionStorage.setItem('hasPendingSurvey', hasPendingSurvey);
    })
    .catch((error) => {

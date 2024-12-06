@@ -11,7 +11,7 @@
          </button>
 
          <div v-for="(item, index) in barButtons" :key="index">
-            <button v-if="accType == 0" :class="{'bar-btn': hashUrl !== '#/' + item.path, 
+            <button v-if="accType !== 1" :class="{'bar-btn': hashUrl !== '#/' + item.path, 
             'bar-btn-clicked': hashUrl === '#/' + item.path}" @click="navigateToPath(item.path)">
                <div class="flex-container" style="justify-content: center;">
                   <v-icon class="bar-btn-icon">{{ item.icon }}</v-icon>{{ item.title }}
@@ -31,7 +31,7 @@
 
       <template v-slot:append>
          <div class="bar-btn-info-container">
-            <div v-if="accType == 0" class="messages">
+            <div v-if="accType !== 1" class="messages">
                <div class="flex-container">
                   <a href="#/healthNotes" class="bar-btn-info">健康紀錄未填寫</a>
                   <div class="info-number"><p>{{ uncompleteNumber }}</p></div>
@@ -69,10 +69,10 @@
                   <div class="flex-container" style="align-items: center; justify-content: center;">
                      <v-icon>mdi-account-edit-outline</v-icon><a href="#/accountInfo"><p>帳號資料編輯</p></a>
                   </div>
-                  <div v-if="accType == 0" class="flex-container" style="align-items: center; justify-content: center;">
+                  <div v-if="accType !== 1" class="flex-container" style="align-items: center; justify-content: center;">
                      <v-icon>mdi-star-circle-outline</v-icon><a href="#/userPoints"><p>個人累積點數</p></a>
                   </div>
-                  <div v-if="accType == 0" class="flex-container" style="align-items: center; justify-content: center;">
+                  <div v-if="accType !== 1" class="flex-container" style="align-items: center; justify-content: center;">
                      <v-icon>mdi-account-group-outline</v-icon><a href="#/groupRank"><p>群組排名紀錄</p></a>
                   </div>
                   <div class="flex-container" style="align-items: center; justify-content: center;">
@@ -146,7 +146,6 @@
          askHealthNoteRecord(changeDate(new Date()-(2*24*60*60*1000)), changeDate(new Date()))
          .then((result) => {
             uncompleteNumber.value = result.uncompleteNumber;
-            console.log(result);
          });
 
          // 登出功能
