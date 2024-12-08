@@ -7,7 +7,7 @@
 
    <!-- 主要內容區塊 -->
    <v-row style="margin: 1% 1% 10px;">
-      <v-col cols="12" sm="12" md="7" lg="7">
+      <v-col cols="12" sm="12" :md="hasRecord && canEdit ? 7 : 12" lg="7">
          <v-card>
             <!-- 載入中顯示 loading 動畫 -->
             <div v-if="loading" class="loading-container">
@@ -67,7 +67,7 @@
                <v-list-item v-if="healthInfo.hba1c !== null && healthInfo.hba1c !== undefined && healthInfo.hba1c !== '查無紀錄'" class="list-item">
                   <div class="flex-container">
                      <h4 class="list-name">HbA1C：</h4>
-                     <p class="list-info50">{{ healthInfo.hba1c }}？</p>
+                     <p class="list-info50">{{ healthInfo.hba1c }}</p>
                   </div>
                </v-list-item>
             </template>
@@ -80,15 +80,56 @@
             </template>
          </v-card>
 
-         <!-- 編輯按鈕 -->
+         <!-- 填寫按鈕 -->
          <v-btn 
             v-if="hasRecord && canEdit" 
             class="gotoMeet-btn" 
             :ripple="false" 
             @click="editHealthRecord"
          >
-            編輯健康紀錄
-         </v-btn>
+            填寫健康紀錄
+         </v-btn> 
+      </v-col>
+      <!-- 上傳記錄區塊 -->
+      <v-col v-if="hasRecord && canEdit" 
+         cols="12" 
+         sm="12" 
+         md="5" 
+         lg="5"
+      >
+         <v-card class="upload-records-container">
+            <div class="upload-header" @click="toggleRecords">
+               <h3>上傳記錄</h3>
+               <v-icon>{{ isRecordsExpanded ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+            </div>
+            
+            <v-expand-transition>
+               <div v-show="isRecordsExpanded" class="records-list">
+                  <template v-if="uploadedRecords.length > 0">
+                     <div 
+                        v-for="(record, index) in sortedRecords" 
+                        :key="record.id" 
+                        class="record-item"
+                     >
+                        <div class="record-info">
+                           <span class="record-time">{{ formatTime(record.createAt) }} 上傳記錄</span>
+                           <span class="record-status" v-if="index === 0">(最新記錄)</span>
+                        </div>
+                        <v-btn 
+                           class="edit-record-btn" 
+                           color="#76caad"
+                           @click="editUploadedRecord(record)"
+                        >
+                           編輯
+                        </v-btn>
+                     </div>
+                  </template>
+                  <div v-else class="no-records">
+                     <p>無上傳記錄</p>
+                  </div>
+               </div>
+            </v-expand-transition>
+         </v-card>
       </v-col>
    </v-row>
 </template>
@@ -112,6 +153,33 @@ export default {
       const router = useRouter();
       const route = useRoute();
       const loading = ref(false);
+      const isRecordsExpanded = ref(false);
+      const uploadedRecords = ref([]);
+
+      // 模擬的上傳記錄數據
+   const mockUploadedRecords = [
+      {
+         id: 1,
+         createAt: '2024-12-08T09:30:00',
+         dailySteps: 5000,
+         dailyJoggingTime: 30,
+         dailyDietGoal: '是 (早餐, 午餐)',
+      },
+      {
+         id: 2,
+         createAt: '2024-12-08T14:15:00',
+         dailySteps: 8000,
+         dailyJoggingTime: 45,
+         dailyDietGoal: '是 (早餐, 午餐, 晚餐)',
+      },
+      {
+         id: 3,
+         createAt: '2024-12-08T20:00:00',
+         dailySteps: 10000,
+         dailyJoggingTime: 60,
+         dailyDietGoal: '是 (早餐, 午餐, 晚餐)',
+      }
+   ];
 
       // 判斷是否有記錄的計算屬性
       const hasRecord = computed(() => {
@@ -143,6 +211,41 @@ export default {
          return 0;
       });
 
+      const sortedRecords = computed(() => {
+         return [...uploadedRecords.value].sort((a, b) => 
+            new Date(b.createAt) - new Date(a.createAt)
+         );
+      });
+
+      // 格式化時間
+      const formatTime = (dateString) => {
+         const date = new Date(dateString);
+         return date.toLocaleTimeString('zh-TW', {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false // 使用24小時制
+         });
+      };
+
+      // 切換記錄展開狀態
+      const toggleRecords = () => {
+         isRecordsExpanded.value = !isRecordsExpanded.value;
+      };
+
+      // 編輯上傳的記錄
+      const editUploadedRecord = (record) => {
+         // 將記錄存入 sessionStorage
+         sessionStorage.setItem('editing-record', JSON.stringify(record));
+         // 導航到編輯頁面
+         router.push({
+            path: '/healthDetailEdit',
+            query: { 
+               date: route.query.date,
+               recordId: record.id
+            }
+         });
+      };
+
       onMounted(async () => {
          const dateString = route.query.date;
          if (!dateString) {
@@ -152,6 +255,8 @@ export default {
 
          loading.value = true;
          try {
+            // 暫時使用模擬數據
+         uploadedRecords.value = mockUploadedRecords;
             // 先檢查 sessionStorage 中是否有暫存的記錄
             const cachedRecord = sessionStorage.getItem('temp-health-record');
             if (cachedRecord) {
@@ -241,7 +346,7 @@ export default {
 
       const editHealthRecord = () => {
          router.push({
-            path: '/healthDetailForm',
+            path: '/healthDetailEdit',
             query: { date: route.query.date }
          });
       };
@@ -253,7 +358,14 @@ export default {
          totalWalkingTime,
          loading,
          canEdit,
-         editHealthRecord
+         editHealthRecord,
+         isRecordsExpanded,
+         uploadedRecords,
+         toggleRecords,
+         sortedRecords,
+         formatTime,
+         editUploadedRecord,
+         mockUploadedRecords
       };
    }
 };
@@ -262,6 +374,7 @@ export default {
 <style scoped>
    @import "../../assets/css/common.css";
    @import "../../assets/css/accountInfo.css";
+   @import "../../assets/css/healthknow.css";
 
    /* common */
    .list-title { 
@@ -288,6 +401,7 @@ export default {
       width: 100%;
       height: 2em !important;
       margin-top: 1em;
+      margin-bottom: 1em;
    }
 
    .loading-container {

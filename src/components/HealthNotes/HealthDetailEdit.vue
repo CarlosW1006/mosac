@@ -4,13 +4,13 @@
       <a href="#/healthNotes" class="tab-L">回到健康手札</a>
       <p class="tab-R">健康手札＞健康紀錄</p>
    </div>
-   <v-container fluid>
+   <v-container :class="{ 'container-no-right': !hasRightContent }" fluid>
       <div class="health-detail"> 
          <v-card>
             <v-list-item class="list-title">
                <div class="flex-container" style="justify-content: space-between;">
                   <h3 class="page-title">健康手札</h3>
-                  <p class="hd-title">{{ formattedDate }} 健康紀錄</p>
+                  <p class="hd-title">{{ formattedDate }} 上傳紀錄</p>
                </div>
             </v-list-item>
             
@@ -33,11 +33,11 @@
                      <div class="form-group" :class="isRedBg(1)">
                         <label class="form-label" for="walkingTime">每日慢跑時間：</label>
                         <div class="input-unit-wrapper">
-                           <input
-                              type="number"
-                              id="walkingTime"
-                              v-model="healthInfo.walkingTime"
-                              placeholder="輸入時間"
+                           <input 
+                              type="number" 
+                              id="walkingTime" 
+                              v-model="healthInfo.walkingTimes" 
+                              placeholder="輸入時間" 
                            />
                            <span class="unit">分鐘</span>
                         </div>
@@ -96,7 +96,7 @@
                </v-col>
             </v-row>
          </v-card>
-         <v-btn class="save-hr-btn" @click="saveHealthInfo">儲存健康紀錄</v-btn>
+         <v-btn class="save-hr-btn" @click="saveHealthInfo">儲存編輯紀錄</v-btn>
       </div>
    </v-container>
    <!-- 等待執行結果動畫 -->
@@ -110,11 +110,11 @@
   import { addHealthRecord, getHealthRecordByDate } from '../../api/healthNote';
 
   export default {
-    name: 'healthDetailFormPage',
+    name: 'healthDetailEditPage',
     setup() {
       const healthInfo = ref({
         steps: '',
-        walkingTimes: '',
+        walkingTimes: [0],
         diet: '',
         selectedMeals: [],
         weight: '',
@@ -176,7 +176,7 @@
                if (isSameDay) {
                   healthInfo.value = {
                      steps: recordData.dailySteps,
-                     walkingTimes: [recordData.dailyJoggingTime],
+                     walkingTimes: recordData.dailyJoggingTime,
                      diet: recordData.dailyDietGoal.startsWith('是') ? '是' : '否',
                      selectedMeals: recordData.dailyDietGoal.startsWith('是') 
                         ? recordData.dailyDietGoal.match(/早餐|午餐|晚餐/g) || []
@@ -202,7 +202,7 @@
       });
 
       const saveHealthInfo = async () => {
-         //if (!validateForm()) return;
+         if (!validateForm()) return;
 
          loading.value = true;
          try {
@@ -263,40 +263,40 @@
                (month === 12 && date === 4); // 添加 12/4 的判斷
       });
 
-      // // 新增表單驗證方法
-      // const validateForm = () => {
-      //    // 步數驗證
-      //    if (!healthInfo.value.steps) {
-      //       alert('請輸入每日步數');
-      //       return false;
-      //    }
+      // 新增表單驗證方法
+      const validateForm = () => {
+         // 步數驗證
+         if (!healthInfo.value.steps) {
+            alert('請輸入每日步數');
+            return false;
+         }
 
-      //    // 慢跑時間驗證
-      //    if (healthInfo.value.walkingTimes.every(time => time === 0)) {
-      //       alert('請輸入慢跑時間');
-      //       return false;
-      //    }
+         // 慢跑時間驗證
+         if (healthInfo.value.walkingTimes.every(time => time === 0)) {
+            alert('請輸入慢跑時間');
+            return false;
+         }
 
-      //    // 飲食目標驗證
-      //    if (healthInfo.value.diet === '是' && healthInfo.value.selectedMeals.length === 0) {
-      //       alert('請選擇至少一餐');
-      //       return false;
-      //    }
+         // 飲食目標驗證
+         if (healthInfo.value.diet === '是' && healthInfo.value.selectedMeals.length === 0) {
+            alert('請選擇至少一餐');
+            return false;
+         }
 
-      //    // 體重驗證（每週六才需要）
-      //    if (isSaturday.value && !healthInfo.value.weight) {
-      //       alert('請輸入每週體重');
-      //       return false;
-      //    }
+         // 體重驗證（每週六才需要）
+         if (isSaturday.value && !healthInfo.value.weight) {
+            alert('請輸入每週體重');
+            return false;
+         }
 
-      //    // HbA1C驗證（特定日期才需要）
-      //    if (needHbA1c.value && !healthInfo.value.hba1c) {
-      //       alert('請輸入HbA1C數值');
-      //       return false;
-      //    }
+         // HbA1C驗證（特定日期才需要）
+         if (needHbA1c.value && !healthInfo.value.hba1c) {
+            alert('請輸入HbA1C數值');
+            return false;
+         }
 
-      //    return true;
-      // };
+         return true;
+      };
 
       //表單背景(灰白)
       const isRedBg = (index) => {
