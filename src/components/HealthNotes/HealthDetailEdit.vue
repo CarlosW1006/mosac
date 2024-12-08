@@ -44,23 +44,23 @@
                      </div>
 
                      <div class="form-group" :class="isRedBg(2)">
-                        <label class="form-label">每日飲食目標(符合 211 餐盤)：</label>
-                        <div class="diet-options">
-                        <input type="radio" id="dietNo" value="否" v-model="healthInfo.diet" />
-                        <label for="dietNo">否；</label>
-                        <input type="radio" id="dietYes" value="是" v-model="healthInfo.diet" />
-                        <label for="dietYes">是</label>
-                        <span class="checkbox-group" v-if="healthInfo.diet === '是'">
-                           (
-                           <input type="checkbox" ref="breakfast" @change="updateMeals" />
-                           <label>早餐</label>
-                           <input type="checkbox" ref="lunch" @change="updateMeals" />
-                           <label>午餐</label>
-                           <input type="checkbox" ref="dinner" @change="updateMeals" />
-                           <label>晚餐</label>
-                           )
-                        </span>
-                        </div>
+                       <label class="form-label">每日飲食目標(符合 211 餐盤)：</label>
+                       <div class="diet-options disabled-diet">
+                          <input type="radio" id="dietNo" value="否" v-model="healthInfo.diet" disabled />
+                          <label for="dietNo" class="disabled-text">否；</label>
+                          <input type="radio" id="dietYes" value="是" v-model="healthInfo.diet" disabled />
+                          <label for="dietYes" class="disabled-text">是</label>
+                          <span class="checkbox-group" v-if="healthInfo.diet === '是'">
+                             (
+                             <input type="checkbox" ref="breakfast" :checked="healthInfo.selectedMeals.includes('早餐')" disabled />
+                             <label class="disabled-text">早餐</label>
+                             <input type="checkbox" ref="lunch" :checked="healthInfo.selectedMeals.includes('午餐')" disabled />
+                             <label class="disabled-text">午餐</label>
+                             <input type="checkbox" ref="dinner" :checked="healthInfo.selectedMeals.includes('晚餐')" disabled />
+                             <label class="disabled-text">晚餐</label>
+                             )
+                          </span>
+                       </div>
                      </div>
                   </div>
                   </form>
@@ -105,16 +105,16 @@
 
 
 <script>
-  import { ref, computed, onMounted, nextTick } from 'vue';
+  import { ref, computed, onMounted } from 'vue';
   import { useRoute } from 'vue-router';
-  import { addHealthRecord, getHealthRecordByDate } from '../../api/healthNote';
+  import { addHealthRecord, getAllHealthRecordsByDate } from '../../api/healthNote';
 
   export default {
     name: 'healthDetailEditPage',
     setup() {
       const healthInfo = ref({
         steps: '',
-        walkingTimes: [0],
+        walkingTimes: '',
         diet: '',
         selectedMeals: [],
         weight: '',
@@ -145,61 +145,38 @@
       // onMounted 部分的更新
       onMounted(async () => {
          const dateString = route.query.date;
-         if (!dateString) {
-            console.error('未提供日期參數');
+         const recordId = route.query.recordId;
+
+         if (!dateString || !recordId) {
+            console.error('未提供必要參數');
             return;
          }
 
-         // 每次掛載時都重置表單
-         healthInfo.value = {
-            steps: '',
-            walkingTimes: '',
-            diet: '',
-            selectedMeals: [],
-            weight: '',
-            hba1c: ''
-         };
-
          loading.value = true;
          try {
-            const recordData = await getHealthRecordByDate(dateString);
-            if (recordData) {
-               // 轉換日期時考慮時區
-               const recordDate = new Date(recordData.createAt);
-               const currentDate = new Date(dateString);
-               
-               // 比較日期時不考慮時間部分
-               const isSameDay = recordDate.getFullYear() === currentDate.getFullYear() &&
-                              recordDate.getMonth() === currentDate.getMonth() &&
-                              recordDate.getDate() === currentDate.getDate();
-               
-               if (isSameDay) {
-                  healthInfo.value = {
-                     steps: recordData.dailySteps,
-                     walkingTimes: recordData.dailyJoggingTime,
-                     diet: recordData.dailyDietGoal.startsWith('是') ? '是' : '否',
-                     selectedMeals: recordData.dailyDietGoal.startsWith('是') 
-                        ? recordData.dailyDietGoal.match(/早餐|午餐|晚餐/g) || []
-                        : [],
-                     weight: recordData.weeklyWeight,
-                     hba1c: recordData.HbA1c
-                  };
+            // 獲取特定記錄的數據
+            const records = await getAllHealthRecordsByDate(dateString);
+            const recordData = records.find(record => record.id === recordId);
 
-                  // 設置複選框狀態
-                  await nextTick();
-                  if (healthInfo.value.diet === '是') {
-                     if (breakfast.value) breakfast.value.checked = healthInfo.value.selectedMeals.includes('早餐');
-                     if (lunch.value) lunch.value.checked = healthInfo.value.selectedMeals.includes('午餐');
-                     if (dinner.value) dinner.value.checked = healthInfo.value.selectedMeals.includes('晚餐');
-                  }
-               }
+            if (recordData) {
+               // 設置資料但不包含複選框更新邏輯
+               healthInfo.value = {
+               steps: recordData.dailySteps,
+               walkingTimes: recordData.dailyJoggingTime,
+               diet: recordData.dailyDietGoal.startsWith('是') ? '是' : '否',
+               selectedMeals: recordData.dailyDietGoal.startsWith('是') 
+                  ? recordData.dailyDietGoal.match(/早餐|午餐|晚餐/g) || []
+                  : [],
+               weight: recordData.weeklyWeight,
+               hba1c: recordData.HbA1c
+               };
             }
          } catch (error) {
             console.error('載入健康紀錄失敗:', error);
          } finally {
             loading.value = false;
          }
-      });
+         });
 
       const saveHealthInfo = async () => {
          if (!validateForm()) return;
@@ -306,20 +283,12 @@
          };
       };
 
-      const updateMeals = () => {
-      healthInfo.value.selectedMeals = [];
-         if (breakfast.value.checked) healthInfo.value.selectedMeals.push('早餐');       
-         if (lunch.value.checked) healthInfo.value.selectedMeals.push('午餐');       
-         if (dinner.value.checked) healthInfo.value.selectedMeals.push('晚餐');      
-      };
-
       return {
         healthInfo,
         formattedDate,
         loading,
         saveHealthInfo,
         isRedBg,
-        updateMeals,
         breakfast,
         lunch,
         dinner,

@@ -33,13 +33,13 @@
                      <div class="form-group" :class="isRedBg(1)">
                         <label class="form-label" for="walkingTime">每日慢跑時間：</label>
                         <div class="input-unit-wrapper">
-                           <input
-                              type="number"
-                              id="walkingTime"
-                              v-model="healthInfo.walkingTime"
-                              placeholder="輸入時間"
-                           />
-                           <span class="unit">分鐘</span>
+                        <input
+                           type="number"
+                           id="walkingTime"
+                           v-model="healthInfo.walkingTime"
+                           placeholder="輸入時間"
+                        />
+                        <span class="unit">分鐘</span>
                         </div>
                      </div>
 
@@ -114,7 +114,7 @@
     setup() {
       const healthInfo = ref({
         steps: '',
-        walkingTimes: '',
+        walkingTimes: [0],
         diet: '',
         selectedMeals: [],
         weight: '',
@@ -153,7 +153,7 @@
          // 每次掛載時都重置表單
          healthInfo.value = {
             steps: '',
-            walkingTimes: '',
+            walkingTime: '',
             diet: '',
             selectedMeals: [],
             weight: '',
@@ -162,29 +162,14 @@
 
          loading.value = true;
          try {
+            // 只抓取當天最新的資料來設定飲食目標的預設值
             const recordData = await getHealthRecordByDate(dateString);
-            if (recordData) {
-               // 轉換日期時考慮時區
-               const recordDate = new Date(recordData.createAt);
-               const currentDate = new Date(dateString);
-               
-               // 比較日期時不考慮時間部分
-               const isSameDay = recordDate.getFullYear() === currentDate.getFullYear() &&
-                              recordDate.getMonth() === currentDate.getMonth() &&
-                              recordDate.getDate() === currentDate.getDate();
-               
-               if (isSameDay) {
-                  healthInfo.value = {
-                     steps: recordData.dailySteps,
-                     walkingTimes: [recordData.dailyJoggingTime],
-                     diet: recordData.dailyDietGoal.startsWith('是') ? '是' : '否',
-                     selectedMeals: recordData.dailyDietGoal.startsWith('是') 
-                        ? recordData.dailyDietGoal.match(/早餐|午餐|晚餐/g) || []
-                        : [],
-                     weight: recordData.weeklyWeight,
-                     hba1c: recordData.HbA1c
-                  };
-
+            if (recordData?.dailyDietGoal) {
+               // 只設定飲食相關的值
+               healthInfo.value.diet = recordData.dailyDietGoal.startsWith('是') ? '是' : '否';
+               if (recordData.dailyDietGoal.startsWith('是')) {
+                  healthInfo.value.selectedMeals = recordData.dailyDietGoal.match(/早餐|午餐|晚餐/g) || [];
+                  
                   // 設置複選框狀態
                   await nextTick();
                   if (healthInfo.value.diet === '是') {
@@ -202,7 +187,11 @@
       });
 
       const saveHealthInfo = async () => {
-         //if (!validateForm()) return;
+         // 檢查如果選擇"是"但沒有選擇任何餐點時跳出警示
+         if (healthInfo.value.diet === '是' && healthInfo.value.selectedMeals.length === 0) {
+            alert('請至少選擇一餐');
+            return;
+         }
 
          loading.value = true;
          try {
@@ -212,11 +201,11 @@
             // 合併選擇的日期和當前時間
             const targetDate = new Date(selectedDate);
             targetDate.setHours(currentTime.getHours(), 
-                           currentTime.getMinutes(), 
-                           currentTime.getSeconds(), 
-                           currentTime.getMilliseconds());
+                              currentTime.getMinutes(), 
+                              currentTime.getSeconds(), 
+                              currentTime.getMilliseconds());
 
-            // 儲存記錄
+            // 儲存記錄 - 直接傳遞所有值,讓後端處理 null 值
             const savedRecord = await addHealthRecord({
                ...healthInfo.value,
                date: targetDate.toISOString()
@@ -226,8 +215,8 @@
             if (savedRecord) {
                // 明確設置要保存的數據結構
                const recordToCache = {
-                  ...savedRecord,
-                  createAt: targetDate.toISOString()
+               ...savedRecord,
+               createAt: targetDate.toISOString()
                };
                sessionStorage.setItem('temp-health-record', JSON.stringify(recordToCache));
             }
@@ -262,41 +251,6 @@
                (month === 12 && date === 31) ||
                (month === 12 && date === 4); // 添加 12/4 的判斷
       });
-
-      // // 新增表單驗證方法
-      // const validateForm = () => {
-      //    // 步數驗證
-      //    if (!healthInfo.value.steps) {
-      //       alert('請輸入每日步數');
-      //       return false;
-      //    }
-
-      //    // 慢跑時間驗證
-      //    if (healthInfo.value.walkingTimes.every(time => time === 0)) {
-      //       alert('請輸入慢跑時間');
-      //       return false;
-      //    }
-
-      //    // 飲食目標驗證
-      //    if (healthInfo.value.diet === '是' && healthInfo.value.selectedMeals.length === 0) {
-      //       alert('請選擇至少一餐');
-      //       return false;
-      //    }
-
-      //    // 體重驗證（每週六才需要）
-      //    if (isSaturday.value && !healthInfo.value.weight) {
-      //       alert('請輸入每週體重');
-      //       return false;
-      //    }
-
-      //    // HbA1C驗證（特定日期才需要）
-      //    if (needHbA1c.value && !healthInfo.value.hba1c) {
-      //       alert('請輸入HbA1C數值');
-      //       return false;
-      //    }
-
-      //    return true;
-      // };
 
       //表單背景(灰白)
       const isRedBg = (index) => {

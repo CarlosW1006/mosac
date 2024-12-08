@@ -17,10 +17,10 @@ export function getHealthRecords(monthKey) {
 }
 
 // 將 UTC 時間轉換為當地日期字符串 (YYYY/MM/DD)
-function formatLocalDate(date) {
-   const localDate = new Date(date);
-   return `${localDate.getFullYear()}/${String(localDate.getMonth() + 1).padStart(2, '0')}/${String(localDate.getDate()).padStart(2, '0')}`;
-}
+// function formatLocalDate(date) {
+//    const localDate = new Date(date);
+//    return `${localDate.getFullYear()}/${String(localDate.getMonth() + 1).padStart(2, '0')}/${String(localDate.getDate()).padStart(2, '0')}`;
+// }
 
 function getLocalDateString(date) {
    const d = new Date(date);
@@ -140,102 +140,103 @@ export function inputHealthNoteGoal(stepGoal, joggingGoal){
 // 儲存每月目標 API End //
 
 // 取得對應的體重和HbA1c值 API Start //
-async function getValidWeightAndHbA1c(targetDate) {
-   const token = sessionStorage.getItem('session');
-   const date = new Date(targetDate);
+// async function getValidWeightAndHbA1c(targetDate) {
+//    const token = sessionStorage.getItem('session');
+//    const date = new Date(targetDate);
    
-   // 取得週的開始和結束日期（使用當地時間）
-   const weekStart = new Date(date);
-   weekStart.setDate(date.getDate() - date.getDay());
-   const weekEnd = new Date(weekStart);
-   weekEnd.setDate(weekStart.getDate() + 6);
+//    // 取得週的開始和結束日期（使用當地時間）
+//    const weekStart = new Date(date);
+//    weekStart.setDate(date.getDate() - date.getDay());
+//    const weekEnd = new Date(weekStart);
+//    weekEnd.setDate(weekStart.getDate() + 6);
 
-   // 取得季度末日期
-   //const quarterMonth = Math.floor(date.getMonth() / 3) * 3 + 2;
-   //const quarterEnd = new Date(date.getFullYear(), quarterMonth + 1, 0);
+//    // 取得季度末日期
+//    //const quarterMonth = Math.floor(date.getMonth() / 3) * 3 + 2;
+//    //const quarterEnd = new Date(date.getFullYear(), quarterMonth + 1, 0);
 
-   try {
-      const startYear = `${date.getFullYear()}-01-01`;
-      const endDate = formatLocalDate(date).replace(/\//g, '-');
+//    try {
+//       const startYear = `${date.getFullYear()}-01-01`;
+//       const endDate = formatLocalDate(date).replace(/\//g, '-');
 
-      const response = await API.get('user/health-records', {
-         params: {
-            startAt: startYear,
-            endAt: endDate
-         },
-         headers: {
-            'Authorization': `Bearer ${token}`
-         }
-      });
+//       const response = await API.get('user/health-records', {
+//          params: {
+//             startAt: startYear,
+//             endAt: endDate
+//          },
+//          headers: {
+//             'Authorization': `Bearer ${token}`
+//          }
+//       });
 
-      let weight = 0;
-      let hba1c = 0;
+//       let weight = 0;
+//       let hba1c = 0;
 
-      if (Array.isArray(response.data) && response.data.length > 0) {
-         // 處理體重記錄
-         const saturdayRecords = response.data
-            .filter(record => {
-               const recordDate = new Date(record.createAt);
-               // 記錄日期必須是週六且在目標日期之前（或同一天）
-               return recordDate.getDay() === 6 && 
-                      recordDate <= date && 
-                      record.weeklyWeight > 0;
-            })
-            .sort((a, b) => new Date(b.createAt) - new Date(a.createAt));
+//       if (Array.isArray(response.data) && response.data.length > 0) {
+//          // 處理體重記錄
+//          const saturdayRecords = response.data
+//             .filter(record => {
+//                const recordDate = new Date(record.createAt);
+//                // 記錄日期必須是週六且在目標日期之前（或同一天）
+//                return recordDate.getDay() === 6 && 
+//                       recordDate <= date && 
+//                       record.weeklyWeight > 0;
+//             })
+//             .sort((a, b) => new Date(b.createAt) - new Date(a.createAt));
 
-         console.log('Available weight records:', saturdayRecords.map(r => ({
-            date: new Date(r.createAt).toLocaleDateString(),
-            weight: r.weeklyWeight
-         })));
+//          console.log('Available weight records:', saturdayRecords.map(r => ({
+//             date: new Date(r.createAt).toLocaleDateString(),
+//             weight: r.weeklyWeight
+//          })));
 
-         // 處理 HbA1c 記錄
-         const quarterRecords = response.data
-            .filter(record => {
-               const recordDate = new Date(record.createAt);
-               const recordMonth = recordDate.getMonth() + 1;
-               const recordDay = recordDate.getDate();
+//          // 處理 HbA1c 記錄
+//          const quarterRecords = response.data
+//             .filter(record => {
+//                const recordDate = new Date(record.createAt);
+//                const recordMonth = recordDate.getMonth() + 1;
+//                const recordDay = recordDate.getDate();
                
-               // 檢查是否是常規的季度末日期或測試日期(12/4)
-               const isValidDate = (recordMonth === 3 && recordDay === 31) ||
-                                 (recordMonth === 6 && recordDay === 30) ||
-                                 (recordMonth === 9 && recordDay === 30) ||
-                                 (recordMonth === 12 && recordDay === 31) ||
-                                 (recordMonth === 12 && recordDay === 4);  // 加入測試日期
+//                // 檢查是否是常規的季度末日期或測試日期(12/4)
+//                const isValidDate = (recordMonth === 3 && recordDay === 31) ||
+//                                  (recordMonth === 6 && recordDay === 30) ||
+//                                  (recordMonth === 9 && recordDay === 30) ||
+//                                  (recordMonth === 12 && recordDay === 31) ||
+//                                  (recordMonth === 12 && recordDay === 4);  // 加入測試日期
                
-               // 記錄日期必須在目標日期之前（或同一天）且有 HbA1c 值
-               return isValidDate && 
-                      recordDate <= date && 
-                      record.HbA1c > 0;
-            })
-            .sort((a, b) => new Date(b.createAt) - new Date(a.createAt));
+//                // 記錄日期必須在目標日期之前（或同一天）且有 HbA1c 值
+//                return isValidDate && 
+//                       recordDate <= date && 
+//                       record.HbA1c > 0;
+//             })
+//             .sort((a, b) => new Date(b.createAt) - new Date(a.createAt));
 
-         console.log('Available HbA1c records:', quarterRecords.map(r => ({
-            date: new Date(r.createAt).toLocaleDateString(),
-            hba1c: r.HbA1c
-         })));
+//          console.log('Available HbA1c records:', quarterRecords.map(r => ({
+//             date: new Date(r.createAt).toLocaleDateString(),
+//             hba1c: r.HbA1c
+//          })));
 
-         // 使用最新的有效記錄
-         if (saturdayRecords.length > 0) {
-            weight = saturdayRecords[0].weeklyWeight;
-            console.log('Selected weight value:', weight, 
-                       'from date:', new Date(saturdayRecords[0].createAt).toLocaleDateString());
-         }
+//          // 使用最新的有效記錄
+//          if (saturdayRecords.length > 0) {
+//             weight = saturdayRecords[0].weeklyWeight;
+//             console.log('Selected weight value:', weight, 
+//                        'from date:', new Date(saturdayRecords[0].createAt).toLocaleDateString());
+//          }
 
-         if (quarterRecords.length > 0) {
-            hba1c = quarterRecords[0].HbA1c;
-            console.log('Selected HbA1c value:', hba1c, 
-                       'from date:', new Date(quarterRecords[0].createAt).toLocaleDateString());
-         }
-      }
+//          if (quarterRecords.length > 0) {
+//             hba1c = quarterRecords[0].HbA1c;
+//             console.log('Selected HbA1c value:', hba1c, 
+//                        'from date:', new Date(quarterRecords[0].createAt).toLocaleDateString());
+//          }
+//       }
 
-      return { weight, hba1c };
-   } catch (error) {
-      console.error('獲取記錄失敗:', error);
-      return { weight: 0, hba1c: 0 };
-   }
-}
+//       return { weight, hba1c };
+//    } catch (error) {
+//       console.error('獲取記錄失敗:', error);
+//       return { weight: 0, hba1c: 0 };
+//    }
+// }
 // 取得對應的體重和HbA1c值 API End //
 
+// 上傳健康紀錄 API Start //
 // 上傳健康紀錄 API Start //
 export function addHealthRecord(healthData) {
    const token = sessionStorage.getItem('session');
@@ -245,55 +246,96 @@ export function addHealthRecord(healthData) {
    // 保持日期部分，但使用當前時間
    targetDate.setHours(now.getHours(), now.getMinutes(), now.getSeconds(), now.getMilliseconds());
    
-   // 確保我們使用的是正確的本地日期
    console.log('Preparing to save record for:', {
       targetDate: getLocalDateString(targetDate),
       createAt: targetDate.toISOString()
    });
 
-   return getValidWeightAndHbA1c(targetDate).then(({ weight, hba1c }) => {
-      const recordData = {
-         dailySteps: Number(healthData.steps),
-         dailyJoggingTime: healthData.walkingTimes.reduce((a, b) => Number(a) + Number(b), 0),
-         dailyDietGoal: healthData.diet === '是' ? `是(${healthData.selectedMeals.join('、')})` : '否',
-         weeklyWeight: healthData.weight ? Number(healthData.weight) : weight,
-         HbA1c: healthData.hba1c ? Number(healthData.hba1c) : hba1c,
-         createAt: targetDate.toISOString()
-      };
+   // 構建記錄數據，確保所有欄位都有預設值
+   const recordData = {
+      createAt: targetDate.toISOString()
+   };
 
-      console.log('Sending record with time:', {
-         recordData,
-         localDate: getLocalDateString(targetDate)
+   // 只在有實際輸入值時覆蓋預設值
+   if (healthData.steps !== '' && healthData.steps !== undefined) {
+      recordData.dailySteps = Number(healthData.steps);
+   }
+
+   if (healthData.walkingTime !== '' && healthData.walkingTime !== undefined) {
+      recordData.dailyJoggingTime = Number(healthData.walkingTime);
+   }
+
+   if (healthData.diet) {
+      recordData.dailyDietGoal = healthData.diet === '是' && healthData.selectedMeals?.length > 0
+         ? `是(${healthData.selectedMeals.join('、')})`
+         : healthData.diet;
+   }
+
+   if (healthData.weight !== '' && healthData.weight !== undefined) {
+      recordData.weeklyWeight = Number(healthData.weight);
+   }
+
+   if (healthData.hba1c !== '' && healthData.hba1c !== undefined) {
+      recordData.HbA1c = Number(healthData.hba1c);
+   }
+
+   console.log('Sending record with time:', {
+      recordData,
+      localDate: getLocalDateString(targetDate)
+   });
+   
+   return API.post('user/health-records', recordData, {
+      headers: {
+         'Content-Type': 'application/json',
+         'Authorization': `Bearer ${token}` 
+      }
+   })
+   .then((response) => {
+      console.log('Server response:', {
+         data: response.data,
+         localDate: getLocalDateString(response.data.createAt)
       });
       
-      return API.post('user/health-records', recordData, {
-         headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}` 
-         }
-      })
-      .then((response) => {
-         console.log('Server response:', {
-            data: response.data,
-            localDate: getLocalDateString(response.data.createAt)
-         });
-         
-         // 確保返回的數據使用正確的本地時間
-         const returnData = {
-            ...response.data,
-            createAt: response.data.createAt
-         };
-         
-         alert('健康紀錄儲存成功');
-         return returnData;
-      })
-      .catch((error) => {
-         console.error('健康紀錄儲存失敗:', error);
-         throw error;
-      });
+      alert('健康紀錄儲存成功');
+      return response.data;
+   })
+   .catch((error) => {
+      console.error('健康紀錄儲存失敗:', error);
+      throw error;
    });
 }
 // 上傳健康紀錄 API End //
+
+// 取得特定日期的所有健康紀錄
+export function getAllHealthRecordsByDate(dateString) {
+   const targetDate = new Date(dateString);
+   targetDate.setHours(0, 0, 0, 0);
+   
+   const formattedDate = `${targetDate.getFullYear()}-${String(targetDate.getMonth() + 1).padStart(2, '0')}-${String(targetDate.getDate()).padStart(2, '0')}`;
+   
+   const token = sessionStorage.getItem('session');
+ 
+   return API.get(
+     'user/health-records',
+     {
+       params: {
+         startAt: formattedDate,
+         endAt: formattedDate
+       },
+       headers: {
+         'Authorization': `Bearer ${token}`
+       }
+     }
+   ).then((response) => {
+     if (Array.isArray(response.data)) {
+       const targetDateStr = getLocalDateString(targetDate);
+       return response.data.filter(record => 
+         getLocalDateString(record.createAt) === targetDateStr
+       ).sort((a, b) => new Date(b.createAt) - new Date(a.createAt));
+     }
+     return [];
+   });
+ }
 
 // 取得健康紀錄 API Start //
 export function getHealthRecordByDate(dateString) {

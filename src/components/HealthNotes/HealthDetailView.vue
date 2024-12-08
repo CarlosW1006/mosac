@@ -137,7 +137,7 @@
 <script>
 import { ref, computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { getHealthRecordByDate, changeDate } from '../../api/healthNote';
+import { changeDate, getAllHealthRecordsByDate } from '../../api/healthNote';
 
 export default {
    name: 'healthDetailViewPage',
@@ -155,31 +155,6 @@ export default {
       const loading = ref(false);
       const isRecordsExpanded = ref(false);
       const uploadedRecords = ref([]);
-
-      // 模擬的上傳記錄數據
-   const mockUploadedRecords = [
-      {
-         id: 1,
-         createAt: '2024-12-08T09:30:00',
-         dailySteps: 5000,
-         dailyJoggingTime: 30,
-         dailyDietGoal: '是 (早餐, 午餐)',
-      },
-      {
-         id: 2,
-         createAt: '2024-12-08T14:15:00',
-         dailySteps: 8000,
-         dailyJoggingTime: 45,
-         dailyDietGoal: '是 (早餐, 午餐, 晚餐)',
-      },
-      {
-         id: 3,
-         createAt: '2024-12-08T20:00:00',
-         dailySteps: 10000,
-         dailyJoggingTime: 60,
-         dailyDietGoal: '是 (早餐, 午餐, 晚餐)',
-      }
-   ];
 
       // 判斷是否有記錄的計算屬性
       const hasRecord = computed(() => {
@@ -232,88 +207,144 @@ export default {
          isRecordsExpanded.value = !isRecordsExpanded.value;
       };
 
-      // 編輯上傳的記錄
-      const editUploadedRecord = (record) => {
-         // 將記錄存入 sessionStorage
-         sessionStorage.setItem('editing-record', JSON.stringify(record));
-         // 導航到編輯頁面
-         router.push({
-            path: '/healthDetailEdit',
-            query: { 
-               date: route.query.date,
-               recordId: record.id
-            }
-         });
-      };
+      // // 編輯上傳的記錄
+      // const editUploadedRecord = (record) => {
+      //    // 將記錄存入 sessionStorage
+      //    sessionStorage.setItem('editing-record', JSON.stringify(record));
+      //    // 導航到編輯頁面
+      //    router.push({
+      //       path: '/healthDetailEdit',
+      //       query: { 
+      //          date: route.query.date,
+      //          recordId: record.id
+      //       }
+      //    });
+      // };
+
+      // onMounted(async () => {
+      //    const dateString = route.query.date;
+      //    if (!dateString) {
+      //       console.error('未提供日期參數');
+      //       return;
+      //    }
+
+      //    loading.value = true;
+      //    try {
+      //       // 暫時使用模擬數據
+      //    uploadedRecords.value = mockUploadedRecords;
+      //       // 先檢查 sessionStorage 中是否有暫存的記錄
+      //       const cachedRecord = sessionStorage.getItem('temp-health-record');
+      //       if (cachedRecord) {
+      //          const record = JSON.parse(cachedRecord);
+      //          // 清除暫存
+      //          sessionStorage.removeItem('temp-health-record');
+               
+      //          // 直接使用暫存的記錄
+      //          processRecord(record);
+      //       } else {
+      //          // 如果沒有暫存，再從 API 獲取
+      //          const recordData = await getHealthRecordByDate(dateString);
+      //          processRecord(recordData);
+      //       }
+      //    } catch (error) {
+      //       console.error('載入健康紀錄失敗:', error);
+      //       setEmptyRecord();
+      //    } finally {
+      //       loading.value = false;
+      //    }
+      // });
 
       onMounted(async () => {
          const dateString = route.query.date;
          if (!dateString) {
-            console.error('未提供日期參數');
-            return;
+         console.error('未提供日期參數');
+         return;
          }
 
          loading.value = true;
          try {
-            // 暫時使用模擬數據
-         uploadedRecords.value = mockUploadedRecords;
-            // 先檢查 sessionStorage 中是否有暫存的記錄
-            const cachedRecord = sessionStorage.getItem('temp-health-record');
-            if (cachedRecord) {
-               const record = JSON.parse(cachedRecord);
-               // 清除暫存
-               sessionStorage.removeItem('temp-health-record');
-               
-               // 直接使用暫存的記錄
-               processRecord(record);
-            } else {
-               // 如果沒有暫存，再從 API 獲取
-               const recordData = await getHealthRecordByDate(dateString);
-               processRecord(recordData);
-            }
-         } catch (error) {
-            console.error('載入健康紀錄失敗:', error);
+         // 獲取當天所有記錄
+         const records = await getAllHealthRecordsByDate(dateString);
+         uploadedRecords.value = records.map(record => ({
+            id: record.id,
+            createAt: record.createAt,
+            dailySteps: record.dailySteps,
+            dailyJoggingTime: record.dailyJoggingTime,
+            dailyDietGoal: record.dailyDietGoal,
+            weeklyWeight: record.weeklyWeight,
+            HbA1c: record.HbA1c
+         }));
+
+         // 處理最新記錄的顯示
+         if (records.length > 0) {
+            processRecord(records);
+         } else {
             setEmptyRecord();
+         }
+         } catch (error) {
+         console.error('載入健康紀錄失敗:', error);
+         setEmptyRecord();
          } finally {
-            loading.value = false;
+         loading.value = false;
          }
       });
 
       // 處理記錄的輔助函數
-      function processRecord(recordData) {
-         if (!recordData) {
+      function processRecord(records) {
+         if (!records || records.length === 0) {
             setEmptyRecord();
             return;
          }
 
-         const recordDate = changeDate(recordData.createAt);
+         // 先檢查第一筆記錄的日期是否符合目標日期
+         const recordDate = changeDate(records[0].createAt);
          const currentDate = changeDate(route.query.date);
          
          if (recordDate === currentDate) {
-            const isComplete = 
-               recordData.dailySteps != null &&
-               recordData.dailyJoggingTime != null &&
-               recordData.dailyDietGoal != null;
+            // 計算所有記錄的步數和慢跑時間總和
+            const totalSteps = records.reduce((sum, record) => {
+               return sum + (record.dailySteps || 0);
+            }, 0);
 
-            if (isComplete) {
-               healthInfo.value = {
-                  steps: recordData.dailySteps,
-                  walkingTimes: [recordData.dailyJoggingTime],
-                  diet: recordData.dailyDietGoal.startsWith('是') ? '是' : '否',
-                  selectedMeals: recordData.dailyDietGoal.startsWith('是') 
-                     ? recordData.dailyDietGoal.match(/早餐|午餐|晚餐/g) || []
-                     : [],
-                  // 只在有值時設置體重和HbA1c
-                  weight: recordData.weeklyWeight || null,
-                  hba1c: recordData.HbA1c || null
-               };
-            } else {
-               setEmptyRecord();
-            }
+            const totalJoggingTime = records.reduce((sum, record) => {
+               return sum + (record.dailyJoggingTime || 0);
+            }, 0);
+
+            // 獲取最新記錄（陣列中的第一筆，因為已經按時間排序）
+            const latestRecord = records[0];
+
+            // 設置健康資訊
+            healthInfo.value = {
+               // 步數和慢跑時間使用總和
+               steps: totalSteps,
+               walkingTimes: [totalJoggingTime],
+               
+               // 飲食目標使用最新記錄
+               diet: latestRecord.dailyDietGoal.startsWith('是') ? '是' : '否',
+               selectedMeals: latestRecord.dailyDietGoal.startsWith('是') 
+                  ? latestRecord.dailyDietGoal.match(/早餐|午餐|晚餐/g) || []
+                  : [],
+               
+               // 體重和 HbA1c 只在有值時才設置
+               weight: latestRecord.weeklyWeight || null,
+               hba1c: latestRecord.HbA1c || null
+            };
          } else {
             setEmptyRecord();
          }
       }
+
+      // 編輯上傳的記錄
+      const editUploadedRecord = (record) => {
+         router.push({
+         path: '/healthDetailEdit',
+         query: { 
+            date: route.query.date,
+            recordId: record.id,
+            recordTime: new Date(record.createAt).toISOString()
+         }
+         });
+      };
 
       // 設置空記錄的輔助函數
       const setEmptyRecord = () => {
@@ -346,7 +377,7 @@ export default {
 
       const editHealthRecord = () => {
          router.push({
-            path: '/healthDetailEdit',
+            path: '/healthDetailForm',
             query: { date: route.query.date }
          });
       };
@@ -365,7 +396,7 @@ export default {
          sortedRecords,
          formatTime,
          editUploadedRecord,
-         mockUploadedRecords
+         //mockUploadedRecords
       };
    }
 };
@@ -401,7 +432,6 @@ export default {
       width: 100%;
       height: 2em !important;
       margin-top: 1em;
-      margin-bottom: 1em;
    }
 
    .loading-container {
@@ -412,17 +442,17 @@ export default {
       min-height: 300px;
    }
 
-   @media screen and (max-width: 1000px) {
+   @media screen and (max-width: 1200px) {
       /* common */
       .list-title {
-            height: auto;
-            font-size: 1.3em;
-         }
+         height: auto;
+         font-size: 1.3em;
+      }
 
-         .page-title {
-            font-size: 1.5em;
-            margin-left: 0.05em;
-         }
+      .page-title {
+         font-size: 1.5em;
+         margin-left: 0.05em;
+      }
       /* common */
       .hd-title{
          font-size: 1.3em;
