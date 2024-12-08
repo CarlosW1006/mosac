@@ -226,6 +226,19 @@ input[type="radio"]{
    font-weight: bold;
 }
 
+/* 詳細記錄樣式 */
+.detail-record-date {
+   font-size: 1.2em;
+   color: #76caad;
+   font-weight: 500;
+}
+
+.detail-record-hour {
+   font-size: 1.1em;
+   color: #666;
+   margin-left: 0.5em;
+}
+
 /* 上傳記錄區塊樣式 */
 .upload-records-container {
    margin-top: 0;
@@ -284,6 +297,7 @@ input[type="radio"]{
    border-bottom: 1px solid #e0e0e0;
    min-height: 70px; /* 確保每個項目有固定的最小高度 */
    font-size: 1.2em;
+   gap: 1em;
 }
 
 .record-item:last-child {
@@ -294,6 +308,20 @@ input[type="radio"]{
    display: flex;
    align-items: center;
    gap: 1em;
+   
+}
+
+/* 記錄時間樣式 */
+.record-date {
+   font-size: 1.3em;
+   color: #76caad;  /* 使用主題綠色 */
+   font-weight: 500;
+   margin-right: 0.5em;
+}
+
+.record-hour {
+   font-size: 1.1em;
+   color: #666;  /* 較淺的灰色 */
 }
 
 .record-time {
@@ -417,5 +445,32 @@ input[type="radio"]{
       font-size: 1.6em;
       padding: 1.5em;
    }
+
+   .record-date,
+   .record-hour {
+      font-size: 1.2em;
+   }
+
+   .detail-record-date,
+   .detail-record-hour {
+      font-size: 1.2em;
+   }
 }
+
+@media (min-width: 1280px) and (max-width: 1380px) {
+   .record-time {
+      font-size: 1.3em;
+   }
+}
+
+@media (min-width: 1200px) and (max-width: 1280px) {
+   .record-time {
+      font-size: 1.1em;
+   }
+
+   .record-status {
+      font-size: 1.1em;
+   }
+}
+
 
