@@ -1,18 +1,20 @@
 export function checkDateDurant() {
-   const today = new Date().toLocaleDateString();
-   const firstBeginExchangeDate = '2024/11/20';
-   const firstEndExchangeDate = '2024/11/22';
-   const secondBeginExchangeDate = '2024/12/20';
-   const secondEndExchangeDate = '2024/12/22';
+   const today = new Date();
+   const firstBeginExchangeDate = new Date('2024/12/03');
+   const firstEndExchangeDate = new Date('2024/12/08');
+   const secondBeginExchangeDate = new Date('2025/09/01');
+   const secondEndExchangeDate = new Date('2025/09/14');
 
    try {
-      if((today>=firstBeginExchangeDate && today<=firstEndExchangeDate) || 
-      (today>=secondBeginExchangeDate && today<=secondEndExchangeDate)) {
-         return(true);
+      if (
+         (today >= firstBeginExchangeDate && today <= firstEndExchangeDate) || 
+         (today >= secondBeginExchangeDate && today <= secondEndExchangeDate)
+      ) {
+         return true;
       } else {
-         return(false);
+         return false;
       }
-   } catch(error) {
+   } catch (error) {
       alert(error);
    }
    

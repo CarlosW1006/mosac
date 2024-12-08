@@ -1,8 +1,14 @@
 <template>
+   <v-alert class="sysAlert" :key="alertKey" type="warning" v-show="showAlert" @close="showAlert = false">
+      <div class="flex-container">
+         <p>忘記密碼時請通知系統管理者，重新設置您的密碼</p>
+         <v-icon class="close-icon" closable @click="closeAlert">mdi-close</v-icon>
+      </div>
+   </v-alert>
    <div class="center-container">
-      <v-sheet class="mx-auto" > 
+      <v-sheet class="mx-auto">
          <p class="sys-title">自我健康管理雲端平台</p>
-         <div class="login-frame" @submit.prevent @keyup.enter="sendAuth">
+         <form class="login-frame" @submit.prevent="sendAuth">
             <h2 class="frame-title">登入</h2> 
             
             <v-text-field v-model="credential" label="請輸入您的帳號" solo>
@@ -20,26 +26,26 @@
 
             <div class="flex-container-login">
                <label class="verify-frame"><p>{{ verifyCodeArr.verify_num1 }}+{{ verifyCodeArr.verify_num2 }}=?</p></label>
-               <v-text-field v-model="verifyAnswer" label="請輸入驗證碼">
-               </v-text-field>
+               <v-text-field v-model="verifyAnswer" label="請輸入驗證碼"></v-text-field>
             </div>
 
             <div class="flex-container-login">
-               <a href="#/forgotPwd" class="text-body-2 font-weight-regular forgot-pwd">忘記密碼?</a>
-               <button class="text-body-2 font-weight-regular change-vcode" @click="callVerify()">重新產生驗證碼</button>
+               <button type="button" class="text-body-2 font-weight-regular forgot-pwd" @click="showNormalAlert()">忘記密碼?</button>
+               <button type="button" class="text-body-2 font-weight-regular change-vcode" @click="callVerify()">重新產生驗證碼</button>
             </div><br>
 
             <!-- 按鈕點擊觸發 sendAuth -->
-            <v-btn @click="sendAuth" block class="mt-2 login-btn">
+            <v-btn type="submit" block class="mt-2 login-btn">
                <h3>登入</h3>
             </v-btn>
-         </div>
+         </form>
       </v-sheet>
    </div>
 
    <!-- 等待執行結果動畫 -->
    <isLoading :active="isLoading" color="#76caad"/>
 </template>
+
 
 <script>
    import { ref } from 'vue';
@@ -57,6 +63,18 @@
          const verifyCodeArr = ref('');
          const router = useRouter();
          const showPassword = ref(false);
+
+         const showAlert = ref(false);
+         const alertKey = ref(0); // 用於控制重新渲染的 key
+
+         function showNormalAlert() {
+            showAlert.value = true;
+            alertKey.value++; // 每次重新觸發時改變 key
+         }
+
+         function closeAlert() {
+            showAlert.value = false; // 確保警告框狀態被正確同步
+         }
 
          // 取得驗證碼資料
          askVerify(verifyCodeArr);
@@ -91,6 +109,8 @@
 
          return {
             password,
+            alertKey,
+            showAlert,
             isLoading,
             credential,
             showPassword,
@@ -98,6 +118,8 @@
             verifyCodeArr,
             
             sendAuth,
+            closeAlert,
+            showNormalAlert,
             callVerify,
             PasswordVisible,
          };

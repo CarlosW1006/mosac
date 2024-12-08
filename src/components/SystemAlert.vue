@@ -2,7 +2,7 @@
    <div v-if="dataReady && showAlert" class="overlay">
       <v-card class="system-alert">
          <v-card-title class="alert-title">
-            <span class="alert-title-font">提示訊息</span>
+            <span class="alert-title-font">通知訊息</span>
             <v-btn icon @click="closeAlert" class="close-btn">
                <v-icon>mdi-close</v-icon>
             </v-btn>

@@ -1,5 +1,4 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
-import { askAccInfo, askTargetInfo } from '../api/accInfo.js';
 
 const routes = [
    {
@@ -7,21 +6,9 @@ const routes = [
       redirect: '/letmein',  // 通配符路由來處理未定義的路徑
    },
    {
-      path: '/',
-      redirect: '/letmein',  // 當訪問根路徑時，重定向到 /index
-   },
-   {
       path: '/letmein',
       name: 'letmeinPage',
       component: () => import('../components/Letmein.vue'),
-      meta: {
-         requiresAuth: false // 不需要 session 認證
-      }
-   },
-   {
-      path: '/forgotPwd',
-      name: 'forgotpwdPage',
-      component: () => import('../components/ForgotPwd.vue'),
       meta: {
          requiresAuth: false // 不需要 session 認證
       }
@@ -57,16 +44,6 @@ const routes = [
       meta: {
          requiresAuth: true // 需要 session 認證
       },
-      beforeEnter: async (to, from, next) => {
-         // 在進入路由之前呼叫 API 取得資料
-         const accInfo = await askAccInfo();
-         const accTargetInfo = await askTargetInfo();
-
-         to.meta.accInfo = accInfo;
-         to.meta.accTargetInfo = accTargetInfo;
-
-         next();
-      }
    },
    {
       path: '/userPoints',
@@ -80,6 +57,14 @@ const routes = [
       path: '/groupRank',
       name: 'groupRankPage',
       component: () => import('../components/AccInfo/GroupRank.vue'),
+      meta: {
+         requiresAuth: true // 需要 session 認證
+      }
+   },
+   {
+      path: '/groupFeedback',
+      name: 'groupFeedbackPage',
+      component: () => import('../components/AccInfo/GroupFeedback.vue'),
       meta: {
          requiresAuth: true // 需要 session 認證
       }
@@ -195,7 +180,7 @@ router.beforeEach((to, from, next) => {
    const accType = sessionStorage.getItem('accType');
    const hasPendingSurvey = sessionStorage.getItem('hasPendingSurvey');
    const expertPaths = [ '/letmein', '/index', '/careGarden', '/careGardenView', 
-   '/meetInfo', '/meetDetail', '/accountInfo', '/changePwd', './systemNotice' ];
+   '/meetInfo', '/meetDetail', '/accountInfo', '/changePwd', '/systemNotice' ];
 
    if (!expertPaths.includes(to.path) && accType == 1) {
       alert('該帳號無權限使用此頁面');

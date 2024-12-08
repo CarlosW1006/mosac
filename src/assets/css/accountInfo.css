@@ -122,6 +122,19 @@ table {
    margin-bottom: 0.7em;
 }
 
+.feedback-container {
+   width: 100%;
+   height: auto;
+   min-height: 35em;
+   margin-bottom: 1.5em;
+   border: 1.5px solid #76caad;
+}
+
+.feedback-font {
+   margin: 0.5em;
+   height: 10em;
+}
+
 @media screen and (max-width: 1200px) {
    .tableInnerFrame {
       margin: 0 1em 0;

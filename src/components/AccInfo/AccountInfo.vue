@@ -49,7 +49,7 @@
             </v-col>
 
             <!-- 減重階段/目標 -->
-            <v-col v-col cols="12" sm="12" md="6" lg="6" v-if="accType == 0">
+            <v-col cols="12" sm="12" md="6" lg="6" v-if="accType == 0">
                <v-card>
                   <v-list-item class="list-title">
                      <h3 class="page-title">減重階段/目標</h3>
@@ -94,10 +94,10 @@
 
 <script>
    import { ref } from 'vue';
-   import { useRoute } from 'vue-router';
    import { useWindowWidth } from '../JS/winwidth.js';
    import { changeAccInfo } from '../../api/accInfo.js';
    import userImage from '../../assets/images/user.png';
+   import { askAccInfo, askTargetInfo } from '../../api/accInfo.js';
 
    export default {
       name: 'accInfoPage',
@@ -105,14 +105,19 @@
       setup() {
          let isLoading = ref(false);
          let accType = sessionStorage.getItem('accType');
+         let accInfoArr = ref('');
+         let accTargetInfoArr = ref('');
 
          const { winwidth } = useWindowWidth();
          const accname = ref('');
 
-         // 使用 useRoute 取得從路由 meta 傳來的資料
-         const route = useRoute();
-         const accInfoArr = ref(route.meta.accInfo || {});
-         const accTargetInfoArr = ref(route.meta.accTargetInfo || {});
+         askAccInfo().then((result) => { 
+            accInfoArr.value = result;
+         });
+
+         askTargetInfo().then((result) => {
+            accTargetInfoArr.value = result;
+         })
 
          async function handleSave(accname) { 
             isLoading.value = true;

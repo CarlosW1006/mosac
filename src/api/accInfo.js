@@ -2,7 +2,7 @@ import API from './apiInstance.js';
 
 // 取得帳號資料 API Start //
 export function askAccInfo() { 
-   return API.get('user').then((response) => {
+   return API.get('user').then((response) => { 
       const credential = response.data.credential;
       const userType = { 0: "一般用戶", 1: "專家帳號", 2: "系統管理者"}[response.data.userType];
       const name = response.data.name;
@@ -24,22 +24,34 @@ export function askAccInfo() {
 
 // 取得目標資料 API Start //
 export function askTargetInfo() {
-   return API.get('user/health-targets?latest=true').then((response) => { 
-      const currentPhase = { 0: "意圖前期", 1: "意圖期", 2: "準備期", 3: "行動期", 4: "維持期" }[response.data[0].phase];
-      const currentWeight = response.data[0].weeklyWeight;
-      const currentSteps = response.data[0].dailySteps;
-      const currentJogTime = response.data[0].dailyJoggingTime;
+   return API.get('user/health-targets?latest=true')
+      .then((response) => {
+         // 初始化變數，設置默認值
+         let currentPhase = 'none';
+         let currentWeight = 'none';
+         let currentSteps = 'none';
+         let currentJogTime = 'none';
 
-      return { currentPhase, currentWeight, currentSteps, currentJogTime };
-   })
-   .catch((error) => {
-      if (error.response && error.response.data && error.response.data.message) {
-         alert(error.response.data.message); // 顯示伺服器返回的錯誤訊息
-      } else {
-         alert('資料處理發生異常，請聯絡系統管理員');
-      }
-   });
+         const targetData = response.data && response.data[0];
+
+         if (targetData) {
+            currentPhase = { 0: "意圖前期", 1: "意圖期", 2: "準備期", 3: "行動期", 4: "維持期" }[targetData.phase] || 'none';
+            currentWeight = targetData.weeklyWeight || 'none';
+            currentSteps = targetData.dailySteps || 'none';
+            currentJogTime = targetData.dailyJoggingTime || 'none';
+         }
+
+         return { currentPhase, currentWeight, currentSteps, currentJogTime };
+      })
+      .catch((error) => {
+         if (error.response && error.response.data && error.response.data.message) {
+            alert(error.response.data.message); // 顯示伺服器返回的錯誤訊息
+         } else {
+            alert('資料處理發生異常，請聯絡系統管理員' + error.message);
+         }
+      });
 }
+
 // 取得目標資料 API End //
 
 // 儲存帳號資料 API Start //

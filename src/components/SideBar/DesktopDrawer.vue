@@ -3,6 +3,22 @@
    <v-navigation-drawer class="cp-drawer" mobile-breakpoint="1200">
       <template v-slot:prepend>
          <div style="margin-bottom: 8.75em;"></div> <!-- 系統 icon -->
+
+         <div class="bar-btn-info-container">
+            <div v-if="accType != 1" class="messages">
+               <div class="flex-container">
+                  <a href="#/healthNotes" class="bar-btn-info">健康紀錄未填寫</a>
+                  <div class="info-number"><p>{{ uncompleteNumber }}</p></div>
+               </div>
+            </div>
+            <div class="messages">
+               <div class="flex-container">
+                  <a href="#/systemNotice" class="bar-btn-info">系統訊息通知數</a>
+                  <div class="info-number"><p>3</p></div>
+               </div>
+            </div>
+         </div>
+         
          <button :class="{'bar-btn': hashUrl !== '#/index', 
          'bar-btn-clicked': hashUrl === '#/index'}" @click="navigateToPath('index')">
             <div class="flex-container" style="justify-content: center;">
@@ -11,7 +27,7 @@
          </button>
 
          <div v-for="(item, index) in barButtons" :key="index">
-            <button v-if="accType !== 1" :class="{'bar-btn': hashUrl !== '#/' + item.path, 
+            <button v-if="accType != 1" :class="{'bar-btn': hashUrl !== '#/' + item.path, 
             'bar-btn-clicked': hashUrl === '#/' + item.path}" @click="navigateToPath(item.path)">
                <div class="flex-container" style="justify-content: center;">
                   <v-icon class="bar-btn-icon">{{ item.icon }}</v-icon>{{ item.title }}
@@ -29,9 +45,9 @@
          </div>
       </template>
 
-      <template v-slot:append>
+      <!-- <template v-slot:append>
          <div class="bar-btn-info-container">
-            <div v-if="accType !== 1" class="messages">
+            <div v-if="accType != 1" class="messages">
                <div class="flex-container">
                   <a href="#/healthNotes" class="bar-btn-info">健康紀錄未填寫</a>
                   <div class="info-number"><p>{{ uncompleteNumber }}</p></div>
@@ -44,7 +60,7 @@
                </div>
             </div>
          </div>
-      </template>
+      </template> -->
    </v-navigation-drawer>
 
    <!-- 電腦上方標題 -->
@@ -69,10 +85,10 @@
                   <div class="flex-container" style="align-items: center; justify-content: center;">
                      <v-icon>mdi-account-edit-outline</v-icon><a href="#/accountInfo"><p>帳號資料編輯</p></a>
                   </div>
-                  <div v-if="accType !== 1" class="flex-container" style="align-items: center; justify-content: center;">
+                  <div v-if="accType != 1" class="flex-container" style="align-items: center; justify-content: center;">
                      <v-icon>mdi-star-circle-outline</v-icon><a href="#/userPoints"><p>個人累積點數</p></a>
                   </div>
-                  <div v-if="accType !== 1" class="flex-container" style="align-items: center; justify-content: center;">
+                  <div v-if="accType != 1" class="flex-container" style="align-items: center; justify-content: center;">
                      <v-icon>mdi-account-group-outline</v-icon><a href="#/groupRank"><p>群組排名紀錄</p></a>
                   </div>
                   <div class="flex-container" style="align-items: center; justify-content: center;">

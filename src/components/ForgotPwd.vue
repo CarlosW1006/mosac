@@ -2,14 +2,17 @@
    <div class="center-container">
       <v-sheet class="mx-auto"> 
          <p class="sys-title">自我健康管理雲端平台</p>
-         <div class="login-frame" @keyup.enter="changeConfirm">
+         <form class="login-frame" @submit.prevent="changeConfirm(credential, password, password2, verifyAnswer)">
             <h2 class="frame-title">忘記密碼</h2> 
+            
+            <!-- 帳號輸入框 -->
             <v-text-field v-model="credential" label="請輸入您的帳號" solo>
                <template v-slot:prepend>
                   <v-icon>mdi-account</v-icon>
                </template>
             </v-text-field>
 
+            <!-- 新密碼輸入框 -->
             <v-text-field v-model="password" label="請輸入新的密碼" solo :type="showPassword ? 'text' : 'password'" 
             autocomplete :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'" @click:append-inner="toggleNewPasswordVisibility">
                <template v-slot:prepend>
@@ -17,6 +20,7 @@
                </template>
             </v-text-field>
 
+            <!-- 再次輸入新密碼框 -->
             <v-text-field v-model="password2" label="請再輸入新密碼" solo :type="showPassword2 ? 'text' : 'password'" 
             autocomplete :append-inner-icon="showPassword2 ? 'mdi-eye' : 'mdi-eye-off'" @click:append-inner="toggleNewPassword2Visibility">
                <template v-slot:prepend>
@@ -24,24 +28,30 @@
                </template>
             </v-text-field>
 
+            <!-- 驗證碼框 -->
             <div class="flex-container-login">
                <label class="verify-frame"><p>{{ verifyCodeArr.verify_num1 }}+{{ verifyCodeArr.verify_num2 }}=?</p></label>
                <v-text-field v-model="verifyAnswer" label="請輸入驗證碼"></v-text-field>
             </div>
 
+            <!-- 返回登入頁與重新產生驗證碼 -->
             <div class="flex-container-login">
                <a href="#/letmein" class="text-body-2 font-weight-regular forgot-pwd">返回登入頁</a>
-               <button class="text-body-2 font-weight-regular change-vcode" @click="callVerify()">重新產生驗證碼</button>
+               <button type="button" class="text-body-2 font-weight-regular change-vcode" @click="callVerify()">重新產生驗證碼</button>
             </div><br>
 
-            <v-btn @click="changeConfirm(credential, password, repassword, verifycode)" block class="mt-2 login-btn"><h3>確認</h3></v-btn>
-         </div>
+            <!-- 確認按鈕 -->
+            <v-btn type="submit" block class="mt-2 login-btn">
+               <h3>確認</h3>
+            </v-btn>
+         </form>
       </v-sheet>
    </div>
 
    <!-- 等待執行結果動畫 -->
    <isLoading :active="isLoading" color="#76caad"/>
 </template>
+
 
 <script>
    import { ref } from 'vue';
@@ -101,6 +111,7 @@
          
          return {
             credential,
+            isLoading,
             password,
             password2,
             verifyAnswer,

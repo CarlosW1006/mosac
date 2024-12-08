@@ -58,10 +58,6 @@
    background-color: #69c9a7 !important;
 }
 
-.router {
-   color: '#FF9898';
-}
-
 /* 電腦功能列 */
 .cp-drawer {
    overflow-y: auto;
@@ -158,6 +154,7 @@
 
 .sm-bar-btn-info {
    color: #69c9a7;
+   margin-bottom: 10px;
    text-decoration: none;
 }
 
@@ -174,6 +171,34 @@
 
 .sm-info-number p {
    color: #FFFFFF;
+}
+
+.sm-info-number2 {
+   width: 3em;
+   height: 3em;
+   margin-left: 0.5em;
+   border-radius: 50%;
+   display: flex;
+   text-align: center;
+   justify-content: center;
+   background-color: orange;
+}
+
+.sm-info-number2 p {
+   font-size: 2em;
+   color: #FFFFFF;
+}
+
+.bell-container {
+   margin: 0.3em 2.5em;
+}
+
+.bell-icon {
+   color: #FFFFFF !important;
+}
+
+.router {
+   color: '#FF9898';
 }
 
 /* 修改 v-list-item 樣式 */

@@ -58,7 +58,7 @@
                            <!-- <td class="col2"><strong>群組類別</strong></td> -->
                            <td class="col2"><strong>帳號暱稱</strong></td>
                            <td class="col2"><strong>群組排名</strong></td>
-                           <td class="col2"><strong>達成進度</strong></td>
+                           <td class="col2"><strong>減重進度</strong></td>
                            <td class="col2"><strong>心得回饋</strong></td>
                         </tr>
                      </thead>
@@ -70,14 +70,8 @@
                            <td><p>{{ item.nickname }}</p></td>
                            <td><p>第{{ item.rank }}名</p></td>
                            <td><p>{{ (item.completionRate*100).toFixed(2) }}%</p></td>
-                           <td>
-                              <button class="li-info expandBtn" @click="toggleCard(index)">檢視心得</button>
-                           </td>
-                        </tr>
-
-                        <tr v-if="showCard[index]" class="feedback">
-                           <td colspan="5">
-                              <p><strong>心得回饋：</strong>{{ item[3] }}</p>
+                           <td v-if="item.rank <= 3">
+                              <button class="li-info expandBtn" @click="navigateToPath('groupFeedback', item.id)">檢視心得</button>
                            </td>
                         </tr>
                      </tbody>
@@ -111,11 +105,12 @@
    import { getGroupRanking } from '../../api/groupRank.js';
    import { useWindowWidth } from '../JS/winwidth.js';
    import { ref } from 'vue';
+   import { useRouter } from 'vue-router'
 
    export default {
       name: 'accInfoPage',
       setup() {
-         const showCard = ref([]);
+         const router = useRouter();
          let rankingData = ref([]);
          let dataNumRange = ref([1, 10]);
          const selectedGroup = ref('1');
@@ -127,13 +122,6 @@
          const perPageNum = [10, 20, 30]; // 每頁資料筆數
          const { winwidth } = useWindowWidth();
          let session = sessionStorage.getItem('session');
-
-         function toggleCard(index) {
-            if (showCard.value[index] == undefined) {
-               showCard.value[index] = false;
-            }
-            showCard.value[index] = !showCard.value[index];
-         }
 
          function fetchRankingData() {
             getGroupRanking(selectedGroup.value, selectedMonth.value, perPageDataAmount.value)
@@ -181,9 +169,13 @@
          // 初始化查詢
          fetchRankingData();
 
+         // 功能列頁面轉址
+         function navigateToPath(path, uid) { 
+            router.push({ path: '/' + path, query: { uid: uid, phase: selectedGroup.value, month: selectedMonth.value }});
+         }
+
          return {
             session,
-            showCard,
             winwidth,
             perPageNum,
             curPageNum,
@@ -195,8 +187,8 @@
             curDataAmount,
             perPageDataAmount,
 
-            toggleCard,
             changePage,
+            navigateToPath,
             changePerPageNum,
             searchSpecifyGroup,
          };

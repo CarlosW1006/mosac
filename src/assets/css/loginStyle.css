@@ -1,3 +1,18 @@
+.sysAlert {
+   position: fixed;
+   width: 100%;
+}
+
+.sysAlert p {
+   font-size: 2em !important;
+   font-weight: 600;
+}
+
+.close-icon {
+   font-size: 3em !important;
+   margin-left: auto;
+}
+
 .v-sheet {
    width: 450px;
 }
@@ -85,6 +100,10 @@
 }
 
 @media screen and (max-width: 1000px) {
+   .sysAlert p {
+      font-size: 2em !important;
+   }
+
    .v-sheet {
       width: 90%;
    }

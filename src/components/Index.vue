@@ -224,7 +224,7 @@
          </v-col>
       </v-row>
    </v-container>
-   <SysAlert/>
+   <SysAlert v-if="accType == 0"/>
 </template>
 
 <script>

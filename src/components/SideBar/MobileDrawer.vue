@@ -3,12 +3,20 @@
    <v-app-bar style="background: linear-gradient(to right, #7bd7b7, #69c9a7);" elevation="0">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" style="color: white;"></v-app-bar-nav-icon>
       <v-spacer></v-spacer>
+      
+      <a class="bell-container flex-container" href="#/systemNotice" style="text-decoration: none;">
+         <v-icon class="bell-icon" size="28" style="cursor: pointer;">mdi-bell</v-icon>
+         <div class="sm-info-number2"><p>3</p></div>
+      </a>
+
       <div>
          <v-menu activator="parent">
             <template v-slot:activator="{ attrs }">
-               <div class="userName-container">
-               <a v-bind="attrs" class="userName2" style="cursor: pointer;">{{ accName }}</a>
-               <v-icon class="drop-down-btn2" size="30" style="cursor: pointer;">mdi-chevron-down</v-icon>
+               <div class="flex-container">
+                  <div class="userName-container">
+                     <a v-bind="attrs" class="userName2" style="cursor: pointer;">{{ accName }}</a>
+                     <v-icon class="drop-down-btn2" size="30" style="cursor: pointer;">mdi-chevron-down</v-icon>
+                  </div>
                </div>
             </template>
             
@@ -17,10 +25,10 @@
                   <div class="flex-container" style="align-items: center; justify-content: center;">
                      <v-icon>mdi-account-edit-outline</v-icon><a href="#/accountInfo"><p>帳號資料編輯</p></a>
                   </div>
-                  <div v-if="accType !== 1" class="flex-container" style="align-items: center; justify-content: center;">
+                  <div v-if="accType != 1" class="flex-container" style="align-items: center; justify-content: center;">
                      <v-icon>mdi-star-circle-outline</v-icon><a href="#/userPoints"><p>個人累積點數</p></a>
                   </div>
-                  <div v-if="accType !== 1" class="flex-container" style="align-items: center; justify-content: center;">
+                  <div v-if="accType != 1" class="flex-container" style="align-items: center; justify-content: center;">
                      <v-icon>mdi-account-group-outline</v-icon><a href="#/groupRank"><p>群組排名紀錄</p></a>
                   </div>
                   <div class="flex-container" style="align-items: center; justify-content: center;">
@@ -34,6 +42,13 @@
 
    <v-navigation-drawer v-model="drawer">
       <v-list>
+         <v-list-item v-if="accType != 1" class="sm-bar-btn">
+            <div class="flex-container sm-bar-btn-info">
+               <v-list-item-title><a href="#/healthNotes" class="sm-bar-btn-info">健康紀錄未填寫</a></v-list-item-title>
+               <div class="sm-info-number"><p>{{ uncompleteNumber }}</p></div>
+            </div>
+         </v-list-item>
+         
          <v-list-item link :class="{'sm-bar-btn': hashUrl !== '#/index', 
          'sm-bar-btn-clicked': hashUrl === '#/index'}" @click="navigateToPath('index')" style="margin-top: -0.35em;">
             <div class="flex-container">
@@ -42,7 +57,7 @@
             </div>
          </v-list-item>
 
-         <div v-if="accType !== 1">
+         <div v-if="accType != 1">
             <v-list-item v-for="(item, index) in barButtons" :key="index" link :class="{'sm-bar-btn': hashUrl !== '#/' + item.path, 
             'sm-bar-btn-clicked': hashUrl === '#/' + item.path}" @click="navigateToPath(item.path)">
                <div class="flex-container">
@@ -61,20 +76,6 @@
                </div>
             </v-list-item>
          </div>
-
-         <v-list-item v-if="accType !== 1" class="sm-bar-btn">
-            <div class="flex-container">
-               <v-list-item-title><a href="#/healthNotes" class="sm-bar-btn-info">健康紀錄未填寫</a></v-list-item-title>
-               <div class="sm-info-number"><p>{{ uncompleteNumber }}</p></div>
-            </div>
-         </v-list-item>
-         
-         <v-list-item class="sm-bar-btn">
-            <div class="flex-container">
-               <v-list-item-title><a href="#/systemNotice" class="sm-bar-btn-info">系統訊息通知數</a></v-list-item-title>
-               <div class="sm-info-number"><p>3</p></div>
-            </div>
-         </v-list-item>
       </v-list>
 
       <template v-slot:append>

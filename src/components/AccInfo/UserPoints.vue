@@ -28,8 +28,8 @@
 
          <v-btn :class="pointsChangable? 'exchange-btn':'unexchange-btn'" :disabled="!pointsChangable" 
          :ripple="false" @click="callExchangePoints()">我要兌換點數</v-btn>
-         <p class="exxhangeDateMsg">第一梯次 點數兌換時間：2025/04/01 ~ 04/14</p>
-         <p class="exxhangeDateMsg">第二梯次 點數兌換時間：2025/07/01 ~ 07/14</p>
+         <p class="exxhangeDateMsg">第一梯次 點數兌換時間：2025/06/01 ~ 06/14</p>
+         <p class="exxhangeDateMsg">第二梯次 點數兌換時間：2025/09/01 ~ 09/14</p>
       </v-col>
 
       <!-- 點數兌換紀錄功能區 -->
@@ -83,7 +83,7 @@
          let isLoading = ref(false);
          const accInfoArr = ref('');
          const pointsRecord = ref([]);
-         let pointsChangable = ref('');
+         let pointsChangable = ref(false);
 
          pointsChangable.value = checkDateDurant();
 

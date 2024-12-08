@@ -30,6 +30,7 @@ export function login(credential, password, verificationId, verifyAnswer) {
       }
    )
    .then((response) => {
+      console.log(response);
       const token = response.data.token;
       const userName = response.data.name;
       const userType = response.data.userType;

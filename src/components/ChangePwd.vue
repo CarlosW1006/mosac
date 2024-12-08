@@ -2,7 +2,7 @@
    <div class="center-container">
       <v-sheet class="mx-auto"> 
          <p class="sys-title">自我健康管理雲端平台</p>
-         <div class="login-frame" @keyup.enter="changeConfirm">
+         <form class="login-frame" @keyup.enter="changeConfirm(password, password2, verifyAnswer)">
             <h2 class="frame-title">修改密碼</h2>
 
             <v-text-field v-model="password" label="請輸入舊的密碼" solo :type="showPassword ? 'text' : 'password'" 
@@ -29,7 +29,7 @@
             </div><br>
 
             <v-btn @click="changeConfirm" block class="mt-2 login-btn"><h3>確認</h3></v-btn>
-         </div>
+         </form>
       </v-sheet>
    </div>
 
