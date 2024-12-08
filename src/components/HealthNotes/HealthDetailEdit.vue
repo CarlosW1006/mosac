@@ -107,7 +107,7 @@
 <script>
   import { ref, computed, onMounted } from 'vue';
   import { useRoute } from 'vue-router';
-  import { addHealthRecord, getAllHealthRecordsByDate } from '../../api/healthNote';
+  import { getAllHealthRecordsByDate, updateHealthRecord } from '../../api/healthNote';
 
   export default {
     name: 'healthDetailEditPage',
@@ -121,11 +121,10 @@
         hba1c: ''
       });
 
-      const breakfast = ref(null);
-      const lunch = ref(null);
-      const dinner = ref(null);
       const route = useRoute();
       const loading = ref(false);
+      const recordId = ref('');
+      const recordTime = ref('');
 
       const formattedDate = computed(() => {
          // 從路由參數中獲取日期
@@ -145,31 +144,36 @@
       // onMounted 部分的更新
       onMounted(async () => {
          const dateString = route.query.date;
-         const recordId = route.query.recordId;
+         const currentRecordId = route.query.recordId;
+         const currentRecordTime = route.query.recordTime;
 
-         if (!dateString || !recordId) {
+         if (!dateString || !currentRecordId || !currentRecordTime) {
             console.error('未提供必要參數');
             return;
          }
 
+         recordId.value = currentRecordId;
+         recordTime.value = currentRecordTime;
          loading.value = true;
+
          try {
             // 獲取特定記錄的數據
             const records = await getAllHealthRecordsByDate(dateString);
-            const recordData = records.find(record => record.id === recordId);
+            const recordData = records.find(record => record.id === currentRecordId);
 
             if (recordData) {
                // 設置資料但不包含複選框更新邏輯
                healthInfo.value = {
-               steps: recordData.dailySteps,
-               walkingTimes: recordData.dailyJoggingTime,
-               diet: recordData.dailyDietGoal.startsWith('是') ? '是' : '否',
-               selectedMeals: recordData.dailyDietGoal.startsWith('是') 
-                  ? recordData.dailyDietGoal.match(/早餐|午餐|晚餐/g) || []
-                  : [],
-               weight: recordData.weeklyWeight,
-               hba1c: recordData.HbA1c
+                  steps: recordData.dailySteps,
+                  walkingTimes: recordData.dailyJoggingTime,
+                  diet: recordData.dailyDietGoal.startsWith('是') ? '是' : '否',
+                  selectedMeals: recordData.dailyDietGoal.startsWith('是') 
+                     ? recordData.dailyDietGoal.match(/早餐|午餐|晚餐/g) || []
+                     : [],
+                  weight: recordData.weeklyWeight,
+                  hba1c: recordData.HbA1c
                };
+               recordTime.value = recordData.createAt;
             }
          } catch (error) {
             console.error('載入健康紀錄失敗:', error);
@@ -178,45 +182,40 @@
          }
          });
 
-      const saveHealthInfo = async () => {
-         if (!validateForm()) return;
-
-         loading.value = true;
-         try {
-            const selectedDate = route.query.date;
-            const currentTime = new Date();
+         const saveHealthInfo = async () => {
+            if (!recordId.value) {
+              console.error('無效的記錄ID');
+              return;
+            }
             
-            // 合併選擇的日期和當前時間
-            const targetDate = new Date(selectedDate);
-            targetDate.setHours(currentTime.getHours(), 
-                           currentTime.getMinutes(), 
-                           currentTime.getSeconds(), 
-                           currentTime.getMilliseconds());
+            loading.value = true;
 
-            // 儲存記錄
-            const savedRecord = await addHealthRecord({
+            try {
+            const selectedDate = route.query.date;
+            
+            // 使用 updateHealthRecord 更新記錄
+            const updatedRecord = await updateHealthRecord(recordId.value, {
                ...healthInfo.value,
-               date: targetDate.toISOString()
+               createAt: recordTime.value // 保持原始記錄的時間
             });
 
-            // 確保有完整的記錄數據
-            if (savedRecord) {
-               // 明確設置要保存的數據結構
+            if (updatedRecord) {
                const recordToCache = {
-                  ...savedRecord,
-                  createAt: targetDate.toISOString()
+                  ...updatedRecord,
+                  createAt: recordTime.value
                };
                sessionStorage.setItem('temp-health-record', JSON.stringify(recordToCache));
             }
 
             // 跳轉到檢視頁面
             window.location.href = `#/healthDetailView?date=${selectedDate}`;
-         } catch (error) {
-            console.error('儲存健康紀錄失敗:', error);
-         } finally {
-            loading.value = false;
-         }
-      };
+            } catch (error) {
+               console.error('更新健康紀錄失敗:', error);
+               alert('更新健康紀錄失敗，請稍後再試');
+            } finally {
+               loading.value = false;
+            }
+         };
 
       const hasRightContent = computed(() => {
          return isSaturday.value || needHbA1c.value;
@@ -240,41 +239,6 @@
                (month === 12 && date === 4); // 添加 12/4 的判斷
       });
 
-      // 新增表單驗證方法
-      const validateForm = () => {
-         // 步數驗證
-         if (!healthInfo.value.steps) {
-            alert('請輸入每日步數');
-            return false;
-         }
-
-         // 慢跑時間驗證
-         if (healthInfo.value.walkingTimes.every(time => time === 0)) {
-            alert('請輸入慢跑時間');
-            return false;
-         }
-
-         // 飲食目標驗證
-         if (healthInfo.value.diet === '是' && healthInfo.value.selectedMeals.length === 0) {
-            alert('請選擇至少一餐');
-            return false;
-         }
-
-         // 體重驗證（每週六才需要）
-         if (isSaturday.value && !healthInfo.value.weight) {
-            alert('請輸入每週體重');
-            return false;
-         }
-
-         // HbA1C驗證（特定日期才需要）
-         if (needHbA1c.value && !healthInfo.value.hba1c) {
-            alert('請輸入HbA1C數值');
-            return false;
-         }
-
-         return true;
-      };
-
       //表單背景(灰白)
       const isRedBg = (index) => {
          return{
@@ -289,9 +253,6 @@
         loading,
         saveHealthInfo,
         isRedBg,
-        breakfast,
-        lunch,
-        dinner,
         hasRightContent,
         isSaturday,
         needHbA1c,

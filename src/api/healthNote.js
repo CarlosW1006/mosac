@@ -16,12 +16,6 @@ export function getHealthRecords(monthKey) {
    return healthRecords.value.records[monthKey] || [];
 }
 
-// 將 UTC 時間轉換為當地日期字符串 (YYYY/MM/DD)
-// function formatLocalDate(date) {
-//    const localDate = new Date(date);
-//    return `${localDate.getFullYear()}/${String(localDate.getMonth() + 1).padStart(2, '0')}/${String(localDate.getDate()).padStart(2, '0')}`;
-// }
-
 function getLocalDateString(date) {
    const d = new Date(date);
    return `${d.getFullYear()}/${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}`;
@@ -139,104 +133,6 @@ export function inputHealthNoteGoal(stepGoal, joggingGoal){
 
 // 儲存每月目標 API End //
 
-// 取得對應的體重和HbA1c值 API Start //
-// async function getValidWeightAndHbA1c(targetDate) {
-//    const token = sessionStorage.getItem('session');
-//    const date = new Date(targetDate);
-   
-//    // 取得週的開始和結束日期（使用當地時間）
-//    const weekStart = new Date(date);
-//    weekStart.setDate(date.getDate() - date.getDay());
-//    const weekEnd = new Date(weekStart);
-//    weekEnd.setDate(weekStart.getDate() + 6);
-
-//    // 取得季度末日期
-//    //const quarterMonth = Math.floor(date.getMonth() / 3) * 3 + 2;
-//    //const quarterEnd = new Date(date.getFullYear(), quarterMonth + 1, 0);
-
-//    try {
-//       const startYear = `${date.getFullYear()}-01-01`;
-//       const endDate = formatLocalDate(date).replace(/\//g, '-');
-
-//       const response = await API.get('user/health-records', {
-//          params: {
-//             startAt: startYear,
-//             endAt: endDate
-//          },
-//          headers: {
-//             'Authorization': `Bearer ${token}`
-//          }
-//       });
-
-//       let weight = 0;
-//       let hba1c = 0;
-
-//       if (Array.isArray(response.data) && response.data.length > 0) {
-//          // 處理體重記錄
-//          const saturdayRecords = response.data
-//             .filter(record => {
-//                const recordDate = new Date(record.createAt);
-//                // 記錄日期必須是週六且在目標日期之前（或同一天）
-//                return recordDate.getDay() === 6 && 
-//                       recordDate <= date && 
-//                       record.weeklyWeight > 0;
-//             })
-//             .sort((a, b) => new Date(b.createAt) - new Date(a.createAt));
-
-//          console.log('Available weight records:', saturdayRecords.map(r => ({
-//             date: new Date(r.createAt).toLocaleDateString(),
-//             weight: r.weeklyWeight
-//          })));
-
-//          // 處理 HbA1c 記錄
-//          const quarterRecords = response.data
-//             .filter(record => {
-//                const recordDate = new Date(record.createAt);
-//                const recordMonth = recordDate.getMonth() + 1;
-//                const recordDay = recordDate.getDate();
-               
-//                // 檢查是否是常規的季度末日期或測試日期(12/4)
-//                const isValidDate = (recordMonth === 3 && recordDay === 31) ||
-//                                  (recordMonth === 6 && recordDay === 30) ||
-//                                  (recordMonth === 9 && recordDay === 30) ||
-//                                  (recordMonth === 12 && recordDay === 31) ||
-//                                  (recordMonth === 12 && recordDay === 4);  // 加入測試日期
-               
-//                // 記錄日期必須在目標日期之前（或同一天）且有 HbA1c 值
-//                return isValidDate && 
-//                       recordDate <= date && 
-//                       record.HbA1c > 0;
-//             })
-//             .sort((a, b) => new Date(b.createAt) - new Date(a.createAt));
-
-//          console.log('Available HbA1c records:', quarterRecords.map(r => ({
-//             date: new Date(r.createAt).toLocaleDateString(),
-//             hba1c: r.HbA1c
-//          })));
-
-//          // 使用最新的有效記錄
-//          if (saturdayRecords.length > 0) {
-//             weight = saturdayRecords[0].weeklyWeight;
-//             console.log('Selected weight value:', weight, 
-//                        'from date:', new Date(saturdayRecords[0].createAt).toLocaleDateString());
-//          }
-
-//          if (quarterRecords.length > 0) {
-//             hba1c = quarterRecords[0].HbA1c;
-//             console.log('Selected HbA1c value:', hba1c, 
-//                        'from date:', new Date(quarterRecords[0].createAt).toLocaleDateString());
-//          }
-//       }
-
-//       return { weight, hba1c };
-//    } catch (error) {
-//       console.error('獲取記錄失敗:', error);
-//       return { weight: 0, hba1c: 0 };
-//    }
-// }
-// 取得對應的體重和HbA1c值 API End //
-
-// 上傳健康紀錄 API Start //
 // 上傳健康紀錄 API Start //
 export function addHealthRecord(healthData) {
    const token = sessionStorage.getItem('session');
@@ -394,3 +290,50 @@ export function getHealthRecordByDate(dateString) {
    });
 }
 // 取得健康紀錄 API End //
+
+// 更新健康紀錄 API Start //
+export function updateHealthRecord(recordId, healthData) {
+   const token = sessionStorage.getItem('session');
+   
+   // 構建要更新的數據對象
+   const updateData = {};
+   
+   // 只包含有值的欄位
+   if (healthData.steps !== '' && healthData.steps !== undefined) {
+      updateData.dailySteps = Number(healthData.steps);
+   }
+
+   if (healthData.walkingTimes !== '' && healthData.walkingTimes !== undefined) {
+      updateData.dailyJoggingTime = Number(healthData.walkingTimes);
+   }
+
+   if (healthData.diet) {
+      updateData.dailyDietGoal = healthData.diet === '是' && healthData.selectedMeals?.length > 0
+         ? `是(${healthData.selectedMeals.join('、')})`
+         : healthData.diet;
+   }
+
+   if (healthData.weight !== '' && healthData.weight !== undefined) {
+      updateData.weeklyWeight = Number(healthData.weight);
+   }
+
+   if (healthData.hba1c !== '' && healthData.hba1c !== undefined) {
+      updateData.HbA1c = Number(healthData.hba1c);
+   }
+
+   return API.patch(`user/health-records/${recordId}`, updateData, {
+      headers: {
+         'Content-Type': 'application/json',
+         'Authorization': `Bearer ${token}`
+      }
+   })
+   .then((response) => {
+      alert('健康紀錄更新成功');
+      return response.data;
+   })
+   .catch((error) => {
+      console.error('健康紀錄更新失敗:', error);
+      throw error;
+   });
+}
+// 更新健康紀錄 API End //

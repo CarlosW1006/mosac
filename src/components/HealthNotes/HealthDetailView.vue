@@ -30,16 +30,34 @@
             <template v-if="hasRecord">
                <!-- 有記錄時顯示詳細資訊 -->
                <v-list-item class="list-item">
-                  <div class="flex-container">
-                     <h4 class="list-name">每日步數：</h4>
-                     <p class="list-info50">{{ healthInfo.steps }} 步</p>
+                  <div class="flex-container detail-row">
+                     <div class="info-section">
+                        <h4 class="list-name">每日步數：</h4>
+                        <p class="list-info50">{{ healthInfo.steps }} 步</p>
+                     </div>
+                     <v-btn 
+                        class="detail-btn" 
+                        color="#76caad"
+                        @click="showDetail('steps')"
+                     >
+                        詳細
+                     </v-btn>
                   </div>
                </v-list-item>
 
                <v-list-item class="list-item">
-                  <div class="flex-container">
-                     <h4 class="list-name">每日慢跑時間：</h4>
-                     <p class="list-info50">{{ totalWalkingTime }} 分鐘</p>
+                  <div class="flex-container detail-row">
+                     <div class="info-section">
+                        <h4 class="list-name">每日慢跑時間：</h4>
+                        <p class="list-info50">{{ totalWalkingTime }} 分鐘</p>
+                     </div>
+                     <v-btn 
+                        class="detail-btn" 
+                        color="#76caad"
+                        @click="showDetail('jogging')"
+                     >
+                        詳細
+                     </v-btn>
                   </div>
                </v-list-item>
 
@@ -71,6 +89,7 @@
                   </div>
                </v-list-item>
             </template>
+            
             <template v-else>
                <!-- 無記錄時顯示中央提示文字 -->
                <div class="nodata-frame">
@@ -113,7 +132,7 @@
                      >
                         <div class="record-info">
                            <span class="record-time">{{ formatTime(record.createAt) }} 上傳記錄</span>
-                           <span class="record-status" v-if="index === 0">(最新記錄)</span>
+                           <span class="record-status" v-if="index === 0">(最新)</span>
                         </div>
                         <v-btn 
                            class="edit-record-btn" 
@@ -132,6 +151,40 @@
          </v-card>
       </v-col>
    </v-row>
+   <!-- 詳細資訊彈窗 -->
+   <v-dialog
+      v-model="detailDialog.show"
+      width="400"
+      class="detail-dialog"
+   >
+      <v-card>
+         <v-card-title class="dialog-title">
+            {{ detailDialog.title }}
+            <v-btn
+               icon
+               @click="detailDialog.show = false"
+               class="close-btn"
+               variant="text"
+            >
+               <v-icon>mdi-close</v-icon>
+            </v-btn>
+         </v-card-title>
+         <v-card-text class="dialog-content">
+            <div class="detail-records">
+               <div 
+                  v-for="record in sortedRecords" 
+                  :key="record.id"
+                  class="detail-record-item"
+               >
+                  <span class="record-time">{{ formatTime(record.createAt) }}</span>
+                  <span class="record-value">
+                     {{ getDetailValue(record) }}
+                  </span>
+               </div>
+            </div>
+         </v-card-text>
+      </v-card>
+   </v-dialog>
 </template>
 
 <script>
@@ -155,6 +208,31 @@ export default {
       const loading = ref(false);
       const isRecordsExpanded = ref(false);
       const uploadedRecords = ref([]);
+
+      // 用單個對象管理彈窗狀態
+      const detailDialog = ref({
+         show: false,
+         type: '',
+         title: ''
+      });
+
+      // 統一的顯示詳細資訊方法
+      const showDetail = (type) => {
+         detailDialog.value = {
+            show: true,
+            type: type,
+            title: type === 'steps' ? '步數詳細紀錄' : '慢跑時間詳細紀錄'
+         };
+      };
+
+      // 根據類型獲取顯示值
+      const getDetailValue = (record) => {
+         if (detailDialog.value.type === 'steps') {
+            return `${record.dailySteps || 0} 步`;
+         } else {
+            return `${record.dailyJoggingTime || 0} 分鐘`;
+         }
+      };
 
       // 判斷是否有記錄的計算屬性
       const hasRecord = computed(() => {
@@ -206,53 +284,6 @@ export default {
       const toggleRecords = () => {
          isRecordsExpanded.value = !isRecordsExpanded.value;
       };
-
-      // // 編輯上傳的記錄
-      // const editUploadedRecord = (record) => {
-      //    // 將記錄存入 sessionStorage
-      //    sessionStorage.setItem('editing-record', JSON.stringify(record));
-      //    // 導航到編輯頁面
-      //    router.push({
-      //       path: '/healthDetailEdit',
-      //       query: { 
-      //          date: route.query.date,
-      //          recordId: record.id
-      //       }
-      //    });
-      // };
-
-      // onMounted(async () => {
-      //    const dateString = route.query.date;
-      //    if (!dateString) {
-      //       console.error('未提供日期參數');
-      //       return;
-      //    }
-
-      //    loading.value = true;
-      //    try {
-      //       // 暫時使用模擬數據
-      //    uploadedRecords.value = mockUploadedRecords;
-      //       // 先檢查 sessionStorage 中是否有暫存的記錄
-      //       const cachedRecord = sessionStorage.getItem('temp-health-record');
-      //       if (cachedRecord) {
-      //          const record = JSON.parse(cachedRecord);
-      //          // 清除暫存
-      //          sessionStorage.removeItem('temp-health-record');
-               
-      //          // 直接使用暫存的記錄
-      //          processRecord(record);
-      //       } else {
-      //          // 如果沒有暫存，再從 API 獲取
-      //          const recordData = await getHealthRecordByDate(dateString);
-      //          processRecord(recordData);
-      //       }
-      //    } catch (error) {
-      //       console.error('載入健康紀錄失敗:', error);
-      //       setEmptyRecord();
-      //    } finally {
-      //       loading.value = false;
-      //    }
-      // });
 
       onMounted(async () => {
          const dateString = route.query.date;
@@ -384,6 +415,9 @@ export default {
 
       return {
          healthInfo,
+         detailDialog,
+         showDetail,
+         getDetailValue,
          hasRecord,
          formattedDate,
          totalWalkingTime,
@@ -396,7 +430,6 @@ export default {
          sortedRecords,
          formatTime,
          editUploadedRecord,
-         //mockUploadedRecords
       };
    }
 };

@@ -114,7 +114,7 @@
     setup() {
       const healthInfo = ref({
         steps: '',
-        walkingTimes: [0],
+        walkingTimes: '',
         diet: '',
         selectedMeals: [],
         weight: '',

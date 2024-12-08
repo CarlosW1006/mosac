@@ -138,6 +138,94 @@ input[type="radio"]{
    margin-top: 1em;
 }
 
+/* 詳細資訊按鈕和列樣式 */
+.detail-row {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   width: 100%;
+}
+
+.info-section {
+   display: flex;
+   align-items: center;
+   gap: 1em;
+}
+
+.detail-btn {
+   color: #FFFFFF !important;
+   font-size: 2em;
+   min-width: 60px;
+   height: 32px;
+   font-weight: bold;
+}
+
+/* 詳細資訊彈窗樣式 */
+.dialog-title {
+   background-color: #76caad;
+   color: white;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 16px;
+}
+
+.close-btn {
+   color: white;
+}
+
+.dialog-content {
+   padding: 16px;
+   max-height: 400px;
+   overflow-y: auto;
+   scrollbar-width: thin;
+   scrollbar-color: #76caad #f0f0f0;
+}
+
+.dialog-content::-webkit-scrollbar {
+   width: 8px;
+}
+
+.dialog-content::-webkit-scrollbar-track {
+   background: #f0f0f0;
+   border-radius: 4px;
+}
+
+.dialog-content::-webkit-scrollbar-thumb {
+   background: #76caad;
+   border-radius: 4px;
+}
+
+.dialog-content::-webkit-scrollbar-thumb:hover {
+   background: #69c9a7;
+}
+
+.detail-records {
+   display: flex;
+   flex-direction: column;
+   gap: 12px;
+}
+
+.detail-record-item {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 8px 16px;
+   background-color: #f5f5f5;
+   border-radius: 4px;
+}
+
+.detail-record-item .record-time {
+   font-size: 1.4em;
+   color: #333;
+}
+
+.detail-record-item .record-value {
+   font-size: 1.4em;
+   color: #76caad;
+   font-weight: bold;
+}
+
 /* 上傳記錄區塊樣式 */
 .upload-records-container {
    margin-top: 0;
@@ -166,6 +254,7 @@ input[type="radio"]{
    overflow-y: auto; /* 添加垂直滾動條 */
    scrollbar-width: thin; /* Firefox的滾動條樣式 */
    scrollbar-color: #76caad #f0f0f0; /* Firefox的滾動條顏色 */
+   font-size: 1em;
 }
 
 /* Webkit瀏覽器的滾動條樣式 */
@@ -194,6 +283,7 @@ input[type="radio"]{
    padding: 1em;
    border-bottom: 1px solid #e0e0e0;
    min-height: 70px; /* 確保每個項目有固定的最小高度 */
+   font-size: 1.2em;
 }
 
 .record-item:last-child {
@@ -212,13 +302,13 @@ input[type="radio"]{
 }
 
 .record-status {
-   font-size: 1.4em;
+   font-size: 1.5em;
    color: #76caad;
    font-weight: bold;
 }
 
 .edit-record-btn {
-   font-size: 1.4em;
+   font-size: 1.5em;
    min-width: 80px;
    color: #ffffff !important;
    font-weight: bold;
@@ -295,21 +385,31 @@ input[type="radio"]{
       height: 2.5em !important;
    }
 
+   /* 詳細資訊按鈕和彈窗的響應式樣式 */
+   .detail-btn {
+      min-width: 60px;
+      height: 28px;
+   }
+
+   .detail-record-item .record-time,
+   .detail-record-item .record-value {
+      font-size: 1.2em;
+   }
+
    /* 上傳記錄區塊樣式 */
    .upload-header {
       padding: 1.25em;
    }
 
    .record-time {
-      font-size: 1.4em;
+      font-size: 1.5em;
    }
 
    .record-status {
-      font-size: 1.2em;
+      font-size: 1.5em;
    }
 
    .edit-record-btn {
-      font-size: 1.2em;
       min-width: 60px;
    }
 
@@ -318,3 +418,4 @@ input[type="radio"]{
       padding: 1.5em;
    }
 }
+
