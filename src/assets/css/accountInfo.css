@@ -85,8 +85,8 @@ table {
 
 .list-info50 {
    margin-left: 1em;
-   margin-top: 0.7em;
-   margin-bottom: 0.7em;
+   margin-top: 0.5em;
+   margin-bottom: 0.5em;
 }
 
 .list-number {
@@ -135,6 +135,73 @@ table {
    height: 10em;
 }
 
+/* 使用者管理-下拉選單 */
+.upload-records-container {
+   margin-top: 0;
+   border: 1px solid #e0e0e0;
+}
+
+.upload-header {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 1.43em;
+   background-color: #f5f5f5;
+   cursor: pointer;
+   height: auto;
+}
+
+.upload-header h3 {
+   font-size: 1.8em;
+   color: #333;
+   margin: 0;
+}
+
+.exchange-date {
+   font-size: 1em;
+   font-weight: 600;
+   color: #76caad;
+}
+
+.no-records {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   padding: 2em;
+   color: #4f4f4f;
+   font-size: 2em;
+   font-weight: 500;
+}
+
+.records-list {
+   padding: 1em;
+   font-size: 1em;
+   min-height: 370px;
+   max-height: 370px;
+   overflow-y: auto;
+   scrollbar-width: thin;
+   scrollbar-color: #76caad #f0f0f0;
+}
+
+/* Webkit瀏覽器的滾動條樣式 */
+.records-list::-webkit-scrollbar {
+   width: 8px;
+}
+
+.records-list::-webkit-scrollbar-track {
+   background: #f0f0f0;
+   border-radius: 4px;
+}
+
+.records-list::-webkit-scrollbar-thumb {
+   background: #76caad;
+   border-radius: 4px;
+}
+
+.records-list::-webkit-scrollbar-thumb:hover {
+   background: #69c9a7;
+}
+
 @media screen and (max-width: 1200px) {
    .tableInnerFrame {
       margin: 0 1em 0;
@@ -156,6 +223,11 @@ table {
       margin-bottom: 0.7em;
       padding-left: 10px;
       border-radius: 5px;
+   }
+
+   .no-records {
+      font-size: 1.6em;
+      padding: 1.5em;
    }
 
 }

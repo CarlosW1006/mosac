@@ -51,7 +51,7 @@
 
             <div class="tableInfoFrame">
                <div class="tableInnerFrame">
-                  <table>
+                  <table v-if="rankingData && rankingData.length > 0">
                      <thead>
                         <tr class="table-title">
                            <!-- <th class="col1"><strong></strong></th> -->
@@ -63,8 +63,8 @@
                         </tr>
                      </thead>
 
-                     <tbody v-for="(item, index) in rankingData[curPageNum-1]" :key="index">
-                        <tr>
+                     <tbody>
+                        <tr v-for="(item, index) in rankingData[curPageNum-1]" :key="index">
                            <!-- <td><p style="text-align: center;">{{ (curPageNum*perPageDataAmount + index + 1)-perPageDataAmount }}</p></td> -->
                            <!-- <td><p>{{ item.phase }}</p></td> -->
                            <td><p>{{ item.nickname }}</p></td>
@@ -77,7 +77,7 @@
                      </tbody>
                   </table>
 
-                  <div v-if="rankingData.length == 0" class="nodata-frame">
+                  <div v-else class="nodata-frame">
                      <p class="nodata">查無資料</p>
                   </div>
                </div>
@@ -116,7 +116,7 @@
          const selectedGroup = ref('1');
          const selectedMonth = ref('2024-11');
          let curPageNum = ref(1); // 當前頁數
-         let pagesAmount = ref(0); // 頁面總數
+         let pagesAmount = ref(1); // 頁面總數
          let curDataAmount = ref(0); // 當前頁面資料數量
          let perPageDataAmount = ref(10); // 當前每頁筆數
          const perPageNum = [10, 20, 30]; // 每頁資料筆數
@@ -126,23 +126,14 @@
          function fetchRankingData() {
             getGroupRanking(selectedGroup.value, selectedMonth.value, perPageDataAmount.value)
             .then((result) => {
-               if (result && result.length > 0) {
-                  rankingData.value = result;
-                  pagesAmount.value = result.length;
-                  curDataAmount.value = result[curPageNum.value - 1] ? result[curPageNum.value - 1].length : 0;
-
-                  // 計算資料範圍
-                  const startNum = perPageDataAmount.value * (curPageNum.value - 1) + 1;
-                  const endNum = startNum + curDataAmount.value - 1;
-                  dataNumRange.value = [startNum, endNum];
-               } else {
+               rankingData.value = result;
+               if(rankingData.value == undefined) {
                   rankingData.value = [];
-                  pagesAmount.value = 0;
-                  curDataAmount.value = 0;
-                  dataNumRange.value = [0, 0];
                }
+               console.log(rankingData.value);
             })
          }
+
 
          // 搜尋功能
          function searchSpecifyGroup() {
@@ -150,26 +141,24 @@
                alert("請選擇月份和群組");
                return;
             }
-            curPageNum.value = 1; // 回到第一頁
+            curPageNum.value = 1;
             fetchRankingData();
          }
 
          // 每頁筆數功能
          function changePerPageNum() {
-            curPageNum.value = 1; // 回到第一頁
+            curPageNum.value = 1;
             fetchRankingData();
          }
 
          // 切換頁數功能
          function changePage(newPageNum) {
-            curPageNum.value = newPageNum; // 更新到新頁數
+            curPageNum.value = newPageNum;
             fetchRankingData();
          }
 
-         // 初始化查詢
          fetchRankingData();
 
-         // 功能列頁面轉址
          function navigateToPath(path, uid) { 
             router.push({ path: '/' + path, query: { uid: uid, phase: selectedGroup.value, month: selectedMonth.value }});
          }
@@ -196,8 +185,5 @@
    };
 </script>
 
-
-<style lang="css" scoped>
-   @import "../../assets/css/common.css";
-   @import "../../assets/css/accountInfo.css";
-</style>
+<style scoped src="../../assets/css/common.css"></style>
+<style scoped src="../../assets/css/accountInfo.css"></style>

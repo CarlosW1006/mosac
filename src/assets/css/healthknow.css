@@ -156,7 +156,7 @@ input[type="radio"]{
    color: #FFFFFF !important;
    font-size: 2em;
    min-width: 60px;
-   height: 32px;
+   height: 50px;
    font-weight: bold;
 }
 
@@ -308,7 +308,6 @@ input[type="radio"]{
    display: flex;
    align-items: center;
    gap: 1em;
-   
 }
 
 /* 記錄時間樣式 */
@@ -416,7 +415,7 @@ input[type="radio"]{
    /* 詳細資訊按鈕和彈窗的響應式樣式 */
    .detail-btn {
       min-width: 60px;
-      height: 28px;
+      height: 35px;
    }
 
    .detail-record-item .record-time,

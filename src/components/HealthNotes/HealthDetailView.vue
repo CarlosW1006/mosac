@@ -7,15 +7,11 @@
 
    <!-- 主要內容區塊 -->
    <v-row style="margin: 1% 1% 10px;">
-      <v-col cols="12" sm="12" :md="hasRecord && canEdit ? 7 : 12" lg="6">
+      <v-col cols="12" sm="12" md="6" lg="6">
          <v-card>
             <!-- 載入中顯示 loading 動畫 -->
             <div v-if="loading" class="loading-container">
-               <v-progress-circular
-                  indeterminate
-                  color="#76caad"
-                  :size="50"
-               ></v-progress-circular>
+               <v-progress-circular indeterminate color="#76caad" :size="50"></v-progress-circular>
             </div>
             <!-- 載入完成後顯示內容 -->
             <template v-else>
@@ -35,11 +31,7 @@
                         <h4 class="list-name">每日步數：</h4>
                         <p class="list-info50">{{ healthInfo.steps }} 步</p>
                      </div>
-                     <v-btn 
-                        class="detail-btn" 
-                        color="#76caad"
-                        @click="showDetail('steps')"
-                     >
+                     <v-btn class="detail-btn" color="#76caad" @click="showDetail('steps')">
                         詳細
                      </v-btn>
                   </div>
@@ -51,30 +43,29 @@
                         <h4 class="list-name">每日慢跑時間：</h4>
                         <p class="list-info50">{{ totalWalkingTime }} 分鐘</p>
                      </div>
-                     <v-btn 
-                        class="detail-btn" 
-                        color="#76caad"
-                        @click="showDetail('jogging')"
-                     >
+                     <v-btn class="detail-btn" color="#76caad" @click="showDetail('jogging')">
                         詳細
                      </v-btn>
                   </div>
                </v-list-item>
 
                <v-list-item class="list-item">
-                  <div class="flex-container">
-                     <h4 class="list-name">每日飲食目標：</h4>
-                     <p class="list-info50">
-                        <span v-if="healthInfo.selectedMeals && healthInfo.selectedMeals.length > 0">
-                           {{ healthInfo.selectedMeals.join(', ') }}
-                        </span>
-                        <span v-else>無</span>
-                     </p>
+                  <div class="flex-container detail-row">
+                     <div class="info-section">
+                        <h4 class="list-name">每日飲食目標：</h4>
+                        <p class="list-info50">
+                           <span v-if="healthInfo.selectedMeals && healthInfo.selectedMeals.length > 0">
+                              {{ healthInfo.selectedMeals.join(', ') }}
+                           </span>
+                           <span v-else>無</span>
+                        </p>
+                     </div>
                   </div>
                </v-list-item>
 
                <!-- 每週體重紀錄 - 只在有值時顯示 -->
-               <v-list-item v-if="healthInfo.weight !== null && healthInfo.weight !== undefined && healthInfo.weight !== '查無紀錄'" class="list-item">
+               <v-list-item v-if="healthInfo.weight !== null && healthInfo.weight !== undefined 
+               && healthInfo.weight !== '查無紀錄'" class="list-item">
                   <div class="flex-container">
                      <h4 class="list-name">每周體重紀錄：</h4>
                      <p class="list-info50">{{ healthInfo.weight }} 公斤</p>
@@ -82,7 +73,8 @@
                </v-list-item>
 
                <!-- HbA1C - 只在有值時顯示 -->
-               <v-list-item v-if="healthInfo.hba1c !== null && healthInfo.hba1c !== undefined && healthInfo.hba1c !== '查無紀錄'" class="list-item">
+               <v-list-item v-if="healthInfo.hba1c !== null && healthInfo.hba1c !== undefined 
+               && healthInfo.hba1c !== '查無紀錄'" class="list-item">
                   <div class="flex-container">
                      <h4 class="list-name">HbA1C：</h4>
                      <p class="list-info50">{{ healthInfo.hba1c }}</p>
@@ -100,22 +92,13 @@
          </v-card>
 
          <!-- 填寫按鈕 -->
-         <v-btn 
-            v-if="hasRecord && canEdit" 
-            class="gotoMeet-btn" 
-            :ripple="false" 
-            @click="editHealthRecord"
-         >
+         <v-btn v-if="hasRecord && canEdit" class="gotoMeet-btn" 
+         :ripple="false" @click="editHealthRecord">
             填寫健康紀錄
          </v-btn> 
       </v-col>
       <!-- 上傳記錄區塊 -->
-      <v-col v-if="hasRecord && canEdit" 
-         cols="12" 
-         sm="12" 
-         md="6" 
-         lg="6"
-      >
+      <v-col v-if="hasRecord && canEdit" cols="12" sm="12" md="6" lg="6">
          <v-card class="upload-records-container">
             <div class="upload-header" @click="toggleRecords">
                <h3>上傳記錄</h3>
@@ -125,11 +108,7 @@
             <v-expand-transition>
                <div v-show="isRecordsExpanded" class="records-list">
                   <template v-if="uploadedRecords.length > 0">
-                     <div 
-                        v-for="(record, index) in sortedRecords" 
-                        :key="record.id" 
-                        class="record-item"
-                     >
+                     <div v-for="(record, index) in sortedRecords" :key="record.id" class="record-item">
                         <div class="record-info">
                            <div class="record-time">
                               <span class="record-date">{{ formatDateTime(record.createAt).date }}</span>
@@ -138,11 +117,7 @@
                            </div>
                            <span class="record-status" v-if="index === 0">(最新)</span>
                         </div>
-                        <v-btn 
-                           class="edit-record-btn" 
-                           color="#76caad"
-                           @click="editUploadedRecord(record)"
-                        >
+                        <v-btn class="edit-record-btn" color="#76caad" @click="editUploadedRecord(record)">
                            編輯
                         </v-btn>
                      </div>
@@ -164,12 +139,7 @@
       <v-card>
          <v-card-title class="dialog-title">
             {{ detailDialog.title }}
-            <v-btn
-               icon
-               @click="detailDialog.show = false"
-               class="close-btn"
-               variant="text"
-            >
+            <v-btn icon @click="detailDialog.show = false" class="close-btn" variant="text">
                <v-icon>mdi-close</v-icon>
             </v-btn>
          </v-card-title>
@@ -333,22 +303,22 @@ export default {
       onMounted(async () => {
          const dateString = route.query.date;
          if (!dateString) {
-         console.error('未提供日期參數');
-         return;
+            console.error('未提供日期參數');
+            return;
          }
 
          loading.value = true;
          try {
-         // 獲取當天所有記錄
-         const records = await getAllHealthRecordsByDate(dateString);
-         uploadedRecords.value = records.map(record => ({
-            id: record.id,
-            createAt: record.createAt,
-            dailySteps: record.dailySteps,
-            dailyJoggingTime: record.dailyJoggingTime,
-            dailyDietGoal: record.dailyDietGoal,
-            weeklyWeight: record.weeklyWeight,
-            HbA1c: record.HbA1c
+            // 獲取當天所有記錄
+            const records = await getAllHealthRecordsByDate(dateString);
+            uploadedRecords.value = records.map(record => ({
+               id: record.id,
+               createAt: record.createAt,
+               dailySteps: record.dailySteps,
+               dailyJoggingTime: record.dailyJoggingTime,
+               dailyDietGoal: record.dailyDietGoal,
+               weeklyWeight: record.weeklyWeight,
+               HbA1c: record.HbA1c
          }));
 
          // 處理最新記錄的顯示
@@ -481,23 +451,12 @@ export default {
 };
 </script>
 
-<style scoped>
-   @import "../../assets/css/common.css";
-   @import "../../assets/css/accountInfo.css";
+<style scoped src="../../assets/css/common.css"></style>
+<style scoped src="../../assets/css/healthknow.css"></style>
+<style scoped src="../../assets/css/accountInfo.css"></style>
+
+<style lang="css" scoped>
    @import "../../assets/css/healthknow.css";
-
-   /* common */
-   .list-title { 
-      height: auto;
-      padding: 1em;
-      background: #81d0cd;
-   }
-
-   .page-title { 
-      font-size: 2.5em;
-      margin-left: 0.1em;
-   }
-   /* common */
 
    /* 自訂樣式調整 */
    .hd-title{

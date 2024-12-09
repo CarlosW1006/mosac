@@ -30,23 +30,25 @@ export function getGroupRanking(phaseNum, phaseMonth, selectPerPageNum, forceUpd
       }
    )
    .then((response) => {
+      const responseData = Array.isArray(response.data) ? response.data : [];
       // 將資料暫存
       cachedGroupRankingData = {
-         data: response.data,
+         data: responseData,
          phaseNum,
          phaseMonth
       };
 
       // 進行分頁處理
-      const paginatedData = splitDataFunc(response.data, selectPerPageNum);
+      const paginatedData = splitDataFunc(responseData, selectPerPageNum);
       return paginatedData;
    })
    .catch((error) => {
       if (error.response && error.response.data && error.response.data.message) {
          alert(error.response.data.message); // 顯示伺服器返回的錯誤訊息
       } else {
-         alert('資料處理發生異常，請聯絡系統管理員' + error);
+         alert('資料處理發生異常，請聯絡系統管理員');
       }
+      return []; // 保證錯誤情況下回傳空陣列
    });
 }
 
@@ -83,7 +85,7 @@ export function getUserNickName(uid, phaseNum, phaseMonth) {
       if (error.response && error.response.data && error.response.data.message) {
          alert(error.response.data.message); // 顯示伺服器返回的錯誤訊息
       } else {
-         alert('資料處理發生異常，請聯絡系統管理員' + error);
+         alert('資料處理發生異常，請聯絡系統管理員');
       }
    });
 }
@@ -101,13 +103,13 @@ export function getFeedback() {
       }
    )
    .then((response) => {
-      return response?.data || null;
+      return response.data;
    })
    .catch((error) => {
       if (error.response && error.response.data && error.response.data.message) {
          alert(error.response.data.message); // 顯示伺服器返回的錯誤訊息
       } else {
-         alert('資料處理發生異常，請聯絡系統管理員' + error);
+         alert('資料處理發生異常，請聯絡系統管理員');
       }
    });
 }

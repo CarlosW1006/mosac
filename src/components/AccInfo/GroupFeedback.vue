@@ -104,7 +104,5 @@
    };
 </script>
 
-<style lang="css" scoped>
-   @import "../../assets/css/common.css";
-   @import "../../assets/css/accountInfo.css";
-</style>
+<style scoped src="../../assets/css/common.css"></style>
+<style scoped src="../../assets/css/accountInfo.css"></style>

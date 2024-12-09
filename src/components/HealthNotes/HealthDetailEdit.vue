@@ -261,7 +261,5 @@
   };
 </script>
 
-<style lang="css" scoped>
-   @import "../../assets/css/common.css";
-   @import "../../assets/css/healthknow.css";
-</style>
+<style scoped src="../../assets/css/common.css"></style>
+<style scoped src="../../assets/css/healthknow.css"></style>

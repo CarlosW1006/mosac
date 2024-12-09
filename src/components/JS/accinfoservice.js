@@ -1,7 +1,7 @@
 export function checkDateDurant() {
    const today = new Date();
    const firstBeginExchangeDate = new Date('2024/12/03');
-   const firstEndExchangeDate = new Date('2024/12/08');
+   const firstEndExchangeDate = new Date('2024/12/10');
    const secondBeginExchangeDate = new Date('2025/09/01');
    const secondEndExchangeDate = new Date('2025/09/14');
 

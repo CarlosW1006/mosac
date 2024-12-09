@@ -91,7 +91,8 @@ export function askPointsRecord() {
                (rawDate.getMonth() + 1).toString().padStart(2, '0') + '/' +
                rawDate.getDate().toString().padStart(2, '0') + ' ' +
                rawDate.getHours().toString().padStart(2, '0') + ':' +
-               rawDate.getMinutes().toString().padStart(2, '0');
+               rawDate.getMinutes().toString().padStart(2, '0') + ':' +
+               rawDate.getSeconds().toString().padStart(2, '0');
                
                const key = formattedDate;
       
@@ -104,8 +105,7 @@ export function askPointsRecord() {
       }
 
       const result = Object.entries(pointsRecord).map(([createAt, records]) => ({
-         createAt,
-         records
+         createAt, records
       }));
 
       return result;
