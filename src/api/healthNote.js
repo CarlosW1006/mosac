@@ -78,7 +78,7 @@ export function askHealthNoteRecord(startAt, endAt) {
                (month === 6 && date === 30) ||
                (month === 9 && date === 30) ||
                (month === 12 && date === 31) ||
-               (month === 12 && date === 4);// 測試
+               (month === 12 && date === 9);// 測試
 
             // 決定完成狀態
             record.finish = hasBasicRecords && 
