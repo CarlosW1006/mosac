@@ -131,7 +131,11 @@
                         class="record-item"
                      >
                         <div class="record-info">
-                           <span class="record-time">{{ formatTime(record.createAt) }} 上傳記錄</span>
+                           <div class="record-time">
+                              <span class="record-date">{{ formatDateTime(record.createAt).date }}</span>
+                              <span class="record-hour">{{ formatDateTime(record.createAt).time }}</span>
+                              上傳記錄
+                           </div>
                            <span class="record-status" v-if="index === 0">(最新)</span>
                         </div>
                         <v-btn 
@@ -172,11 +176,14 @@
          <v-card-text class="dialog-content">
             <div class="detail-records">
                <div 
-                  v-for="record in sortedRecords" 
+                  v-for="record in sortedDetailRecords" 
                   :key="record.id"
                   class="detail-record-item"
                >
-                  <span class="record-time">{{ formatTime(record.createAt) }}</span>
+                  <div class="record-time">
+                     <span class="detail-record-date">{{ formatDateTime(record.createAt).date }}</span>
+                     <span class="detail-record-hour">{{ formatDateTime(record.createAt).time }}</span>
+                  </div>
                   <span class="record-value">
                      {{ getDetailValue(record) }}
                   </span>
@@ -265,25 +272,63 @@ export default {
       });
 
       const sortedRecords = computed(() => {
-         return [...uploadedRecords.value].sort((a, b) => 
-            new Date(b.createAt) - new Date(a.createAt)
-         );
+         return [...uploadedRecords.value].sort((a, b) => {
+            const dateA = new Date(a.createAt);
+            const dateB = new Date(b.createAt);
+            
+            if (dateA.toLocaleDateString() !== dateB.toLocaleDateString()) {
+               // 如果日期不同，較新的日期排前面
+               return dateB - dateA;
+            } else {
+               // 如果日期相同，比較時間
+               return dateB.getTime() - dateA.getTime();
+            }
+         });
       });
 
       // 格式化時間
-      const formatTime = (dateString) => {
+      const formatDateTime = (dateString) => {
          const date = new Date(dateString);
-         return date.toLocaleTimeString('zh-TW', {
+         const dateStr = date.toLocaleDateString('zh-TW', {
+            month: '2-digit',
+            day: '2-digit'
+         });
+         const timeStr = date.toLocaleTimeString('zh-TW', {
             hour: '2-digit',
             minute: '2-digit',
-            hour12: false // 使用24小時制
+            hour12: false
          });
+         return {
+            date: dateStr,
+            time: timeStr
+         };
       };
 
       // 切換記錄展開狀態
       const toggleRecords = () => {
          isRecordsExpanded.value = !isRecordsExpanded.value;
       };
+
+      // 排序計算屬性
+      const sortedDetailRecords = computed(() => {
+         // 根據 type 決定排序邏輯
+         return [...uploadedRecords.value].sort((a, b) => {
+            const dateA = new Date(a.createAt);
+            const dateB = new Date(b.createAt);
+            
+            if (dateA.toLocaleDateString() !== dateB.toLocaleDateString()) {
+               // 如果日期不同，較新的日期排前面
+               return dateB - dateA;
+            } else {
+               // 如果日期相同，根據類型進行排序
+               if (detailDialog.value.type === 'steps') {
+                  return (b.dailySteps || 0) - (a.dailySteps || 0);
+               } else {
+                  return (b.dailyJoggingTime || 0) - (a.dailyJoggingTime || 0);
+               }
+            }
+         });
+      });
 
       onMounted(async () => {
          const dateString = route.query.date;
@@ -428,7 +473,8 @@ export default {
          uploadedRecords,
          toggleRecords,
          sortedRecords,
-         formatTime,
+         formatDateTime,
+         sortedDetailRecords,
          editUploadedRecord,
       };
    }
