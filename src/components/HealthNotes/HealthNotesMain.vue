@@ -288,7 +288,7 @@ export default {
   
 <style lang="css" scoped>
    @import "../../assets/css/common.css";
-   @import "../../assets/css/healthnote.css";
+   @import "../../assets/css/healthNoteMain.css";
 
    :deep(.vc-day.is-not-in-month *) {
       opacity: 1;

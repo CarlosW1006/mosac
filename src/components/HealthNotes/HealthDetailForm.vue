@@ -286,4 +286,4 @@
 </script>
 
 <style scoped src="../../assets/css/common.css"></style>
-<style scoped src="../../assets/css/healthknow.css"></style>
+<style scoped src="../../assets/css/healthNoteDetail.css"></style>

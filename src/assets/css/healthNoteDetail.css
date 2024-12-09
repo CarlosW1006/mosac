@@ -234,7 +234,7 @@ input[type="radio"]{
 }
 
 .detail-record-hour {
-   font-size: 1.1em;
+   font-size: 1.2em;
    color: #666;
    margin-left: 0.5em;
 }
@@ -311,26 +311,31 @@ input[type="radio"]{
 }
 
 /* 記錄時間樣式 */
+.record-time {
+   font-size: 1.5em;
+}
+
 .record-date {
+   color: #76caad;
    font-size: 1.3em;
-   color: #76caad;  /* 使用主題綠色 */
    font-weight: 500;
    margin-right: 0.5em;
 }
 
 .record-hour {
-   font-size: 1.1em;
-   color: #666;  /* 較淺的灰色 */
+   color: #666666;
+   font-size: 1.3em;
+   margin-right: 0.5em;
 }
 
-.record-time {
-   font-size: 1.6em;
-   color: #333;
+.record-font {
+   color: #666666;
+   font-size: 1.3em;
 }
 
 .record-status {
-   font-size: 1.5em;
    color: #76caad;
+   font-size: 1.5em;
    font-weight: bold;
 }
 
@@ -355,25 +360,25 @@ input[type="radio"]{
 .disabled-diet {
    opacity: 0.7;
    cursor: not-allowed;
- }
- 
- .disabled-diet input[type="radio"],
- .disabled-diet input[type="checkbox"] {
+}
+
+.disabled-diet input[type="radio"],
+.disabled-diet input[type="checkbox"] {
    cursor: not-allowed;
    background-color: #e9ecef;
- }
- 
- .disabled-text {
+}
+
+.disabled-text {
    color: #6c757d;
    cursor: not-allowed;
- }
- 
- /* 確保禁用的輸入框顯示正確的顏色 */
- .disabled-diet input[type="radio"]:checked,
- .disabled-diet input[type="checkbox"]:checked {
+}
+
+/* 確保禁用的輸入框顯示正確的顏色 */
+.disabled-diet input[type="radio"]:checked,
+.disabled-diet input[type="checkbox"]:checked {
    background-color: #6c757d;
    border-color: #6c757d;
- }
+}
 
 @media screen and (max-width: 1200px) {
    .health-detail {
@@ -429,7 +434,7 @@ input[type="radio"]{
    }
 
    .record-time {
-      font-size: 1.5em;
+      font-size: 1.3em;
    }
 
    .record-status {
@@ -445,10 +450,6 @@ input[type="radio"]{
       padding: 1.5em;
    }
 
-   .record-date,
-   .record-hour {
-      font-size: 1.2em;
-   }
 
    .detail-record-date,
    .detail-record-hour {
@@ -458,17 +459,17 @@ input[type="radio"]{
 
 @media (min-width: 1280px) and (max-width: 1380px) {
    .record-time {
-      font-size: 1.3em;
+      font-size: 1.2em;
    }
 }
 
 @media (min-width: 1200px) and (max-width: 1280px) {
    .record-time {
-      font-size: 1.1em;
+      font-size: 1em;
    }
 
    .record-status {
-      font-size: 1.1em;
+      font-size: 1em;
    }
 }
 

@@ -113,9 +113,9 @@
                            <div class="record-time">
                               <span class="record-date">{{ formatDateTime(record.createAt).date }}</span>
                               <span class="record-hour">{{ formatDateTime(record.createAt).time }}</span>
-                              上傳記錄
+                              <span class="record-font">上傳記錄</span>
                            </div>
-                           <span class="record-status" v-if="index === 0">(最新)</span>
+                           <span class="record-status" v-if="index === 0"></span>
                         </div>
                         <v-btn class="edit-record-btn" color="#76caad" @click="editUploadedRecord(record)">
                            編輯
@@ -130,12 +130,9 @@
          </v-card>
       </v-col>
    </v-row>
+
    <!-- 詳細資訊彈窗 -->
-   <v-dialog
-      v-model="detailDialog.show"
-      width="400"
-      class="detail-dialog"
-   >
+   <v-dialog v-model="detailDialog.show" width="400" class="detail-dialog">
       <v-card>
          <v-card-title class="dialog-title">
             {{ detailDialog.title }}
@@ -145,11 +142,7 @@
          </v-card-title>
          <v-card-text class="dialog-content">
             <div class="detail-records">
-               <div 
-                  v-for="record in sortedDetailRecords" 
-                  :key="record.id"
-                  class="detail-record-item"
-               >
+               <div v-for="record in sortedDetailRecords" :key="record.id" class="detail-record-item">
                   <div class="record-time">
                      <span class="detail-record-date">{{ formatDateTime(record.createAt).date }}</span>
                      <span class="detail-record-hour">{{ formatDateTime(record.createAt).time }}</span>
@@ -452,12 +445,10 @@ export default {
 </script>
 
 <style scoped src="../../assets/css/common.css"></style>
-<style scoped src="../../assets/css/healthknow.css"></style>
 <style scoped src="../../assets/css/accountInfo.css"></style>
+<style scoped src="../../assets/css/healthNoteDetail.css"></style>
 
 <style lang="css" scoped>
-   @import "../../assets/css/healthknow.css";
-
    /* 自訂樣式調整 */
    .hd-title{
       font-size: 2em;
@@ -496,10 +487,10 @@ export default {
          font-size: 1.3em;
       }
       .gotoMeet-btn {
-            font-size: 2em;
-            font-weight: 600;
-            width: 100%;
-            height: 2.5em !important;
+         font-size: 2em;
+         font-weight: 600;
+         width: 100%;
+         height: 2.5em !important;
       }
    }
 </style>
