@@ -7,7 +7,7 @@
 
    <!-- 主要內容區塊 -->
    <v-row style="margin: 1% 1% 10px;">
-      <v-col cols="12" sm="12" md="7" lg="7">
+      <v-col cols="12" sm="12" :md="hasRecord && canEdit ? 7 : 12" lg="6">
          <v-card>
             <!-- 載入中顯示 loading 動畫 -->
             <div v-if="loading" class="loading-container">
@@ -30,16 +30,34 @@
             <template v-if="hasRecord">
                <!-- 有記錄時顯示詳細資訊 -->
                <v-list-item class="list-item">
-                  <div class="flex-container">
-                     <h4 class="list-name">每日步數：</h4>
-                     <p class="list-info50">{{ healthInfo.steps }} 步</p>
+                  <div class="flex-container detail-row">
+                     <div class="info-section">
+                        <h4 class="list-name">每日步數：</h4>
+                        <p class="list-info50">{{ healthInfo.steps }} 步</p>
+                     </div>
+                     <v-btn 
+                        class="detail-btn" 
+                        color="#76caad"
+                        @click="showDetail('steps')"
+                     >
+                        詳細
+                     </v-btn>
                   </div>
                </v-list-item>
 
                <v-list-item class="list-item">
-                  <div class="flex-container">
-                     <h4 class="list-name">每日慢跑時間：</h4>
-                     <p class="list-info50">{{ totalWalkingTime }} 分鐘</p>
+                  <div class="flex-container detail-row">
+                     <div class="info-section">
+                        <h4 class="list-name">每日慢跑時間：</h4>
+                        <p class="list-info50">{{ totalWalkingTime }} 分鐘</p>
+                     </div>
+                     <v-btn 
+                        class="detail-btn" 
+                        color="#76caad"
+                        @click="showDetail('jogging')"
+                     >
+                        詳細
+                     </v-btn>
                   </div>
                </v-list-item>
 
@@ -67,10 +85,11 @@
                <v-list-item v-if="healthInfo.hba1c !== null && healthInfo.hba1c !== undefined && healthInfo.hba1c !== '查無紀錄'" class="list-item">
                   <div class="flex-container">
                      <h4 class="list-name">HbA1C：</h4>
-                     <p class="list-info50">{{ healthInfo.hba1c }}？</p>
+                     <p class="list-info50">{{ healthInfo.hba1c }}</p>
                   </div>
                </v-list-item>
             </template>
+            
             <template v-else>
                <!-- 無記錄時顯示中央提示文字 -->
                <div class="nodata-frame">
@@ -80,23 +99,98 @@
             </template>
          </v-card>
 
-         <!-- 編輯按鈕 -->
+         <!-- 填寫按鈕 -->
          <v-btn 
             v-if="hasRecord && canEdit" 
             class="gotoMeet-btn" 
             :ripple="false" 
             @click="editHealthRecord"
          >
-            編輯健康紀錄
-         </v-btn>
+            填寫健康紀錄
+         </v-btn> 
+      </v-col>
+      <!-- 上傳記錄區塊 -->
+      <v-col v-if="hasRecord && canEdit" 
+         cols="12" 
+         sm="12" 
+         md="6" 
+         lg="6"
+      >
+         <v-card class="upload-records-container">
+            <div class="upload-header" @click="toggleRecords">
+               <h3>上傳記錄</h3>
+               <v-icon>{{ isRecordsExpanded ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+            </div>
+            
+            <v-expand-transition>
+               <div v-show="isRecordsExpanded" class="records-list">
+                  <template v-if="uploadedRecords.length > 0">
+                     <div 
+                        v-for="(record, index) in sortedRecords" 
+                        :key="record.id" 
+                        class="record-item"
+                     >
+                        <div class="record-info">
+                           <span class="record-time">{{ formatTime(record.createAt) }} 上傳記錄</span>
+                           <span class="record-status" v-if="index === 0">(最新)</span>
+                        </div>
+                        <v-btn 
+                           class="edit-record-btn" 
+                           color="#76caad"
+                           @click="editUploadedRecord(record)"
+                        >
+                           編輯
+                        </v-btn>
+                     </div>
+                  </template>
+                  <div v-else class="no-records">
+                     <p>無上傳記錄</p>
+                  </div>
+               </div>
+            </v-expand-transition>
+         </v-card>
       </v-col>
    </v-row>
+   <!-- 詳細資訊彈窗 -->
+   <v-dialog
+      v-model="detailDialog.show"
+      width="400"
+      class="detail-dialog"
+   >
+      <v-card>
+         <v-card-title class="dialog-title">
+            {{ detailDialog.title }}
+            <v-btn
+               icon
+               @click="detailDialog.show = false"
+               class="close-btn"
+               variant="text"
+            >
+               <v-icon>mdi-close</v-icon>
+            </v-btn>
+         </v-card-title>
+         <v-card-text class="dialog-content">
+            <div class="detail-records">
+               <div 
+                  v-for="record in sortedRecords" 
+                  :key="record.id"
+                  class="detail-record-item"
+               >
+                  <span class="record-time">{{ formatTime(record.createAt) }}</span>
+                  <span class="record-value">
+                     {{ getDetailValue(record) }}
+                  </span>
+               </div>
+            </div>
+         </v-card-text>
+      </v-card>
+   </v-dialog>
 </template>
 
 <script>
 import { ref, computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { getHealthRecordByDate, changeDate } from '../../api/healthNote';
+import { changeDate, getAllHealthRecordsByDate } from '../../api/healthNote';
 
 export default {
    name: 'healthDetailViewPage',
@@ -112,6 +206,33 @@ export default {
       const router = useRouter();
       const route = useRoute();
       const loading = ref(false);
+      const isRecordsExpanded = ref(false);
+      const uploadedRecords = ref([]);
+
+      // 用單個對象管理彈窗狀態
+      const detailDialog = ref({
+         show: false,
+         type: '',
+         title: ''
+      });
+
+      // 統一的顯示詳細資訊方法
+      const showDetail = (type) => {
+         detailDialog.value = {
+            show: true,
+            type: type,
+            title: type === 'steps' ? '步數詳細紀錄' : '慢跑時間詳細紀錄'
+         };
+      };
+
+      // 根據類型獲取顯示值
+      const getDetailValue = (record) => {
+         if (detailDialog.value.type === 'steps') {
+            return `${record.dailySteps || 0} 步`;
+         } else {
+            return `${record.dailyJoggingTime || 0} 分鐘`;
+         }
+      };
 
       // 判斷是否有記錄的計算屬性
       const hasRecord = computed(() => {
@@ -143,72 +264,118 @@ export default {
          return 0;
       });
 
+      const sortedRecords = computed(() => {
+         return [...uploadedRecords.value].sort((a, b) => 
+            new Date(b.createAt) - new Date(a.createAt)
+         );
+      });
+
+      // 格式化時間
+      const formatTime = (dateString) => {
+         const date = new Date(dateString);
+         return date.toLocaleTimeString('zh-TW', {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false // 使用24小時制
+         });
+      };
+
+      // 切換記錄展開狀態
+      const toggleRecords = () => {
+         isRecordsExpanded.value = !isRecordsExpanded.value;
+      };
+
       onMounted(async () => {
          const dateString = route.query.date;
          if (!dateString) {
-            console.error('未提供日期參數');
-            return;
+         console.error('未提供日期參數');
+         return;
          }
 
          loading.value = true;
          try {
-            // 先檢查 sessionStorage 中是否有暫存的記錄
-            const cachedRecord = sessionStorage.getItem('temp-health-record');
-            if (cachedRecord) {
-               const record = JSON.parse(cachedRecord);
-               // 清除暫存
-               sessionStorage.removeItem('temp-health-record');
-               
-               // 直接使用暫存的記錄
-               processRecord(record);
-            } else {
-               // 如果沒有暫存，再從 API 獲取
-               const recordData = await getHealthRecordByDate(dateString);
-               processRecord(recordData);
-            }
-         } catch (error) {
-            console.error('載入健康紀錄失敗:', error);
+         // 獲取當天所有記錄
+         const records = await getAllHealthRecordsByDate(dateString);
+         uploadedRecords.value = records.map(record => ({
+            id: record.id,
+            createAt: record.createAt,
+            dailySteps: record.dailySteps,
+            dailyJoggingTime: record.dailyJoggingTime,
+            dailyDietGoal: record.dailyDietGoal,
+            weeklyWeight: record.weeklyWeight,
+            HbA1c: record.HbA1c
+         }));
+
+         // 處理最新記錄的顯示
+         if (records.length > 0) {
+            processRecord(records);
+         } else {
             setEmptyRecord();
+         }
+         } catch (error) {
+         console.error('載入健康紀錄失敗:', error);
+         setEmptyRecord();
          } finally {
-            loading.value = false;
+         loading.value = false;
          }
       });
 
       // 處理記錄的輔助函數
-      function processRecord(recordData) {
-         if (!recordData) {
+      function processRecord(records) {
+         if (!records || records.length === 0) {
             setEmptyRecord();
             return;
          }
 
-         const recordDate = changeDate(recordData.createAt);
+         // 先檢查第一筆記錄的日期是否符合目標日期
+         const recordDate = changeDate(records[0].createAt);
          const currentDate = changeDate(route.query.date);
          
          if (recordDate === currentDate) {
-            const isComplete = 
-               recordData.dailySteps != null &&
-               recordData.dailyJoggingTime != null &&
-               recordData.dailyDietGoal != null;
+            // 計算所有記錄的步數和慢跑時間總和
+            const totalSteps = records.reduce((sum, record) => {
+               return sum + (record.dailySteps || 0);
+            }, 0);
 
-            if (isComplete) {
-               healthInfo.value = {
-                  steps: recordData.dailySteps,
-                  walkingTimes: [recordData.dailyJoggingTime],
-                  diet: recordData.dailyDietGoal.startsWith('是') ? '是' : '否',
-                  selectedMeals: recordData.dailyDietGoal.startsWith('是') 
-                     ? recordData.dailyDietGoal.match(/早餐|午餐|晚餐/g) || []
-                     : [],
-                  // 只在有值時設置體重和HbA1c
-                  weight: recordData.weeklyWeight || null,
-                  hba1c: recordData.HbA1c || null
-               };
-            } else {
-               setEmptyRecord();
-            }
+            const totalJoggingTime = records.reduce((sum, record) => {
+               return sum + (record.dailyJoggingTime || 0);
+            }, 0);
+
+            // 獲取最新記錄（陣列中的第一筆，因為已經按時間排序）
+            const latestRecord = records[0];
+
+            // 設置健康資訊
+            healthInfo.value = {
+               // 步數和慢跑時間使用總和
+               steps: totalSteps,
+               walkingTimes: [totalJoggingTime],
+               
+               // 飲食目標使用最新記錄
+               diet: latestRecord.dailyDietGoal.startsWith('是') ? '是' : '否',
+               selectedMeals: latestRecord.dailyDietGoal.startsWith('是') 
+                  ? latestRecord.dailyDietGoal.match(/早餐|午餐|晚餐/g) || []
+                  : [],
+               
+               // 體重和 HbA1c 只在有值時才設置
+               weight: latestRecord.weeklyWeight || null,
+               hba1c: latestRecord.HbA1c || null
+            };
          } else {
             setEmptyRecord();
          }
       }
+
+      // 編輯上傳的記錄
+      const editUploadedRecord = (record) => {
+         router.push({
+         path: '/healthDetailEdit',
+         query: { 
+            date: route.query.date,
+            recordId: record.id,
+            recordTime: new Date(record.createAt).toISOString()
+         }
+         });
+      };
 
       // 設置空記錄的輔助函數
       const setEmptyRecord = () => {
@@ -248,12 +415,21 @@ export default {
 
       return {
          healthInfo,
+         detailDialog,
+         showDetail,
+         getDetailValue,
          hasRecord,
          formattedDate,
          totalWalkingTime,
          loading,
          canEdit,
-         editHealthRecord
+         editHealthRecord,
+         isRecordsExpanded,
+         uploadedRecords,
+         toggleRecords,
+         sortedRecords,
+         formatTime,
+         editUploadedRecord,
       };
    }
 };
@@ -262,6 +438,7 @@ export default {
 <style scoped>
    @import "../../assets/css/common.css";
    @import "../../assets/css/accountInfo.css";
+   @import "../../assets/css/healthknow.css";
 
    /* common */
    .list-title { 
@@ -298,17 +475,17 @@ export default {
       min-height: 300px;
    }
 
-   @media screen and (max-width: 1000px) {
+   @media screen and (max-width: 1200px) {
       /* common */
       .list-title {
-            height: auto;
-            font-size: 1.3em;
-         }
+         height: auto;
+         font-size: 1.3em;
+      }
 
-         .page-title {
-            font-size: 1.5em;
-            margin-left: 0.05em;
-         }
+      .page-title {
+         font-size: 1.5em;
+         margin-left: 0.05em;
+      }
       /* common */
       .hd-title{
          font-size: 1.3em;

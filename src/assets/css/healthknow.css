@@ -138,7 +138,217 @@ input[type="radio"]{
    margin-top: 1em;
 }
 
-@media screen and (max-width: 1000px) {
+/* 詳細資訊按鈕和列樣式 */
+.detail-row {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   width: 100%;
+}
+
+.info-section {
+   display: flex;
+   align-items: center;
+   gap: 1em;
+}
+
+.detail-btn {
+   color: #FFFFFF !important;
+   font-size: 2em;
+   min-width: 60px;
+   height: 32px;
+   font-weight: bold;
+}
+
+/* 詳細資訊彈窗樣式 */
+.dialog-title {
+   background-color: #76caad;
+   color: white;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 16px;
+}
+
+.close-btn {
+   color: white;
+}
+
+.dialog-content {
+   padding: 16px;
+   max-height: 400px;
+   overflow-y: auto;
+   scrollbar-width: thin;
+   scrollbar-color: #76caad #f0f0f0;
+}
+
+.dialog-content::-webkit-scrollbar {
+   width: 8px;
+}
+
+.dialog-content::-webkit-scrollbar-track {
+   background: #f0f0f0;
+   border-radius: 4px;
+}
+
+.dialog-content::-webkit-scrollbar-thumb {
+   background: #76caad;
+   border-radius: 4px;
+}
+
+.dialog-content::-webkit-scrollbar-thumb:hover {
+   background: #69c9a7;
+}
+
+.detail-records {
+   display: flex;
+   flex-direction: column;
+   gap: 12px;
+}
+
+.detail-record-item {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 8px 16px;
+   background-color: #f5f5f5;
+   border-radius: 4px;
+}
+
+.detail-record-item .record-time {
+   font-size: 1.4em;
+   color: #333;
+}
+
+.detail-record-item .record-value {
+   font-size: 1.4em;
+   color: #76caad;
+   font-weight: bold;
+}
+
+/* 上傳記錄區塊樣式 */
+.upload-records-container {
+   margin-top: 0;
+   border: 1px solid #e0e0e0;
+}
+
+.upload-header {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 1.43em;
+   background-color: #f5f5f5;
+   cursor: pointer;
+   height: auto;
+}
+
+.upload-header h3 {
+   font-size: 1.8em;
+   color: #333;
+   margin: 0;
+}
+
+.records-list {
+   padding: 1em;
+   max-height: 350px; /* 設定最大高度，約顯示5筆資料 */
+   overflow-y: auto; /* 添加垂直滾動條 */
+   scrollbar-width: thin; /* Firefox的滾動條樣式 */
+   scrollbar-color: #76caad #f0f0f0; /* Firefox的滾動條顏色 */
+   font-size: 1em;
+}
+
+/* Webkit瀏覽器的滾動條樣式 */
+.records-list::-webkit-scrollbar {
+   width: 8px;
+}
+
+.records-list::-webkit-scrollbar-track {
+   background: #f0f0f0;
+   border-radius: 4px;
+}
+
+.records-list::-webkit-scrollbar-thumb {
+   background: #76caad;
+   border-radius: 4px;
+}
+
+.records-list::-webkit-scrollbar-thumb:hover {
+   background: #69c9a7;
+}
+
+.record-item {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 1em;
+   border-bottom: 1px solid #e0e0e0;
+   min-height: 70px; /* 確保每個項目有固定的最小高度 */
+   font-size: 1.2em;
+}
+
+.record-item:last-child {
+   border-bottom: none;
+}
+
+.record-info {
+   display: flex;
+   align-items: center;
+   gap: 1em;
+}
+
+.record-time {
+   font-size: 1.6em;
+   color: #333;
+}
+
+.record-status {
+   font-size: 1.5em;
+   color: #76caad;
+   font-weight: bold;
+}
+
+.edit-record-btn {
+   font-size: 1.5em;
+   min-width: 80px;
+   color: #ffffff !important;
+   font-weight: bold;
+}
+
+.no-records {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   padding: 2em;
+   color: #4f4f4f;
+   font-size: 2em;
+   font-weight: 500;
+}
+
+/* 編輯頁面樣式 */
+.disabled-diet {
+   opacity: 0.7;
+   cursor: not-allowed;
+ }
+ 
+ .disabled-diet input[type="radio"],
+ .disabled-diet input[type="checkbox"] {
+   cursor: not-allowed;
+   background-color: #e9ecef;
+ }
+ 
+ .disabled-text {
+   color: #6c757d;
+   cursor: not-allowed;
+ }
+ 
+ /* 確保禁用的輸入框顯示正確的顏色 */
+ .disabled-diet input[type="radio"]:checked,
+ .disabled-diet input[type="checkbox"]:checked {
+   background-color: #6c757d;
+   border-color: #6c757d;
+ }
+
+@media screen and (max-width: 1200px) {
    .health-detail {
       margin: 0.01em;
       padding: 0.01em;
@@ -174,4 +384,38 @@ input[type="radio"]{
       width: 100%;
       height: 2.5em !important;
    }
+
+   /* 詳細資訊按鈕和彈窗的響應式樣式 */
+   .detail-btn {
+      min-width: 60px;
+      height: 28px;
+   }
+
+   .detail-record-item .record-time,
+   .detail-record-item .record-value {
+      font-size: 1.2em;
+   }
+
+   /* 上傳記錄區塊樣式 */
+   .upload-header {
+      padding: 1.25em;
+   }
+
+   .record-time {
+      font-size: 1.5em;
+   }
+
+   .record-status {
+      font-size: 1.5em;
+   }
+
+   .edit-record-btn {
+      min-width: 60px;
+   }
+
+   .no-records {
+      font-size: 1.6em;
+      padding: 1.5em;
+   }
 }
+

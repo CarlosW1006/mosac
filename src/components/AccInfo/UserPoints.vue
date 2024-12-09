@@ -33,7 +33,7 @@
       </v-col>
 
       <!-- 點數兌換紀錄功能區 -->
-      <v-col cols="12" sm="12" md="6" lg="6">
+      <!-- <v-col cols="12" sm="12" md="6" lg="6">
          <v-card>
             <v-list-item class="list-title">
                <div class="flex-container">
@@ -63,6 +63,21 @@
                <p>查無資料</p>
             </div>
             
+         </v-card>
+      </v-col> -->
+
+      <!-- 上傳記錄區塊 -->
+      <v-col cols="12" sm="12" md="6" lg="6">
+         <v-card class="upload-records-container">
+            <div class="upload-header" @click="toggleRecords">
+               <h3>上傳記錄</h3>
+               <v-icon>{{ isRecordsExpanded ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+            </div>
+            
+            <v-expand-transition>
+               <div v-show="isRecordsExpanded" class="records-list">
+               </div>
+            </v-expand-transition>
          </v-card>
       </v-col>
    </v-row>
@@ -126,5 +141,6 @@
 
 <style lang="css" scoped>
    @import "../../assets/css/common.css";
+   @import "../../assets/css/healthknow.css";
    @import "../../assets/css/accountInfo.css";
 </style>

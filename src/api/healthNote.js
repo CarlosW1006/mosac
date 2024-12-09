@@ -16,13 +16,26 @@ export function getHealthRecords(monthKey) {
    return healthRecords.value.records[monthKey] || [];
 }
 
-export function changeDate(val) {
-   const rawDate = new Date(val);
-   const formattedDate = rawDate.getFullYear() + '/' + 
-   (rawDate.getMonth() + 1).toString().padStart(2, '0')
-   + '/' + rawDate.getDate().toString().padStart(2, '0');
+function getLocalDateString(date) {
+   const d = new Date(date);
+   return `${d.getFullYear()}/${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}`;
+}
 
-   return(formattedDate);
+// 添加輔助函數來標準化日期比較
+export function isSameDay(date1, date2) {
+   const d1 = new Date(date1);
+   const d2 = new Date(date2);
+   return (
+      d1.getFullYear() === d2.getFullYear() &&
+      d1.getMonth() === d2.getMonth() &&
+      d1.getDate() === d2.getDate()
+   );
+}
+
+export function changeDate(val) {
+   if (!val) return null;
+   const d = new Date(val);
+   return getLocalDateString(d);
 }
 
 // 健康手札紀錄 API Start //
@@ -64,7 +77,8 @@ export function askHealthNoteRecord(startAt, endAt) {
                (month === 3 && date === 31) ||
                (month === 6 && date === 30) ||
                (month === 9 && date === 30) ||
-               (month === 12 && date === 31);
+               (month === 12 && date === 31) ||
+               (month === 12 && date === 4);// 測試
 
             // 決定完成狀態
             record.finish = hasBasicRecords && 
@@ -122,77 +136,204 @@ export function inputHealthNoteGoal(stepGoal, joggingGoal){
 // 上傳健康紀錄 API Start //
 export function addHealthRecord(healthData) {
    const token = sessionStorage.getItem('session');
+   const targetDate = healthData.date ? new Date(healthData.date) : new Date();
+   const now = new Date();
    
-   return API.post('user/health-records', 
-      {
-         dailySteps: healthData.steps,
-         dailyJoggingTime: healthData.walkingTimes.reduce((a, b) => a + b, 0),
-         dailyDietGoal: healthData.diet === '是' ? `是(${healthData.selectedMeals.join('、')})` : '否',
-         weeklyWeight: healthData.weight,
-         HbA1c: healthData.hba1c ? parseFloat(healthData.hba1c) : null,
-         startAt: healthData.startAt,  // 使用傳入的 startAt
-         endAt: healthData.endAt       // 使用傳入的 endAt
-      },
-      {
-         headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}` 
-         }
+   // 保持日期部分，但使用當前時間
+   targetDate.setHours(now.getHours(), now.getMinutes(), now.getSeconds(), now.getMilliseconds());
+   
+   console.log('Preparing to save record for:', {
+      targetDate: getLocalDateString(targetDate),
+      createAt: targetDate.toISOString()
+   });
+
+   // 構建記錄數據，確保所有欄位都有預設值
+   const recordData = {
+      createAt: targetDate.toISOString()
+   };
+
+   // 只在有實際輸入值時覆蓋預設值
+   if (healthData.steps !== '' && healthData.steps !== undefined) {
+      recordData.dailySteps = Number(healthData.steps);
+   }
+
+   if (healthData.walkingTime !== '' && healthData.walkingTime !== undefined) {
+      recordData.dailyJoggingTime = Number(healthData.walkingTime);
+   }
+
+   if (healthData.diet) {
+      recordData.dailyDietGoal = healthData.diet === '是' && healthData.selectedMeals?.length > 0
+         ? `是(${healthData.selectedMeals.join('、')})`
+         : healthData.diet;
+   }
+
+   if (healthData.weight !== '' && healthData.weight !== undefined) {
+      recordData.weeklyWeight = Number(healthData.weight);
+   }
+
+   if (healthData.hba1c !== '' && healthData.hba1c !== undefined) {
+      recordData.HbA1c = Number(healthData.hba1c);
+   }
+
+   console.log('Sending record with time:', {
+      recordData,
+      localDate: getLocalDateString(targetDate)
+   });
+   
+   return API.post('user/health-records', recordData, {
+      headers: {
+         'Content-Type': 'application/json',
+         'Authorization': `Bearer ${token}` 
       }
-   )
+   })
    .then((response) => {
+      console.log('Server response:', {
+         data: response.data,
+         localDate: getLocalDateString(response.data.createAt)
+      });
+      
       alert('健康紀錄儲存成功');
       return response.data;
    })
    .catch((error) => {
       console.error('健康紀錄儲存失敗:', error);
-      if (error.response && error.response.data && error.response.data.message) {
-         alert(error.response.data.message);
-      } else {
-         alert('資料處理發生異常，請聯絡系統管理員');
-      }
       throw error;
    });
 }
 // 上傳健康紀錄 API End //
 
-// 取得健康紀錄 API Start //
-export function getHealthRecordByDate(dateString) {
-   const date = new Date(dateString);
-   const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+// 取得特定日期的所有健康紀錄
+export function getAllHealthRecordsByDate(dateString) {
+   const targetDate = new Date(dateString);
+   targetDate.setHours(0, 0, 0, 0);
    
-   console.log('Request params:', { startAt: formattedDate, endAt: formattedDate });
+   const formattedDate = `${targetDate.getFullYear()}-${String(targetDate.getMonth() + 1).padStart(2, '0')}-${String(targetDate.getDate()).padStart(2, '0')}`;
+   
    const token = sessionStorage.getItem('session');
-
-   const params = new URLSearchParams();
-   params.append('startAt', formattedDate);
-   params.append('endAt', formattedDate);
-
+ 
    return API.get(
-     `user/health-records?${params.toString()}`,
+     'user/health-records',
      {
+       params: {
+         startAt: formattedDate,
+         endAt: formattedDate
+       },
        headers: {
-         'Content-Type': 'application/json',
-         'Authorization': `Bearer ${token}` 
+         'Authorization': `Bearer ${token}`
        }
      }
    ).then((response) => {
-      console.log('API response:', response.data);
+     if (Array.isArray(response.data)) {
+       const targetDateStr = getLocalDateString(targetDate);
+       return response.data.filter(record => 
+         getLocalDateString(record.createAt) === targetDateStr
+       ).sort((a, b) => new Date(b.createAt) - new Date(a.createAt));
+     }
+     return [];
+   });
+ }
+
+// 取得健康紀錄 API Start //
+export function getHealthRecordByDate(dateString) {
+   const targetDate = new Date(dateString);
+   targetDate.setHours(0, 0, 0, 0);
+   
+   // 格式化日期為 YYYY-MM-DD
+   const formattedDate = `${targetDate.getFullYear()}-${String(targetDate.getMonth() + 1).padStart(2, '0')}-${String(targetDate.getDate()).padStart(2, '0')}`;
+   
+   console.log('Requesting record for date:', formattedDate);
+   
+   const token = sessionStorage.getItem('session');
+
+   return API.get(
+     `user/health-records`,
+     {
+       params: {
+         startAt: formattedDate,
+         endAt: formattedDate
+       },
+       headers: {
+         'Authorization': `Bearer ${token}` 
+       }
+     }
+   ).then((response) => {      
+      console.log('Raw API response:', response.data);
       
       if (Array.isArray(response.data) && response.data.length > 0) {
-         // 找到對應日期的記錄
-         const targetRecord = response.data.find(record => {
-            const recordDate = changeDate(record.createAt).replace(/\//g, '-');
-            return recordDate === formattedDate;
+         // 根據本地日期字符串進行過濾
+         const targetDateStr = getLocalDateString(targetDate);
+         const dayRecords = response.data.filter(record => {
+            return getLocalDateString(record.createAt) === targetDateStr;
          });
-         
-         console.log('Found record for date:', formattedDate, targetRecord);
-         return targetRecord || null;
+
+         console.log('Filtered records for date', targetDateStr, ':', dayRecords);
+
+         if (dayRecords.length > 0) {
+            // 按照 UTC 時間戳降序排序
+            dayRecords.sort((a, b) => new Date(b.createAt) - new Date(a.createAt));
+            
+            const latestRecord = dayRecords[0];
+            console.log('Selected latest record:', {
+               id: latestRecord.id,
+               createAt: latestRecord.createAt,
+               localDate: getLocalDateString(latestRecord.createAt)
+            });
+            return latestRecord;
+         }
       }
+      
+      console.log('No records found for date:', formattedDate);
       return null;
    }).catch((error) => {
       console.error('獲取健康紀錄失敗:', error);
-      return null;
+      throw error;
    });
 }
 // 取得健康紀錄 API End //
+
+// 更新健康紀錄 API Start //
+export function updateHealthRecord(recordId, healthData) {
+   const token = sessionStorage.getItem('session');
+   
+   // 構建要更新的數據對象
+   const updateData = {};
+   
+   // 只包含有值的欄位
+   if (healthData.steps !== '' && healthData.steps !== undefined) {
+      updateData.dailySteps = Number(healthData.steps);
+   }
+
+   if (healthData.walkingTimes !== '' && healthData.walkingTimes !== undefined) {
+      updateData.dailyJoggingTime = Number(healthData.walkingTimes);
+   }
+
+   if (healthData.diet) {
+      updateData.dailyDietGoal = healthData.diet === '是' && healthData.selectedMeals?.length > 0
+         ? `是(${healthData.selectedMeals.join('、')})`
+         : healthData.diet;
+   }
+
+   if (healthData.weight !== '' && healthData.weight !== undefined) {
+      updateData.weeklyWeight = Number(healthData.weight);
+   }
+
+   if (healthData.hba1c !== '' && healthData.hba1c !== undefined) {
+      updateData.HbA1c = Number(healthData.hba1c);
+   }
+
+   return API.patch(`user/health-records/${recordId}`, updateData, {
+      headers: {
+         'Content-Type': 'application/json',
+         'Authorization': `Bearer ${token}`
+      }
+   })
+   .then((response) => {
+      alert('健康紀錄更新成功');
+      return response.data;
+   })
+   .catch((error) => {
+      console.error('健康紀錄更新失敗:', error);
+      throw error;
+   });
+}
+// 更新健康紀錄 API End //

@@ -94,6 +94,14 @@ const routes = [
       }
    },
    {
+      path: '/healthDetailEdit',
+      name: 'healthDetailEditPage', 
+      component:  () => import('../components/HealthNotes/HealthDetailEdit.vue'), // 健康手札(資料編輯)
+      meta: {
+         requiresAuth: true // 需要 session 認證
+      }
+   },
+   {
       path: '/healthKnowledge',
       name: 'healthKnowledgePage', 
       component:  () => import('../components/HealthKnow/HealthKnowledge.vue'), // 健康知能(主頁)
