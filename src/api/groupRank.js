@@ -42,7 +42,11 @@ export function getGroupRanking(phaseNum, phaseMonth, selectPerPageNum, forceUpd
       const paginatedData = splitDataFunc(responseData, selectPerPageNum);
       return paginatedData;
    })
-   .catch((error) => {
+   .catch((error) => { 
+      if (error.response.status === 403) {
+         alert('您的登入已逾時，請重新登入');
+         return;
+      }
       if (error.response && error.response.data && error.response.data.message) {
          alert(error.response.data.message); // 顯示伺服器返回的錯誤訊息
       } else {
@@ -81,7 +85,11 @@ export function getUserNickName(uid, phaseNum, phaseMonth) {
 
       return {month, phase, nickname, completionRate};
    })
-   .catch((error) => {
+   .catch((error) => { 
+      if (error.response.status === 403) {
+         alert('您的登入已逾時，請重新登入');
+         return;
+      }
       if (error.response && error.response.data && error.response.data.message) {
          alert(error.response.data.message); // 顯示伺服器返回的錯誤訊息
       } else {
@@ -105,7 +113,11 @@ export function getFeedback() {
    .then((response) => {
       return response.data;
    })
-   .catch((error) => {
+   .catch((error) => { 
+      if (error.response.status === 403) {
+         alert('您的登入已逾時，請重新登入');
+         return;
+      }
       if (error.response && error.response.data && error.response.data.message) {
          alert(error.response.data.message); // 顯示伺服器返回的錯誤訊息
       } else {

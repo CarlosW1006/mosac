@@ -96,7 +96,11 @@ export function changePassword(originPassword, newPassword, verificationId, veri
    .then(() => {
       alert('密碼變更成功');
    })
-   .catch((error) => {
+   .catch((error) => { 
+      if (error.response.status === 403) {
+         alert('您的登入已逾時，請重新登入');
+         return;
+      }
       if (error.response && error.response.data && error.response.data.message) {
          alert(error.response.data.message); // 顯示伺服器返回的錯誤訊息
       } else {

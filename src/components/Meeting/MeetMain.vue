@@ -65,11 +65,17 @@
                </v-card>
             </div>
 
-            <div class="flex-container page-container" v-if="winwidth == true">
+            <div class="flex-container page-container" v-if="winwidth">
                <h3 class="pageNum">顯示第 1 到 10 項結果，共 {{ datas }} 項</h3>
                <v-row justify="end">
                   <v-pagination :length="pages" total-visible="5" class="my-4"/>
                </v-row>
+            </div>
+
+            <div v-else-if="isSmallWidth">
+               <v-container class="max-width">
+                  <v-pagination :length="pages" total-visible="1" class="my-4"/>
+               </v-container>
             </div>
 
             <div v-else>
@@ -89,7 +95,7 @@
    export default {
       name: 'meetInfoPage',
       setup() {
-         const { winwidth } = useWindowWidth();
+         const { winwidth, isSmallWidth } = useWindowWidth();
          const selectPerPageNum = ref(10);
          const perPageNum = [10, 20, 30];
          const perPage = ref(10);
@@ -106,6 +112,7 @@
 
          return {
             winwidth,
+            isSmallWidth,
             session,
             data,
             datas,

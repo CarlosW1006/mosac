@@ -73,7 +73,6 @@
 
          function toggleCheckbox(value) { 
             surveyResult.value = [parseInt(value)];
-            console.log(surveyResult.value);
          }
 
          function sendSurveyOutcome() {

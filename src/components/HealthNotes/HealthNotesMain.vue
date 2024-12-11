@@ -186,8 +186,7 @@ export default {
                
                // 預加載相鄰月份
                preloadAdjacentMonths(year, month);
-
-               console.log(monthDataCache.value);
+               
             } catch (error) {
                console.error('Failed to load month data:', error);
             }

@@ -103,9 +103,18 @@ export function askHealthNoteRecord(startAt, endAt) {
 
       return { HealthNoteRecord, uncompleteNumber };
    })
-   .catch(error => {
-      console.error('Health record fetch error:', error);
-      return { HealthNoteRecord: [] };
+   .catch((error) => { 
+      if (error.response.status === 403) {
+         alert('您的登入已逾時，請重新登入');
+         return;
+      }
+      if (error.response && error.response.data && error.response.data.message) {
+         alert(error.response.data.message); // 顯示伺服器返回的錯誤訊息
+         return { HealthNoteRecord: [] };
+      } else {
+         alert('資料處理發生異常，請聯絡系統管理員');
+         return { HealthNoteRecord: [] };
+      }
    });
 }
 // 健康手札紀錄 API End //
@@ -122,7 +131,11 @@ export function inputHealthNoteGoal(stepGoal, joggingGoal){
       alert('目標設定成功');
       return response.data;// 回傳伺服器回應的資料
    })
-   .catch((error) => {
+   .catch((error) => { 
+      if (error.response.status === 403) {
+         alert('您的登入已逾時，請重新登入');
+         return;
+      }
       if (error.response && error.response.data && error.response.data.message) {
          alert(error.response.data.message); // 顯示伺服器返回的錯誤訊息
       } else {
@@ -195,9 +208,16 @@ export function addHealthRecord(healthData) {
       alert('健康紀錄儲存成功');
       return response.data;
    })
-   .catch((error) => {
-      console.error('健康紀錄儲存失敗:', error);
-      throw error;
+   .catch((error) => { 
+      if (error.response.status === 403) {
+         alert('您的登入已逾時，請重新登入');
+         return;
+      }
+      if (error.response && error.response.data && error.response.data.message) {
+         alert(error.response.data.message); // 顯示伺服器返回的錯誤訊息
+      } else {
+         alert('資料處理發生異常，請聯絡系統管理員');
+      }
    });
 }
 // 上傳健康紀錄 API End //
@@ -230,6 +250,17 @@ export function getAllHealthRecordsByDate(dateString) {
        ).sort((a, b) => new Date(b.createAt) - new Date(a.createAt));
      }
      return [];
+   })
+   .catch((error) => { 
+      if (error.response.status === 403) {
+         alert('您的登入已逾時，請重新登入');
+         return;
+      }
+      if (error.response && error.response.data && error.response.data.message) {
+         alert(error.response.data.message); // 顯示伺服器返回的錯誤訊息
+      } else {
+         alert('資料處理發生異常，請聯絡系統管理員');
+      }
    });
  }
 
@@ -284,9 +315,17 @@ export function getHealthRecordByDate(dateString) {
       
       console.log('No records found for date:', formattedDate);
       return null;
-   }).catch((error) => {
-      console.error('獲取健康紀錄失敗:', error);
-      throw error;
+   })
+   .catch((error) => { 
+      if (error.response.status === 403) {
+         alert('您的登入已逾時，請重新登入');
+         return;
+      }
+      if (error.response && error.response.data && error.response.data.message) {
+         alert(error.response.data.message); // 顯示伺服器返回的錯誤訊息
+      } else {
+         alert('資料處理發生異常，請聯絡系統管理員');
+      }
    });
 }
 // 取得健康紀錄 API End //
@@ -331,9 +370,16 @@ export function updateHealthRecord(recordId, healthData) {
       alert('健康紀錄更新成功');
       return response.data;
    })
-   .catch((error) => {
-      console.error('健康紀錄更新失敗:', error);
-      throw error;
+   .catch((error) => { 
+      if (error.response.status === 403) {
+         alert('您的登入已逾時，請重新登入');
+         return;
+      }
+      if (error.response && error.response.data && error.response.data.message) {
+         alert(error.response.data.message); // 顯示伺服器返回的錯誤訊息
+      } else {
+         alert('資料處理發生異常，請聯絡系統管理員');
+      }
    });
 }
 // 更新健康紀錄 API End //

@@ -12,7 +12,11 @@ export function askAccInfo() {
 
       return { credential, name, userType, nickName, totalPoints, totalMedals };
    })
-   .catch((error) => {
+   .catch((error) => { 
+      if (error.response.status === 403) {
+         alert('您的登入已逾時，請重新登入');
+         return;
+      }
       if (error.response && error.response.data && error.response.data.message) {
          alert(error.response.data.message); // 顯示伺服器返回的錯誤訊息
       } else {
@@ -43,7 +47,11 @@ export function askTargetInfo() {
 
          return { currentPhase, currentWeight, currentSteps, currentJogTime };
       })
-      .catch((error) => {
+      .catch((error) => { 
+         if (error.response.status === 403) {
+            alert('您的登入已逾時，請重新登入');
+            return;
+         }
          if (error.response && error.response.data && error.response.data.message) {
             alert(error.response.data.message); // 顯示伺服器返回的錯誤訊息
          } else {
@@ -66,7 +74,11 @@ export function changeAccInfo(accNickName) {
    .then(() => {
       alert('資料變更成功');
    })
-   .catch((error) => {
+   .catch((error) => { 
+      if (error.response.status === 403) {
+         alert('您的登入已逾時，請重新登入');
+         return;
+      }
       if (error.response && error.response.data && error.response.data.message) {
          alert(error.response.data.message); // 顯示伺服器返回的錯誤訊息
       } else {
@@ -110,7 +122,11 @@ export function askPointsRecord() {
 
       return result;
    })
-   .catch((error) => {
+   .catch((error) => { 
+      if (error.response.status === 403) {
+         alert('您的登入已逾時，請重新登入');
+         return;
+      }
       if (error.response && error.response.data && error.response.data.message) {
          alert(error.response.data.message); // 顯示伺服器返回的錯誤訊息
       } else {
@@ -128,7 +144,11 @@ export function exchangePoints() {
    .then((response) => {
       console.log(response);
    })
-   .catch((error) => {
+   .catch((error) => { 
+      if (error.response.status === 403) {
+         alert('您的登入已逾時，請重新登入');
+         return;
+      }
       if (error.response && error.response.data && error.response.data.message) {
          alert(error.response.data.message); // 顯示伺服器返回的錯誤訊息
       } else {

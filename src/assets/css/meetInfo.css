@@ -74,6 +74,20 @@ a {
    justify-content: space-between;
 }
 
+.meetInfo-container {
+   width: 100%;
+   height: 35em;
+   overflow-y: auto;
+   margin-bottom: 1.5em;
+   border: 1.5px solid #76caad;
+}
+
+.meetInfo-font {
+   height: 10em;
+   margin: 0.5em;
+   text-align: justify;
+}
+
 .reserve-btn {
    margin-left: auto;
    color: #FFFFFF;
