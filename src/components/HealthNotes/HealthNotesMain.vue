@@ -115,7 +115,7 @@
 <script>
 import { Calendar } from 'v-calendar';
 import { useWindowWidth } from '../JS/winwidth';
-import { askHealthNoteRecord, inputHealthNoteGoal, getHealthRecordByDate } from '../../api/healthNote';
+import { getLocalDateString, askHealthNoteRecord, inputHealthNoteGoal, getHealthRecordByDate } from '../../api/healthNote';
 import 'v-calendar/style.css';
 import { ref, onMounted } from 'vue';
 
@@ -211,7 +211,10 @@ export default {
          }
 
          const formattedDate = `${inputDate.getFullYear()}/${(inputDate.getMonth() + 1).toString().padStart(2, '0')}/${inputDate.getDate().toString().padStart(2, '0')}`;
-         const record = records.find(item => item.createAt === formattedDate);
+         const record = records.find(item => {
+            const recordDate = item.date || item.createAt; // 如果 date 為空則使用 createAt
+            return getLocalDateString(recordDate) === formattedDate;
+         });
          
          if (record) {
             return record.finish === 'true' ? '完成填寫' : '尚未完成';

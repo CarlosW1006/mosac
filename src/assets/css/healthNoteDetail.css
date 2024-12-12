@@ -60,48 +60,6 @@ input[type="text"] {
    white-space: nowrap; /* 防止單位文字換行 */
 }
 
-.btn-round {
-   border: solid 0.01em#f37e7e;
-   border-radius: 50%;
-   color: #f37e7e;
-   cursor: pointer;
-   width: 1.5em;
-   height: 1.5em;
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   font-size: 1em;
-   font-weight: bold;
-}
-
-.add-btn{
-   font-size: 25px; /* 讓 + 更大 */
-   font-weight: bold; /* 讓文字更醒目 */
-   color: #FFFFFF; /* 文字顏色 */
-   background-color: #76caad; /* 使用亮眼的綠色 */
-   border: none; /* 移除預設邊框 */
-   border-radius: 50%; /* 圓形按鈕 */
-   width: 35px; /* 控制按鈕大小 */
-   height: 35px;
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   cursor: pointer;
-   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 添加陰影提升視覺層次 */
-   transition: all 0.3s ease; /* 添加過渡效果 */
-   margin-top: 0.2em;
-}
-
-.add-btn:hover {
-   background-color: #25903c; /* hover 時顏色變深 */
-   transform: scale(1.1); /* 放大效果 */
-}
-
-.add-btn:active {
-   background-color: #1e7e34; /* 按下時的顏色 */
-   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 按下時陰影變化 */
-}
-
 input[type="radio"]{
    margin-right: 0.3em;
 }
@@ -168,6 +126,8 @@ input[type="radio"]{
    justify-content: space-between;
    align-items: center;
    padding: 16px;
+   font-size: 1.6em;
+   font-weight: bold;
 }
 
 .close-btn {
@@ -405,12 +365,6 @@ input[type="radio"]{
       max-width: calc(93.5% - 3em); /* 確保單位文字不會擠壓 input */
    }
    
-   .add-btn{
-      font-size: 25px; /* 讓 + 更大 */
-      width: 30px; /* 控制按鈕大小 */
-      height: 30px;
-   }
-
    .save-hr-btn {
       font-size: 2em;
       font-weight: 600;

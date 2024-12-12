@@ -196,32 +196,16 @@
             loading.value = true;
             try {
                const selectedDate = route.query.date;
-               const currentTime = new Date();
-               
-               // 合併選擇的日期和當前時間
-               const targetDate = new Date(selectedDate);
-               targetDate.setHours(currentTime.getHours(), 
-                                 currentTime.getMinutes(), 
-                                 currentTime.getSeconds(), 
-                                 currentTime.getMilliseconds());
-
-               // 儲存記錄 - 直接傳遞所有值,讓後端處理 null 值
-               const savedRecord = await addHealthRecord({
+               const healthData = {
                   ...healthInfo.value,
-                  date: targetDate.toISOString()
-               });
-
-               // 確保有完整的記錄數據
-               if (savedRecord) {
-                  // 明確設置要保存的數據結構
-                  const recordToCache = {
-                  ...savedRecord,
-                  createAt: targetDate.toISOString()
-                  };
-                  sessionStorage.setItem('temp-health-record', JSON.stringify(recordToCache));
+                  date: selectedDate, // 確保使用選擇的日期
+                  walkingTime: healthInfo.value.walkingTime,  // 確保正確的欄位名稱
+               };
+               
+               const record = await addHealthRecord(healthData);
+               if (record) {
+                  sessionStorage.setItem('temp-health-record', JSON.stringify(record));
                }
-
-               // 跳轉到檢視頁面
                window.location.href = `#/healthDetailView?date=${selectedDate}`;
             } catch (error) {
                console.error('儲存健康紀錄失敗:', error);
