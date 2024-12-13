@@ -138,7 +138,7 @@
 <script>
 import { Calendar } from 'v-calendar';
 import { useWindowWidth } from '../JS/winwidth';
-import { getLocalDateString, askHealthNoteRecord, getHealthRecordByDate } from '../../api/healthNote';
+import { askHealthNoteRecord, getHealthRecordByDate } from '../../api/healthNote';
 import { askTargetInfo } from '../../api/accInfo';
 import 'v-calendar/style.css';
 import { ref, onMounted } from 'vue';
@@ -205,41 +205,42 @@ export default {
          }
 
          const [year, month] = monthKey.split('-').map(Number);
-         const lastDayOfMonth = new Date(year, month, 0).getDate();
          const today = new Date();
-         
-         // 確定要檢查的天數
-         let daysToCheck;
-         if (year === today.getFullYear() && month === today.getMonth() + 1) {
-            // 當前月份只檢查到今天
-            daysToCheck = today.getDate();
-         } else {
-            // 過去的月份檢查整個月
-            daysToCheck = lastDayOfMonth;
-         }
+         today.setHours(0, 0, 0, 0);
 
          let completed = 0;
          let missing = 0;
          let incomplete = 0;
 
+         // 計算當月最後一天
+         const lastDay = new Date(year, month, 0).getDate();
+         
+         // 確定要檢查到哪一天
+         const daysToCheck = (year === today.getFullYear() && month === today.getMonth() + 1)
+            ? today.getDate()
+            : lastDay;
+
          // 遍歷每一天計算狀態
          for (let day = 1; day <= daysToCheck; day++) {
             const currentDate = new Date(year, month - 1, day);
-            const formattedDate = getLocalDateString(currentDate);
-            
+            currentDate.setHours(0, 0, 0, 0);
+
             const record = records.find(item => {
-               const recordDate = item.date || item.createAt;
-               return getLocalDateString(recordDate) === formattedDate;
+               const recordDate = new Date(item.date);
+               recordDate.setHours(0, 0, 0, 0);
+               return recordDate.getTime() === currentDate.getTime();
             });
 
             if (record) {
+               // 有記錄，根據完成狀態計數
                if (record.finish === 'true') {
                   completed++;
                } else {
                   incomplete++;
                }
             } else {
-               const daysDifference = Math.floor((today - currentDate) / (1000 * 60 * 60 * 24));
+               // 沒記錄，根據日期差異計數
+               const daysDifference = Math.floor((today.getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24));
                if (daysDifference > 2) {
                   missing++;
                } else {
@@ -291,6 +292,9 @@ export default {
       function getStatus(date) {
          const inputDate = new Date(date);
          const today = new Date();
+         
+         // 重要：設置時間為 00:00:00 以進行純日期比較
+         inputDate.setHours(0, 0, 0, 0);
          today.setHours(0, 0, 0, 0);
 
          if (inputDate > today) {
@@ -304,18 +308,21 @@ export default {
             return null;
          }
 
-         const formattedDate = `${inputDate.getFullYear()}/${(inputDate.getMonth() + 1).toString().padStart(2, '0')}/${inputDate.getDate().toString().padStart(2, '0')}`;
+         // 檢查是否有記錄
          const record = records.find(item => {
-            const recordDate = item.date || item.createAt; // 如果 date 為空則使用 createAt
-            return getLocalDateString(recordDate) === formattedDate;
+            const recordDate = new Date(item.date);
+            recordDate.setHours(0, 0, 0, 0);
+            return recordDate.getTime() === inputDate.getTime();
          });
-         
-         if (record) {
-            return record.finish === 'true' ? '完成填寫' : '尚未完成';
-         }
 
-         const daysDifference = Math.floor((today - inputDate) / (1000 * 60 * 60 * 24));
-         return daysDifference > 2 ? '缺少紀錄' : '尚未完成';
+         if (record) {
+            // 如果有記錄，根據 finish 狀態判斷
+            return record.finish === 'true' ? '完成填寫' : '尚未完成';
+         } else {
+            // 如果沒有記錄，根據日期差異判斷
+            const daysDifference = Math.floor((today.getTime() - inputDate.getTime()) / (1000 * 60 * 60 * 24));
+            return daysDifference <= 2 ? '尚未完成' : '缺少紀錄';
+         }
       }
 
       async function navigate(val) {

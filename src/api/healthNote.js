@@ -56,26 +56,26 @@ export function askHealthNoteRecord(startAt, endAt) {
       if(Array.isArray(response.data)) {
          // 整理記錄，去除重複
          response.data.forEach(record => {
-            // 優先使用 date 欄位，如果沒有則使用 createAt
-            const recordDate = record.date || record.createAt;
+            // 優先使用 date 欄位
+            const recordDate = new Date(record.date);
             record.date = changeDate(recordDate);
+            
             if (!HealthNoteRecord.some(r => r.date === record.date)) {
                // 檢查基本記錄
-               const recordDateObj = new Date(recordDate);
                const hasBasicRecords = record.dailySteps != null && 
                   record.dailyJoggingTime != null && 
                   record.dailyDietGoal != null;
 
                // 只在特殊日期檢查額外要求
-               const isSaturday = recordDateObj.getDay() === 6;
-               const month = recordDateObj.getMonth() + 1;
-               const date = recordDateObj.getDate();
+               const isSaturday = recordDate.getDay() === 6;
+               const month = recordDate.getMonth() + 1;
+               const date = recordDate.getDate();
                const isQuarterEnd = 
                   (month === 3 && date === 31) ||
                   (month === 6 && date === 30) ||
                   (month === 9 && date === 30) ||
                   (month === 12 && date === 31) ||
-                  (month === 12 && date === 9);// 測試
+                  (month === 12 && date === 9);
 
                // 決定完成狀態
                record.finish = hasBasicRecords && 
@@ -89,16 +89,6 @@ export function askHealthNoteRecord(startAt, endAt) {
          // 更新全局狀態
          const monthKey = `${new Date(startAt).getFullYear()}-${new Date(startAt).getMonth() + 1}`;
          updateHealthRecords(monthKey, HealthNoteRecord);
-      }
-
-      // 計算沒有填寫的天數
-      for(let i=0; i<HealthNoteRecord.length; i++) {
-         if(HealthNoteRecord[i].finish === 'false') {
-            uncompleteNumber += 1;
-         }
-      }
-      if(HealthNoteRecord.length<3) {
-         uncompleteNumber += (3-HealthNoteRecord.length);
       }
 
       return { HealthNoteRecord, uncompleteNumber };
@@ -136,7 +126,9 @@ export function inputHealthNoteGoal(stepGoal, joggingGoal){
 // 上傳健康紀錄 API Start //
 export function addHealthRecord(healthData) {
    const token = sessionStorage.getItem('session');
-   const targetDate = healthData.date ? new Date(healthData.date) : new Date();
+   //const targetDate = healthData.date ? new Date(healthData.date) : new Date();
+   // 使用传入的日期，这个日期应该是用户选择的日期
+   const targetDate = new Date(healthData.date);
    // 設置時間為當地時間的 00:00:00
    targetDate.setHours(0, 0, 0, 0);
 
@@ -219,11 +211,11 @@ export function getAllHealthRecordsByDate(dateString) {
      }
    ).then((response) => {
      if (Array.isArray(response.data)) {
-      const targetDateStr = getLocalDateString(targetDate);
       return response.data.filter(record => {
         // 如果有 date 欄位就用 date，否則用 createAt
-        const recordDate = record.date || record.createAt;
-        return getLocalDateString(recordDate) === targetDateStr;
+        const recordDate = new Date(record.date);
+        recordDate.setHours(0, 0, 0, 0);
+         return recordDate.getTime() === targetDate.getTime();
       }).sort((a, b) => new Date(b.createAt) - new Date(a.createAt)); // 依然用 createAt 來排序
     }
      return [];
@@ -232,6 +224,7 @@ export function getAllHealthRecordsByDate(dateString) {
 
 // 取得健康紀錄 API Start //
 export function getHealthRecordByDate(dateString) {
+   // 創建目標日期對象並設置為當天開始時間
    const targetDate = new Date(dateString);
    targetDate.setHours(0, 0, 0, 0);
    
@@ -257,22 +250,33 @@ export function getHealthRecordByDate(dateString) {
       console.log('Raw API response:', response.data);
       
       if (Array.isArray(response.data) && response.data.length > 0) {
-         // 根據本地日期字符串進行過濾
-         const targetDateStr = getLocalDateString(targetDate);
          const dayRecords = response.data.filter(record => {
-            // 優先使用 date 欄位，如果沒有則使用 createAt
-            const recordDate = record.date || record.createAt;
-            const recordDateObj = new Date(recordDate);
-            recordDateObj.setHours(0, 0, 0, 0);
-            return getLocalDateString(recordDate) === targetDateStr;
+            // 將記錄的日期轉換為本地時間的午夜時間點進行比較
+            const recordDate = new Date(record.date);
+            // 解決時區問題：設置為當天的 00:00:00
+            const localRecordDate = new Date(
+               recordDate.getFullYear(),
+               recordDate.getMonth(),
+               recordDate.getDate(),
+               0, 0, 0, 0
+            );
+            
+            // 同樣設置目標日期為當天的 00:00:00
+            const localTargetDate = new Date(
+               targetDate.getFullYear(),
+               targetDate.getMonth(),
+               targetDate.getDate(),
+               0, 0, 0, 0
+            );
+
+            return localRecordDate.getTime() === localTargetDate.getTime();
          });
 
-         console.log('Filtered records for date', targetDateStr, ':', dayRecords);
+         console.log('Filtered records for date', formattedDate, ':', dayRecords);
 
          if (dayRecords.length > 0) {
-            // 按照 UTC 時間戳降序排序
+            // 按照建立時間排序，最新的在前面
             dayRecords.sort((a, b) => new Date(b.createAt) - new Date(a.createAt));
-            
             return dayRecords[0];
          }
       }
