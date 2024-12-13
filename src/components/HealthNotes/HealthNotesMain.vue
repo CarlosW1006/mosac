@@ -11,7 +11,7 @@
                <h3 class="page-title">健康手札</h3>
             </v-list-item>
 
-            <v-list-item>            
+            <v-list-item style="padding: 1px;">            
                <div class="search-frame">
                   <div class="info-container">
                      <!-- 左側區塊 - 目標資訊 -->
@@ -282,9 +282,9 @@ export default {
                // 預加載相鄰月份
                preloadAdjacentMonths(year, month);
 
-               console.log(monthDataCache.value);
+               //console.log(monthDataCache.value);
             } catch (error) {
-               console.error('Failed to load month data:', error);
+               //console.error('Failed to load month data:', error);
             }
          }
       }
@@ -355,7 +355,7 @@ export default {
             const dateParam = encodeURIComponent(val.toISOString());
             window.location.href = `#${targetPath}?date=${dateParam}`;
          } catch (error) {
-            console.error('Navigation error:', error);
+            //console.error('Navigation error:', error);
             const dateParam = encodeURIComponent(val.toISOString());
             window.location.href = `#/healthDetailForm?date=${dateParam}`;
          }

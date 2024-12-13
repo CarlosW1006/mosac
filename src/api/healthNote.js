@@ -126,15 +126,13 @@ export function inputHealthNoteGoal(stepGoal, joggingGoal){
 // 上傳健康紀錄 API Start //
 export function addHealthRecord(healthData) {
    const token = sessionStorage.getItem('session');
-   //const targetDate = healthData.date ? new Date(healthData.date) : new Date();
-   // 使用传入的日期，这个日期应该是用户选择的日期
    const targetDate = new Date(healthData.date);
    // 設置時間為當地時間的 00:00:00
    targetDate.setHours(0, 0, 0, 0);
 
-   console.log('Preparing to save record for:', {
-      date: getLocalDateString(targetDate)
-   });
+   // console.log('Preparing to save record for:', {
+   //    date: getLocalDateString(targetDate)
+   // });
 
    // 構建記錄數據，確保所有欄位都有預設值
    const recordData = {
@@ -164,9 +162,9 @@ export function addHealthRecord(healthData) {
       recordData.HbA1c = Number(healthData.hba1c);
    }
 
-   console.log('Sending record with time:', {
-      recordData
-   });
+   // console.log('Sending record with time:', {
+   //    recordData
+   // });
    
    return API.post('user/health-records', recordData, {
       headers: {
@@ -175,15 +173,15 @@ export function addHealthRecord(healthData) {
       }
    })
    .then((response) => {
-      console.log('Server response:', {
-         data: response.data,
-      });
+      // console.log('Server response:', {
+      //    data: response.data,
+      // });
       
       alert('健康紀錄儲存成功');
       return response.data;
    })
    .catch((error) => {
-      console.error('健康紀錄儲存失敗:', error);
+      // console.error('健康紀錄儲存失敗:', error);
       throw error;
    });
 }
@@ -194,7 +192,16 @@ export function getAllHealthRecordsByDate(dateString) {
    const targetDate = new Date(dateString);
    targetDate.setHours(0, 0, 0, 0);
    
-   const formattedDate = `${targetDate.getFullYear()}-${String(targetDate.getMonth() + 1).padStart(2, '0')}-${String(targetDate.getDate()).padStart(2, '0')}`;
+   // 計算查詢的開始日期（目標日期）
+   const startDate = new Date(targetDate);
+   
+   // 計算查詢的結束日期（目標日期後兩天）
+   const endDate = new Date(targetDate);
+   endDate.setDate(endDate.getDate() + 2);
+   
+   // 格式化日期
+   const formattedStartDate = `${startDate.getFullYear()}-${String(startDate.getMonth() + 1).padStart(2, '0')}-${String(startDate.getDate()).padStart(2, '0')}`;
+   const formattedEndDate = `${endDate.getFullYear()}-${String(endDate.getMonth() + 1).padStart(2, '0')}-${String(endDate.getDate()).padStart(2, '0')}`;
    
    const token = sessionStorage.getItem('session');
  
@@ -202,8 +209,8 @@ export function getAllHealthRecordsByDate(dateString) {
      'user/health-records',
      {
        params: {
-         startAt: formattedDate,
-         endAt: formattedDate
+         startAt: formattedStartDate,
+         endAt: formattedEndDate
        },
        headers: {
          'Authorization': `Bearer ${token}`
@@ -211,27 +218,34 @@ export function getAllHealthRecordsByDate(dateString) {
      }
    ).then((response) => {
      if (Array.isArray(response.data)) {
-      return response.data.filter(record => {
-        // 如果有 date 欄位就用 date，否則用 createAt
-        const recordDate = new Date(record.date);
-        recordDate.setHours(0, 0, 0, 0);
+       return response.data.filter(record => {
+         // 檢查記錄的 date 欄位是否匹配目標日期
+         const recordDate = new Date(record.date);
+         recordDate.setHours(0, 0, 0, 0);
          return recordDate.getTime() === targetDate.getTime();
-      }).sort((a, b) => new Date(b.createAt) - new Date(a.createAt)); // 依然用 createAt 來排序
-    }
+       }).sort((a, b) => new Date(b.createAt) - new Date(a.createAt)); // 按創建時間排序
+     }
      return [];
    });
- }
+}
 
 // 取得健康紀錄 API Start //
 export function getHealthRecordByDate(dateString) {
-   // 創建目標日期對象並設置為當天開始時間
    const targetDate = new Date(dateString);
    targetDate.setHours(0, 0, 0, 0);
    
-   // 格式化日期為 YYYY-MM-DD
-   const formattedDate = `${targetDate.getFullYear()}-${String(targetDate.getMonth() + 1).padStart(2, '0')}-${String(targetDate.getDate()).padStart(2, '0')}`;
+   // 計算查詢的開始日期（目標日期）
+   const startDate = new Date(targetDate);
    
-   console.log('Requesting record for date:', formattedDate);
+   // 計算查詢的結束日期（目標日期後兩天）
+   const endDate = new Date(targetDate);
+   endDate.setDate(endDate.getDate() + 2);
+   
+   // 格式化日期
+   const formattedStartDate = `${startDate.getFullYear()}-${String(startDate.getMonth() + 1).padStart(2, '0')}-${String(startDate.getDate()).padStart(2, '0')}`;
+   const formattedEndDate = `${endDate.getFullYear()}-${String(endDate.getMonth() + 1).padStart(2, '0')}-${String(endDate.getDate()).padStart(2, '0')}`;
+   
+   // console.log('Requesting records from', formattedStartDate, 'to', formattedEndDate);
    
    const token = sessionStorage.getItem('session');
 
@@ -239,40 +253,24 @@ export function getHealthRecordByDate(dateString) {
      `user/health-records`,
      {
        params: {
-         startAt: formattedDate,
-         endAt: formattedDate
+         startAt: formattedStartDate,
+         endAt: formattedEndDate
        },
        headers: {
          'Authorization': `Bearer ${token}` 
        }
      }
    ).then((response) => {      
-      console.log('Raw API response:', response.data);
+      // console.log('Raw API response:', response.data);
       
       if (Array.isArray(response.data) && response.data.length > 0) {
          const dayRecords = response.data.filter(record => {
-            // 將記錄的日期轉換為本地時間的午夜時間點進行比較
             const recordDate = new Date(record.date);
-            // 解決時區問題：設置為當天的 00:00:00
-            const localRecordDate = new Date(
-               recordDate.getFullYear(),
-               recordDate.getMonth(),
-               recordDate.getDate(),
-               0, 0, 0, 0
-            );
-            
-            // 同樣設置目標日期為當天的 00:00:00
-            const localTargetDate = new Date(
-               targetDate.getFullYear(),
-               targetDate.getMonth(),
-               targetDate.getDate(),
-               0, 0, 0, 0
-            );
-
-            return localRecordDate.getTime() === localTargetDate.getTime();
+            recordDate.setHours(0, 0, 0, 0);
+            return recordDate.getTime() === targetDate.getTime();
          });
 
-         console.log('Filtered records for date', formattedDate, ':', dayRecords);
+         // console.log('Filtered records for date', formattedStartDate, ':', dayRecords);
 
          if (dayRecords.length > 0) {
             // 按照建立時間排序，最新的在前面
@@ -281,10 +279,10 @@ export function getHealthRecordByDate(dateString) {
          }
       }
       
-      console.log('No records found for date:', formattedDate);
+      // console.log('No records found for date:', formattedStartDate);
       return null;
    }).catch((error) => {
-      console.error('獲取健康紀錄失敗:', error);
+      // console.error('獲取健康紀錄失敗:', error);
       throw error;
    });
 }
@@ -331,7 +329,7 @@ export function updateHealthRecord(recordId, healthData) {
       return response.data;
    })
    .catch((error) => {
-      console.error('健康紀錄更新失敗:', error);
+      //console.error('健康紀錄更新失敗:', error);
       throw error;
    });
 }
