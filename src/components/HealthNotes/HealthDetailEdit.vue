@@ -196,12 +196,14 @@
             // 使用 updateHealthRecord 更新記錄
             const updatedRecord = await updateHealthRecord(recordId.value, {
                ...healthInfo.value,
-               createAt: recordTime.value // 保持原始記錄的時間
+               date: selectedDate, // 保持原始記錄的日期
+               createAt: recordTime.value // 保持原始的上傳時間
             });
 
             if (updatedRecord) {
                const recordToCache = {
                   ...updatedRecord,
+                  date: selectedDate,
                   createAt: recordTime.value
                };
                sessionStorage.setItem('temp-health-record', JSON.stringify(recordToCache));

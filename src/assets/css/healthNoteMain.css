@@ -1,74 +1,5 @@
-.sub-title {
-   font-size: 2em; /* 小標題字體大小 */
-   margin: 0; /* 移除上下間距 */
-}
-/* 每月活動目標區塊 */
-.monthly-goal-section {
-   border-radius: 8px; /* 圓角 */
-   width: 60%; /* 區塊寬度 */
-   margin: 3em 1.5em;
-   border: #dddddd solid 1px;
-}
-
-/* 第一行：小標題與保存按鈕 */
-.goal-header {
-   display: flex;
-   justify-content: space-between;
-   align-items: center;
-   border-radius: 8px 8px 0 0;
-   background-color: #f0f0f0;
-   padding: 10px 20px;
-}
-
-/* 每行輸入框區塊 */
-.goal-input-row {
-   display: flex;
-   align-items: center;
-   background-color: #fff; /* 白色背景 */
-   padding: 15px 20px;
-   color: #914502;
-   font-size: 1.6em;
-}
-
-.goal-input-row:nth-child(odd) {
-   background-color: #f0f0f0; /* 灰色背景 */
-   border-radius: 0 0 8px 8px;
-}
-
-/* 調整標籤和輸入框的寬度使它們對齊 */
-.goal-label {
-   width: 150px; /* 固定標籤寬度，確保兩行標籤對齊 */
-   text-align: left;
-}
-
-.goal-input {
-   width: 150px; /* 固定輸入框寬度，確保輸入框對齊 */
-   padding: 5px;
-   background-color: #fff;
-   border: 1px solid #000; /* 黑色邊框 */
-   border-radius: 4px;
-   margin-right: 10px; /* 保持與後面的文字（步、分鐘）間距 */
-}
-
-/* 隱藏輸入欄位右側的上下箭頭 */
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
--webkit-appearance: none;
-margin: 0; 
-}
-
-/* 保存成功的提示 */
-.save-success {
-   color: #28a745; /* 成功提示文字顏色 */
-   margin-bottom: 20px;
-}
-
 .calendar-row {
    padding: 1.5em 1em 0.5em 1em;
-}
-
-.my-calendar .vc-weekday-1, .my-calendar .vc-weekday-7 {
-   color: #6366f1;
 }
 
 .day-content { 
@@ -107,6 +38,92 @@ margin: 0;
    white-space: nowrap;
    text-decoration: none;
    text-overflow: ellipsis;
+}
+/* 每日目標及圖示區塊 */
+.info-container {
+   width: 100%;
+   display: flex;
+   gap: 2em;
+   padding: 1em;
+}
+
+.info-box {
+   flex: 1;
+   padding: 1.5em;
+   border: 1px solid rgba(118, 202, 173, 0.3); /* 使用主題色但透明度較低的邊框 */
+   border-radius: 12px; /* 增加圓角 */
+   background-color: #ffffff;
+   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* 添加輕微陰影 */
+   display: flex;
+   flex-direction: column;
+}
+
+.info-box:hover {
+   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+   transition: box-shadow 0.3s ease;
+}
+
+.info-box-title {
+   display: flex;
+   align-items: center;
+   gap: 0.5em;
+   font-size: 2em;
+   color: #333;
+   margin-bottom: 1em;
+   padding-bottom: 0.5em;
+   border-bottom: 1px solid rgba(118, 202, 173, 0.2);
+}
+
+.title-icon {
+   color: #76caad;
+   font-size: 1.5em;
+}
+
+.info-box-title h4 {
+   margin: 0;
+}
+
+.target-info {
+   display: flex;
+   flex-direction: column;
+   gap: 1.8em;
+   padding: 0.5em;
+   flex: 1;              
+   justify-content: center;
+}
+ 
+.target-item {
+   display: flex;
+   align-items: center;
+   gap: 1em;
+   font-size: 1.5em;
+}
+ 
+.list-name {
+   font-size: 1.6em;
+   color: #333;
+   margin: 0;
+   white-space: nowrap;
+}
+ 
+.list-info {
+   font-size: 1.6em;
+   color: #666;
+   margin: 0;
+}
+
+.legend-container {
+   display: flex;
+   flex-direction: column;
+   gap: 1.2em;
+   padding: 0.5em;
+   flex: 1;
+   justify-content: center;
+}
+
+.legend-item {
+   margin-top: 0;
+   font-size: 2em;
 }
 
 .recordComplete {
@@ -158,14 +175,6 @@ margin: 0;
    color: #e6933b;
 }
 
-.legend-item {
-   font-size: 2em;
-   margin-top: 1em;
-
-   display: flex;
-   align-items: center;
-}
-
 .no-record-container {
    display: flex;
    justify-content: center;
@@ -187,20 +196,6 @@ margin: 0;
 
 
 @media screen and (max-width: 1000px) {
-   .monthly-goal-section {
-      border-radius: 8px; /* 圓角 */
-      width: 100%; /* 區塊寬度 */
-      margin: 3em 0.1em;
-   }
-
-   .goal-header {
-      border-radius: 8px 8px 0 0;
-   }
-
-   .goal-header .save-btn {
-      font-size: 1.5em;
-   }
-
    .calendar-row {
       padding: 1em 1em 0.5em 1em;
    }
@@ -211,6 +206,24 @@ margin: 0;
       padding-left: 0;
       border: none;
    }  
+}
+
+@media screen and (max-width: 768px) {
+   .info-container {
+      flex-direction: column;
+   }
+
+   .info-box {
+      width: 100%;
+   }
+
+   .target-info {
+      gap: 1em;
+   }
+
+   .legend-container {
+      gap: 0.8em;
+   }
 }
 
 @media (min-width: 495px) and (max-width: 570px) {

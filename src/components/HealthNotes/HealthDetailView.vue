@@ -160,7 +160,7 @@
 <script>
 import { ref, computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { changeDate, getAllHealthRecordsByDate } from '../../api/healthNote';
+import { getLocalDateString, changeDate, getAllHealthRecordsByDate } from '../../api/healthNote';
 
 export default {
    name: 'healthDetailViewPage',
@@ -235,17 +235,18 @@ export default {
       });
 
       const sortedRecords = computed(() => {
-         return [...uploadedRecords.value].sort((a, b) => {
-            const dateA = new Date(a.createAt);
-            const dateB = new Date(b.createAt);
-            
-            if (dateA.toLocaleDateString() !== dateB.toLocaleDateString()) {
-               // 如果日期不同，較新的日期排前面
-               return dateB - dateA;
-            } else {
-               // 如果日期相同，比較時間
-               return dateB.getTime() - dateA.getTime();
-            }
+         const targetDate = route.query.date;
+         // 先過濾出目標日期的記錄，同時處理新舊格式
+         const filteredRecords = uploadedRecords.value.filter(record => {
+            const recordDate = record.date || record.createAt; // 如果 date 為空則使用 createAt
+            return getLocalDateString(recordDate) === getLocalDateString(new Date(targetDate));
+         });
+         
+         // 然後按照 createAt 時間排序
+         return filteredRecords.sort((a, b) => {
+            const timeA = new Date(a.createAt).getTime();
+            const timeB = new Date(b.createAt).getTime();
+            return timeB - timeA;  // 降序排序，最新的在前
          });
       });
 
@@ -262,8 +263,8 @@ export default {
             hour12: false
          });
          return {
-            date: dateStr,
-            time: timeStr
+            date: dateStr,  // 會顯示 MM/DD
+            time: timeStr   // 會顯示 HH:mm
          };
       };
 
@@ -274,22 +275,18 @@ export default {
 
       // 排序計算屬性
       const sortedDetailRecords = computed(() => {
-         // 根據 type 決定排序邏輯
-         return [...uploadedRecords.value].sort((a, b) => {
-            const dateA = new Date(a.createAt);
-            const dateB = new Date(b.createAt);
-            
-            if (dateA.toLocaleDateString() !== dateB.toLocaleDateString()) {
-               // 如果日期不同，較新的日期排前面
-               return dateB - dateA;
-            } else {
-               // 如果日期相同，根據類型進行排序
-               if (detailDialog.value.type === 'steps') {
-                  return (b.dailySteps || 0) - (a.dailySteps || 0);
-               } else {
-                  return (b.dailyJoggingTime || 0) - (a.dailyJoggingTime || 0);
-               }
-            }
+         const targetDate = route.query.date;
+         // 先過濾出目標日期的記錄，同時處理新舊格式
+         const filteredRecords = uploadedRecords.value.filter(record => {
+            const recordDate = record.date || record.createAt; // 如果 date 為空則使用 createAt
+            return getLocalDateString(recordDate) === getLocalDateString(new Date(targetDate));
+         });
+         
+         // 然後按照 createAt 時間排序
+         return filteredRecords.sort((a, b) => {
+            const timeA = new Date(a.createAt).getTime();
+            const timeB = new Date(b.createAt).getTime();
+            return timeB - timeA;  // 降序排序，最新的在前
          });
       });
 
@@ -300,12 +297,15 @@ export default {
             return;
          }
 
+         console.log('日期'+dateString);
+
          loading.value = true;
          try {
             // 獲取當天所有記錄
             const records = await getAllHealthRecordsByDate(dateString);
             uploadedRecords.value = records.map(record => ({
                id: record.id,
+               date: record.date,
                createAt: record.createAt,
                dailySteps: record.dailySteps,
                dailyJoggingTime: record.dailyJoggingTime,
@@ -336,7 +336,7 @@ export default {
          }
 
          // 先檢查第一筆記錄的日期是否符合目標日期
-         const recordDate = changeDate(records[0].createAt);
+         const recordDate = changeDate(records[0].date || records[0].createAt);// 如果 date 為空則使用 createAt
          const currentDate = changeDate(route.query.date);
          
          if (recordDate === currentDate) {
@@ -380,7 +380,7 @@ export default {
          query: { 
             date: route.query.date,
             recordId: record.id,
-            recordTime: new Date(record.createAt).toISOString()
+            recordTime: record.createAt
          }
          });
       };

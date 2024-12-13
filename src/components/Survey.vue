@@ -87,7 +87,7 @@
 
             try {
                await postSurveyOutcome(surveyResult.value[0]);
-               alert("感謝您的提交！");
+               alert("本月問卷已完成提交");
                router.push('/index').then(() => {
                   window.location.reload();
                });
