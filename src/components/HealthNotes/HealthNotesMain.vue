@@ -17,19 +17,19 @@
                   <div class="info-box">
                      <div class="info-box-title">
                         <h4>本月目標</h4>
-                        <v-icon class="title-icon">mdi-target</v-icon>
+                        <!-- <v-icon class="title-icon">mdi-target</v-icon> -->
                      </div>
                      <div class="target-info">
                         <div class="target-item">
-                           <h4 class="list-name">每日步數：</h4>
+                           <h4 class="list-name">步數：</h4>
                            <p class="list-info">{{ targetInfo.currentSteps }} 步</p>
                         </div>
                         <div class="target-item">
-                           <h4 class="list-name">每日慢跑：</h4>
+                           <h4 class="list-name">慢跑：</h4>
                            <p class="list-info">{{ targetInfo.currentJogTime }} 分鐘</p>
                         </div>
                         <div class="target-item">
-                           <h4 class="list-name">每周體重：</h4>
+                           <h4 class="list-name">體重：</h4>
                            <p class="list-info">{{ targetInfo.currentWeight }} 分斤</p>
                         </div>
                      </div>
