@@ -11,52 +11,54 @@
                <h3 class="page-title">健康手札</h3>
             </v-list-item>
 
-            <v-list-item style="padding: 1px;">            
-               <div class="search-frame">
-                  <div class="info-container">
-                     <!-- 左側區塊 - 目標資訊 -->
-                     <div class="info-box">
-                        <div class="info-box-title">
-                           <h4>每日目標</h4>
-                           <v-icon class="title-icon">mdi-target</v-icon>
+            <v-list-item style="padding: 0.5px;">
+               <div class="info-container">
+               <!-- 左側區塊 - 目標資訊 -->
+                  <div class="info-box">
+                     <div class="info-box-title">
+                        <h4>本月目標</h4>
+                        <v-icon class="title-icon">mdi-target</v-icon>
+                     </div>
+                     <div class="target-info">
+                        <div class="target-item">
+                           <h4 class="list-name">每日步數：</h4>
+                           <p class="list-info">{{ targetInfo.currentSteps }} 步</p>
                         </div>
-                        <div class="target-info">
-                           <div class="target-item">
-                              <h4 class="list-name">每日步數：</h4>
-                              <p class="list-info">{{ targetInfo.currentSteps }} 步</p>
-                           </div>
-                           <div class="target-item">
-                              <h4 class="list-name">每日慢跑：</h4>
-                              <p class="list-info">{{ targetInfo.currentJogTime }} 分鐘</p>
-                           </div>
+                        <div class="target-item">
+                           <h4 class="list-name">每日慢跑：</h4>
+                           <p class="list-info">{{ targetInfo.currentJogTime }} 分鐘</p>
+                        </div>
+                        <div class="target-item">
+                           <h4 class="list-name">每周體重：</h4>
+                           <p class="list-info">{{ targetInfo.currentWeight }} 分斤</p>
                         </div>
                      </div>
+                  </div>
                      
-                     <!-- 右側區塊 - 圖示說明 -->
-                     <div class="info-box">
-                        <div class="info-box-title">
-                           <h4>圖示說明</h4>
-                           <v-icon class="title-icon">mdi-help-circle-outline</v-icon>
+                  <!-- 右側區塊 - 圖示說明 -->
+                  <div class="info-box">
+                     <div class="info-box-title">
+                        <h4>圖示說明</h4>
+                        <v-icon class="title-icon">mdi-help-circle-outline</v-icon>
+                     </div>
+                     <div class="legend-container">
+                        <div class="legend-item">
+                           <span class="status-icon0 complete-icon">
+                              <v-icon class="complete-icon">mdi-check-bold</v-icon>
+                              <p>完成填寫 ({{ statusCounts.completed }})</p>
+                           </span>
                         </div>
-                        <div class="legend-container">
-                           <div class="legend-item">
-                              <span class="status-icon0 complete-icon">
-                                 <v-icon class="complete-icon">mdi-check-bold</v-icon>
-                                 <p>完成填寫 ({{ statusCounts.completed }})</p>
-                              </span>
-                           </div>
-                           <div class="legend-item">
-                              <span class="status-icon0 missing-icon">
-                                 <v-icon class="missing-icon">mdi-close-thick</v-icon>
-                                 <p>缺少紀錄 ({{ statusCounts.missing }})</p>
-                              </span>
-                           </div>
-                           <div class="legend-item">
-                              <span class="status-icon0 uncomplete-icon">
-                                 <v-icon class="uncomplete-icon">mdi-alert-circle</v-icon>
-                                 <p>尚未完成 ({{ statusCounts.incomplete }})</p>
-                              </span>
-                           </div>
+                        <div class="legend-item">
+                           <span class="status-icon0 missing-icon">
+                              <v-icon class="missing-icon">mdi-close-thick</v-icon>
+                              <p>缺少紀錄 ({{ statusCounts.missing }})</p>
+                           </span>
+                        </div>
+                        <div class="legend-item">
+                           <span class="status-icon0 uncomplete-icon">
+                              <v-icon class="uncomplete-icon">mdi-alert-circle</v-icon>
+                              <p>尚未完成 ({{ statusCounts.incomplete }})</p>
+                           </span>
                         </div>
                      </div>
                   </div>
