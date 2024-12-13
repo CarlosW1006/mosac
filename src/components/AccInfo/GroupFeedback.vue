@@ -79,7 +79,7 @@
 
          // 監聽 hash 值的變化
          window.addEventListener('hashchange', () => {
-         hashUrl.value = window.location.hash;
+            hashUrl.value = window.location.hash;
          });
 
          getFeedback(uid, month).then((result) => { 

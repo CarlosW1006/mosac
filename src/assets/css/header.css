@@ -139,6 +139,11 @@
    color: #FFFFFF;
 }
 
+.sm-bar-btn .v-list-item-title {
+   font-size: 1em;
+   font-weight: bold;
+}
+
 .sm-bar-btn-clicked {
    width: 100%;
    height: 4.5em;
@@ -147,6 +152,12 @@
    color: #FFFFFF;
    background-color: #69c9a7;
 }
+
+.sm-bar-btn-clicked .v-list-item-title {
+   font-size: 1em;
+   font-weight: bold;
+}
+
 
 .sm-bar-btn-icon {
    margin-right: 0.75em;

@@ -114,10 +114,10 @@
       name: 'accInfoPage',
       setup() {
          const router = useRouter();
-         let rankingData = ref([]);
          let dataNumRange = ref([1, 10]);
          const selectedGroup = ref('1');
          const selectedMonth = ref('2024-11');
+         let rankingData = ref([]);
          let curPageNum = ref(1); // 當前頁數
          let pagesAmount = ref(1); // 頁面總數
          let curDataAmount = ref(0); // 當前頁面資料數量
@@ -131,14 +131,17 @@
             .then((result) => {
                rankingData.value = result;
                pagesAmount.value = result.length;
-               curDataAmount.value = result[curPageNum.value-1].length;
+               if (curPageNum.value && Array.isArray(result[curPageNum.value - 1])) {
+                  curDataAmount.value = result[curPageNum.value - 1].length;
+               } else {
+                  curDataAmount.value = 0; // 或者設置為默認值
+               }
 
                if(rankingData.value == undefined) {
                   rankingData.value = [];
                }
             })
          }
-
 
          // 搜尋功能
          function searchSpecifyGroup() {

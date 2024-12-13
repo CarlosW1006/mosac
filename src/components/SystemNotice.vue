@@ -17,16 +17,32 @@
                      <thead>
                         <tr class="table-title">
                            <th class="col1"><strong></strong></th>
-                           <td class="col2"><strong>標題</strong></td>
-                           <td class="col2"><strong>發布時間</strong></td>
+                           <td class="col1"><strong>類別</strong></td>
+                           <td class="col2" v-if="winwidth"><strong>標題</strong></td>
+                           <td class="col2" v-if="winwidth"><strong>發布時間</strong></td>
+                           <td class="col2"  v-if="!winwidth"><strong>詳細資訊</strong></td>
                         </tr>
                      </thead>
 
-                     <tbody v-for="(item, index) in data" :key="index"> 
+                     <tbody v-for="(item, index) in data" :key="index">
                         <tr>
                            <td><p style="text-align: center;">{{ index + 1 }}</p></td>
                            <td><p>{{ item[0] }}</p></td>
-                           <td><p>{{ item[1] }}</p></td>
+                           <td v-if="winwidth"><p>{{ item[2] }}：{{ item[3] }}</p></td>
+                           <td v-if="winwidth"><p>{{ item[1] }}</p></td>
+                           <td v-if="!winwidth">
+                              <a class="li-info expandBtn" 
+                              @click="toggleCard(index)">檢視資訊</a>
+                           </td>
+                        </tr>
+
+                        <!-- 檢視資訊展開區塊 -->
+                        <tr v-if="showCard[index] == true" class="notifyInfo">
+                           <td colspan="5">
+                              <p>{{ item[2] }}</p>
+                              <p><strong>諮詢標題：</strong>{{ item[3] }}</p>
+                              <p><strong>發布時間：</strong>{{ item[1] }}</p>
+                           </td>
                         </tr>
                      </tbody>
                   </table>
@@ -52,31 +68,27 @@
          </v-card>
       </v-col>
    </v-row>
-
 </template>
 
 <script>
-   import { useWindowWidth } from './JS/winwidth.js';
    import { ref } from 'vue';
+   import { useWindowWidth } from './JS/winwidth.js';
+   import { integrateNotify } from '../api/systemNotify.js'
 
    export default {
       name: 'sysNoticePage',
       setup() {
-         const { winwidth } = useWindowWidth();
+         const { winwidth, isSmallWidth } = useWindowWidth();
          const selectPerPageNum = ref(10);
          const perPageNum = [10, 20, 30];
          const perPage = ref(10);
          const data = ref([
-            ['系統已為您安排諮詢會議，諮詢時間：2024/10/10 14:00~15:00', '2024/10/01'],
-            ['健康知能已新增一篇文章：多吃蔬食有助減重？吃對更重要！', '2024/10/01'],
-            ['健康知能已新增一篇文章：多吃蔬食有助減重？吃對更重要！', '2024/10/01'],
-            ['系統已為您安排諮詢會議，諮詢時間：2024/10/10 14:00~15:00', '2024/10/01'],
-            ['健康知能已新增一篇文章：多吃蔬食有助減重？吃對更重要！', '2024/10/01'],
-            ['健康知能已新增一篇文章：多吃蔬食有助減重？吃對更重要！', '2024/10/01'],
+            ['諮詢行程', '2024/10/01 12:00:00', '個人諮詢行程通知', '諮詢測試3_1212'],
+            ['諮詢行程', '2024/10/01 12:00:00', '個人諮詢行程通知', '諮詢測試3_1212'],
+            ['諮詢行程', '2024/10/01 12:00:00', '個人諮詢行程通知', '諮詢測試3_1212'],
          ]);
 
          const datas = data.value.length;
-         // const pages = Math.ceil(data.value.length / 10);
          const pages = 1;
          let session = sessionStorage.getItem('session');
 
@@ -87,12 +99,13 @@
             }
 
             showCard.value[index] = !showCard.value[index];
-
-            console.log(showCard.value);
          }
+
+         integrateNotify();
 
          return {
             winwidth,
+            isSmallWidth,
             session,
             showCard,
             data,

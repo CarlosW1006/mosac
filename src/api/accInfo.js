@@ -1,6 +1,6 @@
 import API from './apiInstance.js';
 
-// 取得帳號資料 API Start //
+// 取得帳號資料 API
 export function askAccInfo() { 
    return API.get('user').then((response) => { 
       const credential = response.data.credential;
@@ -12,21 +12,9 @@ export function askAccInfo() {
 
       return { credential, name, userType, nickName, totalPoints, totalMedals };
    })
-   .catch((error) => { 
-      if (error.response.status === 403) {
-         alert('您的登入已逾時，請重新登入');
-         return;
-      }
-      if (error.response && error.response.data && error.response.data.message) {
-         alert(error.response.data.message); // 顯示伺服器返回的錯誤訊息
-      } else {
-         alert('資料處理發生異常，請聯絡系統管理員');
-      }
-   });
 }
-// 取得帳號資料 API End //
 
-// 取得目標資料 API Start //
+// 取得目標資料 API
 export function askTargetInfo() {
    return API.get('user/health-targets?latest=true')
       .then((response) => {
@@ -47,22 +35,9 @@ export function askTargetInfo() {
 
          return { currentPhase, currentWeight, currentSteps, currentJogTime };
       })
-      .catch((error) => { 
-         if (error.response.status === 403) {
-            alert('您的登入已逾時，請重新登入');
-            return;
-         }
-         if (error.response && error.response.data && error.response.data.message) {
-            alert(error.response.data.message); // 顯示伺服器返回的錯誤訊息
-         } else {
-            alert('資料處理發生異常，請聯絡系統管理員' + error.message);
-         }
-      });
 }
 
-// 取得目標資料 API End //
-
-// 儲存帳號資料 API Start //
+// 儲存帳號資料 API
 export function changeAccInfo(accNickName) { 
    const credential = sessionStorage.getItem('credential');
    return API.patch('user',
@@ -74,21 +49,9 @@ export function changeAccInfo(accNickName) {
    .then(() => {
       alert('資料變更成功');
    })
-   .catch((error) => { 
-      if (error.response.status === 403) {
-         alert('您的登入已逾時，請重新登入');
-         return;
-      }
-      if (error.response && error.response.data && error.response.data.message) {
-         alert(error.response.data.message); // 顯示伺服器返回的錯誤訊息
-      } else {
-         alert('資料處理發生異常，請聯絡系統管理員');
-      }
-   });
 }
-// 儲存帳號資料 API End //
 
-// 點數兌換紀錄 API Start //
+// 點數兌換紀錄 API
 export function askPointsRecord() {
    return API.get('user/point-records').then((response) => { 
       const pointsRecord = {};
@@ -122,21 +85,9 @@ export function askPointsRecord() {
 
       return result;
    })
-   .catch((error) => { 
-      if (error.response.status === 403) {
-         alert('您的登入已逾時，請重新登入');
-         return;
-      }
-      if (error.response && error.response.data && error.response.data.message) {
-         alert(error.response.data.message); // 顯示伺服器返回的錯誤訊息
-      } else {
-         alert('資料處理發生異常，請聯絡系統管理員');
-      }
-   });
 }
-// 點數兌換紀錄 API End //
 
-// 兌換點數 API Start //
+// 兌換點數 API
 export function exchangePoints() {
    return API.post('user/points/exchange',
       { }, // 傳送空的 body //
@@ -144,16 +95,4 @@ export function exchangePoints() {
    .then((response) => {
       console.log(response);
    })
-   .catch((error) => { 
-      if (error.response.status === 403) {
-         alert('您的登入已逾時，請重新登入');
-         return;
-      }
-      if (error.response && error.response.data && error.response.data.message) {
-         alert(error.response.data.message); // 顯示伺服器返回的錯誤訊息
-      } else {
-         alert('資料處理發生異常，請聯絡系統管理員');
-      }
-   });
 }
-// 兌換點數 API End //

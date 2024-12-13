@@ -22,6 +22,14 @@ const routes = [
       }
    },
    {
+      path: '/notify',
+      name: 'notifyHandler',
+      component: () => import('../components/NotifyHandler.vue'),
+      meta: {
+         requiresAuth: true // 需要 session 認證
+      }
+   },
+   {
       path: '/survey',
       name: 'surveyPage',
       component: () => import('../components/Survey.vue'),
@@ -209,7 +217,7 @@ router.beforeEach((to, from, next) => {
          next({ path: '/index' }); return;
       }
    
-      if (hasPendingSurvey !== 'true' && !['/survey', '/careGarden', '/careGardenView'].includes(to.path) && accType == 0) {
+      if (hasPendingSurvey !== 'true' && !['/survey', '/careGarden', '/careGardenView', '/notify'].includes(to.path) && accType == 0) {
          alert('親愛的用戶您好，本月尚未填寫問卷，請先完成問卷');
          next({ path: '/survey' }); return;
       }

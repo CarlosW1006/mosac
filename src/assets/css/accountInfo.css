@@ -38,23 +38,19 @@ table {
 }
 
 .expandBtn {
-   padding: 0.35em;
-   font-size: 20px;
-   color: #7edcbb;
+   font-size: 1em;
+   font-weight: 600;
+   color: #69c9a7;
    text-align: center;
    border-radius: 5px;
-   border: 1px solid #69c9a7;
 }
 
-.expandBtn:hover {
-   color: #FFFFFF;
-   background-color: #69c9a7;
-   border: 1px solid #FFFFFF;
+.notifyInfo {
+   background-color: #ebf5ff;
 }
 
-.feedback {
-   background-color: #d3e1f1;
-   height: 10em;
+.notifyInfo p {
+   margin: 1em 0px 1em !important;
 }
 
 .exchange-btn {
@@ -256,7 +252,6 @@ table {
    }
 
    .expandBtn {
-      padding: 0.35em;
       font-size: 1em;
    }
 

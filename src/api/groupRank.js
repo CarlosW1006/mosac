@@ -9,11 +9,12 @@ let cachedGroupRankingData = {
    phaseMonth: null
 };
 
-export function getGroupRanking(phaseNum, phaseMonth, selectPerPageNum, forceUpdate = false) {
+// 取得階段排名 API
+export function getGroupRanking(phaseNum, phaseMonth, perPageNum, forceUpdate = false) {
    // 如果沒有強制更新，有暫存資料且查詢條件相同，直接分頁處理
    if (!forceUpdate && cachedGroupRankingData.data && cachedGroupRankingData.phaseNum === phaseNum &&
    cachedGroupRankingData.phaseMonth === phaseMonth) {
-      const paginatedData = splitDataFunc(cachedGroupRankingData.data, selectPerPageNum);
+      const paginatedData = splitDataFunc(cachedGroupRankingData.data, perPageNum);
       return Promise.resolve(paginatedData);
    }
 
@@ -39,23 +40,15 @@ export function getGroupRanking(phaseNum, phaseMonth, selectPerPageNum, forceUpd
       };
 
       // 進行分頁處理
-      const paginatedData = splitDataFunc(responseData, selectPerPageNum);
+      const paginatedData = splitDataFunc(responseData, perPageNum);
       return paginatedData;
    })
-   .catch((error) => { 
-      if (error.response.status === 403) {
-         alert('您的登入已逾時，請重新登入');
-         return;
-      }
-      if (error.response && error.response.data && error.response.data.message) {
-         alert(error.response.data.message); // 顯示伺服器返回的錯誤訊息
-      } else {
-         alert('資料處理發生異常，請聯絡系統管理員');
-      }
+   .catch(() => { 
       return []; // 保證錯誤情況下回傳空陣列
    });
 }
 
+// 取得用戶暱稱 API
 export function getUserNickName(uid, phaseNum, phaseMonth) {
    const phaseMapping = {
       '1': '意圖前期',
@@ -85,19 +78,10 @@ export function getUserNickName(uid, phaseNum, phaseMonth) {
 
       return {month, phase, nickname, completionRate};
    })
-   .catch((error) => { 
-      if (error.response.status === 403) {
-         alert('您的登入已逾時，請重新登入');
-         return;
-      }
-      if (error.response && error.response.data && error.response.data.message) {
-         alert(error.response.data.message); // 顯示伺服器返回的錯誤訊息
-      } else {
-         alert('資料處理發生異常，請聯絡系統管理員');
-      }
-   });
 }
 
+
+// 取得心得回饋 API
 export function getFeedback() {
    // return API.get(`users/:${uid}/phases-feedbacks?yearMonth=${phaseMonth}`)
    const token = sessionStorage.getItem('session');
@@ -113,15 +97,4 @@ export function getFeedback() {
    .then((response) => {
       return response.data;
    })
-   .catch((error) => { 
-      if (error.response.status === 403) {
-         alert('您的登入已逾時，請重新登入');
-         return;
-      }
-      if (error.response && error.response.data && error.response.data.message) {
-         alert(error.response.data.message); // 顯示伺服器返回的錯誤訊息
-      } else {
-         alert('資料處理發生異常，請聯絡系統管理員');
-      }
-   });
 }
