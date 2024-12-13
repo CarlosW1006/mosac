@@ -38,7 +38,7 @@
 
    <v-row style="margin: 0 1% 0;">
       <v-col cols="12">
-         <v-card style="margin-bottom: 50px;">
+         <v-card style="margin-bottom: 10px;">
             <v-list-item class="list-title">
                <h3 class="page-title">查詢結果</h3>
             </v-list-item>
@@ -59,20 +59,17 @@
                            <td class="col2"><strong>帳號暱稱</strong></td>
                            <td class="col2"><strong>群組排名</strong></td>
                            <td class="col2"><strong>減重進度</strong></td>
-                           <td class="col2"><strong>心得回饋</strong></td>
                         </tr>
                      </thead>
 
                      <tbody>
                         <tr v-for="(item, index) in rankingData[curPageNum-1]" :key="index">
-                           <!-- <td><p style="text-align: center;">{{ (curPageNum*perPageDataAmount + index + 1)-perPageDataAmount }}</p></td> -->
-                           <!-- <td><p>{{ item.phase }}</p></td> -->
-                           <td><p>{{ item.nickname }}</p></td>
-                           <td><p>第{{ item.rank }}名</p></td>
-                           <td><p>{{ (item.completionRate*100).toFixed(2) }}%</p></td>
-                           <td v-if="item.rank <= 3">
-                              <button class="li-info expandBtn" @click="navigateToPath('groupFeedback', item.id)">檢視心得</button>
-                           </td>
+                           <td v-if="item.rank <= 3"><p class="group-top3" @click="navigateToPath('groupFeedback', item.id)">{{ item.nickname }}</p></td>
+                           <td v-else><p>{{ item.nickname }}</p></td>
+                           <td v-if="item.rank <= 3"><p class="group-top3"  @click="navigateToPath('groupFeedback', item.id)">第{{ item.rank }}名</p></td>
+                           <td v-else><p>第{{ item.rank }}名</p></td>
+                           <td v-if="item.rank <= 3"><p class="group-top3"  @click="navigateToPath('groupFeedback', item.id)">{{ (item.completionRate*100).toFixed(2) }}%</p></td>
+                           <td v-else><p>{{ (item.completionRate*100).toFixed(2) }}%</p></td>
                         </tr>
                      </tbody>
                   </table>
@@ -88,6 +85,12 @@
                <v-row justify="end">
                   <v-pagination v-model="curPageNum" @update:modelValue="changePage" :length="pagesAmount" total-visible="5" class="my-4"/>
                </v-row>
+            </div>
+
+            <div v-else-if="isSmallWidth">
+               <v-container class="max-width">
+                  <v-pagination v-model="curPageNum" @update:modelValue="changePage" :length="pagesAmount" total-visible="1" class="my-4"/>
+               </v-container>
             </div>
 
             <div v-else>
@@ -111,29 +114,34 @@
       name: 'accInfoPage',
       setup() {
          const router = useRouter();
-         let rankingData = ref([]);
          let dataNumRange = ref([1, 10]);
          const selectedGroup = ref('1');
          const selectedMonth = ref('2024-11');
+         let rankingData = ref([]);
          let curPageNum = ref(1); // 當前頁數
          let pagesAmount = ref(1); // 頁面總數
          let curDataAmount = ref(0); // 當前頁面資料數量
          let perPageDataAmount = ref(10); // 當前每頁筆數
          const perPageNum = [10, 20, 30]; // 每頁資料筆數
-         const { winwidth } = useWindowWidth();
+         const { winwidth, isSmallWidth } = useWindowWidth();
          let session = sessionStorage.getItem('session');
 
          function fetchRankingData() {
             getGroupRanking(selectedGroup.value, selectedMonth.value, perPageDataAmount.value)
             .then((result) => {
                rankingData.value = result;
+               pagesAmount.value = result.length;
+               if (curPageNum.value && Array.isArray(result[curPageNum.value - 1])) {
+                  curDataAmount.value = result[curPageNum.value - 1].length;
+               } else {
+                  curDataAmount.value = 0; // 或者設置為默認值
+               }
+
                if(rankingData.value == undefined) {
                   rankingData.value = [];
                }
-               console.log(rankingData.value);
             })
          }
-
 
          // 搜尋功能
          function searchSpecifyGroup() {
@@ -166,6 +174,7 @@
          return {
             session,
             winwidth,
+            isSmallWidth,
             perPageNum,
             curPageNum,
             pagesAmount,

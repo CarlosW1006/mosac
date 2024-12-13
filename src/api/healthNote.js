@@ -21,7 +21,7 @@ export function getLocalDateString(date) {
    return `${d.getFullYear()}/${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}`;
 }
 
-// 添加輔助函數來標準化日期比較
+// 標準化日期比較
 export function isSameDay(date1, date2) {
    const d1 = new Date(date1);
    const d2 = new Date(date2);
@@ -99,12 +99,9 @@ export function askHealthNoteRecord(startAt, endAt) {
          uncompleteNumber += (3-HealthNoteRecord.length);
       }
 
+      console.log(HealthNoteRecord);
       return { HealthNoteRecord, uncompleteNumber };
    })
-   .catch(error => {
-      console.error('Health record fetch error:', error);
-      return { HealthNoteRecord: [] };
-   });
 }
 // 健康手札紀錄 API End //
 
@@ -120,15 +117,7 @@ export function inputHealthNoteGoal(stepGoal, joggingGoal){
       alert('目標設定成功');
       return response.data;// 回傳伺服器回應的資料
    })
-   .catch((error) => {
-      if (error.response && error.response.data && error.response.data.message) {
-         alert(error.response.data.message); // 顯示伺服器返回的錯誤訊息
-      } else {
-         alert('資料處理發生異常，請聯絡系統管理員');
-      }
-   });
 }
-
 // 儲存每月目標 API End //
 
 // 上傳健康紀錄 API Start //

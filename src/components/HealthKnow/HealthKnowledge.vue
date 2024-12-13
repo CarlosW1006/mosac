@@ -49,7 +49,8 @@
                         <div class="article-info">
                            <span class="article-title">{{ item.title }}</span>
                         </div>
-                        <v-img :src="winwidth ? item.coverImageUrl : item.thumbnail" class="article-thumbnail" cover></v-img>
+                        <!-- <v-img :src="winwidth ? item.coverImageUrl : item.thumbnail" class="article-thumbnail" cover></v-img> -->
+                        <v-img src="/article02.png" class="article-thumbnail" cover></v-img>
                      </router-link>
                      </v-card>
                   </v-col>
@@ -61,6 +62,12 @@
                <v-row justify="end">
                   <v-pagination :length="pagesAmount" total-visible="5" class="my-4"/>
                </v-row>
+            </div>
+
+            <div v-else-if="isSmallWidth">
+               <v-container class="max-width">
+                  <v-pagination :length="pagesAmount" total-visible="1" class="my-4"/>
+               </v-container>
             </div>
 
             <div v-else>
@@ -83,7 +90,7 @@
       setup() {
          const currentPhase = sessionStorage.getItem('currentPhase');
          let session = sessionStorage.getItem('session');
-         const { winwidth } = useWindowWidth();
+         const { winwidth, isSmallWidth } = useWindowWidth();
          let HCVideosArr = ref([]);
 
          let curPageNum = ref(1); // 當前頁數
@@ -109,6 +116,7 @@
 
          return {
             winwidth,
+            isSmallWidth,
             session,
             perPageNum,
             curPageNum,

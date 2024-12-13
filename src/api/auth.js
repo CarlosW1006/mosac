@@ -1,6 +1,6 @@
 import API from './apiInstance.js';
 
-// 生成驗證碼 API Start //
+// 生成驗證碼 API
 export function askVerify(verifyCodeArr) {
    return API.get('verification').then((response) => {
       const verify_id = response.data.verificationId;
@@ -9,15 +9,7 @@ export function askVerify(verifyCodeArr) {
 
       return  verifyCodeArr.value = { verify_id, verify_num1, verify_num2 };
    })
-   .catch((error) => {
-      if (error.response && error.response.data && error.response.data.message) {
-         alert(error.response.data.message); // 顯示伺服器返回的錯誤訊息
-      } else {
-         alert('資料處理發生異常，請聯絡系統管理員');
-      }
-   });
 }
-// 生成驗證碼 API End //
 
 // 登入功能 API Start//
 export function login(credential, password, verificationId, verifyAnswer) {
@@ -44,17 +36,9 @@ export function login(credential, password, verificationId, verifyAnswer) {
       sessionStorage.setItem('currentPhase', currentPhase);
       sessionStorage.setItem('hasPendingSurvey', hasPendingSurvey);
    })
-   .catch((error) => {
-      if (error.response && error.response.data && error.response.data.message) {
-         alert(error.response.data.message); // 顯示伺服器返回的錯誤訊息
-      } else {
-         alert('資料處理發生異常，請聯絡系統管理員');
-      }
-   });
 }
-// 登入功能 API End//
 
-// 忘記密碼 API Start//
+// 忘記密碼 API
 export function forgotPassword(credential, newPassword, verificationId, verifyAnswer) { 
    return API.patch('user/password',
       {
@@ -69,17 +53,9 @@ export function forgotPassword(credential, newPassword, verificationId, verifyAn
    .then(() => {
       alert('密碼變更成功');
    })
-   .catch((error) => {
-      if (error.response && error.response.data && error.response.data.message) {
-         alert(error.response.data.message); // 顯示伺服器返回的錯誤訊息
-      } else {
-         alert('資料處理發生異常，請聯絡系統管理員');
-      }
-   });
 }
-// 忘記密碼 API End//
 
-// 修改密碼 API Start//
+// 修改密碼 API
 export function changePassword(originPassword, newPassword, verificationId, verifyAnswer) { 
    const credential = sessionStorage.getItem('credential');
    return API.patch('user/password',
@@ -96,12 +72,4 @@ export function changePassword(originPassword, newPassword, verificationId, veri
    .then(() => {
       alert('密碼變更成功');
    })
-   .catch((error) => {
-      if (error.response && error.response.data && error.response.data.message) {
-         alert(error.response.data.message); // 顯示伺服器返回的錯誤訊息
-      } else {
-         alert('資料處理發生異常，請聯絡系統管理員');
-      }
-   });
 }
-// 修改密碼 API End//

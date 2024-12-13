@@ -147,7 +147,7 @@
 
          // 登出功能
          function logout() {
-            if(confirm('確定要登出系統?')) {
+            if(confirm('是否要登出系統?')) {
                sessionStorage.removeItem('session');
                if(sessionStorage.getItem('session') == null) {
                   alert('登出成功');

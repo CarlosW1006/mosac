@@ -141,17 +141,23 @@ export default {
          if (accInfoArr.value.totalPoints == 0 && accInfoArr.value.totalMedals == 0) {
             alert('目前尚無點數與徽章可以兌換');
          } else {
-            isLoading.value = true;
-            try {
-               exchangePoints();
-            } finally {
-               alert('點數兌換完成');
-               isLoading.value = false;
+            if(confirm('是否要要兌換點數?')) {
+               isLoading.value = true;
+               try {
+                  exchangePoints();
+               } finally {
+                  alert('點數兌換完成');
+                  isLoading.value = false;
 
-               setTimeout(() => {
-                  window.location.reload();
-               }, 1000);
+                  setTimeout(() => {
+                     window.location.reload();
+                  }, 1000);
+               }
             }
+            else {
+               window.location.reload();
+            }
+            
          }
       }
 

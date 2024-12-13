@@ -67,29 +67,35 @@
    export default {
       name: 'surveyPage',
       setup() {
-         let isLoading = ref(false);
-         let surveyResult = ref([]);
+         const isLoading = ref(false);
+         const surveyResult = ref([]);
          const router = useRouter();
 
          function toggleCheckbox(value) { 
-            surveyResult.value = [parseInt(value)];
-            console.log(surveyResult.value);
+            surveyResult.value = [parseInt(value, 10)];
          }
 
-         function sendSurveyOutcome() {
+         async function sendSurveyOutcome() {
             if (surveyResult.value.length === 0) {
                alert("請選擇一個選項後再送出");
                return;
             }
 
+            if (isLoading.value) return;
+
             isLoading.value = true;
 
-            postSurveyOutcome(surveyResult.value[0]).then(() => {
-               isLoading.value = false;
+            try {
+               await postSurveyOutcome(surveyResult.value[0]);
+               alert("本月問卷已完成提交");
                router.push('/index').then(() => {
                   window.location.reload();
                });
-            });
+            } catch (error) {
+               alert("提交失敗，請稍後再試");
+            } finally {
+               isLoading.value = false;
+            }
          }
 
          return {
@@ -101,6 +107,7 @@
       },
    };
 </script>
+
 
 <style lang="css" scoped>
    @import "../assets/css/common.css";

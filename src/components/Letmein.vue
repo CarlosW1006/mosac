@@ -64,17 +64,19 @@
          const router = useRouter();
          const showPassword = ref(false);
 
+         // 觸發忘記密碼通知訊息 Start
          const showAlert = ref(false);
-         const alertKey = ref(0); // 用於控制重新渲染的 key
+         const alertKey = ref(0);
 
          function showNormalAlert() {
             showAlert.value = true;
-            alertKey.value++; // 每次重新觸發時改變 key
+            alertKey.value++;
          }
 
          function closeAlert() {
-            showAlert.value = false; // 確保警告框狀態被正確同步
+            showAlert.value = false;
          }
+         // 觸發忘記密碼通知訊息 End
 
          // 取得驗證碼資料
          askVerify(verifyCodeArr);
@@ -101,10 +103,15 @@
             login(credential.value, password.value, verifyCodeArr.value.verify_id, verifyAnswer.value)
             .then(() => {
                isLoading.value = false;
-               router.push('/index').then(() => {
+               router.push('/notify').then(() => {
                   window.location.reload();
                });
             })
+            .catch((error) => {
+               console.error('Login failed:', error);
+               alert('登入失敗，請檢查您的帳號、密碼或驗證碼');
+               isLoading.value = false;
+            });
          }
 
          return {

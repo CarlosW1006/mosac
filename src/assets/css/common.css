@@ -339,10 +339,6 @@ select option {
       font-size: 2em;
       margin: 0 0.5em 0;
    }
-
-   .perPage {
-      margin-top: 1em;
-   }
 }
 
 @media screen and (max-width: 1000px) {

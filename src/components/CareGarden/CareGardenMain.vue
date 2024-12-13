@@ -92,6 +92,12 @@
                </v-row>
             </div>
 
+            <div v-else-if="isSmallWidth">
+               <v-container class="max-width">
+                  <v-pagination :length="pages" total-visible="1" class="my-4"/>
+               </v-container>
+            </div>
+
             <div v-else>
                <v-container class="max-width">
                   <v-pagination :length="pages" class="my-4"/>
@@ -109,7 +115,7 @@
    export default {
       name: 'careGdPage',
       setup() {
-         const { winwidth } = useWindowWidth();
+         const { winwidth, isSmallWidth } = useWindowWidth();
          const selectPerPageNum = ref(10);
          const perPageNum = [10, 20, 30];     
          
@@ -138,6 +144,7 @@
 
          return {
             winwidth,
+            isSmallWidth,
             videos,
             session,
             data,
