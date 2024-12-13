@@ -39,7 +39,6 @@ export function changeDate(val) {
 }
 
 // 健康手札紀錄 API Start //
-// 健康手札紀錄 API Start //
 export function askHealthNoteRecord(startAt, endAt) {
    return API.get(
       'user/health-records',
@@ -89,6 +88,15 @@ export function askHealthNoteRecord(startAt, endAt) {
          // 更新全局狀態
          const monthKey = `${new Date(startAt).getFullYear()}-${new Date(startAt).getMonth() + 1}`;
          updateHealthRecords(monthKey, HealthNoteRecord);
+      }
+      // 計算沒有填寫的天數
+      for(let i=0; i<HealthNoteRecord.length; i++) {
+         if(HealthNoteRecord[i].finish === 'false') {
+            uncompleteNumber += 1;
+         }
+      }
+      if(HealthNoteRecord.length<4) {
+         uncompleteNumber += (4-HealthNoteRecord.length);
       }
 
       return { HealthNoteRecord, uncompleteNumber };
