@@ -67,7 +67,7 @@
    display: flex;
    align-items: center;
    gap: 0.5em;
-   font-size: 2em;
+   font-size: 2.5em;
    color: #333;
    margin-bottom: 1em;
    padding-bottom: 0.5em;
@@ -86,19 +86,20 @@
 
 .target-info {
    display: flex;
-   flex-direction: column;
-   gap: 1.8em;
+   flex-direction: row;  /* 改為水平排列 */
+   gap: 2em;            /* 增加間距 */
    padding: 0.5em;
    flex: 1;              
-   justify-content: center;
+   justify-content: flex-start;  /* 從左側開始排列 */
+   flex-wrap: wrap; 
 }
  
 .target-item {
    display: flex;
    align-items: center;
-   gap: 1em;
-   font-size: 2em;
-   padding-left: 0.5em;
+   gap: 0.25em;
+   font-size: 2.5em;
+   white-space: nowrap;
 }
  
 .list-name {
@@ -116,17 +117,22 @@
 
 .legend-container {
    display: flex;
-   flex-direction: column;
-   gap: 1.2em;
-   padding: 0.5em;
+   flex-direction: row;  /* 改為水平排列 */
+   gap: 2em;
    flex: 1;
-   justify-content: center;
+   justify-content: flex-start;  /* 從左側開始排列 */
+   flex-wrap: wrap;
+   align-items: flex-start; 
 }
 
 .legend-item {
    margin-top: 0;
    font-size: 1.9em;
    padding-left: 0.5em;
+   flex: 0 1 auto;    /* 允許項目縮小但不放大 */
+   min-width: auto;   /* 移除最小寬度限制 */
+   display: flex;     /* 使用 flex 布局 */
+   align-items: center;
 }
 
 .recordComplete {
@@ -161,9 +167,19 @@
 .status-icon0 {
    font-size: 1.2em;
    font-weight: 600;
-   margin-left: 10px;
-   display: flex;
-   vertical-align: middle;
+   display: inline-flex;  /* 改為 inline-flex */
+   align-items: center;   /* 垂直置中對齊 */
+   gap: 0.5em;   
+}
+
+.status-icon0 p {
+   margin: 0;           /* 移除預設邊距 */
+   white-space: nowrap; /* 防止文字換行 */
+}
+
+.status-icon0 .v-icon {
+   font-size: 1.2em;    /* 調整圖示大小 */
+   margin-right: 0.3em; /* 圖示右側間距 */
 }
 
 .complete-icon {
@@ -197,6 +213,24 @@
    }
 }
 
+@media screen and (max-width: 1200px) {
+   .info-box-title {
+      font-size: 1.8em;  
+   }
+   
+   .target-item {
+      font-size: 1.8em;  
+   }
+   
+   .legend-item {
+      font-size: 1.8em;  
+   }
+
+   .status-icon0 {
+      font-size: 1.1em;
+   }
+}
+
 
 @media screen and (max-width: 1000px) {
    .calendar-row {
@@ -220,12 +254,8 @@
       width: 100%;
    }
 
-   .target-info {
+   .target-info, .legend-container {
       gap: 1em;
-   }
-
-   .legend-container {
-      gap: 0.8em;
    }
 }
 
