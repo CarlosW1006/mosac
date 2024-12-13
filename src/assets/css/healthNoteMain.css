@@ -121,14 +121,18 @@
    gap: 2em;
    flex: 1;
    justify-content: flex-start;  /* 從左側開始排列 */
-   flex-wrap: wrap; 
+   flex-wrap: wrap;
+   align-items: flex-start; 
 }
 
 .legend-item {
    margin-top: 0;
    font-size: 1.9em;
    padding-left: 0.5em;
-   white-space: nowrap;
+   flex: 0 1 auto;    /* 允許項目縮小但不放大 */
+   min-width: auto;   /* 移除最小寬度限制 */
+   display: flex;     /* 使用 flex 布局 */
+   align-items: center;
 }
 
 .recordComplete {
@@ -163,8 +167,19 @@
 .status-icon0 {
    font-size: 1.2em;
    font-weight: 600;
-   display: flex;
-   vertical-align: middle;
+   display: inline-flex;  /* 改為 inline-flex */
+   align-items: center;   /* 垂直置中對齊 */
+   gap: 0.5em;   
+}
+
+.status-icon0 p {
+   margin: 0;           /* 移除預設邊距 */
+   white-space: nowrap; /* 防止文字換行 */
+}
+
+.status-icon0 .v-icon {
+   font-size: 1.2em;    /* 調整圖示大小 */
+   margin-right: 0.3em; /* 圖示右側間距 */
 }
 
 .complete-icon {
