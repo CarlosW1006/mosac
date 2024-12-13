@@ -13,34 +13,57 @@
 
             <v-list-item>            
                <div class="search-frame">
-                  <div class="dropdown">
-                     <input v-model="stepGoal" type="number" class="search-input top-select" placeholder="每日步數目標" @keyup.enter="saveGoals"/>
-                     <input v-model="joggingGoal" type="number" class="search-input" placeholder="每日慢跑目標" @keyup.enter="saveGoals"/>
-                     <button class="search-btn" @click="saveGoals">儲存</button>
+                  <div class="info-container">
+                     <!-- 左側區塊 - 目標資訊 -->
+                     <div class="info-box">
+                        <div class="info-box-title">
+                           <h4>每日目標</h4>
+                           <v-icon class="title-icon">mdi-target</v-icon>
+                        </div>
+                        <div class="target-info">
+                           <div class="target-item">
+                              <h4 class="list-name">每日步數：</h4>
+                              <p class="list-info">{{ targetInfo.currentSteps }} 步</p>
+                           </div>
+                           <div class="target-item">
+                              <h4 class="list-name">每日慢跑：</h4>
+                              <p class="list-info">{{ targetInfo.currentJogTime }} 分鐘</p>
+                           </div>
+                        </div>
+                     </div>
+                     
+                     <!-- 右側區塊 - 圖示說明 -->
+                     <div class="info-box">
+                        <div class="info-box-title">
+                           <h4>圖示說明</h4>
+                           <v-icon class="title-icon">mdi-help-circle-outline</v-icon>
+                        </div>
+                        <div class="legend-container">
+                           <div class="legend-item">
+                              <span class="status-icon0 complete-icon">
+                                 <v-icon class="complete-icon">mdi-check-bold</v-icon>
+                                 <p>完成填寫 ({{ statusCounts.completed }})</p>
+                              </span>
+                           </div>
+                           <div class="legend-item">
+                              <span class="status-icon0 missing-icon">
+                                 <v-icon class="missing-icon">mdi-close-thick</v-icon>
+                                 <p>缺少紀錄 ({{ statusCounts.missing }})</p>
+                              </span>
+                           </div>
+                           <div class="legend-item">
+                              <span class="status-icon0 uncomplete-icon">
+                                 <v-icon class="uncomplete-icon">mdi-alert-circle</v-icon>
+                                 <p>尚未完成 ({{ statusCounts.incomplete }})</p>
+                              </span>
+                           </div>
+                        </div>
+                     </div>
                   </div>
                </div>
             </v-list-item>
          </v-card>
       </v-col>
-      <!-- 圖示說明 -->
-      <div class="legend-item">
-         <span class="status-icon0 complete-icon">
-            <v-icon class="complete-icon">mdi-check-bold</v-icon>
-            <p>完成填寫</p>
-         </span>
-      </div>
-      <div class="legend-item">
-         <span class="status-icon0 missing-icon">
-            <v-icon class="missing-icon">mdi-close-thick</v-icon>
-            <p>缺少紀錄</p>
-         </span>
-      </div>
-      <div class="legend-item">
-         <span class="status-icon0 uncomplete-icon">
-            <v-icon class="uncomplete-icon">mdi-alert-circle</v-icon>
-            <p>尚未完成</p>
-         </span>
-      </div>
    </v-row>
 
    <v-row justify="center" class="calendar-row" style="margin: 1% 1% 0;">
@@ -115,7 +138,8 @@
 <script>
 import { Calendar } from 'v-calendar';
 import { useWindowWidth } from '../JS/winwidth';
-import { getLocalDateString, askHealthNoteRecord, inputHealthNoteGoal, getHealthRecordByDate } from '../../api/healthNote';
+import { getLocalDateString, askHealthNoteRecord, getHealthRecordByDate } from '../../api/healthNote';
+import { askTargetInfo } from '../../api/accInfo';
 import 'v-calendar/style.css';
 import { ref, onMounted } from 'vue';
 
@@ -125,12 +149,16 @@ export default {
       Calendar,
    },
    setup() {
-      const stepGoal = ref('');
-      const joggingGoal = ref('');
       const today = new Date();
       const { winwidth } = useWindowWidth();
       const monthDataCache = ref({});
       const currentMonthKey = ref('');  // 追蹤當前顯示的月份
+      const targetInfo = ref('');
+      const statusCounts = ref({
+         completed: 0,
+         missing: 0,
+         incomplete: 0
+      });
 
       function checkDay(val) {
          if (val === today.toLocaleDateString()) {
@@ -164,6 +192,69 @@ export default {
          ]);
       };
 
+      // 計算當前月份的狀態統計
+      const calculateStatusCounts = (monthKey) => {
+         const records = monthDataCache.value[monthKey];
+         if (!records) {
+            statusCounts.value = {
+               completed: 0,
+               missing: 0,
+               incomplete: 0
+            };
+            return;
+         }
+
+         const [year, month] = monthKey.split('-').map(Number);
+         const lastDayOfMonth = new Date(year, month, 0).getDate();
+         const today = new Date();
+         
+         // 確定要檢查的天數
+         let daysToCheck;
+         if (year === today.getFullYear() && month === today.getMonth() + 1) {
+            // 當前月份只檢查到今天
+            daysToCheck = today.getDate();
+         } else {
+            // 過去的月份檢查整個月
+            daysToCheck = lastDayOfMonth;
+         }
+
+         let completed = 0;
+         let missing = 0;
+         let incomplete = 0;
+
+         // 遍歷每一天計算狀態
+         for (let day = 1; day <= daysToCheck; day++) {
+            const currentDate = new Date(year, month - 1, day);
+            const formattedDate = getLocalDateString(currentDate);
+            
+            const record = records.find(item => {
+               const recordDate = item.date || item.createAt;
+               return getLocalDateString(recordDate) === formattedDate;
+            });
+
+            if (record) {
+               if (record.finish === 'true') {
+                  completed++;
+               } else {
+                  incomplete++;
+               }
+            } else {
+               const daysDifference = Math.floor((today - currentDate) / (1000 * 60 * 60 * 24));
+               if (daysDifference > 2) {
+                  missing++;
+               } else {
+                  incomplete++;
+               }
+            }
+         }
+
+         statusCounts.value = {
+            completed,
+            missing,
+            incomplete
+         };
+      };
+
       async function handleDidMove(pages) {
          if (pages && pages.length > 0) {
             const month = pages[0].month;
@@ -184,6 +275,9 @@ export default {
                   }
                }
                
+               // 計算當前月份的狀態統計
+               calculateStatusCounts(monthKey);
+
                // 預加載相鄰月份
                preloadAdjacentMonths(year, month);
 
@@ -260,30 +354,26 @@ export default {
          }
       }
 
-      function saveGoals() {
-         if (!stepGoal.value || !joggingGoal.value) {
-            alert('請輸入步數和慢跑目標');
-            return;
-         }
-         inputHealthNoteGoal(stepGoal.value, joggingGoal.value);
-      }
-
       onMounted(async () => {
          const currentYear = new Date().getFullYear();
          const currentMonth = new Date().getMonth() + 1;
          await handleDidMove([{ month: currentMonth, year: currentYear }]);
+      
+         // 獲取目標資訊
+         askTargetInfo().then((result) => {
+            targetInfo.value = result;
+         });
       });
 
       return {
          today,
          winwidth,
-         stepGoal,
-         joggingGoal,
          checkDay,
          navigate,
          getStatus,
          handleDidMove,
-         saveGoals,
+         targetInfo,
+         statusCounts,
       };
    }
 };
