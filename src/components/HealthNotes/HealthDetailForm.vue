@@ -18,12 +18,12 @@
             <v-row style="padding: 2em;">
                <!-- 左側主要表單區塊 -->
                <v-col cols="12" :md="hasRightContent ? 7 : 12">
-                  <h2 class="form-title">每日健康紀錄</h2>
+                  <h2 class="form-title">每日單次健康紀錄</h2>
                   <form @submit.prevent="saveHealthInfo" class="form-container">
                   <!-- 每日記錄區塊 -->
                   <div>
                      <div class="form-group" :class="isRedBg(0)">
-                        <label class="form-label" for="steps">每日步數：</label>
+                        <label class="form-label" for="steps">每日單次步數：</label>
                         <div class="input-unit-wrapper">
                         <input type="number" id="steps" v-model="healthInfo.steps" placeholder="輸入步數" />
                         <span class="unit">步</span>
@@ -31,7 +31,7 @@
                      </div>
 
                      <div class="form-group" :class="isRedBg(1)">
-                        <label class="form-label" for="walkingTime">每日慢跑時間：</label>
+                        <label class="form-label" for="walkingTime">每日單次慢跑時間：</label>
                         <div class="input-unit-wrapper">
                         <input
                            type="number"
@@ -44,7 +44,7 @@
                      </div>
 
                      <div class="form-group" :class="isRedBg(2)">
-                        <label class="form-label">每日飲食目標(符合 211 餐盤)：</label>
+                        <label class="form-label">每日最新飲食紀錄(符合 211 餐盤)：</label>
                         <div class="diet-options">
                         <input type="radio" id="dietNo" value="否" v-model="healthInfo.diet" />
                         <label for="dietNo">否；</label>

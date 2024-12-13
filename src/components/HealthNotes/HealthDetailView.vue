@@ -28,7 +28,7 @@
                <v-list-item class="list-item">
                   <div class="flex-container detail-row">
                      <div class="info-section">
-                        <h4 class="list-name">每日步數：</h4>
+                        <h4 class="list-name">每日統計步數：</h4>
                         <p class="list-info50">{{ healthInfo.steps }} 步</p>
                      </div>
                      <v-btn class="detail-btn" color="#76caad" @click="showDetail('steps')">
@@ -40,7 +40,7 @@
                <v-list-item class="list-item">
                   <div class="flex-container detail-row">
                      <div class="info-section">
-                        <h4 class="list-name">每日慢跑時間：</h4>
+                        <h4 class="list-name">每日統計慢跑時間：</h4>
                         <p class="list-info50">{{ totalWalkingTime }} 分鐘</p>
                      </div>
                      <v-btn class="detail-btn" color="#76caad" @click="showDetail('jogging')">
@@ -52,7 +52,7 @@
                <v-list-item class="list-item">
                   <div class="flex-container detail-row">
                      <div class="info-section">
-                        <h4 class="list-name">每日飲食目標：</h4>
+                        <h4 class="list-name">每日最新飲食紀錄：</h4>
                         <p class="list-info50">
                            <span v-if="healthInfo.selectedMeals && healthInfo.selectedMeals.length > 0">
                               {{ healthInfo.selectedMeals.join(', ') }}
