@@ -146,7 +146,7 @@
          onMounted(async () => {
             const dateString = route.query.date;
             if (!dateString) {
-               console.error('未提供日期參數');
+               //console.error('未提供日期參數');
                return;
             }
 
@@ -180,7 +180,7 @@
                   }
                }
             } catch (error) {
-               console.error('載入健康紀錄失敗:', error);
+               //console.error('載入健康紀錄失敗:', error);
             } finally {
                loading.value = false;
             }
@@ -208,7 +208,7 @@
                }
                window.location.href = `#/healthDetailView?date=${selectedDate}`;
             } catch (error) {
-               console.error('儲存健康紀錄失敗:', error);
+               //console.error('儲存健康紀錄失敗:', error);
             } finally {
                loading.value = false;
             }

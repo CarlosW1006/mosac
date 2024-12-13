@@ -293,7 +293,7 @@ export default {
       onMounted(async () => {
          const dateString = route.query.date;
          if (!dateString) {
-            console.error('未提供日期參數');
+            //console.error('未提供日期參數');
             return;
          }
 
@@ -321,10 +321,10 @@ export default {
             setEmptyRecord();
          }
          } catch (error) {
-         console.error('載入健康紀錄失敗:', error);
-         setEmptyRecord();
+            //console.error('載入健康紀錄失敗:', error);
+            setEmptyRecord();
          } finally {
-         loading.value = false;
+            loading.value = false;
          }
       });
 

@@ -88,17 +88,6 @@
                         刪去法 (剩餘 {{ eliminationUses }} 次)
                      </button>
                   </div>
-
-                  <div v-if="allAnswered" class="text-center mt-4">
-                     <button @click="goBackToRecord" class="btn btn-primary">
-                        返回健康知能
-                     </button>
-                  </div>
-
-                  <!-- 取消遊戲按鈕 -->
-                  <div class="text-center mt-4" v-if="!allAnswered">
-                     <button @click="confirmCancel" class="btn btn-danger">取消遊戲</button>
-                  </div>
                </div>
             </v-list-item>
          </v-card>
@@ -107,170 +96,197 @@
 </template>
 
 <script>
-   import { ref, computed } from 'vue';
-   import { useRouter } from 'vue-router';
+import { ref, computed, onMounted } from 'vue';
+import { 
+   askGame,
+    submitGameRecord,
+    formatQuestions, 
+    shuffleOptions,
+    checkAnswer,
+    getNextRandomQuestion,
+    calculateCorrectRate,
+    getOptionToLock,
+    prepareGameRecord
+} from '../../api/game.js';
 
-   export default {
-      name: 'gamePage',
-      setup() {
-         const router = useRouter();
-         const selectedQuestion = ref(null);
-         const currentQuestion = ref('');
-         const selectedAnswer = ref('');
-         const answeredQuestions = ref([]);
-         const correctAnswersCount = ref(0);
-         const attempts = ref({});
-         const eliminationUses = ref(2);
-         const questionAnswered = ref(false);
-         const allAnswered = ref(false);
-         const shuffledOptions = ref([]);
-         const correctAnswers = {
-         1: '時常精神緊繃',
-         2: '選項B',
-         9: '選項B',
-         };
-         const questions = {
-         1: '下列者不是預防高血壓的方法？',
-         2: '選項B',
-         9: '問題九的描述',
-         };
-         const optionsContent = {
-         1: ['多吃蔬菜、水果', '避免太鹹的食物', '避免過度疲勞', '時常精神緊繃'],
-         2: ['選項A', '選項B', '選項C', '選項D'],
-         9: ['選項A', '選項B', '選項C', '選項D'],
-         };
+export default {
+    name: 'gamePage',
+    setup() {
+        // 基本遊戲狀態
+        const selectedQuestion = ref(null);
+        const selectedAnswer = ref('');
+        const answeredQuestions = ref([]);
+        const correctAnswersCount = ref(0);
+        const attempts = ref({});
+        const eliminationUses = ref(2);
+        const questionAnswered = ref(false);
+        const allAnswered = ref(false);
+        const shuffledOptions = ref([]);
 
-         const progressBarWidth = computed(() =>
-         Math.round((answeredQuestions.value.length / Object.keys(questions).length) * 100)
-         );
+        // API數據相關
+        const gameQuestions = ref([]);
+        const currentQuestions = ref({});
+        const currentOptionsContent = ref({});
+        const currentCorrectAnswers = ref({});
+        const originalQuestions = ref({});
 
-         const selectQuestion = (questionNumber) => {
-         selectedQuestion.value = questionNumber;
-         currentQuestion.value = questions[questionNumber];
-         selectedAnswer.value = '';
-         shuffleOptions();
-
-         if (!attempts.value[questionNumber]) {
-            attempts.value[questionNumber] = 0;
-         }
-         };
-
-         const shuffleOptions = () => {
-         const content = optionsContent[selectedQuestion.value];
-         const options = ['A', 'B', 'C', 'D'];
-         const shuffledContent = [...content].sort(() => Math.random() - 0.5);
-
-         shuffledOptions.value = options.map((label, index) => ({
-            label: `${label}. ${shuffledContent[index]}`,
-            value: shuffledContent[index],
-            locked: false,
-         }));
-         };
-
-         const selectOption = (option) => {
-         if (!option.locked) {
-            selectedAnswer.value = option.value;
-            shuffledOptions.value.forEach((opt) => {
-               opt.isSelected = opt.value === option.value;
-            });
-         }
-         };
-
-         const submitAnswer = () => {
-         if (!selectedAnswer.value) {
-            alert('請先選擇一個答案');
-            return;
-         }
-
-         attempts.value[selectedQuestion.value]++;
-         const correctAnswer = correctAnswers[selectedQuestion.value];
-         questionAnswered.value = true;
-
-         if (selectedAnswer.value === correctAnswer) {
-            alert('恭喜！你答對了');
-            if (attempts.value[selectedQuestion.value] === 1) {
-               correctAnswersCount.value++;
+        // 初始化遊戲數據
+        const initializeGameData = async () => {
+            try {
+                const response = await askGame("1");
+                if (response && response.data) {
+                    gameQuestions.value = response.data;
+                    const { questions, correctAnswers, optionsContent, originalQuestions: origQuestions } = 
+                        formatQuestions(gameQuestions.value);
+                    
+                    currentQuestions.value = questions;
+                    currentCorrectAnswers.value = correctAnswers;
+                    currentOptionsContent.value = optionsContent;
+                    originalQuestions.value = origQuestions;
+                }
+            } catch (error) {
+                alert('獲取題目失敗，請稍後再試');
             }
-            answeredQuestions.value.push(selectedQuestion.value);
-            shuffledOptions.value.forEach((opt) => {
-               if (opt.value === selectedAnswer.value) opt.isCorrect = true;
-            });
-            const remainingQuestions = Object.keys(questions).filter(
-               (q) => !answeredQuestions.value.includes(Number(q))
-            );
-            if (remainingQuestions.length > 0) {
-               const nextQuestion = remainingQuestions[Math.floor(Math.random() * remainingQuestions.length)];
-               selectQuestion(Number(nextQuestion));
+        };
+
+        // 上傳作答記錄
+        const uploadGameRecord = async (questionNumber, selectedAnswer) => {
+            try {
+                const question = originalQuestions.value[questionNumber];
+                const record = prepareGameRecord(
+                    question,
+                    selectedAnswer,
+                    question.options
+                );
+                await submitGameRecord(record);
+            } catch (error) {
+                console.error('上傳作答記錄失敗:', error);
+            }
+        };
+
+        // 計算進度條寬度
+        const progressBarWidth = computed(() => {
+            const totalQuestions = Object.keys(currentQuestions.value).length;
+            return totalQuestions ? Math.round((answeredQuestions.value.length / totalQuestions) * 100) : 0;
+        });
+
+        // 選擇題目
+        const selectQuestion = (questionNumber) => {
+            if (currentQuestions.value[questionNumber]) {
+                selectedQuestion.value = questionNumber;
+                selectedAnswer.value = '';
+                
+                if (!attempts.value[questionNumber]) {
+                    attempts.value[questionNumber] = 0;
+                }
+                
+                const content = currentOptionsContent.value[selectedQuestion.value];
+                shuffledOptions.value = shuffleOptions(content);
+            }
+        };
+
+        // 選擇選項
+        const selectOption = (option) => {
+            if (!option.locked) {
+                selectedAnswer.value = option.value;
+                shuffledOptions.value.forEach((opt) => {
+                    opt.isSelected = opt.value === option.value;
+                });
+            }
+        };
+
+        // 提交答案
+        const submitAnswer = async () => {
+            if (!selectedAnswer.value) {
+                alert('請先選擇一個答案');
+                return;
+            }
+
+            attempts.value[selectedQuestion.value]++;
+            const correctAnswer = currentCorrectAnswers.value[selectedQuestion.value];
+            questionAnswered.value = true;
+
+            // 上傳作答記錄
+            await uploadGameRecord(selectedQuestion.value, selectedAnswer.value);
+
+            if (checkAnswer(selectedAnswer.value, correctAnswer)) {
+                alert('恭喜！你答對了');
+                if (attempts.value[selectedQuestion.value] === 1) {
+                    correctAnswersCount.value++;
+                }
+                answeredQuestions.value.push(selectedQuestion.value);
+                
+                shuffledOptions.value.forEach((opt) => {
+                    if (opt.value === selectedAnswer.value) opt.isCorrect = true;
+                });
+
+                const nextQuestion = getNextRandomQuestion(currentQuestions.value, answeredQuestions.value);
+                if (nextQuestion !== null) {
+                    selectQuestion(nextQuestion);
+                } else {
+                    checkAllAnswered();
+                }
             } else {
-               checkAllAnswered();
+                alert('很遺憾，你答錯了');
+                shuffledOptions.value.forEach((opt) => {
+                    if (opt.value === selectedAnswer.value) {
+                        opt.locked = true;
+                        opt.isIncorrect = true;
+                    }
+                });
             }
-         } else {
-            alert('很遺憾，你答錯了');
-            shuffledOptions.value.forEach((opt) => {
-               if (opt.value === selectedAnswer.value) opt.locked = true;
-            });
-         }
-         questionAnswered.value = false;
-         };
+            questionAnswered.value = false;
+        };
 
-         const useElimination = () => {
-         if (eliminationUses.value > 0) {
-            const incorrectOptions = shuffledOptions.value.filter(
-               (option) => option.value !== correctAnswers[selectedQuestion.value] && !option.locked
-            );
+        // 使用刪去法
+        const useElimination = () => {
+            if (eliminationUses.value > 0) {
+                const optionToLock = getOptionToLock(
+                    shuffledOptions.value, 
+                    currentCorrectAnswers.value[selectedQuestion.value]
+                );
 
-            if (incorrectOptions.length > 0) {
-               const optionToLock = incorrectOptions[Math.floor(Math.random() * incorrectOptions.length)];
-               optionToLock.locked = true;
-               eliminationUses.value--;
+                if (optionToLock) {
+                    optionToLock.locked = true;
+                    eliminationUses.value--;
+                }
             }
-         }
-         };
+        };
 
-         const checkAllAnswered = () => {
-         if (answeredQuestions.value.length === Object.keys(questions).length) {
-            allAnswered.value = true;
-            const correctRate = (
-               (correctAnswersCount.value / Object.keys(questions).length) *
-               100
-            ).toFixed(2);
-            alert(`你已全部答對！正確率：${correctRate}%`);
-         }
-         };
+        // 檢查是否所有題目都已回答
+        const checkAllAnswered = () => {
+            const totalQuestions = Object.keys(currentQuestions.value).length;
+            if (answeredQuestions.value.length === totalQuestions) {
+                allAnswered.value = true;
+                const correctRate = calculateCorrectRate(correctAnswersCount.value, totalQuestions);
+                alert(`你已完成所有題目！正確率：${correctRate}%`);
+            }
+        };
 
-         const goBackToRecord = () => {
-         router.push('/healthKnowledge');
-         };
+        // 組件掛載時初始化數據
+        onMounted(() => {
+            initializeGameData();
+        });
 
-         const confirmCancel = () => {
-         if (confirm('你確定要放棄挑戰嗎？')) {
-            router.push('/healthKnowledge');
-         }
-      };
-
-      return {
-         selectedQuestion,
-         currentQuestion,
-         selectedAnswer,
-         answeredQuestions,
-         correctAnswersCount,
-         attempts,
-         eliminationUses,
-         questionAnswered,
-         allAnswered,
-         shuffledOptions,
-         progressBarWidth,
-         selectQuestion,
-         shuffleOptions,
-         selectOption,
-         submitAnswer,
-         useElimination,
-         checkAllAnswered,
-         goBackToRecord,
-         confirmCancel,
-         };
-      },
-   };
+        return {
+            selectedQuestion,
+            selectedAnswer,
+            answeredQuestions,
+            correctAnswersCount,
+            attempts,
+            eliminationUses,
+            questionAnswered,
+            allAnswered,
+            shuffledOptions,
+            currentQuestions,
+            progressBarWidth,
+            selectQuestion,
+            selectOption,
+            submitAnswer,
+            useElimination,
+        };
+    },
+};
 </script>
 
 <style scoped>

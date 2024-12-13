@@ -148,7 +148,7 @@
          const currentRecordTime = route.query.recordTime;
 
          if (!dateString || !currentRecordId || !currentRecordTime) {
-            console.error('未提供必要參數');
+            //console.error('未提供必要參數');
             return;
          }
 
@@ -176,7 +176,7 @@
                recordTime.value = recordData.createAt;
             }
          } catch (error) {
-            console.error('載入健康紀錄失敗:', error);
+            //console.error('載入健康紀錄失敗:', error);
          } finally {
             loading.value = false;
          }
@@ -184,7 +184,7 @@
 
          const saveHealthInfo = async () => {
             if (!recordId.value) {
-              console.error('無效的記錄ID');
+              //console.error('無效的記錄ID');
               return;
             }
             
@@ -212,7 +212,7 @@
             // 跳轉到檢視頁面
             window.location.href = `#/healthDetailView?date=${selectedDate}`;
             } catch (error) {
-               console.error('更新健康紀錄失敗:', error);
+               //console.error('更新健康紀錄失敗:', error);
                alert('更新健康紀錄失敗，請稍後再試');
             } finally {
                loading.value = false;
