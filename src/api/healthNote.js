@@ -95,8 +95,8 @@ export function askHealthNoteRecord(startAt, endAt) {
             uncompleteNumber += 1;
          }
       }
-      if(HealthNoteRecord.length<4) {
-         uncompleteNumber += (4-HealthNoteRecord.length);
+      if(HealthNoteRecord.length<3) {
+         uncompleteNumber += (3-HealthNoteRecord.length);
       }
 
       return { HealthNoteRecord, uncompleteNumber };
