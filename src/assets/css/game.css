@@ -37,10 +37,35 @@
     background-color: #298258;
  }
 
- .grid-item.locked {
-    background-color: #d3d3d3;
-    cursor: not-allowed;
- }
+.grid-item.answered {
+   background-color: #d3d3d3 !important; 
+   color: #666; 
+   cursor: pointer;
+   position: relative;
+}
+
+.grid-item.answered:hover {
+   background-color: #c0c0c0 !important; 
+}
+
+.grid-item.answered.selected {
+   background-color: #b8b8b8 !important; 
+   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); 
+}
+
+.answered-option {
+   cursor: default;
+   opacity: 0.8;
+}
+
+.answered-message {
+   text-align: center;
+   color: #666;
+   font-size: 1.5em;
+   padding: 10px;
+   background-color: #f8f9fa;
+   border-radius: 5px;
+}
 
  .grid-item.glow {
     box-shadow: 0 0 15px 5px rgba(60, 120, 82, 0.8);
@@ -103,7 +128,7 @@
  }
 
  label.is-correct {
-    background-color: #d4edda;
+    background-color: #88ce99;
  }
 
  label.is-incorrect {

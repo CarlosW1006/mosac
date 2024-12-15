@@ -152,6 +152,22 @@ select option {
    background-color: white;
 }
 
+.search-input-klg {
+   width: 25%;
+   height: 2.2em;
+   font-size: 23px;
+   margin-right: 1em;
+   padding-left: 10px;
+   border-radius: 5px;
+   outline: none; /* 移除點擊後的外框 */
+   border: 1.5px solid #ababab;
+}
+
+.search-input-klg:focus {
+   border-color: #76caad;
+   background-color: white;
+}
+
 .search-input-meet {
    width: 25%;
    height: 2.2em;
@@ -295,6 +311,16 @@ select option {
       border-radius: 5px;
    }
 
+   .search-input-klg {
+      width: 30%;
+      height: 2.3em;
+      font-size: 18px;
+      margin-top: 1em;
+      margin-bottom: 1em;
+      padding-left: 10px;
+      border-radius: 5px;
+   }
+
    .search-input-meet {
       height: 2.3em;
       font-size: 18px;
@@ -368,6 +394,11 @@ select option {
 
    .search-input {
       margin-top: 0em;
+   }
+
+   .search-input-klg {
+      margin-top: 0em;
+      width: 100%;
    }
 
    .search-input-meet {

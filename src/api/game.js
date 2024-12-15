@@ -1,12 +1,34 @@
 import API from './apiInstance.js'; 
 
+
+// 獲取使用者資訊 API Start //
+export function getUserInfo() {
+    return API.get('user')
+        .then(response => {
+            if (response && response.data) {
+                return response.data;
+            }
+            throw new Error('No user data received');
+        })
+        .catch(error => {
+            console.error('獲取使用者資訊失敗:', error);
+            throw error;
+        });
+}
+// 獲取使用者資訊 API Start //
+
 // 遊戲 API Start //
 export function askGame(phase) {
+    const numericPhase = Number(phase);
+    if (isNaN(numericPhase)) {
+        throw new Error('Phase must be a number');
+    }
+
     return API.get(
         'game/phase',
         {
             params: {
-                phase: phase
+                phase: numericPhase
             },
         }
     )
@@ -25,7 +47,17 @@ export function askGame(phase) {
 
 // 上傳作答記錄 API Start //
 export function submitGameRecord(recordData) {
-    return API.post('game/record', recordData)
+    const validatedData = {
+        ...recordData,
+        number: Number(recordData.number),
+        phase: Number(recordData.phase),
+        options: recordData.options.map(opt => ({
+            ...opt,
+            number: Number(opt.number)
+        }))
+    };
+    
+    return API.post('game/record', validatedData)
         .then(response => {
             if (response && response.data) {
                 return response;
@@ -50,7 +82,13 @@ export function formatQuestions(apiData) {
         const questionNumber = question.number;
         questions[questionNumber] = question.topic;
         optionsContent[questionNumber] = question.options.map(opt => opt.content);
-        originalQuestions[questionNumber] = question;  // 保存完整的原始數據
+        originalQuestions[questionNumber] = {
+            ...question,
+            options: question.options.map(opt => ({
+                ...opt,
+                selected: false
+            }))
+        };
 
         const correctOption = question.options.find(opt => opt.is_correct);
         if (correctOption) {
@@ -62,17 +100,20 @@ export function formatQuestions(apiData) {
 }
 
 // 準備上傳的記錄數據 Start //
-export function prepareGameRecord(question, selectedOption, allOptions) {
+export function prepareGameRecord(question, selectedOption) {
+    // 確保每個選項都有 selected 屬性
+    const options = question.options.map(opt => ({
+        number: Number(opt.number),
+        content: opt.content,
+        is_correct: opt.is_correct,
+        selected: opt.content === selectedOption
+    }));
+    
     return {
-        number: question.number,
+        number: Number(question.number),
         topic: question.topic,
-        phase: question.phase,
-        options: allOptions.map(opt => ({
-            number: opt.number,
-            content: opt.content,
-            is_correct: opt.is_correct,
-            selected: opt.content === selectedOption
-        }))
+        phase: Number(question.phase),
+        options: options
     };
 }
 
