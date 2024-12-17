@@ -121,12 +121,12 @@
                show: true,
             },
             {
-               label: '開始時間：',
+               label: '諮詢開始時間：',
                value: meetInfoData.value.start_time ? formatTime(meetInfoData.value.start_time) : '',
                show: true,
             },
             {
-               label: '結束時間：',
+               label: '諮詢結束時間：',
                value: meetInfoData.value.end_time ? formatTime(meetInfoData.value.end_time) : '',
                show: true,
             },

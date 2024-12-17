@@ -55,6 +55,7 @@ export function changeAccInfo(accNickName) {
 export function askPointsRecord() {
    return API.get('user/point-records').then((response) => { 
       const pointsRecord = {};
+      sessionStorage.removeItem('session');
 
       if(Array.isArray(response.data)) {
          response.data.forEach(record => {

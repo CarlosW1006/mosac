@@ -209,6 +209,7 @@ router.beforeEach((to, from, next) => {
    
    if (to.meta.requiresAuth) {
       if (!session) {
+         alert('您的登入已逾時，請重新登入');
          next({ path: '/letmein' }); return;
       }
 

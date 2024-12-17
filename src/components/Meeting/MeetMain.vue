@@ -113,7 +113,7 @@
          const consultType = ref('');
          const searchTitle = ref('');
          const startAtDate = ref(formatDate(new Date()));
-         const endAtDate = ref('2024-12-31');
+         const endAtDate = ref('2025-08-31');
          
          let consultData = ref([]);
          let curPageNum = ref(1); // 當前頁數
