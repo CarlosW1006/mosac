@@ -64,7 +64,7 @@
                <v-row :class="!winwidth ? 'article-grid' : ''">
                   <v-col v-for="(item, index) in HCVideosArr[curPageNum-1]" :key="index" cols="12" md="6" lg="4" class="article-item">
                      <v-card class="article-card">
-                     <router-link class="router-link" :to="{ name: 'healthKnowledgeViewPage' }">
+                        <router-link class="router-link" :to="{ name: 'healthKnowledgeViewPage', query: { id: item.id }}">
                         <div class="article-info">
                            <span class="article-title">{{ item.title }}</span>
                         </div>

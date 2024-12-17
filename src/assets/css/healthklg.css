@@ -44,7 +44,10 @@
    color: #74130d;
 }
 
-.article-title {
+.article-view-info{
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
    padding: 2em 0 1em;
 }
 
@@ -81,11 +84,18 @@
 .article-view-title {
    width: 1500px;
    font-size: 2.5em;
-   margin: 0;
    text-overflow: ellipsis;
    white-space: nowrap;
    overflow:hidden;
    color: #74130d;
+}
+
+/* 收藏愛心樣式 */
+.favorite-icon {
+   width: 200px;
+   cursor: pointer;
+   font-size: 2em;
+   margin: 0;
 }
    
 .article-stats {

@@ -7,8 +7,9 @@
       <v-col cols="12" sm="12" xl="12" md="8" lg="8">
          <v-card style="width: 100%; padding-bottom: 1em;">
             <v-list-item>
-               <div class="article-title">
+               <div class="article-view-info">
                   <h2 class="article-view-title">{{ articleTitle }}</h2>
+                  <button @click="toggleFavorite" class="favorite-icon">收藏 {{ isFavorite ? '❤️' : '🤍' }}</button>
                </div>
             </v-list-item>
 
@@ -52,12 +53,12 @@
             <router-link class="router-link" :to="{ name: 'healthKnowledgeViewPage'}">
             <div class="recommendation-item">
                <div class="thumbnail-r">
-               <img :src="article.thumbnail" alt="Article Thumbnail" class="article-thumbnail-r" />
+                  <img :src="article.thumbnail" alt="Article Thumbnail" class="article-thumbnail-r" />
                </div>
                <div class="article-details-r">
-               <h3 class="article-title-r">{{ article.title }}</h3>
-               <span class="article-uploader-r">上傳者：{{ article.uploader }}</span>
-               <span class="upload-date-r">{{ article.uploadDate }}</span>
+                  <h3 class="article-title-r">{{ article.title }}</h3>
+                  <span class="article-uploader-r">上傳者：{{ article.uploader }}</span>
+                  <span class="upload-date-r">{{ article.uploadDate }}</span>
                </div>
             </div>
             </router-link>

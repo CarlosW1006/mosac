@@ -103,6 +103,7 @@
    justify-content: space-between;
    align-items: center;
    font-size: 1em;
+   padding: 0;
 }
   
 .video-view-title {
@@ -113,8 +114,10 @@
    white-space: nowrap;
    overflow:hidden;
 }
-  
+
+/* 收藏愛心樣式 */
 .favorite-icon {
+   width: 150px;
    cursor: pointer;
    margin-top: 1em;
    font-size: 1.5em;
@@ -226,10 +229,18 @@
     .video-title-r {
       font-size: 1.4em;
    }
+
+   .favorite-icon {
+      width: 350px;
+   }
 }
 
 @media (min-width: 1000px) and (max-width: 1280px) { 
    .video-grid {
       margin: 0em;
+   }
+
+   .favorite-icon {
+      width: 250px;
    }
 }

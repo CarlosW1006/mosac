@@ -51,7 +51,7 @@ export function askHealthNoteRecord(startAt, endAt) {
    )
    .then((response) => { 
       const HealthNoteRecord = [];
-      let uncompleteNumber = 0;
+      //let uncompleteNumber = 0;
       if(Array.isArray(response.data)) {
          // 整理記錄，去除重複
          response.data.forEach(record => {
@@ -90,14 +90,7 @@ export function askHealthNoteRecord(startAt, endAt) {
          updateHealthRecords(monthKey, HealthNoteRecord);
       }
       // 計算沒有填寫的天數
-      for(let i=0; i<HealthNoteRecord.length; i++) {
-         if(HealthNoteRecord[i].finish === 'false') {
-            uncompleteNumber += 1;
-         }
-      }
-      if(HealthNoteRecord.length<3) {
-         uncompleteNumber += (3-HealthNoteRecord.length);
-      }
+      const uncompleteNumber = calculateUncompleteNumber(HealthNoteRecord);
 
       console.log(HealthNoteRecord);
       return { HealthNoteRecord, uncompleteNumber };
@@ -331,3 +324,35 @@ export function updateHealthRecord(recordId, healthData) {
    });
 }
 // 更新健康紀錄 API End //
+
+// 未填寫記錄計算 Start //
+function calculateUncompleteNumber(records) {
+   const today = new Date();
+   today.setHours(0, 0, 0, 0);
+   
+   // 計算可填寫期間的起始日（前兩天）
+   const startDate = new Date(today);
+   startDate.setDate(today.getDate() - 2);
+   
+   let uncompleteNumber = 0;
+   
+   // 檢查這三天的記錄
+   for (let i = 0; i <= 2; i++) {
+      const targetDate = new Date(today);
+      targetDate.setDate(today.getDate() - i);
+      
+      // 查找當天的記錄
+      const record = records.find(r => {
+         const recordDate = new Date(r.date);
+         return recordDate.getTime() === targetDate.getTime();
+      });
+      
+      // 如果這天沒有記錄或記錄未完成，則計入未完成數
+      if (!record || record.finish === 'false') {
+         uncompleteNumber++;
+      }
+   }
+   
+   return uncompleteNumber;
+}
+// 未填寫記錄計算 End //
