@@ -116,7 +116,7 @@
                show: accType != 0,
             },
             {
-               label: '諮詢專家：',
+               label: '主辦人名稱：',
                value: meetInfoData.value.name || '',
                show: true,
             },

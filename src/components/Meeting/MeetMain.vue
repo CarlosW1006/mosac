@@ -96,7 +96,7 @@
 
 <script>
    import { ref } from 'vue';
-   import { formatTime } from '../JS/formatTime.js';
+   import { formatTime, formatDate } from '../JS/formatTime.js';
    import { useWindowWidth } from '../JS/winwidth.js';
    import { getConsultResult, getExpertConsultResult, postReserveConsult, getReserveOutcome} from '../../api/consult.js';
 
@@ -109,10 +109,12 @@
          let isLoading = ref(true);
          let dataNumRange = ref([1, 10]);
          let reserveStatus = ref([0, '我要預約諮詢']);
+         
          const consultType = ref('');
-         const startAtDate = ref('');
-         const endAtDate = ref('');
          const searchTitle = ref('');
+         const startAtDate = ref(formatDate(new Date()));
+         const endAtDate = ref('2024-12-31');
+         
          let consultData = ref([]);
          let curPageNum = ref(1); // 當前頁數
          let pagesAmount = ref(1); // 頁面總數

@@ -1,16 +1,16 @@
 import API from './apiInstance.js';
 
-// 取得帳號資料 API
+// 取得諮詢行程通知 API
 function getConsultNotify() { 
    return API.get('consult/notify').then((response) => { 
       return response.data;
    });
 }
 
-// 取得內容資料 API
+// 取得健康知能通知 API
 
 
-// 整合兩個 API 的資料
+// 整合諮詢行程+健康知能通知
 export async function integrateNotify() {
    try {
       const consultNotify = await getConsultNotify();

@@ -104,7 +104,7 @@ export function getExpertConsultResult(type = '', startTime, endTime, title, per
 
 // 撈取2天內的諮詢
 export function get2DayConsultResult(startTime, endTime) { 
-   return API.get(`consult/user??startTime=${startTime}&endTime=${endTime}`)
+   return API.get(`consult/user?startTime=${startTime}&endTime=${endTime}`)
    .then((response) => {
       const data = response.data;
       console.log(data);

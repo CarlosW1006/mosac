@@ -89,17 +89,19 @@ export function askHealthNoteRecord(startAt, endAt) {
          const monthKey = `${new Date(startAt).getFullYear()}-${new Date(startAt).getMonth() + 1}`;
          updateHealthRecords(monthKey, HealthNoteRecord);
       }
+      
       // 計算沒有填寫的天數
       for(let i=0; i<HealthNoteRecord.length; i++) {
          if(HealthNoteRecord[i].finish === 'false') {
             uncompleteNumber += 1;
          }
       }
-      if(HealthNoteRecord.length<3) {
-         uncompleteNumber += (3-HealthNoteRecord.length);
+      if(HealthNoteRecord.length<5) {
+         uncompleteNumber += (5-HealthNoteRecord.length);
       }
 
       console.log(HealthNoteRecord);
+
       return { HealthNoteRecord, uncompleteNumber };
    })
 }

@@ -30,7 +30,9 @@ API.interceptors.response.use(
          if (status === 403) {
             if (!hasShownAlert) {
                hasShownAlert = true;
+               // location.href=''
                alert('您的登入已逾時，請重新登入');
+
             }
             return Promise.reject({ handled: true });
          } else if (data && data.message) {
