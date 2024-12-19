@@ -107,13 +107,13 @@
             {
                label: '諮詢類別：',
                value: meetInfoData.value.consult_type == '0' ? '個人諮詢' : 
-               meetInfoData.value.consult_type == '1' ? '團體諮詢' : '',
+                     meetInfoData.value.consult_type == '1' ? '團體諮詢' : '',
                show: true,
             },
             {
                label: '預約人數：',
                value: meetInfoData.value.user_consults || '',
-               show: accType != 0,
+               show: accType === '1', // 只有 accType === 1 時顯示
             },
             {
                label: '主辦人名稱：',

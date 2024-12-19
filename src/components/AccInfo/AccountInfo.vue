@@ -14,10 +14,16 @@
                   </v-list-item>
 
                   <template v-for="(item, index) in accInfoItems" :key="index">
-                     <v-list-item class="list-item" v-if="item.show">
+                     <v-list-item class="list-item">
                         <div class="flex-container">
                            <h4 class="list-name">{{ item.label }}</h4>
-                           <p class="list-info50">{{ item.value }}</p>
+                           
+                           <div v-if="item.label === '帳號類別：'" class="flex-container">
+                              <p class="list-info50">{{ item.value }}</p>
+                              <img :src="`/${accHeadImg}.png`" class="user-type-image" />
+                           </div>
+                           
+                           <p v-else class="list-info50">{{ item.value }}</p>
                         </div>
                      </v-list-item>
                   </template>
@@ -42,7 +48,7 @@
                   </v-list-item>
 
                   <template v-for="(item, index) in accTargetInfoItems" :key="index">
-                     <v-list-item class="list-item" v-if="item.show">
+                     <v-list-item class="list-item">
                         <div class="flex-container">
                            <h4 class="list-name">{{ item.label }}</h4>
                            <p class="list-info50">{{ item.value }}</p>
@@ -63,7 +69,6 @@
    import { ref, computed } from 'vue';
    import { useWindowWidth } from '../JS/winwidth.js';
    import { changeAccInfo } from '../../api/accInfo.js';
-   import userImage from '../../assets/images/user.png';
    import { askAccInfo, askTargetInfo } from '../../api/accInfo.js';
 
    export default {
@@ -73,6 +78,7 @@
          let isLoading = ref(true);
          let accType = sessionStorage.getItem('accType');
          let accInfoArr = ref('');
+         let accHeadImg = ref('user0');
          let accTargetInfoArr = ref('');
 
          const { winwidth } = useWindowWidth();
@@ -81,6 +87,13 @@
          Promise.all([
             askAccInfo().then((result) => { 
                accInfoArr.value = result;
+               if(accType == 0) {
+                  accHeadImg.value = 'user0';
+               } else if(accType == 1) {
+                  accHeadImg.value = 'user1';
+               } else {
+                  accHeadImg.value = 'user2';
+               }
             }),
 
             askTargetInfo().then((result) => {
@@ -108,17 +121,14 @@
             {
                label: '帳號名稱：',
                value: accInfoArr.value.credential || '',
-               show: true,
             },
             {
                label: '帳號類別：',
                value: accInfoArr.value.userType || '',
-               show: true,
             },
             {
                label: '帳號姓名：',
                value: accInfoArr.value.name || '',
-               show: true,
             }
          ]);
 
@@ -126,22 +136,18 @@
             {
                label: '目前階段：',
                value: accTargetInfoArr.value.currentPhase || '',
-               show: true,
             },
             {
                label: '目標體重：',
                value: accTargetInfoArr.value.currentWeight ? accTargetInfoArr.value.currentWeight + ' 公斤' : '',
-               show: true,
             },
             {
                label: '每日步數：',
                value: accTargetInfoArr.value.currentSteps ? accTargetInfoArr.value.currentSteps + '步' : '',
-               show: true,
             },
             {
                label: '慢跑時間：',
                value: accTargetInfoArr.value.currentJogTime ? accTargetInfoArr.value.currentJogTime + '分鐘' : '',
-               show: true,
             }
          ]);
          
@@ -149,8 +155,8 @@
             winwidth,
             isLoading,
             accType,
-            userImage,
             accname,
+            accHeadImg,
             accInfoArr,
             accInfoItems,
             accTargetInfoArr,

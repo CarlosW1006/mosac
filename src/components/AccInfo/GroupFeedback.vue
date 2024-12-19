@@ -16,7 +16,7 @@
                   </v-list-item>
                      
                   <template v-for="(item, index) in infoItems" :key="index">
-                     <v-list-item class="list-item" v-if="item.show">
+                     <v-list-item class="list-item">
                         <div class="flex-container">
                            <h4 class="list-name">{{ item.label }}</h4>
                            <p class="list-info50">{{ item.value }}</p>
@@ -84,17 +84,14 @@
                label: '帳號暱稱：',
                value: feedBackData.value.user.nickname == null ? feedBackData.value.blockname : 
                feedBackData.value.user.nickname,
-               show: true,
             },
             {
                label: '減重進度：',
                value:  feedBackData.value.completionRate,
-               show: true,
             },
             {
                label: '階段群組：',
                value: feedBackData.value.phaseMonth + feedBackData.value.phase,
-               show: true,
             },
          ]);
          

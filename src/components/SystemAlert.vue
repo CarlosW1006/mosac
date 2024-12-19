@@ -54,7 +54,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      z-index: 9998;
+      z-index: 9000;
       display: flex;
       position: fixed;
       align-items: center;
@@ -64,12 +64,12 @@
 
    .system-alert {
       width: 600px;
-      height: 300PX;
+      height: auto;
       max-width: 90%;
       border-radius: 10px;
       z-index: 9999;
       background-color: #fffbf7;
-      border: 8px solid #6cb39a;
+      border: 5px solid #6cb39a;
    }
 
    .alert-title {
@@ -94,28 +94,21 @@
       margin-right: -10px;
    }
 
-   .alert-title-font {
-      margin-bottom: 5px;
-   }
 
    p {
       font-size: 30px;
       font-weight: 600;
-      margin-top: 65px;
-      padding: 0 20px 0;
       text-align:justify;
+      padding: 35px 20px 20px;
    }
 
    .day-count {
       color: red;
    }
 
-   @media screen and (max-width: 600px) {
+   @media screen and (max-width: 600px) { 
       p {
          font-size: 25px;
-         font-weight: 600;
-         margin-top: 60px;
-         padding: 0 20px 0;
       }
    }
 </style>

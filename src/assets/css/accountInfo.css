@@ -81,6 +81,7 @@ table {
 
 .list-info50 {
    margin-left: 1em;
+   margin-right: 0.5em;
    margin-top: 0.5em;
    margin-bottom: 0.5em;
 }
@@ -113,9 +114,9 @@ table {
    background-color: white;
 }
 
-.list-name {
-   margin-top: 0.7em;
-   margin-bottom: 0.7em;
+.user-type-image {
+   width: 30px;
+   height: 30px;
 }
 
 .group-top3 {

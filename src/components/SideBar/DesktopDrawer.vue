@@ -44,23 +44,6 @@
             </button>
          </div>
       </template>
-
-      <!-- <template v-slot:append>
-         <div class="bar-btn-info-container">
-            <div v-if="accType != 1" class="messages">
-               <div class="flex-container">
-                  <a href="#/healthNotes" class="bar-btn-info">健康紀錄未填寫</a>
-                  <div class="info-number"><p>{{ uncompleteNumber }}</p></div>
-               </div>
-            </div>
-            <div class="messages">
-               <div class="flex-container">
-                  <a href="#/systemNotice" class="bar-btn-info">系統訊息通知數</a>
-                  <div class="info-number"><p>3</p></div>
-               </div>
-            </div>
-         </div>
-      </template> -->
    </v-navigation-drawer>
 
    <!-- 電腦上方標題 -->
@@ -74,7 +57,6 @@
          <v-menu activator="parent">
             <template v-slot:activator="{ attrs }">
                <div class="userName-container">
-                  <!-- <img :src="userImage" style="width: 18px; margin-right: 10px;"> -->
                   <a v-bind="attrs" class="userName" style="cursor: pointer;">{{ accName }}</a>
                   <v-icon class="drop-down-btn" size="30" style="cursor: pointer;">mdi-chevron-down</v-icon>
                </div>
@@ -117,6 +99,7 @@
       setup() {
          const uncompleteNumber = ref('');
          const unReadedNumber = ref('');
+         
          let session = sessionStorage.getItem('session');
          let accName = sessionStorage.getItem('accName');
          let accType = sessionStorage.getItem('accType');
@@ -141,12 +124,12 @@
 
          // 當頁面載入後檢查當前的 hash 值
          onMounted(() => {
-         hashUrl.value = window.location.hash;
+            hashUrl.value = window.location.hash;
          });
 
          // 監聽 hash 值的變化
          window.addEventListener('hashchange', () => {
-         hashUrl.value = window.location.hash;
+            hashUrl.value = window.location.hash;
          });
 
          // 功能列頁面轉址

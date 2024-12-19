@@ -10,6 +10,7 @@
                      <v-card outlined class="v-card-Target">
                         <v-card-title>個人目標達成率：65公斤</v-card-title>
                         <v-card-text style="height: 150px;">
+                           <ConfettiExplosion />
                            <p class="recent-progress">目前體重：70公斤</p>
                            <div class="flex-container">
                               <v-progress-linear class="recent-progress-linear" :model-value="timer.progress" color="#ffaf2f"></v-progress-linear>
@@ -24,6 +25,7 @@
                      <v-card outlined class="v-card-Target">
                         <v-card-title style="display: flex;">群組目標達成率：30人</v-card-title>
                         <v-card-text style="height: 150px;">
+                           <ConfettiExplosion />
                            <p class="recent-progress">達成人數：18人</p>
                            <div class="flex-container">
                               <v-progress-linear class="recent-progress-linear" :model-value="timer.progress" color="#c53939"></v-progress-linear>
@@ -44,14 +46,6 @@
                         <v-card-title>今日健康紀錄</v-card-title>
                         <v-card-text class="inner-box">
                            <ul class="mt-4">
-                              <!-- 欄位標題 -->
-                              <!-- <li class="row title-row">
-                                 <div class="col-1"></div>
-                                 <div class="col-2"><strong>項目</strong></div>
-                                 <div class="col-2"><strong>填寫狀態</strong></div>
-                                 <div class="col-2 col-time"><strong>填寫時間</strong></div>
-                              </li> -->
-
                               <!-- 健康紀錄項目 -->
                               <li class="row">
                                  <div class="col-1 text-center">1.</div>
@@ -59,8 +53,8 @@
                                  <div class="col-2">
                                     <v-chip class="completed-chip" color="green" text-color="white" outlined>
                                        填寫完成
-                                    </v-chip></div>
-                                 <!-- <div class="col-2 col-time">2024/10/10 08:10</div> -->
+                                    </v-chip>
+                                 </div>
                               </li>
 
                               <li class="row gray">
@@ -90,7 +84,6 @@
                                     <v-chip class="completed-chip" color="red" text-color="white" outlined>
                                        尚未填寫
                                     </v-chip></div>
-                                 <!-- <div class="col-2 col-time"></div> -->
                               </li>
 
                               <li class="row">
@@ -100,7 +93,6 @@
                                     <v-chip class="completed-chip" color="red" text-color="white" outlined>
                                        尚未填寫
                                     </v-chip></div>
-                                 <!-- <div class="col-2 col-time"></div> -->
                               </li>
                            </ul>
                         </v-card-text>
@@ -231,11 +223,13 @@
    import { ref, reactive } from 'vue';
    import SysAlert from './SystemAlert.vue';
    import { useWindowWidth } from './JS/winwidth.js';
+   import ConfettiExplosion from "vue-confetti-explosion";
 
    export default {
       name: 'IndexPage',
       components: {
          SysAlert,
+         ConfettiExplosion,
       },
       setup() {
          let accType = sessionStorage.getItem('accType');
