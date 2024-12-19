@@ -23,7 +23,6 @@
                <div class="article-stats">
                   <span class="upload-date">上傳日期：{{ uploadDate }}</span>
                   <span class="upload-name">上傳者：{{ uploader }}</span>
-                  <button @click="toggleFavorite" class="favorite-icon">{{ isFavorite ? '❤️' : '🤍' }}</button>
                </div>
             </v-list-item>
 

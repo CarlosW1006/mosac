@@ -93,8 +93,6 @@ export function askHealthNoteRecord(startAt, endAt) {
       // 計算沒有填寫的天數
       const uncompleteNumber = calculateUncompleteNumber(HealthNoteRecord);
 
-      console.log(HealthNoteRecord);
-
       return { HealthNoteRecord, uncompleteNumber };
    })
 }

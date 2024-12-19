@@ -6,7 +6,7 @@
       
       <a class="bell-container flex-container" href="#/systemNotice" style="text-decoration: none;">
          <v-icon class="bell-icon" size="28" style="cursor: pointer;">mdi-bell</v-icon>
-         <div class="sm-info-number2"><p>3</p></div>
+         <div class="sm-info-number2"><p>{{ unReadedNumber }}</p></div>
       </a>
 
       <div>
@@ -89,6 +89,7 @@
 <script>
    import { useWindowWidth } from '../JS/winwidth.js';
    import { changeDate, askHealthNoteRecord } from '../../api/healthNote.js';
+   import { integrateNotify} from '../../api/systemNotify.js';
    // import userImage from './assets/images/user.png';
    import { ref, onMounted } from 'vue';
 
@@ -96,6 +97,7 @@
       name: 'App',
       setup() {
          const uncompleteNumber = ref('');
+         const unReadedNumber = ref('');
          let session = sessionStorage.getItem('session');
          let accName = sessionStorage.getItem('accName');
          let accType = sessionStorage.getItem('accType');
@@ -145,6 +147,11 @@
             uncompleteNumber.value = result.uncompleteNumber;
          });
 
+         // 計算未點選通知數
+         integrateNotify().then((result) => {
+            unReadedNumber.value = result.unReadedNumber;
+         });
+
          // 登出功能
          function logout() {
             if(confirm('是否要登出系統?')) {
@@ -170,6 +177,7 @@
             hashUrl,
             barButtons,
             expBarButtons,
+            unReadedNumber,
             uncompleteNumber,
 
             logout,

@@ -229,7 +229,6 @@
 
 <script>
    import { ref, reactive } from 'vue';
-   import { useRouter } from 'vue-router';
    import SysAlert from './SystemAlert.vue';
    import { useWindowWidth } from './JS/winwidth.js';
 
@@ -242,7 +241,6 @@
          let accType = sessionStorage.getItem('accType');
          let timer = reactive({ interval: null, progress: 0 });
 
-         const router = useRouter();
          const { winwidth } = useWindowWidth();
          const gpRankData = ref([
             ['葉ＯＯ', '第一名', '100%'],
@@ -263,7 +261,7 @@
 
          // 功能列頁面轉址
          function navigateToPath(path) { 
-            router.push({ path: '/' + path });
+            window.location.href = '#/' + path;
          }
 
          return {

@@ -25,7 +25,8 @@
                   <v-list-item class="list-item">
                      <div class="flex-container">
                         <h4 class="list-name">帳號暱稱：</h4>
-                        <input type="string" id="steps" class="item-input" v-model="accname" :placeholder="accInfoArr.nickName || '請輸入暱稱'" />
+                        <input v-if="accInfoArr.nickname != null" type="string" id="steps" class="item-input" v-model="accname" :placeholder="accInfoArr.nickname" />
+                        <input v-else type="string" id="steps" class="item-input" v-model="accname" :placeholder="accInfoArr.blockname" />
                      </div>
                   </v-list-item>
                </v-card>
@@ -69,7 +70,7 @@
       name: 'accInfoPage',
       
       setup() {
-         let isLoading = ref(false);
+         let isLoading = ref(true);
          let accType = sessionStorage.getItem('accType');
          let accInfoArr = ref('');
          let accTargetInfoArr = ref('');
@@ -77,13 +78,17 @@
          const { winwidth } = useWindowWidth();
          const accname = ref('');
 
-         askAccInfo().then((result) => { 
-            accInfoArr.value = result;
-         });
+         Promise.all([
+            askAccInfo().then((result) => { 
+               accInfoArr.value = result;
+            }),
 
-         askTargetInfo().then((result) => {
-            accTargetInfoArr.value = result;
-         })
+            askTargetInfo().then((result) => {
+               accTargetInfoArr.value = result;
+            }),
+         ]).finally(() => {
+            isLoading.value = false; // 所有資料加載完成後設為 false
+         });
 
          async function handleSave(accname) { 
             isLoading.value = true;

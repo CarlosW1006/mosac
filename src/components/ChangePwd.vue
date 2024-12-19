@@ -25,7 +25,7 @@
             </div>
 
             <div class="flex-container-login">
-               <button class="text-body-2 font-weight-regular change-vcode" @click="callVerify()">重新產生驗證碼</button>
+               <button type="button" class="text-body-2 font-weight-regular change-vcode" @click="callVerify()">重新產生驗證碼</button>
             </div><br>
 
             <v-btn @click="changeConfirm" block class="mt-2 login-btn"><h3>確認</h3></v-btn>

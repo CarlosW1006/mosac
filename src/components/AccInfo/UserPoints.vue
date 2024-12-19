@@ -32,40 +32,6 @@
          <p class="exxhangeDateMsg">第二梯次 點數兌換時間：2025/09/01 ~ 09/14</p>
       </v-col>
 
-      <!-- 點數兌換紀錄功能 -->
-      <!-- <v-col cols="12" sm="12" md="6" lg="6">
-         <v-card>
-            <v-list-item class="list-title">
-               <div class="flex-container">
-                  <h3 class="page-title">點數兌換紀錄</h3>
-               </div>
-            </v-list-item>
-         </v-card>
-
-         <v-card style="height: 430px; overflow-y: auto;"> 
-            <v-list-item class="list-item" v-for="(item, index) in pointsRecord" :key="index">
-               <div class="flex-container">
-                  <p>兌換時間：</p>
-                  <p class="list-info50" style="margin-right: 50px; padding: 5px 0px 5px;">{{ item['createAt'] }}</p>
-               </div>
-               <div class="flex-container">
-                  <p>兌換點數：</p>
-                  <p v-if="item.records && item.records.length > 0" class="list-info50" style="margin-right: 35px;">{{ item['records'][0]['amount'] }}點</p>
-                  <p v-else class="list-info50">0點</p>
-
-                  <p>兌換徽章：</p>
-                  <p v-if="item.records && item.records.length > 1" class="list-info50">{{ item['records'][1]['amount'] }}枚</p>
-                  <p v-else class="list-info50">0枚</p>
-               </div>
-            </v-list-item>
-
-            <div v-if="pointsRecord.length == 0" class="nodata-frame">
-               <p>查無資料</p>
-            </div>
-            
-         </v-card>
-      </v-col> -->
-
       <!-- 點數兌換記錄功能 -->
       <v-col cols="12" sm="12" md="6" lg="6">
          <v-card class="upload-records-container">

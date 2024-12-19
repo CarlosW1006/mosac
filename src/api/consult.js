@@ -107,7 +107,6 @@ export function get2DayConsultResult(startTime, endTime) {
    return API.get(`consult/user?startTime=${startTime}&endTime=${endTime}`)
    .then((response) => {
       const data = response.data;
-      console.log(data);
       let currentConsultNum = 0;
 
       for(let i=0; i<data.length; i++) {

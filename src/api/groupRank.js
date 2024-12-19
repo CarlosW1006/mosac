@@ -1,6 +1,4 @@
-// import API from './apiInstance.js';
-import axios from 'axios';
-const APIUrl = 'http://localhost:8888/';
+import API from './apiInstance.js';
 import { splitDataFunc } from '../components/JS/splitDataFunc.js';
 
 let cachedGroupRankingData = {
@@ -19,19 +17,14 @@ export function getGroupRanking(phaseNum, phaseMonth, perPageNum, forceUpdate = 
    }
 
    // 如果進行新的查詢，進行 API 請求
-   // return API.get(`user/phases/${phaseNum}?month=${phaseMonth}`)
-   const token = sessionStorage.getItem('session');
-   return axios.get(
-      APIUrl + 'user/phases',
-      {
-         headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}` 
-         }
-      }
-   )
-   .then((response) => {
+   return API.get(`user/phases/${phaseNum}?month=${phaseMonth}`)
+   .then((response) => { 
       const responseData = Array.isArray(response.data) ? response.data : [];
+
+      for(let i = 0; i < responseData.length; i++) {
+         responseData[i].blockname = responseData[i].name[0] + 'Ｏ' + responseData[i].name.slice(2);
+      }
+
       // 將資料暫存
       cachedGroupRankingData = {
          data: responseData,
@@ -43,13 +36,14 @@ export function getGroupRanking(phaseNum, phaseMonth, perPageNum, forceUpdate = 
       const paginatedData = splitDataFunc(responseData, perPageNum);
       return paginatedData;
    })
-   .catch(() => { 
+   .catch((error) => {
+      alert(error); 
       return []; // 保證錯誤情況下回傳空陣列
    });
 }
 
-// 取得用戶暱稱 API
-export function getUserNickName(uid, phaseNum, phaseMonth) {
+// 取得心得回饋 API
+export function getFeedback(phaseRecordId, phaseMonth) { 
    const phaseMapping = {
       '1': '意圖前期',
       '2': '意圖期',
@@ -58,43 +52,17 @@ export function getUserNickName(uid, phaseNum, phaseMonth) {
       '5': '維持期'
    };
 
-   // return API.get(`user/phases/${phaseNum}?month=${phaseMonth}`)
-   const token = sessionStorage.getItem('session');
-   return axios.get(
-      APIUrl + 'user/phases',
-      {
-         headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}` 
-         }
-      }
-   )
-   .then((response) => {
-      const foundItem = response.data.find((item) => item.id === uid);
-      const nickname = foundItem.nickname;
-      const phase = phaseMapping[phaseNum];
-      const month = phaseMonth.split("-")[1];
-      const completionRate = (foundItem.completionRate*100).toFixed(2) + '%';
-
-      return {month, phase, nickname, completionRate};
+   return API.get(`/user/phaseRecords/${phaseRecordId}/feedback`)
+   .then((response) => { 
+      response.data.phase = phaseMapping[response.data.phase];
+      response.data.phaseMonth = phaseMonth.split("-")[1] + '月';
+      response.data.completionRate = (response.data.completionRate*100).toFixed(2) + '%';
+      response.data.blockname = response.data.user.name[0] + 'Ｏ' + response.data.user.name.slice(2);
+      const feedBackInfo = response.data;
+      return feedBackInfo;
    })
-}
-
-
-// 取得心得回饋 API
-export function getFeedback() {
-   // return API.get(`users/:${uid}/phases-feedbacks?yearMonth=${phaseMonth}`)
-   const token = sessionStorage.getItem('session');
-   return axios.get(
-      APIUrl + 'users/:userId/phases-feedbacks',
-      {
-         headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}` 
-         }
-      }
-   )
-   .then((response) => {
-      return response.data;
-   })
+   .catch((error) => {
+      alert(error); 
+      return []; // 保證錯誤情況下回傳空陣列
+   });
 }

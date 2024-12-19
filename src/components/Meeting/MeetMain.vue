@@ -98,7 +98,7 @@
    import { ref } from 'vue';
    import { formatTime, formatDate } from '../JS/formatTime.js';
    import { useWindowWidth } from '../JS/winwidth.js';
-   import { getConsultResult, getExpertConsultResult, postReserveConsult, getReserveOutcome} from '../../api/consult.js';
+   import { getConsultResult, postReserveConsult, getReserveOutcome} from '../../api/consult.js';
 
    export default {
       name: 'meetInfoPage',
@@ -107,7 +107,6 @@
          let session = sessionStorage.getItem('session');
          let accType = sessionStorage.getItem('accType');
          let isLoading = ref(true);
-         let dataNumRange = ref([1, 10]);
          let reserveStatus = ref([0, '我要預約諮詢']);
          
          const consultType = ref('');
@@ -116,65 +115,58 @@
          const endAtDate = ref('2025-08-31');
          
          let consultData = ref([]);
-         let curPageNum = ref(1); // 當前頁數
-         let pagesAmount = ref(1); // 頁面總數
-         let curDataAmount = ref(0); // 當前頁面資料數量
-         let perPageDataAmount = ref(10); // 當前每頁筆數
-         const perPageNum = [10, 20, 30]; // 每頁資料筆數
+         const curPageNum = ref(1); // 目前頁數
+         const pagesAmount = ref(1); // 頁面總數
+         const curDataAmount = ref(0); // 資料總數
+         const perPageNum = [10, 20, 30]; // 每頁資料數量(選項)
+         const dataNumRange = ref([1, 10]);
+         const perPageDataAmount = ref(10); // 目前每頁資料數量
 
-         function fetchRankingData() {
-            if(accType == 0) {
-               getConsultResult(consultType.value, startAtDate.value, endAtDate.value, searchTitle.value, perPageDataAmount.value)
-               .then((result) => {
-                  consultData.value = result;
-                  pagesAmount.value = result.length;
-                  if (curPageNum.value && Array.isArray(result[curPageNum.value - 1])) {
-                     curDataAmount.value = result[curPageNum.value - 1].length;
-                  } else {
-                     curDataAmount.value = 0; // 或者設置為默認值
-                  }
+         function fetchConsultData() {
+            getConsultResult(consultType.value, startAtDate.value, endAtDate.value, searchTitle.value, perPageDataAmount.value)
+            .then((result) => {
+               consultData.value = result;
 
-                  if(consultData.value == undefined) {
-                     consultData.value = [];
+               let totalDataCount = 0;
+               for (let i = 0; i < result.length; i++) {
+                  if (Array.isArray(result[i])) {
+                     totalDataCount += result[i].length;
                   }
-               });
-            }
+               }
+               pagesAmount.value = Math.ceil(totalDataCount / perPageDataAmount.value);
 
-            else {
-               getExpertConsultResult(consultType.value, startAtDate.value, endAtDate.value, searchTitle.value, perPageDataAmount.value)
-               .then((result) => {
-                  consultData.value = result;
-                  pagesAmount.value = result.length;
-                  if (curPageNum.value && Array.isArray(result[curPageNum.value - 1])) {
-                     curDataAmount.value = result[curPageNum.value - 1].length;
-                  } else {
-                     curDataAmount.value = 0; // 或者設置為默認值
-                  }
+               let startIndex = (curPageNum.value - 1) * perPageDataAmount.value + 1;
+               let endIndex = Math.min(curPageNum.value * perPageDataAmount.value, totalDataCount);
+               dataNumRange.value = [startIndex, endIndex];
 
-                  if(consultData.value == undefined) {
-                     consultData.value = [];
-                  }
-               });
-            }
-            
+               if (curPageNum.value <= result.length && Array.isArray(result[curPageNum.value - 1])) {
+                  curDataAmount.value = totalDataCount;
+               } else {
+                  curDataAmount.value = 0;
+               }
+
+               if (consultData.value === undefined) {
+                  consultData.value = [];
+               }
+            })
          }
          
          // 搜尋功能
          function searchConsult() { 
             curPageNum.value = 1;
-            fetchRankingData();
+            fetchConsultData();
          }
 
          // 每頁筆數功能
          function changePerPageNum() {
             curPageNum.value = 1;
-            fetchRankingData();
+            fetchConsultData();
          }
 
          // 切換頁數功能
          function changePage(newPageNum) {
             curPageNum.value = newPageNum;
-            fetchRankingData();
+            fetchConsultData();
          }
 
          function callFormatTime(val) {
@@ -187,7 +179,7 @@
 
          Promise.all([
             getReserveOutcome().then((result) => {
-               fetchRankingData();
+               fetchConsultData();
                
                reserveStatus.value = { ...result };
 
@@ -206,7 +198,7 @@
             accType,
             isLoading,
             reserveStatus,
-            dataNumRange,
+            
             consultType,
             startAtDate,
             endAtDate,
@@ -214,6 +206,7 @@
             consultData,
             curPageNum,
             pagesAmount,
+            dataNumRange,
             curDataAmount,
             perPageDataAmount,
             perPageNum,

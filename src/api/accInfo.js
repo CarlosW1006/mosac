@@ -6,11 +6,12 @@ export function askAccInfo() {
       const credential = response.data.credential;
       const userType = { 0: "一般用戶", 1: "專家帳號", 2: "系統管理者"}[response.data.userType];
       const name = response.data.name;
-      const nickName = response.data.nickname;
+      const blockname = response.data.name[0] + 'Ｏ' + response.data.name.slice(2);
+      const nickname = response.data.nickname;
       const totalPoints = response.data.totalPoints;
       const totalMedals = response.data.totalMedals;
 
-      return { credential, name, userType, nickName, totalPoints, totalMedals };
+      return { credential, userType, name, blockname, nickname, totalPoints, totalMedals };
    })
 }
 
@@ -55,7 +56,6 @@ export function changeAccInfo(accNickName) {
 export function askPointsRecord() {
    return API.get('user/point-records').then((response) => { 
       const pointsRecord = {};
-      sessionStorage.removeItem('session');
 
       if(Array.isArray(response.data)) {
          response.data.forEach(record => {

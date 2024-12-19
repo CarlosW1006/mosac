@@ -15,7 +15,7 @@
          const [currentDateTime, nextDateTime] = [formatDate(today), formatDate(new Date(today.setDate(today.getDate() + 1)))];
 
          get2DayConsultResult(currentDateTime, nextDateTime).then((result) => {
-            if (result) alert(`親愛的用戶您好，近日有為您安排諮詢行程，請記得準時參加~${result}`);
+            if (result) alert("親愛的用戶您好，近日有為您安排諮詢行程，請記得準時參加~");
             router.push({ path: '/index' });
          });
       },

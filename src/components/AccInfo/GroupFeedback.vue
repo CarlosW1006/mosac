@@ -15,31 +15,21 @@
                      </div>
                   </v-list-item>
                      
-                  <v-list-item class="list-item">
-                     <div class="flex-container">
-                        <h4 class="list-name">帳號暱稱：</h4>
-                        <p class="list-info50">{{ userData.nickname }}</p>
-                     </div>
-                  </v-list-item>
-                  <v-list-item class="list-item">
-                     <div class="flex-container">
-                        <h4 class="list-name">減重進度：</h4>
-                        <p class="list-info50">{{ userData.completionRate }}</p>
-                     </div>
-                  </v-list-item>
-                  <v-list-item class="list-item">
-                     <div class="flex-container">
-                        <h4 class="list-name">階段群組：</h4>
-                        <p class="list-info50">{{ userData.month + '月' }} {{ userData.phase }}</p>
-                     </div>
-                  </v-list-item>
+                  <template v-for="(item, index) in infoItems" :key="index">
+                     <v-list-item class="list-item" v-if="item.show">
+                        <div class="flex-container">
+                           <h4 class="list-name">{{ item.label }}</h4>
+                           <p class="list-info50">{{ item.value }}</p>
+                        </div>
+                     </v-list-item>
+                  </template>
                   <v-list-item class="list-item">
                      <div class="flex-container">
                         <h4 class="list-name">心得回饋：</h4>
                         <p class="list-info50"></p>
                      </div>
                      <v-card class="feedback-container">
-                        <p class="feedback-font">{{ feedBackData }}</p>
+                        <p class="feedback-font">{{ feedBackData.feedback }}</p>
                      </v-card>
                   </v-list-item>
                </v-card>
@@ -53,28 +43,26 @@
 </template>
 
 <script>
-   import { ref, onMounted } from 'vue';
+   import { ref, computed, onMounted } from 'vue';
    import { useWindowWidth } from '../JS/winwidth.js';
-   import { getFeedback, getUserNickName } from '../../api/groupRank.js';
+   import { getFeedback } from '../../api/groupRank.js';
 
    export default {
       name: 'groupFeedbackPage',
       
       setup() {
-         let isLoading = ref(false);
-         let userData = ref('');
+         let isLoading = ref(true);
          let feedBackData = ref('');
          const { winwidth } = useWindowWidth();
          const hashUrl = ref(window.location.hash);
          const queryString = hashUrl.value.split('?')[1];
          const params = new URLSearchParams(queryString);
-         const uid = params.get('uid');
-         const phase = params.get('phase');
+         const phaseRecordId = params.get('phaseRecordId');
          const month = params.get('month');
 
          // 當頁面載入後檢查當前的 hash 值
          onMounted(() => {
-         hashUrl.value = window.location.hash;
+            hashUrl.value = window.location.hash;
          });
 
          // 監聽 hash 值的變化
@@ -82,22 +70,38 @@
             hashUrl.value = window.location.hash;
          });
 
-         getFeedback(uid, month).then((result) => { 
-            if (Array.isArray(result) && result.length > 0) {
-               feedBackData.value = result[0].content;
-            } else {
-               feedBackData.value = '尚未輸入心得';
-            }
+         Promise.all([
+            getFeedback(phaseRecordId, month).then((result) => { 
+               feedBackData.value = result;
+            }),
+         ]).finally(() => {
+            isLoading.value = false; // 所有資料加載完成後設為 false
          });
 
-         getUserNickName(uid, phase, month).then((result) => {
-            userData.value = result;
-         });
+         // 陣列化心得回饋資訊
+         const infoItems = computed(() => [
+            {
+               label: '帳號暱稱：',
+               value: feedBackData.value.user.nickname == null ? feedBackData.value.blockname : 
+               feedBackData.value.user.nickname,
+               show: true,
+            },
+            {
+               label: '減重進度：',
+               value:  feedBackData.value.completionRate,
+               show: true,
+            },
+            {
+               label: '階段群組：',
+               value: feedBackData.value.phaseMonth + feedBackData.value.phase,
+               show: true,
+            },
+         ]);
          
          return { 
             winwidth,
-            userData,
             isLoading,
+            infoItems,
             feedBackData,
          }
       }

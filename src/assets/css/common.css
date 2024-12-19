@@ -365,6 +365,10 @@ select option {
       font-size: 2em;
       margin: 0 0.5em 0;
    }
+
+   .nodata-frame {
+      font-size: 2em;
+   }
 }
 
 @media screen and (max-width: 1000px) {

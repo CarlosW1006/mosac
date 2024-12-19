@@ -209,6 +209,23 @@ table {
    background: #69c9a7;
 }
 
+.notifyReaded {
+   color: #505050;
+}
+
+.notifyUnreaded0 {
+   color: #cf4b4b;
+}
+
+
+.notifyUnreaded {
+   color: #cf4b4b;
+}
+
+.notifyUnreaded:hover {
+   color: #892f2f;
+}
+
 @media screen and (max-width: 1200px) {
    .tableInnerFrame {
       margin: 0 1em 0;

@@ -30,7 +30,7 @@
                         </div>
                         <div class="target-item">
                            <h4 class="list-name">體重：</h4>
-                           <p class="list-info">{{ targetInfo.currentWeight }} 分斤</p>
+                           <p class="list-info">{{ targetInfo.currentWeight }} 公斤</p>
                         </div>
                      </div>
                   </div>
@@ -388,10 +388,10 @@ export default {
 };
 </script>
   
-<style lang="css" scoped>
-   @import "../../assets/css/common.css";
-   @import "../../assets/css/healthNoteMain.css";
+<style scoped src="../../assets/css/common.css"></style>
+<style scoped src="../../assets/css/healthNoteMain.css"></style>
 
+<style lang="css" scoped>
    :deep(.vc-day.is-not-in-month *) {
       opacity: 1;
       color: #BDBDBD;

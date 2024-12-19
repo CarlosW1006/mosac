@@ -11,7 +11,7 @@
                   <div class="dropdown">
                      <select id="phaseMonth" name="phaseMonth" class="top-select" v-model="selectedMonth">
                         <option value="none">請選擇月份</option>
-                        <option value="2024-11">2月</option>
+                        <option value="2024-12">2月</option>
                         <option value="2024-03">3月</option>
                         <option value="2024-04">4月</option>
                         <option value="2024-05">5月</option>
@@ -54,8 +54,6 @@
                   <table v-if="rankingData && rankingData.length > 0">
                      <thead>
                         <tr class="table-title">
-                           <!-- <th class="col1"><strong></strong></th> -->
-                           <!-- <td class="col2"><strong>群組類別</strong></td> -->
                            <td class="col2"><strong>帳號暱稱</strong></td>
                            <td class="col2"><strong>群組排名</strong></td>
                            <td class="col2"><strong>減重進度</strong></td>
@@ -64,11 +62,12 @@
 
                      <tbody>
                         <tr v-for="(item, index) in rankingData[curPageNum-1]" :key="index">
-                           <td v-if="item.rank <= 3"><p class="group-top3" @click="navigateToPath('groupFeedback', item.id)">{{ item.nickname }}</p></td>
+                           <td v-if="item.rank <= 3 && item.nickname != null"><p class="group-top3">{{ item.nickname }}</p></td>
+                           <td v-else-if="item.rank <= 3" @click="navigateToPath('groupFeedback', item.phaseRecordId)"><p class="group-top3">{{ item.blockname }}</p></td>
                            <td v-else><p>{{ item.nickname }}</p></td>
-                           <td v-if="item.rank <= 3"><p class="group-top3"  @click="navigateToPath('groupFeedback', item.id)">第{{ item.rank }}名</p></td>
+                           <td v-if="item.rank <= 3" @click="navigateToPath('groupFeedback', item.phaseRecordId)"><p class="group-top3">第{{ item.rank }}名</p></td>
                            <td v-else><p>第{{ item.rank }}名</p></td>
-                           <td v-if="item.rank <= 3"><p class="group-top3"  @click="navigateToPath('groupFeedback', item.id)">{{ (item.completionRate*100).toFixed(2) }}%</p></td>
+                           <td v-if="item.rank <= 3" @click="navigateToPath('groupFeedback', item.phaseRecordId)"><p class="group-top3">{{ (item.completionRate*100).toFixed(2) }}%</p></td>
                            <td v-else><p>{{ (item.completionRate*100).toFixed(2) }}%</p></td>
                         </tr>
                      </tbody>
@@ -102,6 +101,8 @@
       </v-col>
    </v-row>
 
+   <!-- 等待執行結果動畫 -->
+   <isLoading :active="isLoading" color="#76caad"/>
 </template>
 
 <script>
@@ -113,31 +114,44 @@
    export default {
       name: 'accInfoPage',
       setup() {
+         let isLoading = ref(true);
          const router = useRouter();
-         let dataNumRange = ref([1, 10]);
          const selectedGroup = ref('1');
-         const selectedMonth = ref('2024-11');
-         let rankingData = ref([]);
-         let curPageNum = ref(1); // 當前頁數
-         let pagesAmount = ref(1); // 頁面總數
-         let curDataAmount = ref(0); // 當前頁面資料數量
-         let perPageDataAmount = ref(10); // 當前每頁筆數
-         const perPageNum = [10, 20, 30]; // 每頁資料筆數
+         const selectedMonth = ref('2024-12');
          const { winwidth, isSmallWidth } = useWindowWidth();
-         let session = sessionStorage.getItem('session');
+
+         let rankingData = ref([]);
+         const curPageNum = ref(1); // 目前頁數
+         const pagesAmount = ref(1); // 頁面總數
+         const curDataAmount = ref(0); // 資料總數
+         const perPageNum = [10, 20, 30]; // 每頁資料數量(選項)
+         const dataNumRange = ref([1, 10]);
+         const perPageDataAmount = ref(10); // 目前每頁資料數量
 
          function fetchRankingData() {
             getGroupRanking(selectedGroup.value, selectedMonth.value, perPageDataAmount.value)
             .then((result) => {
                rankingData.value = result;
-               pagesAmount.value = result.length;
-               if (curPageNum.value && Array.isArray(result[curPageNum.value - 1])) {
-                  curDataAmount.value = result[curPageNum.value - 1].length;
+
+               let totalDataCount = 0;
+               for(let i = 0; i < result.length; i++) {
+                  if(Array.isArray(result[i])) {
+                     totalDataCount += result[i].length;
+                  }
+               }
+               pagesAmount.value = Math.ceil(totalDataCount / perPageDataAmount.value);
+
+               let startIndex = (curPageNum.value - 1) * perPageDataAmount.value + 1;
+               let endIndex = Math.min(curPageNum.value * perPageDataAmount.value, totalDataCount);
+               dataNumRange.value = [startIndex, endIndex];
+
+               if(curPageNum.value <= result.length && Array.isArray(result[curPageNum.value - 1])) {
+                  curDataAmount.value = totalDataCount;
                } else {
-                  curDataAmount.value = 0; // 或者設置為默認值
+                  curDataAmount.value = 0;
                }
 
-               if(rankingData.value == undefined) {
+               if(rankingData.value === undefined) {
                   rankingData.value = [];
                }
             })
@@ -145,7 +159,7 @@
 
          // 搜尋功能
          function searchSpecifyGroup() {
-            if (selectedMonth.value === 'none' || selectedGroup.value === 'none') {
+            if(selectedMonth.value === 'none' || selectedGroup.value === 'none') {
                alert("請選擇月份和群組");
                return;
             }
@@ -165,14 +179,18 @@
             fetchRankingData();
          }
 
-         fetchRankingData();
+         Promise.all([
+            fetchRankingData(),
+         ]).finally(() => {
+            isLoading.value = false; // 所有資料加載完成後設為 false
+         });
 
-         function navigateToPath(path, uid) { 
-            router.push({ path: '/' + path, query: { uid: uid, phase: selectedGroup.value, month: selectedMonth.value }});
+         function navigateToPath(path, phaseRecordId) { 
+            router.push({ path: '/' + path, query: { phaseRecordId: phaseRecordId, month: selectedMonth.value }});
          }
 
          return {
-            session,
+            isLoading,
             winwidth,
             isSmallWidth,
             perPageNum,
